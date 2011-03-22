@@ -1,0 +1,15 @@
+; $Id: $
+name = webform4cv
+description = webform for custom view
+core = 7.x
+package = ncec.2u4u.com.cn
+dependencies[] = webform
+
+
+
+; Information added by drupal.org packaging script on 2010-10-20
+version = "7.x-3.4-beta1"
+core = "7.x"
+project = "webform4cv"
+datestamp = "1287598574"
+

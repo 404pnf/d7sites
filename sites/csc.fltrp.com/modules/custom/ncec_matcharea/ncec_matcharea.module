@@ -1,0 +1,61 @@
+<?php 
+
+/*高等英语高职高专职业英语大赛赛区选择模块
+ * 
+ */
+
+
+
+   function ncec_matcharea_menu(){	
+     
+      $items['matcharea'] =array( 
+        'title' => '“外研社杯”全国高职高专职业英语大赛 赛区选择',
+      	'page callback' => 'matcharea',
+      	'access callback' =>TRUE,   
+            );
+
+      return $items;      
+   } 
+
+
+   function matcharea(){
+   	$tempstring='';
+   	$tempstring.="<div id='matcharea'>";
+        $tempstring.="<div id='matcharea-prompt'>请选择赛区：</div>";
+	$tempstring.="<div id='matcharea-description'>（注意：请根据总校所在地进行选择）</div>";
+    
+	$vid=2;
+	$taxonomy_tree = taxonomy_get_tree($vid);
+    $tempstring.="<ul>";
+	
+    foreach( $taxonomy_tree as $taxonomy ){
+	  $name = $taxonomy->name;
+  	  $depth = $taxonomy->depth;
+  
+      if($depth==0){
+        $matcharea = $name;
+        $tempstring.="<li class='matcharea-area'>";
+        $tempstring.=$matcharea;
+        $tempstring.="</li>";
+  	    $citycount=0;
+      }
+     else{
+        $province = $name;
+        $url ="apply";
+        $tempstring.="<li class='matcharea-province'>";
+ 		//print( $citycount);
+        $tempstring.=l($province,$url,array('html' => true, 'query' => array('matcharea'=>$matcharea,'province'=>$province)));
+        $tempstring.="</li>";
+       }
+
+    }
+        $tempstring.="</ul>"; 
+
+
+ // $tempstring.="<div id='matcharea-tips'>";
+  //$tempstring.="注：如果您所在城市未在所列的分赛区范围内，请不要着急选择其他分赛区进行报名。我们会逐步开通其他分赛区的报名。";
+  //$tempstring.="</div>";
+ $tempstring.="</div>";
+  
+  return $tempstring;
+   }

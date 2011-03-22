@@ -1,0 +1,5 @@
+
+/* 去掉导航栏的li的样式，并让li横过来 */
+#primary li {
+	list-style:none;
+	float:left;}

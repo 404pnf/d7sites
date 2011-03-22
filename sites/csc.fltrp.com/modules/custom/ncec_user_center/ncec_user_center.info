@@ -1,0 +1,7 @@
+﻿; $Id$
+name = ncec_user_center
+description = 高职高专职业英语大赛用户中心
+package = ncec.2u4u.com.cn
+project = 2u4u
+core = 7.x
+php = 5.0

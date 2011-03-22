@@ -1,0 +1,66 @@
+<?php
+
+/*高职高专英语大赛用户中心
+ * 
+ */
+
+function ncec_user_center_block_info() {
+	$blocks [0] ['info'] = t ( '用户中心' );
+	$blocks [0] ['title'] = t ( '用户中心' );
+	$blocks [0] ['cache'] = DRUPAL_NO_CACHE;
+	
+	return $blocks;
+
+}
+
+function ncec_user_center_block_view($delta = null) {
+	switch ($delta) {
+		case 0 :
+			$block ['subject'] = t ( "用户中心" );
+			$block ['content'] = user_center_content ();
+	
+	}
+	return $block;
+
+}
+
+function user_center_content() {
+	//** 报名
+	global $user;
+	$tempstring = '';
+	$tempstring .= '<div id="usercenter">';
+	$tempstring .= '<div id="welcome">欢迎您，' . $user->name . '</div>';
+	$webform_nodeid = 2;
+	
+	$sql = "select * from {webform_submissions} where nid=:nid and uid=:uid";
+	$result = db_query ( $sql, array (':nid' => $webform_nodeid, ':uid' => $user->uid ) );
+	
+  if (($data = $result->fetchAssoc())) {
+  	  $submissionid =$data['sid'];
+  }
+
+	
+	$tempstring .= '<ul>';
+	//$tempstring .= '<li>';
+	if (!isset( $submissionid )) {
+		$tempstring .= '<li>'.l ( '我要报名', "matcharea" ).'</li>';
+	} else {
+		$tempstring .= '<li>'.l ( '查看/打印我提交的报名', "webform4cv" ).'</li>';
+		$tempstring .= '<li>'.l ( '修改我提交的报名', "node/$webform_nodeid/submission/$submissionid/edit" ).'</li>';
+	}
+	//$tempstring .= '</li>';
+	
+	//** 登出
+	$tempstring .= '<li>';
+	if ($user->uid > 0) {
+		$tempstring .= l ( '登出', 'user/logout' );
+	}
+	$tempstring .= '</li>';
+	$tempstring .= '</ul>';
+	$tempstring .= '</div>';
+	
+	return $tempstring;
+}
+
+
+
