@@ -2,3 +2,6 @@
 */files/*
 */tmp/*
 */bak/*
+/sites/*/files/
+/sites/*/files/
+*.swp
