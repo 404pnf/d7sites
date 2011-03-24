@@ -13,7 +13,7 @@ function check_user_extra_user_validate($element, &$form_state){
 	$result_all = $result->fetchall ();
 	db_set_active('default');
 	if($result_all){
-	   form_set_error('edit-name',('用户名已经存在，请使用其他用户名'));
+	   form_set_error('name',('用户名已经存在，请使用其他用户名'));
 	}
 	
 	

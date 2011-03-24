@@ -71,6 +71,22 @@ padding-top:11px;
 	line-height:30px;
 	
 }
+#content-header .primary{
+	display:none;
+}
+#block-block-11 .content a{
+	color:#D31717;
+	font-size:14px;
+	text-decoration:underline;
+}
+#webform-component-leader-info .fieldset-legend{
+	font-size:16px;
+	font-weight:bold;
+	color:#07477d;
+}
+#node-3 .field-name-field-category{
+	display:none;
+}
 .time_bg1{
 	height:39px;background:url(../images/time_bg01.gif) repeat-x;border:1px #f3f3f3 solid;
 }
@@ -172,6 +188,7 @@ padding-top:11px;
 	padding-left:35px;
 	padding-top:0px;
 	font-size:14px;
+	display:none; 
 }
 
 #content-area .region {
@@ -215,6 +232,7 @@ width:240px;}
 	line-height:25px;
 	border-bottom:3px solid #FEC7DE;
 	background:url("../images/icon_03.gif") no-repeat left center;
+	display:none; 
 }
 
 #content-header{

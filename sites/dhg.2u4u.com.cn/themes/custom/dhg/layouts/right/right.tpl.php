@@ -1,0 +1,15 @@
+<div id="xinwen">                                                                                                                                                                                                                                                                                                      
+    <?php print $content['xinwen']; ?>                                                                                                                                                                                                                                                                                 
+</div>                                                                                                                                                       
+                                                                                                                                                             
+<div id="tuijian">                                                                                                                                                                                                                                                                                                     
+    <?php print $content['tuijian']; ?>                                                                                                                                                                                                                                                                                
+</div>   
+
+<div id="luntan">                                                                                                                                                                                                                                                                                                      
+    <?php print $content['luntan']; ?>                                                                                                                                                                                                                                                                                 
+</div>                                                                                                                                                       
+                                                                                                                                                             
+<div id="zhuanjia">                                                                                                                                                                                                                                                                                                     
+    <?php print $content['zhuanjia']; ?>                                                                                                                                                                                                                                                                                
+</div>   

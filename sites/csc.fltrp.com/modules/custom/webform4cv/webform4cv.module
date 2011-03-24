@@ -19,66 +19,66 @@ function webform4cv_menu() {
 	//     
 	
 
-	$items ['webform4cv'] = array ('title' => '查看报名信息设置', 'page callback' => 'show_my_webform', //'page arguments' => '1',
-	'access callback' => TRUE, 'type' => MENU_LOCAL_TASK );
+	$items ['webform4cv'] = array ('title' => '查看报名信息设置', 'page callback' => 'webform4cv_show_my_webform', //'page arguments' => '1',
+'access callback' => 'user_is_logged_in', 'type' => MENU_LOCAL_TASK );
 	
 	return $items;
 }
 
-function show_my_webform() {
+function webform4cv_show_my_webform() {
 	
 	global $user;
 	$tempstring = '';
 	$tempstring .= '<div id="apply-info">';
 	$webform_nodeid = 2;
 	
-	module_load_include('inc', 'webform', 'includes/webform.submissions');
+	module_load_include ( 'inc', 'webform', 'includes/webform.submissions' );
 	
-	$sql = "select * from {webform_submissions} where nid=:nid and uid=:uid";
-	$result = db_query ( $sql, array(':nid'=>$webform_nodeid,':uid'=>$user->uid ));
-	$data = $result->fetchall();
+	$sql = "select * from {webform_submissions} where is_draft=0 and nid=:nid and uid=:uid";
+	$result = db_query ( $sql, array (':nid' => $webform_nodeid, ':uid' => $user->uid ) );
 	
-	$sid = $data[0]->sid;
+	if ($data = $result->fetchall ()) {
+		$sid = $data [0]->sid;
+		
+		$filename = dirname ( $_SERVER ['SCRIPT_FILENAME'] ) . '/' . drupal_get_path ( 'module', 'webform4cv' ) . '/template/cv.tpl';
+		// print $filename;
+		$templateContents = webform4cv_getTemplateContents ( $filename );
+		
+		$filters = array ('nid' => $webform_nodeid, 'sid' => $sid );
+		
+		$submissions = webform_get_submissions ( $filters );
+		
+		// print_r($submissions);
+		// print_r($submissions[1]->data[1]['value']);
+		$tempstring .= $templateContents;
+		foreach ( $submissions as $submission ) {
+			$i = 1;
+			foreach ( $submission->data as $webform_field ) {
+				//$tempstring .=$i.":";
+				//$tempstring .=$webform_field['value'][0];
+				//$tempstring .="<br>";
+				// print('%webform_field_'.$i.':'.$webform_field['value'][0]); 
+				// print("<br>");
+				
 
-   
-   $filename =dirname($_SERVER['SCRIPT_FILENAME']).'/'.drupal_get_path('module','webform4cv').'/template/cv.tpl';
-  // print $filename;
-   $templateContents = getTemplateContents($filename);	
+				$tempstring = str_replace ( '%webform_field_' . $i . '%', $webform_field ['value'] [0], $tempstring );
+				$i ++;
+			}
+		}
 	
+	}
+	else {
 	
-	$filters = array('nid'=>$webform_nodeid,'sid'=>$sid );
-	
-	$submissions = webform_get_submissions($filters);
-	
-
-	
- // print_r($submissions);
-     // print_r($submissions[1]->data[1]['value']);
-   $tempstring .=$templateContents;   
-  foreach($submissions as $submission) {
-  	$i = 1;  
-    foreach($submission->data as $webform_field){
-       //$tempstring .=$i.":";
-       //$tempstring .=$webform_field['value'][0];
-       //$tempstring .="<br>";
-      // print('%webform_field_'.$i.':'.$webform_field['value'][0]); 
-      // print("<br>");
-       
-    	 $tempstring = str_replace('%webform_field_'.$i.'%',$webform_field['value'][0],$tempstring);
-    	$i++ ;
-    }
-   }
-	
-	$tempstring .='</div>';
+	    $tempstring .= '您尚未填写任何报名表，或者您的报名表尚未完成';
+	}
+	$tempstring .= '</div>';
 	
 	return $tempstring;
 
 }
 
+function webform4cv_getTemplateContents($filename) {
+	return file_get_contents ( $filename );
 
-
-function getTemplateContents($filename){
-return file_get_contents($filename);
-	
 }
    

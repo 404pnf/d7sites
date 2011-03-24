@@ -37,6 +37,7 @@ function user_center_content() {
 	
   if (($data = $result->fetchAssoc())) {
   	  $submissionid =$data['sid'];
+  	  $is_draft =$data['is_draft'];
   }
 
 	
@@ -45,8 +46,10 @@ function user_center_content() {
 	if (!isset( $submissionid )) {
 		$tempstring .= '<li>'.l ( '我要报名', "matcharea" ).'</li>';
 	} else {
-		$tempstring .= '<li>'.l ( '查看/打印我提交的报名', "webform4cv" ).'</li>';
-		$tempstring .= '<li>'.l ( '修改我提交的报名', "node/$webform_nodeid/submission/$submissionid/edit" ).'</li>';
+		if($is_draft==0){
+		    $tempstring .= '<li>'.l ( '查看/打印我提交的报名表', "webform4cv" ).'</li>';
+		}
+		$tempstring .= '<li>'.l ( '修改我提交的报名表', "node/$webform_nodeid/submission/$submissionid/edit" ).'</li>';
 	}
 	//$tempstring .= '</li>';
 	

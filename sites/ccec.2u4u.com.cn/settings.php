@@ -1,5 +1,5 @@
 <?php
-// $Id: default.settings.php,v 1.51 2010/10/11 23:49:48 dries Exp $
+// $Id: default.settings.php,v 1.52 2011/01/28 07:03:57 webchick Exp $
 
 /**
  * @file
@@ -178,10 +178,11 @@
  *   );
  * @endcode
  */
+
 $databases = array (
   'default' => 
   array (
-    'default' => 
+      'default' => 
     array (
       'database' => 'ccec',
       'username' => 'py',
@@ -189,10 +190,34 @@ $databases = array (
       'host' => 'localhost',
       'port' => '',
       'driver' => 'mysql',
-      'prefix' => '',
+          'prefix' => array(
+      'default'   => '',
+      'users'     => 'ncec.',
+      'sessions'  => 'ncec.',
+      'role'      => 'ncec.',
+      'authmap'   => 'ncec.',
+    )
     ),
   ),
+
+'2u4u' => 
+  array (
+    'default' => 
+    array (
+      'database' => '2u4u',
+      'username' => 'zl',
+      'password' => '8b51575413560e07859cd1380b82d6d2',
+      'host' => '221.122.115.57',
+      'port' => '3306',
+      'driver' => 'mysql',
+          'prefix' => array(
+      'default'   => '',
+    )
+    ),
+  ),
+
 );
+
 
 /**
  * Access control for update.php script.
@@ -224,7 +249,7 @@ $update_free_access = FALSE;
  *   $drupal_hash_salt = file_get_contents('/home/example/salt.txt');
  *
  */
-$drupal_hash_salt = 'wHv4nhacdQ5L9Fct2dqjOIXuRPwxCewDVLFgcW9a5o0';
+$drupal_hash_salt = '';
 
 /**
  * Base URL (optional).
@@ -296,11 +321,11 @@ ini_set('session.cookie_lifetime', 2000000);
 
 /**
  * Drupal automatically generates a unique session cookie name for each site
- * based on on its full domain name. If you have multiple domains pointing at
- * the same Drupal site, you can either redirect them all to a single domain
- * (see comment in .htaccess), or uncomment the line below and specify their
- * shared base domain. Doing so assures that users remain logged in as they
- * cross between your various domains.
+ * based on its full domain name. If you have multiple domains pointing at the
+ * same Drupal site, you can either redirect them all to a single domain (see
+ * comment in .htaccess), or uncomment the line below and specify their shared
+ * base domain. Doing so assures that users remain logged in as they cross
+ * between your various domains.
  */
 # $cookie_domain = 'example.com';
 

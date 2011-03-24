@@ -178,15 +178,45 @@
  *   );
  * @endcode
  */
- $databases['default']['default'] = array(
- 'driver' => 'mysql',
- 'database' => 'ncec',
- 'username' => 'py',
- 'password' => 'pengyou',
- 'host' => 'localhost',
- 'prefix' => '',
- );
 
+$databases = array (
+  'default' => 
+  array (
+      'default' => 
+    array (
+      'database' => 'ncec',
+      'username' => 'py',
+      'password' => 'pengyou',
+      'host' => 'localhost',
+      'port' => '',
+      'driver' => 'mysql',
+          'prefix' => array(
+      'default'   => '',
+      'users'     => 'ncec.',
+      'sessions'  => 'ncec.',
+      'role'      => 'ncec.',
+      'authmap'   => 'ncec.',
+    )
+    ),
+  ),
+
+'2u4u' => 
+  array (
+    'default' => 
+    array (
+      'database' => '2u4u',
+      'username' => 'zl',
+      'password' => '8b51575413560e07859cd1380b82d6d2',
+      'host' => '221.122.115.57',
+      'port' => '3306',
+      'driver' => 'mysql',
+          'prefix' => array(
+      'default'   => '',
+    )
+    ),
+  ),
+
+);
 
 
 /**

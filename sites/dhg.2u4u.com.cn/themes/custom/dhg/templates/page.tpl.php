@@ -1,6 +1,10 @@
 <div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
 
   <!-- ______________________ HEADER _______________________ -->
+  <div id="header_title">
+    <?php $content = file_get_contents('http://cdn1.2u4u.com.cn/header.html');
+       echo $content;?>
+  </div>
 
   <div id="header">
 
