@@ -1,0 +1,20 @@
+<?php
+function check_user_form_alter(&$form, &$form_state, $form_id) {
+  if($form_id == 'user_register_form'){
+  	$form['#validate'][] ='check_user_extra_user_validate';
+  }
+}
+
+function check_user_extra_user_validate($element, &$form_state){
+	$username =$form_state['values']['name'];
+	$sql = 'select name from {users} where name=:name';	
+	db_set_active('2u4u');
+	$result = db_query($sql,array(':name'=>$username) );
+	$result_all = $result->fetchall ();
+	db_set_active('default');
+	if($result_all){
+	   form_set_error('edit-name',('用户名已经存在，请使用其他用户名'));
+	}
+	
+	
+}

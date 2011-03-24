@@ -1,0 +1,12 @@
+﻿; $Id: $
+name = check_user
+description = 与检测是否在2u4u主账号中已经存在该用户名
+core = 7.x
+package = 2u4u.com.cn
+
+
+version = "7.x"
+core = "7.x"
+project = "2u4u.com.cn"
+datestamp = "1287598574"
+
