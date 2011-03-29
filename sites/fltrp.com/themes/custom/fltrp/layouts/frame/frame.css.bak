@@ -1,0 +1,7 @@
+/*body { font-size:12px; margin:0;}
+#container {margin:0 auto; width:960px;}
+#mainContent {  margin-bottom:5px;} */
+#frame_left { float:left; width:260px;height:980px; border:1px solid #CECECE ;}
+#frame_middle { float:right; width:260px; height:980px; border:1px solid #CECECE;}
+#frame_right { margin:0 270px !important; margin:0 267px; height:980px; border:1px solid #CECECE}
+

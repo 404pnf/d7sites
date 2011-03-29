@@ -1,0 +1,12 @@
+<div id="Products">                                                                                                                                                                                                                                                                                                      
+    <?php print $content['Products']; ?>                                                                                                                                                                                                                                                                                 
+</div>                                                                                                                                                       
+                                                                                                                                                             
+<div id="f_l">                                                                                                                                                                                                                                                                                                     
+    <?php print $content['f_l']; ?>                                                                                                                                                                                                                                                                                
+</div>   
+
+<div id="Microblogging">                                                                                                                                                                                                                                                                                                      
+    <?php print $content['Microblogging']; ?>                                                                                                                                                                                                                                                                                 
+</div>                                                                                                                                                       
+                                                                                                                                                             
