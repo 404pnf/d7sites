@@ -1,0 +1,13 @@
+<?php
+
+ function dhg_user_center_install(){
+  variable_set('dhg_start_date', date('Y',time()).'-3-1' );
+   variable_set('dhg_end_date',date('Y',time()).'-10-1' );
+   variable_set('dhg_node_type','bookreview');
+ }
+ 
+ function dhg_user_center_uninstall(){
+     variable_del('dhg_start_date');
+     variable_del('dhg_end_date');
+     variable_del('dhg_node_type');
+  }

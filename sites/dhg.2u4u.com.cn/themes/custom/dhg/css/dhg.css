@@ -1,13 +1,33 @@
 
 /* float menu link to vertical align */
 body{
-	background-color:#FFF;
+	background-color:white;
+
 	}
+
+
+
+
 #primary li {
+
+width:150px;
 	list-style:none;
 	float:left;
 	margin-right:2em;
 	}
+	
+	
+#primary a{display:block;text-align:center; font-size:16px;font-weight:bold; line-height:39px;} 
+#primary  a:link{color:#000;text-decoration:none; }
+#primary  a:visited{color:#202020;text-decoration:none;} 
+#primary  a:hover{color:#000;   font-weight:bold;text-decoration:underline;} 
+
+	
+ a{ font-size:12px; line-height:25px;} 
+ a:link{color:#000;text-decoration:none; }
+ a:visited{color:#202020;text-decoration:none;} 
+ a:hover{color:#000;text-decoration:underline;} 
+
 
 .page-shumu .form-item-fenlei-op {
 	display:none;
@@ -33,7 +53,7 @@ body{
 	  vertical-align:top
 }
 #content-inner .inner column center{ background-color:#FFF;}
-
+#frame_right{ width:411px;}
 
 #login_top .login_ic{
 width:260px;
@@ -59,7 +79,7 @@ background-image: url("fp_images/duhougan_44.jpg");
 }
 
 #youxiu .youxiu_ic{
-width:419px;
+width:408px;
 height:35px;
 line-height:35px;
 border:1px solid  #d5d5d5;  
@@ -70,7 +90,7 @@ background-image: url("fp_images/duhougan_44.jpg");
 }
 
 #cansaitushu .tushu_kuang{
-width:419px;
+width:408px;
 height:35px;
 line-height:35px;
 border:1px solid  #d5d5d5;  
@@ -143,10 +163,10 @@ font-size:12px;
 line-height:25px;}
 
 #xuanshu{
-width:420px;
+width:410px;
 }
 #gezu{
-width:201px;
+width:199px;
 border:1px solid  #d5d5d5;  
 
 }
@@ -165,7 +185,7 @@ font-weight:bold;
 	
 .td01{ background-color:#f5f5f5;
 font-size:12px;
-padding:5px;
+padding:10px 5px;
 line-height:20px;}
 
 .td02{
@@ -174,5 +194,73 @@ line-height:20px;}
 
 .td03{ background-color:#fff;
 font-size:12px;
-padding:5px;
+padding:10px 5px;
 line-height:20px;}
+
+.front table {
+    border: 0 none;
+    border-collapse: separate;
+}
+
+.front body {
+     background-color:white;
+}
+
+.zhuanjia_more{ text-align:right;}
+.youxiu_more{ text-align:right;}
+.xinwen_more{ text-align:right;margin-right:10px;}
+
+.item-list{ padding-top:10px;}
+.benci{ text-align:center; padding:15px;}
+#content-header .title{ font-size:16px; line-height:30px; font-weight:bold; text-align:center; padding-top:10px;}
+.view-display-id-youxiu td.col-1{
+border-right: 1px solid #ededed;}
+.view-display-id-youxiu td.col-2{
+	padding-left:8PX;}
+
+#luntan   	h2 {
+ display:none;
+}
+
+#login_top h2{
+ display:none;
+}
+
+#login_top .form-item-name{float:left; font-weight:normal;}
+
+#login_top .form-item-name #edit-name {width:118px;}
+
+#login_top .form-item-pass #edit-pass {width:118px;}
+
+#login_top  .form-item-pass{float:right; font-weight:normal;}	
+
+#login_top .item-list {clear:both;}
+
+#login_top #edit-actions .form-actions form-wrapper {margin:100px;}
+
+#login_top #user-login-form li{width:90px; height:25px; line-height:25px; margin-right:1px; float:left; text-align:center; list-style-type:none;  border:1px solid #999;}
+
+
+#edit-actions  .form-submit{
+color: #000000;
+  font-family: Arial, Hevlvetica, sans-serif;
+  text-align: center;
+  font-size: 12px;
+  border: 1px double #cccccc;
+  width: 205px;
+  background: #ffffff;
+  padding: 1px 5px 1px 5px;
+  line-height: 16px !important;
+  line-height: 14px;
+  height: 24px !important;
+  height: 22px;
+  margin: 10px 3px 3px 20px;
+  cursor: pointer;
+
+
+}
+
+
+
+
+	

@@ -1,0 +1,9 @@
+<?php
+
+ function check_profile_install(){
+  variable_set('profile_type','personal_info');
+ }
+ 
+ function check_profile_uninstall(){
+     variable_del('profile_type');
+  }

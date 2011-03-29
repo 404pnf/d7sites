@@ -1,0 +1,11 @@
+﻿; $Id$
+name = dhg_user_center
+description = 读后感大赛用户中心
+package = dhg.2u4u.com.cn
+
+
+project = 2u4u
+core = 7.x
+php = 5.0
+
+

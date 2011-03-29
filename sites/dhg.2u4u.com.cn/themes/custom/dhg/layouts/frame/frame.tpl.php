@@ -1,3 +1,9 @@
+<div id="frame_top">
+
+     <?php print $content['frame_top']; ?>                                                                                                                    
+</div>
+
+
 <div id="frame_left">                                                                                                                                          
     <?php print $content['frame_left']; ?>                                                                                                                        
 </div>                                                                                                                                                       

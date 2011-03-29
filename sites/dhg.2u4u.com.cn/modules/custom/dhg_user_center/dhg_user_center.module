@@ -1,0 +1,67 @@
+<?php
+
+/*高职高专英语大赛用户中心
+ * 
+ */
+
+function dhg_user_center_block_info() {
+	$blocks [0] ['info'] = t ( '用户中心' );
+	$blocks [0] ['title'] = t ( '用户中心' );
+	$blocks [0] ['cache'] = DRUPAL_NO_CACHE;
+	
+	return $blocks;
+
+}
+
+function dhg_user_center_block_view($delta = null) {
+	switch ($delta) {
+		case 0 :
+			$block ['subject'] = t ( "用户中心" );
+			$block ['content'] = dhg_user_center_content ();
+	
+	}
+	return $block;
+
+}
+
+function dhg_user_center_content() {
+	//** 报名
+	global $user;
+	$tempstring = '';
+	if ($user->uid > 0) {
+	
+	$tempstring .= '<div id="usercenter">';
+	$tempstring .= '<div id="welcome">欢迎您，' . $user->name . '</div>';
+    $nodetype = variable_get('dhg_node_type');
+    $startdate = variable_get('dhg_start_date');
+    $enddate = variable_get('dhg_end_date');
+    $profile_type = variable_get('profile_type');
+	
+	$sql = "select * from {node} where type=:nodetype and uid=:uid";
+	$result = db_query ( $sql, array (':nodetype' => $nodetype, ':uid' => $user->uid ) );
+	
+	
+	$tempstring .= '<ul>';
+	$tempstring .= '<li>'.l ( '提交读后感', "shumu" ).'</li>';
+	
+	if (($data = $result->fetchAssoc())) {
+       $tempstring .= '<li>'.l ( '查看我提交的读后感', "mydhg" ).'</li>';
+    }    
+	
+    $tempstring .= '<li>'.l ( '修改我的报名信息', "profile-$profile_type/1/edit" ).'</li>';
+    
+	//** 登出
+	$tempstring .= '<li>';
+
+		$tempstring .= l ( '登出', 'user/logout' );
+	
+	$tempstring .= '</li>';
+	$tempstring .= '</ul>';
+	
+	$tempstring .= '</div>';
+	}
+	return $tempstring;
+}
+
+
+

@@ -1,0 +1,56 @@
+<?php
+
+/*检查某用户特定profile是否已经填写
+ * 
+ */
+   function check_profile_menu(){
+
+     $items['admin/config/check_profile'] = array(
+       'title' =>'检查profile的类型设置',
+       'description' => t('检查用户特定特定profile类型是否已经填写'),
+       'page callback' => 'drupal_get_form',
+       'page arguments' => array('check_profile_settings'),
+       'access arguments' =>array('administer site configuration'),   
+       'type' => MENU_NORMAL_ITEM, 
+     );
+     
+     $items['node/add/bookreview/%'] = array(
+       'page callback' => 'check_profile_if_exist',
+       'access callback' =>TRUE,
+       'type' => MENU_CALLBACK,   
+     );
+     
+   	
+      return $items;      
+   } 
+
+   function check_profile_settings(){
+     $form['profile_type'] =array(
+       '#type' => 'textfield',
+       '#title' => t('profile类型'),     
+       '#description' => t('设置要检查的profile类型'),
+       '#default_value' => variable_get('profile_type','personal_info'),
+     );
+     
+
+     return system_settings_form($form);
+   }
+   
+
+function check_profile_if_exist() {
+
+	global $user;
+	$profile_type = variable_get('profile_type');
+	$message = '';
+	$sql = "select * from {profile} where type=:profile_type and uid=:uid";
+	$result = db_query ( $sql, array (':profile_type' => $profile_type, ':uid' => $user->uid ) );
+	if($user->uid>0){
+	  if (!($data = $result->fetchAll())) {
+	     $message = l(t('您尚未填写完成的用户信息，请先补充完整后再进行其他操作,点击此处进行补充'),"/profile-$profile_type/1/edit");	 
+         drupal_set_message($message);
+      }
+	}  
+    return $message;
+	
+
+}
