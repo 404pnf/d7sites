@@ -246,21 +246,25 @@ color: #000000;
   font-family: Arial, Hevlvetica, sans-serif;
   text-align: center;
   font-size: 12px;
-  border: 1px double #cccccc;
+  border: 1px double #999;
   width: 205px;
   background: #ffffff;
   padding: 1px 5px 1px 5px;
-  line-height: 16px !important;
-  line-height: 14px;
-  height: 24px !important;
-  height: 22px;
+  line-height: 25px !important;
+  line-height: 23px;
+  height: 25px !important;
+  height: 23px;
   margin: 10px 3px 3px 20px;
   cursor: pointer;
 
-
 }
+#welcome{
+	margin-top:10px;
+	margin-left:5px;}
 
 
-
-
-	
+.not-front #block-system-main .view-header{ padding-top:10px;}
+.not-front #block-system-main .view-content{ padding:10px 200px; font-size:12px; line-height:30px; }
+.not-front #block-system-main .views-field{ color:#930; float:left;}
+.not-front #block-system-main .views-row{ padding-left:5px;}
+.not-front #block-system-main .field-content{ padding:3px 8px;}

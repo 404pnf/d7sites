@@ -1,9 +1,38 @@
 <?php
 
-/*高职高专英语大赛用户中心
+/*读后感大赛用户中心
  * 
  */
 
+   function dhg_user_center_menu(){
+
+     $items['admin/config/dhg_user_center'] = array(
+       'title' =>'读后感用户中心参数设置',
+       'description' => t('设置读后感内容类型等参数'),
+       'page callback' => 'drupal_get_form',
+       'page arguments' => array('dhg_user_center_settings'),
+       'access arguments' =>array('administer site configuration'),   
+       'type' => MENU_NORMAL_ITEM, 
+     );
+     
+   	
+      return $items;      
+   } 
+   
+   
+   function dhg_user_center_settings(){
+     $form['dhg_node_type'] =array(
+       '#type' => 'textfield',
+       '#title' => t('读后感类型的machine name'),     
+       '#description' => t('设置读后感类型的mmachine name'),
+       '#default_value' => variable_get('dhg_node_type','bookreview'),
+     );
+     
+
+     return system_settings_form($form);
+   }
+   
+   
 function dhg_user_center_block_info() {
 	$blocks [0] ['info'] = t ( '用户中心' );
 	$blocks [0] ['title'] = t ( '用户中心' );
@@ -29,36 +58,35 @@ function dhg_user_center_content() {
 	global $user;
 	$tempstring = '';
 	if ($user->uid > 0) {
-	
-	$tempstring .= '<div id="usercenter">';
-	$tempstring .= '<div id="welcome">欢迎您，' . $user->name . '</div>';
-    $nodetype = variable_get('dhg_node_type');
-    $startdate = variable_get('dhg_start_date');
-    $enddate = variable_get('dhg_end_date');
-    $profile_type = variable_get('profile_type');
-	
-	$sql = "select * from {node} where type=:nodetype and uid=:uid";
-	$result = db_query ( $sql, array (':nodetype' => $nodetype, ':uid' => $user->uid ) );
-	
-	
-	$tempstring .= '<ul>';
-	$tempstring .= '<li>'.l ( '提交读后感', "shumu" ).'</li>';
-	
-	if (($data = $result->fetchAssoc())) {
-       $tempstring .= '<li>'.l ( '查看我提交的读后感', "mydhg" ).'</li>';
-    }    
-	
-    $tempstring .= '<li>'.l ( '修改我的报名信息', "profile-$profile_type/1/edit" ).'</li>';
-    
-	//** 登出
-	$tempstring .= '<li>';
-
+		
+		$tempstring .= '<div id="usercenter">';
+		$tempstring .= '<div id="welcome">欢迎您，' . $user->name . '</div>';
+		$nodetype = variable_get ( 'dhg_node_type' );
+		$startdate = variable_get ( 'dhg_start_date' );
+		$enddate = variable_get ( 'dhg_end_date' );
+		$profile_type = variable_get ( 'profile_type','personal_info' );
+		
+		$sql = "select * from {node} where type=:nodetype and uid=:uid";
+		$result = db_query ( $sql, array (':nodetype' => $nodetype, ':uid' => $user->uid ) );
+		
+		$tempstring .= '<ul>';
+		$tempstring .= '<li>' . l ( '提交读后感', "shumu" ) . '</li>';
+		
+		if (($data = $result->fetchAssoc ())) {
+			$tempstring .= '<li>' . l ( '查看我提交的读后感', "mydhg" ) . '</li>';
+		}
+		
+		$tempstring .= '<li>' . l ( '修改我的报名信息', "profile-$profile_type/1/edit" ) . '</li>';
+		
+		//** 登出
+		$tempstring .= '<li>';
+		
 		$tempstring .= l ( '登出', 'user/logout' );
-	
-	$tempstring .= '</li>';
-	$tempstring .= '</ul>';
-	
-	$tempstring .= '</div>';
+		
+		$tempstring .= '</li>';
+		$tempstring .= '</ul>';
+		
+		$tempstring .= '</div>';
 	}
 	return $tempstring;
 }
