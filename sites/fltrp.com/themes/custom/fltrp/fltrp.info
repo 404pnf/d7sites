@@ -7,9 +7,9 @@ version = VERSION
 core = 7.x
 
 stylesheets[all][] = css/layout.css
-stylesheets[all][] = css/style.css
-stylesheets[all][] = css/colors.css
 stylesheets[all][] = css/fltrp.css
+stylesheets[all][] = css/style.css
+;stylesheets[all][] = css/colors.css
 stylesheets[print][] = css/print.css
 
 
@@ -46,3 +46,5 @@ datestamp = "1294208756"
 ; Panels layouts. You can place multiple layouts under the "layouts" folder.
  plugins[panels][layouts] = layouts
 
+; Optionally add some jquery scripts to your theme.
+scripts[] = css/js/slides.min.jquery.js

@@ -1,4 +1,5 @@
 <?php
+// $Id: profile2.admin.inc,v 1.1.2.12 2010/11/22 13:59:58 fago Exp $
 
 /**
  * @file
@@ -27,7 +28,7 @@ function profile2_type_form($form, &$form_state, $profile_type, $op = 'edit') {
 
   if ($op == 'clone') {
     $profile_type->label .= ' (cloned)';
-    $profile_type->type = '';
+    $profile_type->type .= '_clone';
   }
 
   $form['label'] = array(
@@ -43,7 +44,7 @@ function profile2_type_form($form, &$form_state, $profile_type, $op = 'edit') {
     '#type' => 'machine_name',
     '#default_value' => isset($profile_type->type) ? $profile_type->type : '',
     '#maxlength' => 32,
-    '#disabled' => $profile_type->isLocked() && $op != 'clone',
+    '#disabled' => $profile_type->isLocked(),
     '#machine_name' => array(
       'exists' => 'profile2_get_types',
       'source' => array('label'),

@@ -59,7 +59,18 @@ function ctools_plugin_api_info($owner, $api, $minimum_version, $current_version
   if (!isset($cache[$owner][$api])) {
     $cache[$owner][$api] = array();
 
-    $hook = ctools_plugin_api_get_hook($owner, $api);
+    // Allow modules to use their own hook for this. The only easy way to do
+    // this right now is with a magically named function.
+    if (function_exists($function = $owner . '_' . $api . '_hook_name')) {
+      $hook = $function();
+    }
+    else if (function_exists($function = $owner . '_ctools_plugin_api_hook_name')) {
+      $hook = $function();
+    }
+
+    if (empty($hook)) {
+      $hook = 'ctools_plugin_api';
+    }
 
     foreach (module_implements($hook) as $module) {
       $function = $module . '_' . $hook;
@@ -163,32 +174,6 @@ function ctools_plugin_api_include($owner, $api, $minimum_version, $current_vers
   }
 
   return $info;
-}
-
-/**
- * Find out what hook to use to determine if modules support an API.
- *
- * By default, most APIs will use hook_ctools_plugin_api, but some modules
- * want sole ownership. This technique lets modules define what hook
- * to use.
- */
-function ctools_plugin_api_get_hook($owner, $api) {
-  // Allow modules to use their own hook for this. The only easy way to do
-  // this right now is with a magically named function.
-  if (function_exists($function = $owner . '_' . $api . '_hook_name')) {
-    $hook = $function();
-  }
-  else if (function_exists($function = $owner . '_ctools_plugin_api_hook_name')) {
-    $hook = $function();
-  }
-
-  // Do this last so that if the $function above failed to return, we have a
-  // sane default.
-  if (empty($hook)) {
-    $hook = 'ctools_plugin_api';
-  }
-
-  return $hook;
 }
 
 /**

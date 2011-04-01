@@ -72,10 +72,6 @@ body,
 #main-wrapper {
   min-height: 300px;
 }
-#content .section,
-.sidebar .section {
-  padding: 0 15px;
-}
 #breadcrumb {
   margin: 0 15px;
 }
@@ -96,6 +92,6 @@ body,
   width: 220px;
 }
 #footer {
-  width: 940px;
+  width: 960px;
   min-width: 920px;
 }

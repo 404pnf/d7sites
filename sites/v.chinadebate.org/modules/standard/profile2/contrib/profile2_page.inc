@@ -1,4 +1,5 @@
 <?php
+// $Id: profile2_page.inc,v 1.1.2.2 2010/11/22 14:29:44 fago Exp $
 
 /**
  * @file
@@ -25,7 +26,7 @@ function profile2_page_own($base_path) {
  * Profile view page.
  */
 function profile2_page_view($profile) {
-  drupal_set_title($profile->label());
+  drupal_set_title($profile->getType()->label);
   return $profile->view('page');
 }
 

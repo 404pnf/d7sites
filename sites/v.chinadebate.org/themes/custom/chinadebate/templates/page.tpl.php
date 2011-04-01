@@ -86,11 +86,6 @@
  */
 ?>
 <div id="page-wrapper"><div id="page">
-  <div id="header_title">
-    <?php $content = file_get_contents('http://cdn1.2u4u.com.cn/header.html');
-       echo $content;?>
-  </div>
-
 
   <div id="header" class="<?php print $secondary_menu ? 'with-secondary-menu': 'without-secondary-menu'; ?>"><div class="section clearfix">
 

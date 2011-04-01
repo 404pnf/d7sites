@@ -169,7 +169,7 @@ a.feed-icon {
 
 /* ------------------ Table Styles ------------------ */
 
-table {
+ table {
   border: 0;
   border-spacing: 0;
   font-size: 0.857em;
@@ -195,8 +195,10 @@ table tr th a:hover {
 }
 table tbody tr th {
   vertical-align: top;
-}
-tr td,
+} 
+
+
+ tr td,
 tr th {
   padding: 4px 9px;
   border: 1px solid #fff;
@@ -212,10 +214,10 @@ tr.odd {
   background: rgba(0, 0, 0, 0.105);
 }
 tr,
-tr.even {
+/*tr.even {
   background: #efefef;
   background: rgba(0, 0, 0, 0.063);
-}
+}*/
 table ul.links {
   margin: 0;
   padding: 0;
@@ -295,7 +297,6 @@ ul.tips {
 }
 #logo {
   float: left; /* LTR */
-  padding: 15px 15px 15px 10px; /* LTR */
 }
 #name-and-slogan {
   float: left; /* LTR */
@@ -1419,7 +1420,7 @@ html.js input.throbbing {
   margin-bottom: 0.4em;
 }
 #edit-actions input {
-  margin-right: 0.6em; /* LTR */
+ /* margin-right: 0.6em; /* LTR */ */
 }
 
 /* -------------- Other Overrides ------------- */

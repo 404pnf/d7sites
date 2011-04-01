@@ -1,8 +1,8 @@
 body { font-size:12px; margin:0;}
 
-#frame_left { float:left;width:170px; height:987px;border:1px solid; }
+#frame_left { float:left;width:170px; height:987px;}
 
-#frame_middle {  float:left; width:565px;  height:1000px;border:1px solid;}
+#frame_middle {  float:left; width:565px;  height:1000px;margin-left:12px;}
 
-#frame_right { float:right; width:200px; height:1000px;border:1px solid;}
+#frame_right { float:right; width:200px; height:1000px;}
 

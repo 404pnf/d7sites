@@ -5,28 +5,29 @@
 }
 
 #line_red{
-      width:545px;
+      width:555px;
       height:6px;
 }
 
 #news{
-      width:545px;
+      width:555px;
       height:200px;
 }
 
 #line_03 {
-      width:545px;
+      width:555px;
       height:5px;
 }
 
 #banner_3{
+     float:left;
      width:555px;
-     height:77px;
+     height:90px;
      
 }
 
 #Categories{
-     width:545px;
+     width:555px;
      height:320px;
 
 }

@@ -1,4 +1,5 @@
 <?php
+// $Id: profile2.tpl.php,v 1.1.2.1 2010/11/02 16:58:35 fago Exp $
 
 /**
  * @file
