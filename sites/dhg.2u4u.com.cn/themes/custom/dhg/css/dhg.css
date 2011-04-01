@@ -2,35 +2,31 @@
 /* float menu link to vertical align */
 body{
 	background-color:white;
-}
+
+	}
 
 
 
 
 #primary li {
-	width:150px;
+
+width:150px;
 	list-style:none;
 	float:left;
 	margin-right:2em;
 	}
 	
 	
-#primary a{
-	display:block;
-	text-align:center;
-	font-size:16px;
- 	font-weight:bold;
-	line-height:39px;
-} 
+#primary a{display:block;text-align:center; font-size:16px;font-weight:bold; line-height:39px;} 
 #primary  a:link{color:#000;text-decoration:none; }
 #primary  a:visited{color:#202020;text-decoration:none;} 
 #primary  a:hover{color:#000;   font-weight:bold;text-decoration:underline;} 
 
 	
-a{ font-size:12px; line-height:25px;} 
-a:link{color:#000;text-decoration:none; }
-a:visited{color:#202020;text-decoration:none;} 
-a:hover{color:#000;text-decoration:underline;} 
+ a{ font-size:12px; line-height:25px;} 
+ a:link{color:#000;text-decoration:none; }
+ a:visited{color:#202020;text-decoration:none;} 
+ a:hover{color:#000;text-decoration:underline;} 
 
 
 .page-shumu .form-item-fenlei-op {
@@ -41,11 +37,10 @@ a:hover{color:#000;text-decoration:underline;}
 	font-size:1em;
 	}
 
-/* bxy: sometimes the title is too long so the bookcover doesn't align
+/* sometimes the title is too long so the bookcover doesn't align
  use this to adjust */ 
 .page-shumu td {
-	 vertical-align: top;
-	 }
+ vertical-align: top;}
 
 #navigation {
          background-image: url("fp_images/duhougan_06.jpg"); 
@@ -61,129 +56,126 @@ a:hover{color:#000;text-decoration:underline;}
 #frame_right{ width:411px;}
 
 #login_top .login_ic{
-	width:260px;
-	height:35px;
-	line-height:35px;
-	border:1px solid  #d5d5d5;  
-	font-size:16px;
-	text-align:center;
-	font-weight:bold;
-	background-image: url("fp_images/duhougan_44.jpg");
+width:260px;
+height:35px;
+line-height:35px;
+border:1px solid  #d5d5d5;  
+font-size:16px;
+text-align:center;
+font-weight:bold;
+background-image: url("fp_images/duhougan_44.jpg");
 
 }
 
 #faq_bottom .faq_ic{
-	width:260px;
-	height:35px;
-	line-height:35px;
-	border:1px solid  #d5d5d5;  
-	font-size:16px;
-	text-align:center;
-	font-weight:bold;
-	background-image: url("fp_images/duhougan_44.jpg");
+width:260px;
+height:35px;
+line-height:35px;
+border:1px solid  #d5d5d5;  
+font-size:16px;
+text-align:center;
+font-weight:bold;
+background-image: url("fp_images/duhougan_44.jpg");
 }
 
 #youxiu .youxiu_ic{
-	width:408px;
-	height:35px;
-	line-height:35px;
-	border:1px solid  #d5d5d5;  
-	font-size:16px;
-	text-align:center;
-	font-weight:bold;
-	background-image: url("fp_images/duhougan_44.jpg");
+width:408px;
+height:35px;
+line-height:35px;
+border:1px solid  #d5d5d5;  
+font-size:16px;
+text-align:center;
+font-weight:bold;
+background-image: url("fp_images/duhougan_44.jpg");
 }
 
 #cansaitushu .tushu_kuang{
-	width:408px;
-	height:35px;
-	line-height:35px;
-	border:1px solid  #d5d5d5;  
-	font-size:16px;
-	text-align:center;
-	font-weight:bold;
-	background-image: url("fp_images/duhougan_44.jpg");
+width:408px;
+height:35px;
+line-height:35px;
+border:1px solid  #d5d5d5;  
+font-size:16px;
+text-align:center;
+font-weight:bold;
+background-image: url("fp_images/duhougan_44.jpg");
 }
 
 #xinwen .xinwen_ic{
-	width:260px;
-	height:35px;
-	line-height:35px;
-	border:1px solid  #d5d5d5;  
-	font-size:16px;
-	text-align:center;
-	font-weight:bold;
-	background-image: url("fp_images/duhougan_44.jpg");}
+width:260px;
+height:35px;
+line-height:35px;
+border:1px solid  #d5d5d5;  
+font-size:16px;
+text-align:center;
+font-weight:bold;
+background-image: url("fp_images/duhougan_44.jpg");}
 
 
 #tuijian .tuijian_ic{
-	width:260px;
-	height:35px;
-	line-height:35px;
-	border:1px solid  #d5d5d5;  
-	font-size:16px;
-	text-align:center;
-	font-weight:bold;
-	background-image: url("fp_images/duhougan_44.jpg");}
+width:260px;
+height:35px;
+line-height:35px;
+border:1px solid  #d5d5d5;  
+font-size:16px;
+text-align:center;
+font-weight:bold;
+background-image: url("fp_images/duhougan_44.jpg");}
 
 
 #luntan .luntan_ic{
-	width:260px;
-	height:35px;
-	line-height:35px;
-	border:1px solid  #d5d5d5;  
-	font-size:16px;
-	text-align:center;
-	font-weight:bold;
-	background-image: url("fp_images/duhougan_44.jpg");}
+width:260px;
+height:35px;
+line-height:35px;
+border:1px solid  #d5d5d5;  
+font-size:16px;
+text-align:center;
+font-weight:bold;
+background-image: url("fp_images/duhougan_44.jpg");}
 
 #zhuanjia .zhuanjia_ic{
-	width:260px;
-	height:35px;
-	line-height:35px;
-	border:1px solid  #d5d5d5;  
-	font-size:16px;
-	text-align:center;
-	font-weight:bold;
-	background-image: url("fp_images/duhougan_44.jpg");
-	}
+width:260px;
+height:35px;
+line-height:35px;
+border:1px solid  #d5d5d5;  
+font-size:16px;
+text-align:center;
+font-weight:bold;
+background-image: url("fp_images/duhougan_44.jpg");}
 
 
 #youhuannv{
-	width:230px;
-	margin:0auto;  
-	padding:15px ;}
+width:230px;
+margin:0auto;  
+padding:15px ;}
 
 #cansai{
-	width:260px;
-	padding:5px 0px;
-	text-align:left;
-	line-height:25px;
-	font-size:12px;
+width:260px;
+padding:5px 0px;
+text-align:left;
+line-height:25px;
+font-size:12px;
 
 }
 	
 .font01{ 
-	color:#C00;
-	font-size:12px;
-	line-height:25px;
-	}
+color:#C00;
+font-size:12px;
+line-height:25px;}
 
 #xuanshu{
-	width:410px;
+width:410px;
 }
-
 #gezu{
-	width:199px;
-	border:1px solid  #d5d5d5;  
+width:199px;
+border:1px solid  #d5d5d5;  
 
 }
 #gezuming{
-	height:35px;
-	line-height:35px;
-	font-size:16px;
-	text-align:center;
-	font-weight:bold;
+height:35px;
+line-height:35px;
+font-size:16px;
+text-align:center;
+font-weight:bold;
 	}
 #tuijian{
 	margin:0px;
@@ -191,21 +183,19 @@ a:hover{color:#000;text-decoration:underline;}
 	padding:0px;
 	font-size:12px;}
 	
-.td01{
-	background-color:#f5f5f5;
-	font-size:12px;
-	padding:10px 5px;
-	line-height:20px;}
+.td01{ background-color:#f5f5f5;
+font-size:12px;
+padding:10px 5px;
+line-height:20px;}
 
 .td02{
 	background-image: url("fp_images/duhougan_45.jpg");
 	height:1px;}
 
-.td03{ 
-	background-color:#fff;
-	font-size:12px;
-	padding:10px 5px;
-	line-height:20px;}
+.td03{ background-color:#fff;
+font-size:12px;
+padding:10px 5px;
+line-height:20px;}
 
 .front table {
     border: 0 none;
@@ -216,19 +206,25 @@ a:hover{color:#000;text-decoration:underline;}
      background-color:white;
 }
 
-.zhuanjia_more{text-align:right;}
+.zhuanjia_more{ text-align:right;}
 .youxiu_more{ text-align:right;}
 .xinwen_more{ text-align:right;margin-right:10px;}
 
 .item-list{ padding-top:10px;}
 .benci{ text-align:center; padding:15px;}
 #content-header .title{ font-size:16px; line-height:30px; font-weight:bold; text-align:center; padding-top:10px;}
-.view-display-id-youxiu td.col-1{border-right: 1px solid #ededed;}
-.view-display-id-youxiu td.col-2{padding-left:8PX;}
+.view-display-id-youxiu td.col-1{
+border-right: 1px solid #ededed;}
+.view-display-id-youxiu td.col-2{
+	padding-left:8PX;}
 
-#luntan h2 { display:none;}
+#luntan   	h2 {
+ display:none;
+}
 
-#login_top h2{ display:none;}
+#login_top h2{
+ display:none;
+}
 
 #login_top .form-item-name{float:left; font-weight:normal;}
 
@@ -246,29 +242,29 @@ a:hover{color:#000;text-decoration:underline;}
 
 
 #edit-actions  .form-submit{
-	color: #000000;
-	font-family: Arial, Hevlvetica, sans-serif;
-	text-align: center;
-	font-size: 12px;
-	border: 1px double #999;
-	width: 205px;
-	background: #ffffff;
-	padding: 1px 5px 1px 5px;
-	line-height: 25px !important;
-	line-height: 23px;
-	height: 25px !important;
-	height: 23px;
-	margin: 10px 3px 3px 20px;
-	cursor: pointer;
-}
+color: #000000;
+  font-family: Arial, Hevlvetica, sans-serif;
+  text-align: center;
+  font-size: 12px;
+  border: 1px double #999;
+  width: 205px;
+  background: #ffffff;
+  padding: 1px 5px 1px 5px;
+  line-height: 25px !important;
+  line-height: 23px;
+  height: 25px !important;
+  height: 23px;
+  margin: 10px 3px 3px 20px;
+  cursor: pointer;
 
+}
 #welcome{
 	margin-top:10px;
 	margin-left:5px;}
 
 
-.not-front .view-my-dhg-article .view-header{ padding-top:10px;}
-.not-front .view-my-dhg-article .view-content{ padding:10px 200px; font-size:12px; line-height:30px; }
-.not-front .view-my-dhg-article .views-field{ color:#930; float:left;}
-.not-front .view-my-dhg-article .views-row{ padding-left:5px;}
-.not-front .view-my-dhg-article\	 .field-content{ padding:3px 8px;}
+.not-front #block-system-main .view-header{ padding-top:10px;}
+.not-front #block-system-main .view-content{ padding:10px 200px; font-size:12px; line-height:30px; }
+.not-front #block-system-main .views-field{ color:#930; float:left;}
+.not-front #block-system-main .views-row{ padding-left:5px;}
+.not-front #block-system-main .field-content{ padding:3px 8px;}

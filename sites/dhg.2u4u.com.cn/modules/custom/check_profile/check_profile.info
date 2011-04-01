@@ -1,8 +1,8 @@
-; $Id$
+ï»¿; $Id$
 name = check_profile
-description = ¼ì²éÄ³ÓÃ»§ÌØ¶¨profileÊÇ·ñÒÑ¾­ÌîĞ´
+description = æ£€æŸ¥æŸç”¨æˆ·ç‰¹å®šprofileæ˜¯å¦å·²ç»å¡«å†™
 package = dhg.2u4u.com.cn
-configure = admin/config/dhg_user_center
+configure = admin/config/check_profile/settings
 project = 2u4u
 core = 7.x
 php = 5.0

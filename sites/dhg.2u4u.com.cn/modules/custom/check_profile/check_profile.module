@@ -40,19 +40,16 @@
 function check_profile_if_exist() {
 
 	global $user;
-	$destination = drupal_get_destination()	;
+	$destination = $_SERVER["REQUEST_URI"]	;
 	$profile_type = variable_get('profile_type');
 	$message = '';
 	$sql = "select * from {profile} where type=:profile_type and uid=:uid";
 	$result = db_query ( $sql, array (':profile_type' => $profile_type, ':uid' => $user->uid ) );
 	if($user->uid>0){
 	  if (!($data = $result->fetchAll())) {
-	
-	     $message = t('您尚未填写完成的用户信息，请先补充完整后再进行其他操作');	 
+	     $message = t('您尚未填写完成的用户信息，请先补充完整后再进行其他操作'.$destination);	 
          drupal_set_message($message);
-         drupal_goto("profile-$profile_type/$user->uid/edit",array('query' => $destination));
-
-         //header('Location: ' . url("profile-$profile_type/$user->uid/edit", array('query' => array('destination' => $destination), 'absolute' => TRUE)), TRUE, 302);
+         drupal_goto("profile-$profile_type/1/edit",array('query' => array('destination' => $destination)));
       }
 	}  
 	
