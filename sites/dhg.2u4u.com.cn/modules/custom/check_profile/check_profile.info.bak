@@ -1,8 +1,0 @@
-﻿; $Id$
-name = personal_info
-description = 检查某用户特定profile是否已经填写
-package = 2u4u.com.cn
-configure = admin/config/check_profile/settings
-project = 2u4u
-core = 7.x
-php = 5.0
