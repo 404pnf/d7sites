@@ -5,4 +5,4 @@
 /sites/*/files/
 /sites/*/files/
 *.swp
-*/private/*
+private/*
