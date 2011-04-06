@@ -4,3 +4,11 @@
 
 #block-block-2 {background:transparent;border:none;margin:0;padding:0;}
 
+#content  .title_bg h1.title {
+  color:#000000;
+  font-size:28px;
+  font-family:Arial;
+  text-align:center;
+}
+
+#block-block-3 h2,#block-system-user-menu h2{font-size:16px;}
