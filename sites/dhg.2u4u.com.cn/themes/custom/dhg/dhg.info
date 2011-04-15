@@ -28,6 +28,7 @@ features[] = secondary_menu
 stylesheets[all][] = css/default.css
 stylesheets[all][] = css/layout.css
 stylesheets[all][] = css/style.css
+;stylesheets[all][] = css/basic.default.css
 stylesheets[all][] = css/dhg.css
 stylesheets[print][] = css/print.css
 

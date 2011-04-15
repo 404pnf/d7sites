@@ -391,6 +391,7 @@ ini_set('session.cookie_lifetime', 2000000);
  * getting cached pages from the proxy.
  */
 # $conf['omit_vary_cookie'] = TRUE;
+ $conf['omit_vary_cookie'] = TRUE;
 
 /**
  * CSS/JS aggregated file gzip compression:

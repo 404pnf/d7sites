@@ -194,7 +194,6 @@ $databases = array (
       'default'   => '',
       'users'     => 'ncec.',
       'sessions'  => 'ncec.',
-      'role'      => 'ncec.',
       'authmap'   => 'ncec.',
     )
     ),

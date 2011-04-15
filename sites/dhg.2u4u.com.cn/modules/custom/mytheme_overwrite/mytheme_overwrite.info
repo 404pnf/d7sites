@@ -1,0 +1,5 @@
+; $Id$
+name = my theme overwrite
+description = 小白写的复写模板的模块
+core = 7.x
+php = 5.0

@@ -1,0 +1,18 @@
+<?php
+  function mark_user_form_alter(&$form, &$form_state, $form_id) {
+     if($form_id == 'user_register_form'){
+        $form['#validate'][] ='mark_user_extra_user_validate';
+      }
+  }
+
+function mark_user_extra_user_validate($element, &$form_state){
+  $username =$form_state['values']['name'];
+  $password = $form_state['values']['pass'];
+  //接下来存储用户信息到 {mark_user} 数据库表中
+  db_insert('mark_user')
+  ->fields(array(
+    'username' => $username,
+    'pass' => $password,
+  ))
+  ->execute();
+}

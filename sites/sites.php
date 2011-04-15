@@ -46,7 +46,7 @@
 
 $sites = array(
    'new.fltrp.com' => 'fltrp.com',
-   'fltrp.2u4u.com.cn' => 'fltrp.com',
+   'd.2u4u.com.cn' => 'dhg.2u4u.com.cn',
    );
 $sites['new.fltrp.com'] = 'fltrp.com';
-$sites['fltrp.2u4u.com.cn'] = 'fltrp.com';
+$sites['d.2u4u.com.cn'] = 'dhg.2u4u.com.cn';
