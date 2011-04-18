@@ -4,38 +4,38 @@
  * 
  */
 
-function apply_assit_menu() {
-	
-	$items ['test'] = array ('title' => 'test', 'description' => t ( 'test' ), 'page callback' => 'apply_assit_show_profile', 'access callback' => true );
-	
-	return $items;
-
-}
-
-function apply_assit_show_profile() {
-	global $user;
-	$myprofile = profile2_load_by_user ( $user, 'agent_profile' );
-	$agent_code = $myprofile->field_code ['und'] [0] ['value'];
-	
-	$sql = "select field_candidate_id_value from  field_data_field_candidate_id where entity_id=(select max(nid) from node where type='baoming' and uid=:uid)";
-	
-	$result = db_query ( $sql, array (':uid' => $user->uid ) );
-	$record = $result->fetchObject ();
-	$candidate_id = $record->field_candidate_id_value;
-	
-	if (empty ( $candidate_id )) {
-		$candidate_id = $agent_code . '0001';
-	} else {
-		$candidate_index = substr ( $candidate_id, 5, 4 ) + 1;
-		$candidate_index_length = strlen ( $candidate_index );
-		$candidate_index_add_length = 4 - $candidate_index_length;
-		
-		$candidate_id = $agent_code . str_repeat ( '0', $candidate_index_add_length ) . $candidate_index;
-	}
-	
-	return t ( $candidate_id );
-
-}
+//function apply_assit_menu() {
+//	
+//	$items ['test'] = array ('title' => 'test', 'description' => t ( 'test' ), 'page callback' => 'apply_assit_show_profile', 'access callback' => true );
+//	
+//	return $items;
+//
+//}
+//
+//function apply_assit_show_profile() {
+//	global $user;
+//	$myprofile = profile2_load_by_user ( $user, 'agent_profile' );
+//	$agent_code = $myprofile->field_code ['und'] [0] ['value'];
+//	
+//	$sql = "select field_candidate_id_value from  field_data_field_candidate_id where entity_id=(select max(nid) from node where type='baoming' and uid=:uid)";
+//	
+//	$result = db_query ( $sql, array (':uid' => $user->uid ) );
+//	$record = $result->fetchObject ();
+//	$candidate_id = $record->field_candidate_id_value;
+//	
+//	if (empty ( $candidate_id )) {
+//		$candidate_id = $agent_code . '0001';
+//	} else {
+//		$candidate_index = substr ( $candidate_id, 5, 4 ) + 1;
+//		$candidate_index_length = strlen ( $candidate_index );
+//		$candidate_index_add_length = 4 - $candidate_index_length;
+//		
+//		$candidate_id = $agent_code . str_repeat ( '0', $candidate_index_add_length ) . $candidate_index;
+//	}
+//	
+//	return t ( $candidate_id );
+//
+//}
 
 function apply_assit_node_presave($node) {
 	global $user;
@@ -49,6 +49,9 @@ function apply_assit_node_presave($node) {
 			
 			$myprofile = profile2_load_by_user ( $user, $profile_type );
 			
+			
+			
+			//$candidate_id
 			$agent_code = $myprofile->field_code ['und'] [0] ['value'];
 			
 			$sql = "select field_candidate_id_value from  field_data_field_candidate_id where entity_id=(select max(nid) from node where type=:node_type and uid=:uid)";
@@ -69,8 +72,55 @@ function apply_assit_node_presave($node) {
 			}
 			
 			$node->field_candidate_id ['zh-hans'] [0] ['value'] = $candidate_id;
+
+			
+			
+			
+			
+//			//$degree  报名等级
+//			$sql = "select field_baoming_tid from  field_data_field_baoming where entity_id=(select max(nid) from node where type=:node_type and uid=:uid)";
+//			
+//			$result = db_query ( $sql, array (':uid' => $user->uid,':node_type' => $node_type ) );
+//			$record = $result->fetchObject ();
+//			$degree = @$record->field_baoming_tid;
+//			$node->field_baoming ['zh-hans'] [0] ['tid'] = $degree;
+//			
+			
+			
+			
 		}
+			$node->field_familyname ['zh-hans'] [0] ['value'] = strtoupper($node->field_familyname['zh-hans'][0]['value'] );
+			$node->field_firstname ['zh-hans'] [0] ['value'] = strtoupper($node->field_firstname['zh-hans'][0]['value'] );		
 	
 	}
 
 }
+
+
+function apply_assit_form_alter(&$form, &$form_state, $form_id) {
+	
+    global $user;
+	
+	$profile_type = 'agent_profile';
+	$node_type = 'baoming';
+	
+	$myprofile = profile2_load_by_user ( $user, $profile_type );
+			
+    //$degree  报名等级
+	$sql = "select field_baoming_tid from  field_data_field_baoming where entity_id=(select max(nid) from node where type=:node_type and uid=:uid)";
+	
+    $result = db_query ( $sql, array (':uid' => $user->uid,':node_type' => $node_type ) );
+    $record = $result->fetchObject ();
+    $degree = @$record->field_baoming_tid;
+	
+	
+  if($form_id == 'baoming_node_form'){
+  	//print "<pre>";
+  	//print_r($form['field_baoming']);
+  	//print "</pre>";
+  	$form['field_baoming']['und']['#default_value'] =$degree;
+  	//drupal_set_message('等级'.$degree);
+  }
+}
+
+
