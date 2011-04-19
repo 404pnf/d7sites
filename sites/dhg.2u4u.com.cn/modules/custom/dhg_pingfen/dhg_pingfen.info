@@ -1,0 +1,5 @@
+; $Id$
+name = dhg pingfen
+description = dhg pingfen
+core = 7.x
+php = 5.0

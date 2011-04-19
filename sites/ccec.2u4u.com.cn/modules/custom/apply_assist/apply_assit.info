@@ -1,0 +1,10 @@
+; $Id$
+name = apply assit
+description = ccec报名助手，生成准考证，默认下个报名继承上个报名的级别信息；
+package = ccec.2u4u.com.cn
+
+
+project = 2u4u
+core = 7.x
+php = 5.0
+	

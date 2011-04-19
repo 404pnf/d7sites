@@ -7,14 +7,14 @@
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
   <?php print $styles; ?>
-  <?php print $scripts; ?>
 </head>
-<body style=" background-color: #FFF;" class="<?php print $classes; ?>" <?php print $attributes;?>>
+<body style=" background-color: #FFF;" class="">
   <div id="skip">
     <a href="#main-menu"><?php print t('Jump to Navigation'); ?></a>
   </div>
   <?php print $page_top; ?>
   <?php print $page; ?>
   <?php print $page_bottom; ?>
+  <?php print $scripts; ?>
 </body>
 </html>

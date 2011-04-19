@@ -1,0 +1,7 @@
+<?php
+
+/**
+* 复写links 
+* 参考：http://api.drupal.org/api/drupal/includes--menu.inc/function/theme_menu_link/7
+*/
+ 
