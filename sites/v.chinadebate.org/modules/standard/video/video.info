@@ -1,6 +1,6 @@
 name = Video
 description = Upload and manage video content with Drupal
-package = Video
+package = Media
 core = 7.x
 dependencies[] = file
 dependencies[] = image
@@ -12,9 +12,9 @@ files[] = includes/metadata.inc
 files[] = includes/preset.inc
 files[] = includes/transcoder.inc
 files[] = includes/video_helper.inc
-; Information added by drupal.org packaging script on 2011-03-24
-version = "7.x-1.0-alpha1"
+; Information added by drupal.org packaging script on 2011-04-06
+version = "7.x-1.0-alpha2"
 core = "7.x"
 project = "video"
-datestamp = "1300931170"
+datestamp = "1302109917"
 

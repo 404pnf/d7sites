@@ -1,0 +1,13 @@
+; $Id:
+name=Text CAPTCHA
+description=Uses the textcaptcha.com service for accessible CAPTCHAs
+package="Spam control"
+dependencies[]=captcha
+configure = admin/config/people/captcha/textcaptcha
+core=7.x
+; Information added by drupal.org packaging script on 2010-12-09
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "textcaptcha"
+datestamp = "1291854411"
+
