@@ -1,0 +1,7 @@
+; $Id$
+name = sms_vote
+description = 辩论赛赛短信投票模块.
+package = v.chinadebate.org
+project = 2u4u
+core = 7.x
+php = 5.0
