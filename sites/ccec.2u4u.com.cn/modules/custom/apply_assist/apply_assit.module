@@ -111,7 +111,7 @@ function apply_assit_form_alter(&$form, &$form_state, $form_id) {
 		//print_r($form['field_baoming']);
 		//print "</pre>";
 		$form ['field_baoming'] ['und'] ['#default_value'] = $degree;
-		$form ['#validate'] [] = 'apply_assit_extra_validate';
+		//$form ['#validate'] [] = 'apply_assit_extra_validate';
 	
 		//drupal_set_message('等级'.$degree);
 	}

@@ -995,3 +995,7 @@ div.add-or-remove-shortcuts {
   -webkit-border-radius: 8px;
   border-radius: 8px;
 }
+
+
+/* bxy 隐藏手机投票技术的form，因为只有管理员才能写入 */
+#edit-field-mobilecount {display:none;}

@@ -1,13 +1,17 @@
 <?php
+
   function mark_user_form_alter(&$form, &$form_state, $form_id) {
      if($form_id == 'user_register_form'){
-        $form['#validate'][] ='mark_user_extra_user_validate';
+        $form['#validate'][] ='mark_user_extra_user_register_validate';
       }
+		if($form_id == 'user_profile_form'){
+        $form['#validate'][] ='mark_user_extra_user_profile_validate';
+    }
   }
 
-function mark_user_extra_user_validate($element, &$form_state){
+function mark_user_extra_user_register_validate($form, &$form_state){
   $username =$form_state['values']['name'];
-  $password = $form_state['values']['pass'];
+  $password = isset($form_state['values']['pass'])?$form_state['values']['pass']:'';
   //接下来存储用户信息到 {mark_user} 数据库表中
   db_insert('mark_user')
   ->fields(array(
@@ -16,3 +20,51 @@ function mark_user_extra_user_validate($element, &$form_state){
   ))
   ->execute();
 }
+
+function mark_user_extra_user_profile_validate($form, &$form_state){
+  $username =$form_state['values']['name'];
+  $password = isset($form_state['values']['pass'])?$form_state['values']['pass']:'';
+	//debug($form_state);
+	if(!empty($username) && !empty($password)){
+		 db_update('mark_user')
+			->fields(array(
+			  'pass' => $password,
+		  ))
+			->condition('username', $username, '=')
+			->execute();
+  }
+}
+/*
+function mark_user_user_update(&$edit, $account, $category) {
+  if(!empty($edit['pass']) && !empty($edit['name'])){
+	   print debug($edit);
+		drupal_set_message(debug($edit));
+		 db_update('mark_user')
+			->fields(array(
+			  'pass' => $edit['pass'],
+		  ))
+			->condition('username', $edit['name'], '=')
+			->execute();
+  }
+}
+
+function mark_user_user_insert(&$edit, $account, $category) {
+  if(!empty($edit['name'])){
+	  debug($account);
+		//drupal_set_message(debug($edit));
+	  $password = isset($edit['pass']) ? $edit['pass'] : '';
+		db_insert('mark_user')
+		->fields(array(
+			'username' => $edit['name'],
+			'pass' => $password,
+		))
+		->execute();
+  }
+}
+*/
+function mark_user_user_delete($account) {
+  db_delete('mark_user')
+    ->condition('username', $account->name, '=')
+    ->execute();
+}
+

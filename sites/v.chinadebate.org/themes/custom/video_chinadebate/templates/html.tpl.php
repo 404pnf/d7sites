@@ -38,7 +38,7 @@
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
   <?php print $styles; ?>
-  <?php // print $scripts; ?>
+  <?php  print $scripts; ?>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"> </script>
 	<script type="text/javascript" src="<?php print base_path().path_to_theme() ?>/js/jquery.countdown.package/jquery.countdown.min.js"> </script>
 <script type="text/javascript" src="<?php print base_path().path_to_theme() ?>/js/jquery.countdown.package/jquery.countdown-zh-CN.js"> </script>
