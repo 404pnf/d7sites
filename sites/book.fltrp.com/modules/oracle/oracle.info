@@ -1,0 +1,12 @@
+; $Id
+name = Oracle driver
+description = Administrator interface for the Oracle backend
+package = Database
+core = 7.x
+
+; Information added by drupal.org packaging script on 2011-04-09
+version = "7.x-1.6"
+core = "7.x"
+project = "oracle"
+datestamp = "1302346616"
+
