@@ -6,4 +6,4 @@
 /sites/*/files/
 *.swp
 private/*
-*migrate*/*.jpg
+*/*migrate*/*.jpg
