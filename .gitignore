@@ -6,3 +6,4 @@
 /sites/*/files/
 *.swp
 private/*
+*migrate*/*.jpg
