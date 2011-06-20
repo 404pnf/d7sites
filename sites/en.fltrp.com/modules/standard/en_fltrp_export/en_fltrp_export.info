@@ -1,0 +1,7 @@
+core = "7.x"
+dependencies[] = "feeds"
+description = "export en-fltrp feeds mapping"
+features[ctools][] = "feeds:feeds_importer_default:1"
+features[feeds_importer][] = "feed_en"
+name = "en-fltrp-export"
+package = "Features"

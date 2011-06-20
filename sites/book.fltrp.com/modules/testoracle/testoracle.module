@@ -13,66 +13,147 @@ function testoracle_menu() {
   );
 	return $items;
 }
-
 function testoracle_test_page(){
 $output ="1234";
-	
-	
-	Database::getConnection('default', 'data')->query('set names latin1');
+$node = node_load(7907);
+debug($node);
+
+
+Database::getConnection('default', 'data')->query('set names latin1');
 	$query = Database::getConnection('default', 'data')
-	  ->select('bookotype', 'b')
-		->fields('b', array('id', 'name', 'brief', 'isseries'))
-		->condition('b.isseries', 1, '=')
-		//->condition('b.flag', 1, '<')
-		->condition('b.id', 'YYZZSW', '=')
-		//->condition('q.bsno', 1000, '<')
+	  ->select('books', 'b')
+		->fields('b', array('bsno', 'zjml', 'sp', 'nrty', 'jcpd', 'zzjj', 'features', 'authorizationdetails', 'relativeinfo'))
+		->condition('b.bsno', 1000, '<')
+		//->condition('b.bsno', $context['sandbox']['last_bsno'], '=')
+		->orderBy('b.bsno', 'ASC')
 		->range(0, 10);
-	
+	 
 	$result = $query->execute();
-	//drupal_set_message('tname:12233455');
+ // drupal_set_message('123456');
 	foreach ($result as $record) { 
-	  $encode = mb_detect_encoding($record->name, array("ASCII","GB2312","GBK","UTF-8","BIG5"));
-		drupal_set_message('encode:'.$encode);
-	  if($record->id =='YYZZSW'){
-		  drupal_set_message($record->name);
-			drupal_set_message($record->brief);
-		}
-	  $record->name = iconv('EUC-CN',"UTF-8//IGNORE",$record->name) ; //iconv转换
-		$record->brief = iconv('EUC-CN',"UTF-8//IGNORE",$record->brief) ; //iconv转换
-		if($record->id =='YYZZSW'){
-		  drupal_set_message('name:'.$record->name);
-			drupal_set_message('brief:'.$record->brief);
-		}
-		
-		$term = new stdClass();
-	  $term->vid = 16;
-	  $term->name = trim($record->name);
-		$term->description = trim($record->brief);
-		
-		$tid_query = db_select('field_data_field_oid', 'f')
-			->fields('f', array('entity_id'))
-			->condition('f.field_oid_value', $record->id, '=')
-			->condition('f.entity_type', 'taxonomy_term', '=');
+	  //得到nid
+		$nid_query = db_select('field_data_field_bsno', 'fb')
+			->fields('fb', array('entity_id'))
+			->condition('fb.field_bsno_value', $record->bsno, '=')
+			->condition('fb.bundle', 'book', '=');
 			
-		$tid_result = $tid_query->execute()->fetchAssoc();
-		$tid = $tid_result['entity_id'];
-		if(!empty($tid)){
-		  $term->tid = $tid;
-		}
-		//$term->description = trim($record->brief);
-		$term->field_oid = array(
+		$nid_result = $nid_query->execute()->fetchAssoc();
+		$nid = $nid_result['entity_id'];
+		//得到节点
+    $node = node_load($nid);
+		
+		 //drupal_set_message('123456789');
+		//编码转换
+		$record->zjml = iconv('EUC-CN',"UTF-8//IGNORE",$record->zjml) ; //iconv转换
+		$record->sp = iconv('EUC-CN',"UTF-8//IGNORE",$record->sp) ; //iconv转换
+		
+		$record->nrty = iconv('EUC-CN',"UTF-8//IGNORE",$record->nrty) ; //iconv转换
+		$record->jcpd = iconv('EUC-CN',"UTF-8//IGNORE",$record->jcpd) ; //iconv转换
+		$record->zzjj = iconv('EUC-CN',"UTF-8//IGNORE",$record->zzjj) ; //iconv转换
+		$record->features = iconv('EUC-CN',"UTF-8//IGNORE",$record->features) ; //iconv转换
+		
+		$record->authorizationdetails = iconv('EUC-CN',"UTF-8//IGNORE",$record->authorizationdetails) ; //iconv转换
+		$record->relativeinfo = iconv('EUC-CN',"UTF-8//IGNORE",$record->relativeinfo) ; //iconv转换
+
+		
+		//向node映射
+    //$this->addFieldMapping('field_directory', 'zjml');
+		if(empty($node->field_directory['und'][0]['value']) && !empty($record->zjml)){
+		  $node->field_directory = array(
 				'und' => array(
 					0 => array(
-						'value' => $record->id,
+						'value' => $record->zjml,
+						'format' => 'full_html',
 					)
 				)
-		);
-	  $status = taxonomy_term_save($term);
-			
-
+			);
+			//$node->field_directory['und'][0]['value'] = $record->zjml;
+		}
+		//$this->addFieldMapping('field_sp', 'sp');
+		if(empty($node->field_sp['und'][0]['value']) && !empty($record->sp)){
+		  $node->field_sp = array(
+				'und' => array(
+					0 => array(
+						'value' => $record->sp,
+						'format' => 'full_html',
+					)
+				)
+			);
+		}
+		//$this->addFieldMapping('body', 'nrty')
+		if(empty($node->body['und'][0]['value']) && !empty($record->nrty)){
+		  $node->body = array(
+				'und' => array(
+					0 => array(
+						'value' => $record->nrty,
+					//	'summary' => substr($record->nrty, 0, 200),
+						'format' => 'full_html',
+					)
+				)
+			);
+		}
+		//$this->addFieldMapping('field_sample', 'jcpd');
+		if(empty($node->field_sample['und'][0]['value']) && !empty($record->jcpd)){
+		  $node->field_sample = array(
+				'und' => array(
+					0 => array(
+						'value' => $record->jcpd,
+						'format' => 'full_html',
+					)
+				)
+			);
+		}
+		//$this->addFieldMapping('field_author_info', 'zzjj');
+		if(empty($node->field_author_info['und'][0]['value']) && !empty($record->zzjj)){
+		  $node->field_author_info = array(
+				'und' => array(
+					0 => array(
+						'value' => $record->zzjj,
+						'format' => 'full_html',
+					)
+				)
+			);
+		}
+		//$this->addFieldMapping('field_features', 'features');
+    if(empty($node->field_features['und'][0]['value']) && !empty($record->features)){
+		  $node->field_features = array(
+				'und' => array(
+					0 => array(
+						'value' => $record->features,
+						'format' => 'full_html',
+					)
+				)
+			);
+		}		
+		//$this->addFieldMapping('field_authorization_details', 'authorizationdetails');
+		if(empty($node->field_authorization_details['und'][0]['value']) && !empty($record->authorizationdetails)){
+		  $node->field_authorization_details = array(
+				'und' => array(
+					0 => array(
+						'value' => $record->authorizationdetails,
+						'format' => 'full_html',
+					)
+				)
+			);
+		}		
+		//$this->addFieldMapping('field_relative_info', 'relativeinfo');
+		if(empty($node->field_relative_info['und'][0]['value']) && !empty($record->relativeinfo)){
+		  $node->field_relative_info = array(
+				'und' => array(
+					0 => array(
+						'value' => $record->relativeinfo,
+						'format' => 'full_html',
+					)
+				)
+			);
+		}	
+    if($node->nid > 0){		
+      //node_save($node);
+		}
+		
+	  //$context['sandbox']['progress']++;
+	  //$context['sandbox']['last_bsno'] = $record->bsno;
 	}
-
-
 
 
 

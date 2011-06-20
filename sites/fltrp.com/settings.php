@@ -184,12 +184,6 @@
  'username' => 'py',
  'password' => 'pengyou',
  'host' => 'localhost',
- 'prefix' => array(
-               'default'   => '',
-               'users'     => 'ncec.',
-               'sessions'  => 'ncec.',
-               'authmap'   => 'ncec.',
-                ),
 
  );
 
