@@ -50,7 +50,7 @@ function fltrp_qy_menu() {
    
   );
 	
-		$items['admin/config/development/fltrp/xltb'] = array(
+	$items['admin/config/development/fltrp/xltb'] = array(
     'title'            => '系列信息同步',
     'page callback'    => 'drupal_get_form',
 	'page arguments'    =>  array('fltrp_qy_xltb_form'),
@@ -59,11 +59,21 @@ function fltrp_qy_menu() {
     'type'             => MENU_LOCAL_TASK,
    
   );
-
+	
 	$items['admin/config/development/fltrp/longtext'] = array(
     'title'            => '长文本信息信息同步',
     'page callback'    => 'drupal_get_form',
 	'page arguments'    =>  array('fltrp_qy_longtext_form'),
+    'access arguments' => array('administer site configuration'),
+    'weight'           => 1,
+    'type'             => MENU_LOCAL_TASK,
+   
+  );
+	
+	$items['admin/config/development/fltrp/fenlei'] = array(
+    'title'            => '分类信息同步',
+    'page callback'    => 'drupal_get_form',
+	'page arguments'    =>  array('fltrp_qy_fenlei_form'),
     'access arguments' => array('administer site configuration'),
     'weight'           => 1,
     'type'             => MENU_LOCAL_TASK,
@@ -537,7 +547,7 @@ function fltrp_qy_xilie_finished($success, $results, $operations){
 
 function fltrp_qy_xltb_form(){
 	$form['submit'] = array(
-		//'#type' =>'submit',
+		'#type' =>'submit',
 		'#value' => t('系列信息同步'),
 	);
 	return $form;
@@ -663,6 +673,7 @@ function fltrp_qy_xltb_finished($success, $results, $operations){
 }
 
 
+
 function fltrp_qy_longtext_form(){
 	$form['submit'] = array(
 		'#type' =>'submit',
@@ -694,7 +705,7 @@ function fltrp_qy_longtext_process(&$context){
 		$context['sandbox']['progress'] = 0;
 	  $context['sandbox']['max'] = Database::getConnection('default', 'data')
 			->select('books', 'b')
-			//->condition('b.bsno', 1000, '<')
+			->condition('b.bsno', 1000, '<')
 			->countQuery()
 			->execute()
 			->fetchField();
@@ -706,7 +717,7 @@ function fltrp_qy_longtext_process(&$context){
 	$query = Database::getConnection('default', 'data')
 	  ->select('books', 'b')
 		->fields('b', array('bsno', 'zjml', 'sp', 'nrty', 'jcpd', 'zzjj', 'features', 'authorizationdetails', 'relativeinfo'))
-		//->condition('b.bsno', 1000, '<')
+		->condition('b.bsno', 1000, '<')
 		->condition('b.bsno', $context['sandbox']['last_bsno'], '>')
 		->orderBy('b.bsno', 'ASC')
 		->range(0, 10);
@@ -856,6 +867,147 @@ function fltrp_qy_longtext_finished($success, $results, $operations){
 		// $operations contains the operations that remained unprocessed.
 		$error_operation = reset($operations);
 		$message = '在长文本信息信息同步时出现一个错误'. $error_operation[0] .' 其参数为 :'. print_r($error_operation[0], TRUE);
+	}
+	drupal_set_message($message);
+}
+
+
+
+
+function fltrp_qy_fenlei_form(){
+	$form['submit'] = array(
+		'#type' =>'submit',
+		'#value' => t('分类信息同步'),
+	);
+	return $form;
+}
+function fltrp_qy_fenlei_form_submit($form,&$form_state){
+	//$types = array_filter($form_state['values']['types']);
+	$batch =array(
+		'operations' => array(
+		  array('fltrp_qy_fenlei_process',array()),
+		  ),
+		'finished' => 'fltrp_qy_fenlei_finished',
+		'title' => t('分类信息同步'),
+		'init_message' => t('开始分类信息同步.'),
+		//'progress_message' => t('Reindexed @current out of @total.'),
+		'error_message' => t('分类信息同步遇到错误.'),
+	);
+	batch_set($batch);
+}
+function fltrp_qy_fenlei_process(&$context){
+	$size =10;
+	$vid = 15;  //外研社产品类别 category, id
+	
+	/*
+	$vid_result = db_select('taxonomy_vocabulary', 'tv')
+			->fields('tv', array('vid'))
+			->condition('tv.machine_name', 'category', '=')
+			->execute()
+			->fetchAssoc();
+			
+	$vid = $vid_result['vid'];
+	*/
+	//$types_str ='story,page';
+	//$types_str = "'".implode("','", $types)."'";
+	if(!isset($context['sandbox']['progress'])){
+		$context['sandbox']['progress'] = 0;
+		$context['sandbox']['last_nid'] = 0;
+		$context['sandbox']['max'] =
+      db_select('node', 'n')
+			->condition('n.type', 'book')
+			->condition('n.nid', 30000, '<')
+			->condition('n.nid', 595, '>')
+			->countQuery()
+			->execute()
+			->fetchField();
+			
+	}
+	
+	$query = db_select('node', 'n')
+		->fields('n', array('nid', 'vid'))
+		->condition('n.nid', $context['sandbox']['last_nid'], '>')
+		->condition('n.type', 'book')
+		->condition('n.nid', 30000, '<')
+		->condition('n.nid', 595, '>')
+		->range(0, $size);
+		
+	$result = $query->execute();
+	//drupal_set_message('tname:12233455');
+	foreach ($result as $record) { 
+	  $nid = $record->nid;
+		$node = node_load($nid);
+
+		$bsno = $node->field_bsno['und'][0]['value'];
+		//drupal_set_message('bsno:'.$bsno);
+		//根据bsno得到CID
+		$query1 = Database::getConnection('default', 'data')
+	  ->select('book2type', 'b')
+		->fields('b', array('bsno', 'cid'))
+		->condition('b.bsno', $bsno, '=');
+	 
+	  $result1 = $query1->execute();	
+		$cid_array = array();
+		foreach ($result1 as $record1) { 
+		  $cid_array[] = $record1->cid;
+		}
+		//drupal_set_message('cid_array:'.$cid_array[0]);
+		//根据CID得到对应的tid
+		if(!empty($cid_array)){
+			$query2 = Database::getConnection('default', 'data')
+			->select('type2term', 't')
+			->fields('t', array('cid', 'term'))
+			->condition('t.cid', $cid_array, 'IN');
+		 
+			$result2 = $query2->execute();	
+			
+			$tid_array = array();
+			foreach ($result2 as $record2) { 
+				$tname = $record2->term;
+				//$vid = ;
+				$tid = fltrp_qy_get_tid_by_name($tname, $vid);
+				if($tid > 0){
+		      $tid_array[] = $tid;
+			  }
+				
+			//	drupal_set_message('12345678');
+			}
+			
+			//drupal_set_message('tname:12'. $tname);
+			if(!empty($tid_array)){
+			 // drupal_set_message('1234567890');
+				foreach($tid_array as $key => $value){
+					$node->field_category['und'][$key] = array(
+						'tid' => $value,
+					);
+				}
+				
+				node_save($node);
+			}
+	  }
+	
+	  $context['sandbox']['progress']++;
+	  $context['sandbox']['last_nid'] = $record->nid;
+	}
+
+	if($context['sandbox']['progress'] ==$context['sandbox']['max']){
+		$context['finished'] = 1;
+	}else{
+		$context['finished'] = $context['sandbox']['progress']/$context['sandbox']['max'];
+	}
+}
+
+function fltrp_qy_fenlei_finished($success, $results, $operations){
+	if ($success) {
+		// Here we do something meaningful with the results.
+		$message = t('分类信息同步完成');
+		
+	}
+	else {
+		// An error occurred.
+		// $operations contains the operations that remained unprocessed.
+		$error_operation = reset($operations);
+		$message = '在分类信息同步时出现一个错误'. $error_operation[0] .' 其参数为 :'. print_r($error_operation[0], TRUE);
 	}
 	drupal_set_message($message);
 }

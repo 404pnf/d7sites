@@ -1,0 +1,7 @@
+core = "7.x"
+dependencies[] = "features"
+dependencies[] = "taxonomy"
+description = "tags"
+features[taxonomy][] = "tags"
+name = "tags"
+package = "Features"

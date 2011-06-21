@@ -9,6 +9,29 @@
  */
 function newbook_taxonomy_default_vocabularies() {
   return array(
+    'ages' => array(
+      'name' => '英文读者对象（英文网）',
+      'machine_name' => 'ages',
+      'description' => '',
+      'hierarchy' => '0',
+      'module' => 'taxonomy',
+      'weight' => '0',
+      'rdf_mapping' => array(
+        'rdftype' => array(
+          0 => 'skos:ConceptScheme',
+        ),
+        'name' => array(
+          'predicates' => array(
+            0 => 'dc:title',
+          ),
+        ),
+        'description' => array(
+          'predicates' => array(
+            0 => 'rdfs:comment',
+          ),
+        ),
+      ),
+    ),
     'bianshi' => array(
       'name' => '编室',
       'machine_name' => 'bianshi',
@@ -37,6 +60,29 @@ function newbook_taxonomy_default_vocabularies() {
       'machine_name' => 'category',
       'description' => '',
       'hierarchy' => '1',
+      'module' => 'taxonomy',
+      'weight' => '0',
+      'rdf_mapping' => array(
+        'rdftype' => array(
+          0 => 'skos:ConceptScheme',
+        ),
+        'name' => array(
+          'predicates' => array(
+            0 => 'dc:title',
+          ),
+        ),
+        'description' => array(
+          'predicates' => array(
+            0 => 'rdfs:comment',
+          ),
+        ),
+      ),
+    ),
+    'components' => array(
+      'name' => '英文配套产品（英文网）',
+      'machine_name' => 'components',
+      'description' => '',
+      'hierarchy' => '0',
       'module' => 'taxonomy',
       'weight' => '0',
       'rdf_mapping' => array(
@@ -150,6 +196,29 @@ function newbook_taxonomy_default_vocabularies() {
     'language' => array(
       'name' => '语种',
       'machine_name' => 'language',
+      'description' => 'Annotation Language',
+      'hierarchy' => '0',
+      'module' => 'taxonomy',
+      'weight' => '0',
+      'rdf_mapping' => array(
+        'rdftype' => array(
+          0 => 'skos:ConceptScheme',
+        ),
+        'name' => array(
+          'predicates' => array(
+            0 => 'dc:title',
+          ),
+        ),
+        'description' => array(
+          'predicates' => array(
+            0 => 'rdfs:comment',
+          ),
+        ),
+      ),
+    ),
+    'medium' => array(
+      'name' => '英文制品类型（英文网）',
+      'machine_name' => 'medium',
       'description' => '',
       'hierarchy' => '0',
       'module' => 'taxonomy',
