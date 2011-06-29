@@ -1,0 +1,54 @@
+/*header*/
+#iheader{ width: 1000px;}
+#llogo a{display: block; background: url("../images/logo.png") no-repeat;_behavior: url(js/iepngfix.htc); height: 66px; text-indent: -99em; overflow: hidden; margin: 24px; width: 362px;}
+/* 导航 nav
+#nav .srow{width:1040px;}
+#nav li{float: left;height:40px;}
+#nav li a{color:#FFF;font-weight:700; padding:15px 29px; line-height:40px; height: 40px; overflow: hidden;}
+#nav li a:hover,#nav .active{ background:#500b0d}*/
+#nav{margin: 0;min-width:1040px; _width:1040px;}
+
+/*搜索 search*/
+#search ul{ height:30px; margin-top: 40px;}
+#search li{ float: right; border-right: 1px solid #222; height: 14px; margin-right: -1px;}
+#search li a{ font-size: 12px; color: #333; padding: 0 10px;}
+#search .search{ height: 28px; background: #B21319; padding: 3px 0 0 3px;}
+#search .search input{ height: 25px; padding: 0; float: left;border: none; line-height: 25px;}
+#search .search .sinput{ width:232px; background: #FFF}
+#search .search .sgo{ width:64px;background: none; color: #FFF;cursor: pointer;  }
+/*主要内容  main_container*/
+#main_container{ background:url("../images/index_bg.jpg") repeat-x; height: 504px;}
+#main_container .srow{position: relative; background:url("../images/building_bg20110621.jpg"); width: 1040px; height: 504px;}
+#fltrp_info{position:absolute;text-indent:2em; left:556px; top:86px;width:450px; font-weight:700; line-height:26px;color: #222; font-family: "	\9ED1\4F53"}
+#fltrp_info .more{ float: right; margin:0 10px; color:#BE0410; font-weight:400; font-size:12px; line-height:14px;;}
+#important_info{top:288px;left:334px; position: absolute;}
+.infobox{_behavior: url(js/iepngfix.htc); background:url("../images/important_info20110621.png") no-repeat;width:298px; height: 208px; padding-top: 50px;}
+#important_info ul{ margin:0}
+#important_info ul li{line-height:24px; margin: 0 20px; background:url("../images/graypoint_20110621.gif") no-repeat 0 12px; text-indent:1em; overflow: hidden; width: 80%; height: 26px;}
+#important_info ul a{font-size:12px; color: #222;}
+#main_container .fltrp_img{ position: absolute; left: 642px; top: 255px;_behavior: url(js/iepngfix.htc);}
+
+/*网站服务区  order*/
+#order li{ border-left: 1px solid #444; padding: 2px 30px; float: left; margin-left: -1px; margin-top: 20px;}
+#order li a{ display: block; background-repeat: no-repeat;}
+#order a.in1{ background: url("../images/com_info20110621.png") no-repeat;_background: url("../images/com_info20110621.gif") no-repeat; width: 110px; height: 30px;}
+#order a.in1:hover{ background: url("../images/com_info_blue20110621.png") no-repeat;_background: url("../images/com_info_blue20110621.gif") no-repeat;}
+#order a.in2{ background: url("../images/com_info20110621.png") no-repeat -170px 0;  _background: url("../images/com_info20110621.gif") no-repeat -170px 0;width: 174px; height: 30px;}
+#order a.in2:hover{ background: url("../images/com_info_blue20110621.png") -170px 0; _background: url("../images/com_info_blue20110621.gif") -170px 0;}
+#order a.in3{ background: url("../images/com_info20110621.png") no-repeat -400px 0;_background: url("../images/com_info20110621.gif") no-repeat -400px 0; width: 130px; height: 30px;}
+#order a.in3:hover{ background: url("../images/com_info_blue20110621.png") -400px 0;_ background: url("../images/com_info_blue20110621.gif") -400px 0;}
+#order a.in4{ background: url("../images/com_info20110621.png") no-repeat -590px 0;_background: url("../images/com_info20110621.gif") no-repeat -590px 0; width: 120px; height: 30px;}
+#order a.in4:hover{ background: url("../images/com_info_blue20110621.png") -590px 0;_ background: url("../images/com_info_blue20110621.gif") -590px 0;}
+#order a.in5{ background: url("../images/com_info20110621.png") no-repeat -770px 0; width: 110px; height: 30px; _background: url("../images/com_info20110621.gif") no-repeat -770px 0;}
+#order a.in5:hover{ background: url("../images/com_info_blue20110621.png") no-repeat -770px 0;_background: url("../images/com_info_blue20110621.gif") no-repeat -770px 0;}
+
+/* 关于我们  aboutus*/
+#aboutus{height: 36px; background: #FFF8E6; border-bottom: 1px solid #EFEFEF;border-top: 1px solid #EFEFEF; margin-top: 20px; min-width: 1040px;}
+#aboutus .srow{_width:1040px}
+#aboutus ul{ width: 630px; overflow: hidden; margin: 12px auto 0;}
+#aboutus li{ float: left; border-left:1px solid #0a4a76; margin: 0 -1px; height: 14px; line-height: 14px; }
+#aboutus a{ color: #0a4a76; padding: 0 26px; font-size: 12px;}
+
+/* footer*/
+#footer{ margin-top: 30px; padding-bottom: 20px;}
+#footer p{ font-size: 12px; text-align: center; margin-bottom: 10px;font-size: 12px; color: #222}

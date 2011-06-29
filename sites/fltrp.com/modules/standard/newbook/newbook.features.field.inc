@@ -78,7 +78,7 @@ function newbook_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '9',
+        'weight' => '8',
       ),
       'widget_type' => 'text_textarea_with_summary',
     ),
@@ -134,7 +134,7 @@ function newbook_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_accessories',
-      'label' => '英文配套',
+      'label' => '英文配套(不要使用，内部数据) ',
       'required' => 0,
       'settings' => array(
         'text_processing' => '0',
@@ -147,7 +147,77 @@ function newbook_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '39',
+        'weight' => '32',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-book-field_ages'
+  $fields['node-book-field_ages'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_ages',
+      'foreign keys' => array(
+        'tid' => array(
+          'columns' => array(
+            'tid' => 'tid',
+          ),
+          'table' => 'taxonomy_term_data',
+        ),
+      ),
+      'indexes' => array(
+        'tid' => array(
+          0 => 'tid',
+        ),
+      ),
+      'module' => 'taxonomy',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'parent' => '0',
+            'vocabulary' => 'ages',
+          ),
+        ),
+      ),
+      'translatable' => '1',
+      'type' => 'taxonomy_term_reference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'book',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'taxonomy',
+          'settings' => array(),
+          'type' => 'taxonomy_term_reference_link',
+          'weight' => 44,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_ages',
+      'label' => '英文读者对象（英文网）',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '41',
       ),
     ),
   );
@@ -215,7 +285,7 @@ function newbook_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '3',
+        'weight' => '2',
       ),
     ),
   );
@@ -281,7 +351,7 @@ function newbook_field_default_fields() {
           'rows' => '10',
         ),
         'type' => 'text_textarea',
-        'weight' => '21',
+        'weight' => '18',
       ),
     ),
   );
@@ -337,7 +407,7 @@ function newbook_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_authorization',
-      'label' => '允许海外授权',
+      'label' => '允许海外授权（英文网）',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -349,7 +419,7 @@ function newbook_field_default_fields() {
           'display_label' => 1,
         ),
         'type' => 'options_onoff',
-        'weight' => '37',
+        'weight' => '36',
       ),
     ),
   );
@@ -402,7 +472,7 @@ function newbook_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_authorization_details',
-      'label' => '英文授权信息',
+      'label' => '英文授权信息（英文网）',
       'required' => 0,
       'settings' => array(
         'text_processing' => '1',
@@ -415,7 +485,7 @@ function newbook_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '36',
+        'weight' => '39',
       ),
     ),
   );
@@ -475,7 +545,7 @@ function newbook_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_bianshi',
-      'label' => '编室',
+      'label' => '编室（不要使用，内部数据）',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -486,74 +556,6 @@ function newbook_field_default_fields() {
         'settings' => array(),
         'type' => 'options_select',
         'weight' => '26',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-book-field_bookbinding'
-  $fields['node-book-field_bookbinding'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_bookbinding',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'module' => 'text',
-      'settings' => array(
-        'max_length' => '255',
-      ),
-      'translatable' => '1',
-      'type' => 'text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'book',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 14,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_bookbinding',
-      'label' => '装帧',
-      'required' => 0,
-      'settings' => array(
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
-        'weight' => '23',
       ),
     ),
   );
@@ -614,7 +616,77 @@ function newbook_field_default_fields() {
         'module' => 'number',
         'settings' => array(),
         'type' => 'number',
-        'weight' => '16',
+        'weight' => '15',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-book-field_category'
+  $fields['node-book-field_category'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_category',
+      'foreign keys' => array(
+        'tid' => array(
+          'columns' => array(
+            'tid' => 'tid',
+          ),
+          'table' => 'taxonomy_term_data',
+        ),
+      ),
+      'indexes' => array(
+        'tid' => array(
+          0 => 'tid',
+        ),
+      ),
+      'module' => 'taxonomy',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'parent' => '0',
+            'vocabulary' => 'category',
+          ),
+        ),
+      ),
+      'translatable' => '1',
+      'type' => 'taxonomy_term_reference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'book',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'taxonomy',
+          'settings' => array(),
+          'type' => 'taxonomy_term_reference_link',
+          'weight' => 43,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_category',
+      'label' => '产品分类',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_buttons',
+        'weight' => '25',
       ),
     ),
   );
@@ -670,7 +742,7 @@ function newbook_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_category_recommended',
-      'label' => '分类推荐图书',
+      'label' => '分类推荐图书（不要使用，内部数据）',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -682,7 +754,77 @@ function newbook_field_default_fields() {
           'display_label' => 1,
         ),
         'type' => 'options_onoff',
-        'weight' => '38',
+        'weight' => '31',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-book-field_components'
+  $fields['node-book-field_components'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_components',
+      'foreign keys' => array(
+        'tid' => array(
+          'columns' => array(
+            'tid' => 'tid',
+          ),
+          'table' => 'taxonomy_term_data',
+        ),
+      ),
+      'indexes' => array(
+        'tid' => array(
+          0 => 'tid',
+        ),
+      ),
+      'module' => 'taxonomy',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'parent' => '0',
+            'vocabulary' => 'components',
+          ),
+        ),
+      ),
+      'translatable' => '1',
+      'type' => 'taxonomy_term_reference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'book',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'taxonomy',
+          'settings' => array(),
+          'type' => 'taxonomy_term_reference_link',
+          'weight' => 46,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_components',
+      'label' => '英文配套产品（英文网）',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_buttons',
+        'weight' => '42',
       ),
     ),
   );
@@ -752,7 +894,7 @@ function newbook_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '15',
+        'weight' => '14',
       ),
     ),
   );
@@ -818,7 +960,7 @@ function newbook_field_default_fields() {
           'rows' => '20',
         ),
         'type' => 'text_textarea',
-        'weight' => '20',
+        'weight' => '17',
       ),
     ),
   );
@@ -873,7 +1015,7 @@ function newbook_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_ebname',
-      'label' => '英文书名',
+      'label' => '英文书名（英文网）',
       'required' => 0,
       'settings' => array(
         'text_processing' => '0',
@@ -886,75 +1028,7 @@ function newbook_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '0',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-book-field_edition'
-  $fields['node-book-field_edition'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_edition',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'module' => 'text',
-      'settings' => array(
-        'max_length' => '255',
-      ),
-      'translatable' => '1',
-      'type' => 'text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'book',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 13,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_edition',
-      'label' => '版次',
-      'required' => 0,
-      'settings' => array(
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
-        'weight' => '17',
+        'weight' => '40',
       ),
     ),
   );
@@ -1024,7 +1098,7 @@ function newbook_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => '13',
+        'weight' => '12',
       ),
     ),
   );
@@ -1092,7 +1166,209 @@ function newbook_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '28',
+        'weight' => '21',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-book-field_english_author'
+  $fields['node-book-field_english_author'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_english_author',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+      ),
+      'translatable' => '1',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'book',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 54,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_english_author',
+      'label' => '英文作者名称（英文网）',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '46',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-book-field_english_author_info'
+  $fields['node-book-field_english_author_info'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_english_author_info',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(),
+      'translatable' => '1',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'book',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 53,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_english_author_info',
+      'label' => '英文作者简介（英文网）',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '45',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-book-field_english_dimensions'
+  $fields['node-book-field_english_dimensions'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_english_dimensions',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+      ),
+      'translatable' => '1',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'book',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 52,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_english_dimensions',
+      'label' => '尺寸（英文网）',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '44',
       ),
     ),
   );
@@ -1145,7 +1421,7 @@ function newbook_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_features',
-      'label' => '英文图书介绍',
+      'label' => '英文图书介绍（英文网）',
       'required' => 0,
       'settings' => array(
         'text_processing' => '1',
@@ -1158,7 +1434,7 @@ function newbook_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '34',
+        'weight' => '38',
       ),
     ),
   );
@@ -1228,7 +1504,7 @@ function newbook_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '5',
+        'weight' => '4',
       ),
     ),
   );
@@ -1306,75 +1582,7 @@ function newbook_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '10',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-book-field_img1'
-  $fields['node-book-field_img1'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_img1',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'module' => 'text',
-      'settings' => array(
-        'max_length' => '255',
-      ),
-      'translatable' => '1',
-      'type' => 'text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'book',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 17,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_img1',
-      'label' => '图片1',
-      'required' => 0,
-      'settings' => array(
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
-        'weight' => '25',
+        'weight' => '9',
       ),
     ),
   );
@@ -1429,7 +1637,7 @@ function newbook_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_inputdate',
-      'label' => '录入日期',
+      'label' => '录入日期（不要使用，内部数据）',
       'required' => 0,
       'settings' => array(
         'text_processing' => '0',
@@ -1498,7 +1706,7 @@ function newbook_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_is_important',
-      'label' => '重点图书',
+      'label' => '重点图书（不要使用，内部数据）',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -1510,7 +1718,7 @@ function newbook_field_default_fields() {
           'display_label' => 1,
         ),
         'type' => 'options_onoff',
-        'weight' => '40',
+        'weight' => '33',
       ),
     ),
   );
@@ -1566,7 +1774,7 @@ function newbook_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_is_recommended',
-      'label' => '重点推荐',
+      'label' => '重点推荐（不要使用，内部数据）',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -1578,7 +1786,7 @@ function newbook_field_default_fields() {
           'display_label' => 1,
         ),
         'type' => 'options_onoff',
-        'weight' => '41',
+        'weight' => '34',
       ),
     ),
   );
@@ -1646,7 +1854,7 @@ function newbook_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '1',
+        'weight' => '0',
       ),
     ),
   );
@@ -1716,7 +1924,7 @@ function newbook_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '12',
+        'weight' => '11',
       ),
     ),
   );
@@ -1784,7 +1992,77 @@ function newbook_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '2',
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-book-field_medium'
+  $fields['node-book-field_medium'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_medium',
+      'foreign keys' => array(
+        'tid' => array(
+          'columns' => array(
+            'tid' => 'tid',
+          ),
+          'table' => 'taxonomy_term_data',
+        ),
+      ),
+      'indexes' => array(
+        'tid' => array(
+          0 => 'tid',
+        ),
+      ),
+      'module' => 'taxonomy',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'parent' => '0',
+            'vocabulary' => 'medium',
+          ),
+        ),
+      ),
+      'translatable' => '1',
+      'type' => 'taxonomy_term_reference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'book',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'taxonomy',
+          'settings' => array(),
+          'type' => 'taxonomy_term_reference_link',
+          'weight' => 47,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_medium',
+      'label' => '英文制品类型（英文网）',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '43',
       ),
     ),
   );
@@ -1845,7 +2123,7 @@ function newbook_field_default_fields() {
         'module' => 'number',
         'settings' => array(),
         'type' => 'number',
-        'weight' => '7',
+        'weight' => '6',
       ),
     ),
   );
@@ -1911,7 +2189,7 @@ function newbook_field_default_fields() {
           'rows' => '10',
         ),
         'type' => 'text_textarea',
-        'weight' => '30',
+        'weight' => '22',
       ),
     ),
   );
@@ -1974,7 +2252,7 @@ function newbook_field_default_fields() {
         'module' => 'number',
         'settings' => array(),
         'type' => 'number',
-        'weight' => '4',
+        'weight' => '3',
       ),
     ),
   );
@@ -2044,7 +2322,7 @@ function newbook_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => '11',
+        'weight' => '10',
       ),
     ),
   );
@@ -2112,7 +2390,7 @@ function newbook_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '8',
+        'weight' => '7',
       ),
     ),
   );
@@ -2172,7 +2450,7 @@ function newbook_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_readers',
-      'label' => '读者对象',
+      'label' => '读者对象(不要使用，内部数据) ',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -2182,7 +2460,7 @@ function newbook_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '32',
+        'weight' => '29',
       ),
     ),
   );
@@ -2235,7 +2513,7 @@ function newbook_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_relative_info',
-      'label' => '英文相关信息',
+      'label' => '英文相关信息（英文网）',
       'required' => 0,
       'settings' => array(
         'text_processing' => '1',
@@ -2248,7 +2526,7 @@ function newbook_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '35',
+        'weight' => '37',
       ),
     ),
   );
@@ -2304,7 +2582,7 @@ function newbook_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_saleoversea',
-      'label' => '允许海外销售',
+      'label' => '允许海外销售（英文网）',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -2316,7 +2594,7 @@ function newbook_field_default_fields() {
           'display_label' => 1,
         ),
         'type' => 'options_onoff',
-        'weight' => '42',
+        'weight' => '35',
       ),
     ),
   );
@@ -2382,7 +2660,7 @@ function newbook_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '24',
+        'weight' => '20',
       ),
     ),
   );
@@ -2455,7 +2733,7 @@ function newbook_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '14',
+        'weight' => '13',
       ),
     ),
   );
@@ -2510,7 +2788,7 @@ function newbook_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_series_name',
-      'label' => '系列图书',
+      'label' => '系列图书（不要使用，内部数据）',
       'required' => 0,
       'settings' => array(
         'text_processing' => '0',
@@ -2523,7 +2801,7 @@ function newbook_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '18',
+        'weight' => '30',
       ),
     ),
   );
@@ -2589,7 +2867,7 @@ function newbook_field_default_fields() {
           'rows' => '10',
         ),
         'type' => 'text_textarea',
-        'weight' => '31',
+        'weight' => '23',
       ),
     ),
   );
@@ -2649,7 +2927,7 @@ function newbook_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_type',
-      'label' => '制品类型',
+      'label' => '制品类型(不要使用，内部数据)',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -2659,7 +2937,68 @@ function newbook_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '29',
+        'weight' => '28',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-book-field_weight'
+  $fields['node-book-field_weight'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_weight',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'number',
+      'settings' => array(),
+      'translatable' => '1',
+      'type' => 'number_integer',
+    ),
+    'field_instance' => array(
+      'bundle' => 'book',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => TRUE,
+            'scale' => 0,
+            'thousand_separator' => ' ',
+          ),
+          'type' => 'number_integer',
+          'weight' => 55,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_weight',
+      'label' => '重量（英文网）',
+      'required' => 0,
+      'settings' => array(
+        'max' => '',
+        'min' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'number',
+        'settings' => array(),
+        'type' => 'number',
+        'weight' => '47',
       ),
     ),
   );
@@ -2720,7 +3059,7 @@ function newbook_field_default_fields() {
         'module' => 'number',
         'settings' => array(),
         'type' => 'number',
-        'weight' => '22',
+        'weight' => '19',
       ),
     ),
   );
@@ -2788,7 +3127,7 @@ function newbook_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '6',
+        'weight' => '5',
       ),
     ),
   );
@@ -2858,7 +3197,255 @@ function newbook_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '33',
+        'weight' => '24',
+      ),
+    ),
+  );
+
+  // Exported field: 'taxonomy_term-ages-field_chinese'
+  $fields['taxonomy_term-ages-field_chinese'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_chinese',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+      ),
+      'translatable' => '1',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ages',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'taxonomy_term',
+      'field_name' => 'field_chinese',
+      'label' => '中文',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported field: 'taxonomy_term-components-field_chinese'
+  $fields['taxonomy_term-components-field_chinese'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_chinese',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+      ),
+      'translatable' => '1',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'components',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'taxonomy_term',
+      'field_name' => 'field_chinese',
+      'label' => '中文',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '2',
+      ),
+    ),
+  );
+
+  // Exported field: 'taxonomy_term-language-field_language_en'
+  $fields['taxonomy_term-language-field_language_en'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_language_en',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+      ),
+      'translatable' => '1',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'language',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'taxonomy_term',
+      'field_name' => 'field_language_en',
+      'label' => '语种英文',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported field: 'taxonomy_term-medium-field_chinese'
+  $fields['taxonomy_term-medium-field_chinese'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_chinese',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+      ),
+      'translatable' => '1',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'medium',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'taxonomy_term',
+      'field_name' => 'field_chinese',
+      'label' => '中文',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '2',
       ),
     ),
   );
@@ -2929,46 +3516,53 @@ function newbook_field_default_fields() {
   // Included for use with string extractors like potx.
   t('ISBN');
   t('bsno');
+  t('中文');
   t('书评');
+  t('产品分类');
   t('作者');
   t('作者介绍');
-  t('允许海外授权');
-  t('允许海外销售');
+  t('允许海外授权（英文网）');
+  t('允许海外销售（英文网）');
   t('内容简介');
   t('出版日期');
-  t('分类推荐图书');
-  t('制品类型');
+  t('分类推荐图书（不要使用，内部数据）');
+  t('制品类型(不要使用，内部数据)');
   t('制品类型(新增加的)');
   t('前言/序');
   t('印次');
   t('原始ID');
   t('图片');
-  t('图片1');
   t('字数');
   t('定价');
+  t('尺寸（英文网）');
   t('开本');
-  t('录入日期');
+  t('录入日期（不要使用，内部数据）');
   t('所属分社(新增加的)');
   t('教育阶段(新增加的)');
-  t('版次');
   t('物料号');
   t('目录');
   t('精彩样张');
-  t('系列图书');
   t('系列图书(新增加的)');
-  t('编室');
-  t('英文书名');
-  t('英文图书介绍');
+  t('系列图书（不要使用，内部数据）');
+  t('编室（不要使用，内部数据）');
+  t('英文书名（英文网）');
+  t('英文作者名称（英文网）');
+  t('英文作者简介（英文网）');
+  t('英文制品类型（英文网）');
+  t('英文图书介绍（英文网）');
   t('英文开本');
-  t('英文授权信息');
-  t('英文相关信息');
-  t('英文配套');
-  t('装帧');
+  t('英文授权信息（英文网）');
+  t('英文相关信息（英文网）');
+  t('英文读者对象（英文网）');
+  t('英文配套(不要使用，内部数据) ');
+  t('英文配套产品（英文网）');
   t('装订方式');
   t('语种');
-  t('读者对象');
-  t('重点图书');
-  t('重点推荐');
+  t('语种英文');
+  t('读者对象(不要使用，内部数据) ');
+  t('重点图书（不要使用，内部数据）');
+  t('重点推荐（不要使用，内部数据）');
+  t('重量（英文网）');
   t('页数');
 
   return $fields;

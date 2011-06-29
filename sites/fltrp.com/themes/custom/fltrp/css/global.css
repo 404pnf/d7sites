@@ -1,87 +1,154 @@
-#container {
-	width:545px;
-	padding:10px 0;
-	margin:0 auto;
-	position:relative;
-	z-index:0;
-}
+@charset "utf-8";
+/* Creat by zhao 2011.06.02 for XX.com*/
+/**** 最后一次修改的同学在此写上修改时间和原因 ****/
+/* 其中参考了Tyler Tate的1kbcss框架 */
+/* 全局样式，谨慎操作！ */
+/* RESET CSS 统一浏览器 */
+html{color:#000;background:#FFF; font-size: 14px;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;vertical-align:baseline; font-family:"\5B8B\4F53"}
+table{border-collapse:collapse;border-spacing:0;}
+fieldset,a img{border:0;}
+address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
+caption,th{text-align:left;}
+q:before,q:after{content:'';}
+abbr,acronym{border:0;font-variant:normal;}
+sup{vertical-align:text-top;}
+sub{vertical-align:text-bottom;}
+input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;*font-size:100%;}
+h1,h2,h3,h4,h5,h6{padding:0}
+h1{font-size:18px;margin:0 0 .75em}
+h2{font-size:16px;margin:0 0 1em}
+h3{font-size:14px;margin:0 0 1.286em}
+h4{font-size:12px;margin:0 0 1.5em}
+h5{font-size:10px;margin:0 0 1.8em}
+h6{font-size:0px;margin:0 0 2.25em}
+img{display:inline-block;vertical-align:text-bottom}
+p{font-weight:300;margin:0 0 1.5em}
+ul{list-style:none}
 
-#example {
-	width:565px;
-	height:300px;
-	position:relative;
-}
-
-#ribbon {
-	position:absolute;
-	top:-3px;
-	left:-15px;
-	z-index:500;
-}
-
-#frame {
-	position:absolute;
-	z-index:0;
-	/*
-	width:739px;
-	height:341px;
-	left:-80px;
-	*/
-	top:-3px;
-	left:-32px;
-}
-
-#slides {
-	position:absolute;
-	top:15px;
-	left:32px;#left:0px;_left:0px;
-	z-index:100;
-}
-.slides_container {
-	width:502px;
-	height:238px;
-	overflow:hidden;
-	position:relative;
-}
-#slides .next,#slides .prev {
-	position:absolute;
-	top:107px;
-	left:-32px;#left:0px;_left:0px;
-	width:24px;
-	height:43px;
-	display:block;
-	z-index:101;
-}
-#slides .next {
-	left:512px;#left:544px;_left:544px;
-}
+/* 预定义样式 */
+.button{cursor:pointer;display:block;font-size:1em;height:2em;line-height:1.5em;margin:1.75em 0 0;padding:0 .5em;}
+input[type=file]{height:2.25em;padding:0}
+input{background:#FFFFFF;border-color: #999999 #DDDDDD #DDDDDD #999999;border-left: 1px solid #999999;border-style: solid;border-width: 1px;color: #CFCFCF;font-size: 14px;padding: 8px 8px 8px 30px;width: 86%;}
+a{text-decoration:none;}                             
+a:hover{text-decoration:underline;}
+textarea{}
+select{}
+option{}
+                                      
+/* 布局 */
+.wrapper{width:100%;zoom:1}
+.container{width:auto;}
+.srow{width:960px;margin:0 auto;overflow: hidden;}  /*一列小布局模块 */
+.lrow{width:100%; margin-bottom:10px;}              /*一列大布局模块 */
+.row{width:auto;overflow:auto; margin: }                      /*自适应行*/
+.column{margin: 0 10px;overflow: hidden;float: left;display:inline;}                         /*重复行列模块 */
+.column2{margin: 0 2%;overflow: hidden;float:left;display:inline; width:46%}                 /*2列元素*/
+.column3{margin: 0 2%;overflow: hidden;float:left;display:inline; width:29%}                 /*3列元素*/
+.column4{margin: 0 2%;overflow: hidden;float:left;display:inline; width:21%}                 /*4列元素*/
+.sidebar{width:360px; float:left}                        /*俩列布局的侧边 */
+.main{width:580px; float:right}                          /*俩列布局的主块 */
+.mainleft{width:225px; float:left}                       /*三列布局的左侧边 */
+.mainright{width:350px;float:right}                      /*三列布局的右侧边 */
+.maincenter{width:345px;float:left; margin:0 20px;}      /*三列布局中间内容 */
+.fclear:after{visibility: hidden;display: block;font-size: 0;content: " ";clear: both;height: 0;}    /*清除浮动 */
+.fclear{*zoom:1;}										 /*清除浮动 */
+.fleft{float:left}                                       /*左浮动 */
+.fright{float:right}                                     /*右浮动 */
+.fcenter{ margin:0 auto; text-align:center;} 	 	 	 /*元素居中*/
+.eborder{border:1px solid #ddd}                          /*1px的实边*/
+.first{margin-left:0;padding-left:0}                     /*第一个元素左边距0*/
+.last{margin-right:0;padding-right:0}                    /*最后一个元素右边距0*/ 
+.cborder{border:none!important;}                         /*去除元素边*/
+.ehide{display:none;}                                    /*隐藏元素*/ 
+.eshow{display: block;}                                  /*显示元素*/ 
 
 
+/* 隐藏方法，支持IE6透明
+img{behavior: url(js/iepngfix.htc);}*/
+/* 兼容HTML5  */
+article,aside,dialog,figure,footer,header,hgroup,menu,nav,section,time,mark,audio,video{display:block}
+/* 支持透明  */
+.transparent{filter:alpha(opacity=60); -moz-opacity:0.6;-khtml-opacity: 0.6; opacity: 0.6; } 
+/* 404 页面样式 */
+#error{}
+/* 弹出窗口 */
+.popup{} 
+/* 提示窗口 */                                                
+.tips{}
+/* 回到顶部*/
+.totop{}
+/* 出错信息 */                                               
+.err_msg{color:#aa0000; font-weight: 700;}
+/* 广告*/
+.ad{}
 
+/* FLTRP HEADER 通用样式 */
+#header{background: url("../images/banner_bg20110622.jpg") repeat-x; margin: 0}
+#banner{background: url("../images/banner.jpg") no-repeat; height: 111px;}
+#logo{display:block; margin:30px 0;}
+#logo img{_behavior: url(js/iepngfix.htc);}
 
-.pagination {
-	display:none;
-	margin:26px auto 0;
-	width:100px;
-	/*margin:0px auto;*/
-}
+/* 导航nav*/
+#nav{background:#8C0001;height: 38px;line-height:38px;min-width: 960px;}
+#nav ul{list-style: none;}
+#nav ul li{ float: left; margin-right:9px;display:inline;}
+#nav ul li a{font-weight:700;color: #FFFFFF;padding: 0 20px; display: block;font-size:14px;}
+#nav ul li a:hover{ background:url("../images/nav_hoverbg20110622.jpg") 0 2px repeat-x;text-decoration:none;}
+.active{background:url("../images/nav_hoverbg20110622.jpg") 0 2px repeat-x;}
 
-.pagination li {
-	float:left;
-	margin:0 1px;
-}
+/* 面包屑 breadcrumb*/
+#breadcrumb a{ color:#404040; font-size: 12px;}
 
-.pagination li a {
-	display:block;
-	width:12px;
-	height:0;
-	padding-top:12px;
-	background-image:url(../img/pagination.png);
-	background-position:0 0;
-	float:left;
-	overflow:hidden;
-}
+/*搜索框  search*/
+.search{ height: 25px; background: #B21319; padding: 1px 0 1px 1px;}
+.search input{ height: 25px; padding: 0; float: left;border: none; line-height: 25px;}
+.search .sinput{ width:180px; background: #FFF}
+.search .sgo{ width:44px;background: none; color: #FFF;cursor: pointer;  }
 
-.pagination li.current a {
-	background-position:0 -12px;
-}
+/*产品分类 sidebar*/
+#sidebar{width:210px;}
+#sidebar h1,#emain h1{font-size:16px; font-weight: 700;  padding: 6px; margin-bottom:4px }
+#sidebar h2{ height:16px; font-size:14px; font-weight: 700; color:#404040;padding:8px; margin: 2px;background:url("../images/prodtitle_bg20110622.jpg");text-align: center}
+#sidebar .assort{list-style:none; width: 90%; }
+#sidebar .row{margin-bottom:6px;}
+#sidebar .assort li{line-height: 34px; text-align: left; text-indent: .4em;background:url("../images/prodtitle_bg20110622.jpg") no-repeat scroll 0 bottom transparent;}
+#sidebar .assort li a{font-size:13px;font-weight:700; color: #333}
+#sidebar .assort li.cbg{ background:url("../images/prodtitle_bgno20110622.jpg") no-repeat 0 -38px transparent;}
+#sidebar .eborder{ padding-bottom: 10px;}
+#sidebar li.current{ background: none;}
+#sidebar li.current a{ background:#8C0001; display: block; color: #FFF;}
+#sidebar li.current .sfrow ul{ margin-right: 3px;width:96%; border-bottom-style: solid; border-bottom-color: #eee;}
+#sidebar li.current .sfrow a{ background: none; display: inline; color: #404040; padding: 3px; font-size: 12px; margin: 0; font-weight: 400;}
+#sidebar li.current .sfrow a:hover{ background: #8C0001; color: #fff;}
+#sidebar li.current .sfrow li{height:auto; line-height: 12px; background: none; border: none; border-left: 1px solid #404040; padding: 0 4px;text-indent:0;}
+
+/* FOOTER */
+#footer{margin-top: 30px;}
+#footer .srow{border-top:4px solid #7e7e7e; padding:20px 0 40px 0}
+#footer ul{list-style: none;overflow: hidden; width:480px; height: 14px; margin-bottom: 20px}
+#footer ul li{float: left; padding: 0 10px; border-left: 1px solid #333;line-height: 14px;margin-left: -1px;}
+#footer ul li a{font-size:13px;color: #333}
+#footer p{ font-size: 12px;color: #666; margin: 10px 0 0 0;}
+
+/* 分页  page*/
+#page ul{list-style:none; float: right}
+#page ul li{float:left; margin-right: 10px;}
+#page ul li a{display: block;padding:5px 8px;border:1px solid #ddd; font-weight:700; color: #404040;}
+#page ul li a.active{ color: #8C0001; background: none; border: none}
+
+/* 元素自定义宽度*/
+.grid1 { width:60px; }
+.grid2 { width:140px; }
+.grid3 { width:220px; }
+.grid4 { width:300px; }
+.grid5 { width:380px; }
+.grid6 { width:460px; }
+.grid7 { width:540px; }
+.grid8 { width:620px; }
+.grid9 { width:700px; }
+.grid10 { width:780px; }
+.grid11 { width:860px; }
+.grid12 { width:940px; }
+/* 打印样式 */
+@media print{.bgnoprint{background:display:none;}.noprint,.ad{display:none}}

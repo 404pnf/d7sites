@@ -1,50 +1,44 @@
-; $Id: bartik.info,v 1.5 2010/11/07 00:27:20 dries Exp $
-
 name = fltrp
-description = A flexible, recolorable theme with many regions.
-package = Core
-version = VERSION
-core = 7.x
+description = fltrp theme base basic
+screenshot = images/screenshot.gif
+core = "7.x"
+project = "basic"
+engine = phptemplate
 
-stylesheets[all][] = css/layout.css
-stylesheets[all][] = css/fltrp.css
-stylesheets[all][] = css/style.css
-;stylesheets[all][] = css/colors.css
+regions[page_top] = Page top
+regions[header] = Header
+regions[nav] = Navigation
+regions[breadcrumb] = breadcrumb
+regions[content_top] = Content Top
+regions[content] = Content
+regions[sidebar_first] = First sidebar
+regions[sidebar_second] = Second sidebar
+regions[footer] = Footer
+regions[page_bottom] = Page bottom
+regions[z;haoweixuan] = haoweixuan
+
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = node_user_picture
+features[] = comment_user_picture
+features[] = search
+features[] = favicon
+features[] = main_menu
+features[] = secondary_menu
+
+
+stylesheets[all][] = css/global.css
 stylesheets[print][] = css/print.css
 
 
-regions[header] = Header
-regions[help] = Help
-regions[page_top] = Page top
-regions[page_bottom] = Page bottom
-regions[highlighted] = Highlighted
+settings[basic_tabs] = 1
+settings[basic_breadcrumb_separator] = »
+settings[wireframe_mode] = 0
+settings[clear_registry] = 0
+; Information added by drupal.org packaging script on 2011-02-16
+version = "7.x-2.0-rc3"
+core = "7.x"
+project = "basic"
+datestamp = "1297878443"
 
-regions[featured] = Featured
-regions[content] = Content
-regions[sidebar_first] = Sidebar first
-regions[sidebar_second] = Sidebar second
-
-regions[triptych_first] = Triptych first
-regions[triptych_middle] = Triptych middle
-regions[triptych_last] = Triptych last
-
-regions[footer_firstcolumn] = Footer first column
-regions[footer_secondcolumn] = Footer second column
-regions[footer_thirdcolumn] = Footer third column
-regions[footer_fourthcolumn] = Footer fourth column
-regions[footer] = Footer
-
-settings[shortcut_module_link] = 0
-
-
-; Information added by drupal.org packaging script on 2011-01-05
-version = "7.0"
-project = "drupal"
-datestamp = "1294208756"
-
-
-; Panels layouts. You can place multiple layouts under the "layouts" folder.
- plugins[panels][layouts] = layouts
-
-; Optionally add some jquery scripts to your theme.
-scripts[] = css/js/slides.min.jquery.js
