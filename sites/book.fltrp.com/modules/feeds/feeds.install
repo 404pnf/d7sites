@@ -1,5 +1,4 @@
 <?php
-// $Id: feeds.install,v 1.16.2.6 2011/01/11 16:07:36 alexb Exp $
 
 /**
  * @file
@@ -74,7 +73,6 @@ function feeds_schema() {
         'type' => 'text',
         'size' => 'big',
         'not null' => FALSE,
-        'description' => 'Cache for batching.',
         'description' => 'State of import or clearing batches.',
         'serialize' => TRUE,
       ),

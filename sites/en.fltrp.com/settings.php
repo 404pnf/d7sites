@@ -246,7 +246,7 @@ $drupal_hash_salt = 'EUSshaXLLFpoL5248X9rX7NOYuUEYd4NeEGy4UUJKE4';
  * It is not allowed to have a trailing slash; Drupal will add it
  * for you.
  */
-# $base_url = 'http://www.example.com';  // NO trailing slash!
+ $base_url = 'http://en.fltrp.com';  // NO trailing slash!
 
 /**
  * PHP settings:
@@ -302,7 +302,7 @@ ini_set('session.cookie_lifetime', 2000000);
  * shared base domain. Doing so assures that users remain logged in as they
  * cross between your various domains.
  */
-# $cookie_domain = 'example.com';
+$cookie_domain = '.fltrp.com';
 
 /**
  * Variable overrides:

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the digital_product feature.
+ */
+
+include_once('digital_product.features.inc');
