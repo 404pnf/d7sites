@@ -4,6 +4,8 @@
 /* 其中参考了Tyler Tate的1kbcss框架 */
 /* 全局样式，谨慎操作！ */
 /* RESET CSS 统一浏览器 */
+#page{ margin:0 auto;width:100%;}
+
 html{color:#000;background:#FFF; font-size: 14px;}
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;vertical-align:baseline; font-family:"\5B8B\4F53"}
 table{border-collapse:collapse;border-spacing:0;}
@@ -86,7 +88,7 @@ article,aside,dialog,figure,footer,header,hgroup,menu,nav,section,time,mark,audi
 /* 导航nav*/
 #nav{background:#8C0001;height: 38px;line-height:38px;min-width: 960px;}
 #nav ul{list-style: none;}
-#nav ul li{ float: left; margin-right:9px;display:inline;}
+#nav ul li{ float: left; margin-right:9px;display:inline;padding-top:0;}
 #nav ul li a{font-weight:700;color: #FFFFFF;padding: 0 20px; display: block;font-size:14px;}
 #nav ul li a:hover{ background:url("../images/nav_hoverbg20110622.jpg") 0 2px repeat-x;text-decoration:none;}
 .active{background:url("../images/nav_hoverbg20110622.jpg") 0 2px repeat-x;}

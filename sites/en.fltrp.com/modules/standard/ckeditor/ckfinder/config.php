@@ -68,7 +68,10 @@ Examples:
 
 ATTENTION: The trailing slash is required.
 */
-$baseUrl = '/ckfinder/userfiles/';
+/*$baseUrl = '/ckfinder/userfiles/';*/
+
+$baseUrl = 'http://en.fltrp.com/files/'
+
 
 /*
 $baseDir : the path to the local directory (in the server) which points to the

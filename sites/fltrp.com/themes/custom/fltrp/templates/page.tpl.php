@@ -46,7 +46,7 @@
 
   <!-- ______________________ MAIN _______________________ -->
 
-  <div id="main">
+  <div id="main"  class="srow">
 	
 	<!------content  top----->
 	<?php if ($page['content_top']): ?>
@@ -60,7 +60,7 @@
 
 
     <div id="content">
-      <div id="content-inner" class="inner column center">
+      <div id="content-inner" class="inner column ">
 
         <?php if ($breadcrumb || $title|| $messages || $tabs || $action_links): ?>
           <div id="content-header">    
@@ -108,7 +108,7 @@ commented by zhanglin-->
     <?php if ($page['sidebar_first']): ?>
       <div id="sidebar-first" class="column sidebar first">
         <div id="sidebar-first-inner" class="inner">
-          <?php print render($page['sidebar_first']); ?>
+	          <?php print render($page['sidebar_first']); ?>
         </div>
       </div>
     <?php endif; ?> <!-- /sidebar-first -->

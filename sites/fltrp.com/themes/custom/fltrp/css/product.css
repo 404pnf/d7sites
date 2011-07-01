@@ -1,12 +1,11 @@
 /*产品中心细化样式*/
-#emain{width:740px; overflow: hidden}
+#content-area{ margin-left:220px;}
 #booklist ul li{background:#F4F4F4; margin: 0 4px 15px 4px; padding: 9px;border:1px solid #ddd; overflow: hidden; height: 174px}
 #booklist ul li img{ margin: 5px 10px 5px 0}
 #booklist ul li h2{ font-size:14px;margin: 17px 0 23px 0;color: #404040;line-height:1.4em;;}
 #booklist ul li a:hover{text-decoration:none;}
 #booklist ul li a:hover h2{text-decoration:underline;}
 #booklist ul li p{font-size:12px; line-height: 1.5em; color: #666}
-#page ul{ padding-top: 6px;}
 #breadcrumb{ height: 40px;}
 
 /*产品中心动画样式*/
@@ -14,13 +13,13 @@
 
 /* 产品中心排行 ph*/
 #ph{ margin-top: 20px;}
-#sidebar #ph ol{ list-style:decimal; width: 70%}
-#sidebar #ph .assort li{background:none; border-bottom: 1px solid #EEE; line-height:20px; text-indent: 0; padding: 6px 0;}
-#sidebar #ph .f{ height: 90px; padding: 10px;}
-#sidebar #ph .f img{ float: left; margin: 6px 20px 6px 6px; }
-#sidebar #ph .f a{font-weight: 700; color: #040404; font-size: 12px;}
-#sidebar #ph .f p{font-weight: 700; color: #040404; font-size: 12px; margin-top: 30px;}
-#sidebar #ph .assort li a{ font-weight: 400; font-size: 12px}
+#sidebar-first #ph ol{ list-style:decimal; width: 70%}
+#sidebar-first #ph .assort li{background:none; border-bottom: 1px solid #EEE; line-height:20px; text-indent: 0; padding: 6px 0;}
+#sidebar-first #ph .f{ height: 90px; padding: 10px;}
+#sidebar-first #ph .f img{ float: left; margin: 6px 20px 6px 6px; }
+#sidebar-first #ph .f a{font-weight: 700; color: #040404; font-size: 12px;}
+#sidebar-first #ph .f p{font-weight: 700; color: #040404; font-size: 12px; margin-top: 30px;}
+#sidebar-first #ph .assort li a{ font-weight: 400; font-size: 12px}
 
 /* 产品二级列表 booklb*/
 #booklb_title{height:32px; border: 1px solid #DFDFDF; background: url("../images/booklb_title20110622.jpg"); margin-left: 10px;}
@@ -28,7 +27,7 @@
 #booklb_title li.strong{ font-weight: 700; font-size: 14px;overflow: hidden;padding: 8px 30px;}
 #booklb_title li.active{ background: #ba0006; color: #FFF; font-weight: 700;z-index:0;height:14px; }
 #booklb_title li.active span{ z-index:2;display: block;width:0;height:0;position: absolute; top:32px; border-left:8px solid #FFF;border-right:8px solid #FFF;border-top:8px solid #ba0006;border-bottom:8px solid #FFF;left:50%; margin-left:-10px }
-#booklb{margin-top: 2px;}
+#booklb{margin-top: 2px; margin-left: 10px;}
 #booklb li a{ color: #404040;}
 #booklb li{ padding: 20px 0; border-bottom: 1px dashed #ccc;width:726px; *width:720px;font-size: 12px;line-height:24px;} 
 #booklb li p{ color: #898989;}
@@ -45,7 +44,7 @@
 #teach h2{ background: url("../images/jf_titlebg20110623.jpg"); line-height: 34px; text-indent:1em; font-size: 14px;}
 .sfrow{overflow: auto; font-size: 12px;}
 .sfrow span{float:left; margin: 16px  0 6px 16px; font-weight: 700;}
-.sfrow ul{width:86%; overflow: hidden; border-bottom:1px dashed #999; margin-right: 26px; padding: 10px 0;_width:89%;_margin-right: 0px;}
+.sfrow ul{float:right;width:86%; overflow: hidden; border-bottom:1px dashed #999; margin-right: 26px; padding: 10px 0;_width:89%;_margin-right: 0px;}
 .sfrow ul li{float:left; padding: 0 8px; border-left: 1px solid #444; margin: 6px 0 6px -1px;white-space:nowrap;}
 .sfrow ul li a{ color: #404040; padding: 2px 6px;}
 .sfrow ul li a:hover{ background: #8B0101; color: #fff; padding: 2px 6px; text-decoration:none;}
@@ -53,7 +52,7 @@
 /*编辑推荐  recommendation*/
 #recommendation{overflow:hidden; width:728px;height:110px;margin-left: 10px; border: 1px solid #fee9b9; margin-bottom: 16px; background-image:url("../images/tuijian20110623.gif"); background-color:#FFFEF7; background-repeat: no-repeat; position: relative;}
 #recommendation .fleft{background:url("../images/lrb_03.jpg") 0 -22px; width:23px; height: 23px; position: absolute; top:44px;left:60px;}
-#recommendation .fright{background:url("../images/lrb_03.jpg"); width:23px; height: 23px; position: absolute;top:44px;left:690px; }
+#recommendation .fright{background:url("../images/lrb_03.jpg"); width:23px; height: 23px; position: absolute;top:44px;left:680px; }
 .srlist{ width: 760px;}
 .srlist ul{ overflow: auto;margin: 0 30px 0 80px;}
 .srlist ul li.column3{ float: left; margin: 0;width: 31%;} 
@@ -84,12 +83,29 @@ p.sel a.active{ background:#C5292D; color: #fff;}
 .imgborder{border:1px solid #ddd;text-align: center;}
 #bestgroup .fleft{background:url("../images/nlrb20110623.gif") no-repeat; width:24px; height: 48px; position: absolute; top:100px;left:30px;display: block}
 #bestgroup .fright{background:url("../images/nlrb20110623.gif") no-repeat -23px 0px; width:24px; height: 48px; position: absolute;top:100px;left:660px;display: block }
-#bestgroup h3.recommend{background:url("../images/recommend_icon20110624.gif") no-repeat 10px 4px; text-indent:3em;}
+#bestgroup h3.recommend{background:url("/fltrp/images/recommend_icon20110624.gif") no-repeat 10px 4px; text-indent:3em;}
 
 /* 产品页没有查询到相关产品 productnotfount*/
 #productnotfount{ margin: 10px; padding: 20px;}
 #productnotfount span,#productnotfount ul{font-size:12px; line-height: 26px;}
 #productnotfount li{ text-indent:2em;}
+
+/*产品分类 sidebar*/
+#sidebar-first{width:210px;}
+#sidebar-first h1,#main h1{font-size:16px; font-weight: 700;  padding: 6px; margin-bottom:4px }
+#sidebar-first h2{ height:16px; font-size:14px; font-weight: 700; color:#404040;padding:8px; margin: 2px;background:url("../images/prodtitle_bg20110622.jpg");text-align: center}
+#sidebar-first .assort{list-style:none; width: 90%; }
+#sidebar-first .row{margin-bottom:6px;}
+#sidebar-first .assort li{line-height: 34px; text-align: left; text-indent: .4em;background:url("../images/prodtitle_bg20110622.jpg") no-repeat scroll 0 bottom transparent;}
+#sidebar-first .assort li a{font-size:13px;font-weight:700; color: #333}
+#sidebar-first .assort li.cbg{ background:url("../images/prodtitle_bgno20110622.jpg") no-repeat 0 -38px transparent;}
+#sidebar-first .eborder{ padding-bottom: 10px;}
+#sidebar-first li.current{ background: none; }
+#sidebar-first li.current a{ background:#8C0001; display: block; color: #FFF;}
+#sidebar-first li.current .sfrow ul{ margin-right: 3px;width:96%; border-bottom-style: solid; border-bottom-color: #eee;*width:93%;}
+#sidebar-first li.current .sfrow a{ background: none; display: inline; color: #404040; padding: 3px; font-size: 12px; margin: 0; font-weight: 400;}
+#sidebar-first li.current .sfrow a:hover{ background: #8C0001; color: #fff;}
+#sidebar-first li.current .sfrow li{height:auto; line-height: 12px; background: none; border: none; border-left: 1px solid #404040; padding: 0 4px;text-indent:0;}
 
 
 
