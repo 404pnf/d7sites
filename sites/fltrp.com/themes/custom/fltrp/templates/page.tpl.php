@@ -2,8 +2,10 @@
 
   <!-- ______________________ HEADER _______________________ -->
 
-  <div id="header"  class="lrow">
+  <div id="header">
 
+
+   <!--  commented by zhanglin
     <?php if ($logo): ?>
       <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo">
         <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>"/>
@@ -31,6 +33,8 @@
 
       </div>
     <?php endif; ?>
+     commented by zhanglin-->
+
 
     <?php if ($page['header']): ?>
       <div id="header-region">
@@ -40,44 +44,27 @@
 
   </div> <!-- /header -->
 
- <!-- nav -->	
-	<?php if ($page['nav']): ?>
-      <?php if ($main_menu || $secondary_menu): ?>
-      <div id="nav"  class="lrow <?php if (!empty($main_menu)) {print "with-primary";} if (!empty($secondary_menu)) {print " with-secondary";} ?>">
-        <?php print theme('links', array('links' => $main_menu, 'attributes' => array('id' => 'primary', 'class' => array('links', 'clearfix', 'main-menu')))); ?>
-        <?php print theme('links', array('links' => $secondary_menu, 'attributes' => array('id' => 'secondary', 'class' => array('links', 'clearfix', 'sub-menu')))); ?>
-		<?php print render($page['nav']); ?>
-      </div>
-      <?php endif; ?>
+  <!-- ______________________ MAIN _______________________ -->
 
-   <?php endif; ?>
-<!-- /nav -->
-
-
-<!-- breadcrumb -->	
-	<?php if ($page['breadcrumb']): ?>
-      <div id="breadcrumb"  class="srow">
-        <?php print render($page['breadcrumb']); ?>
-      </div>
-    <?php endif; ?>
-<!-- /breadcrumb -->
-
-<!-- content_top -->	
+  <div id="main">
+	
+	<!------content  top----->
 	<?php if ($page['content_top']): ?>
-      <div id="content_top"  class="srow">
+      <div id="content-top">
+        <?php print $breadcrumb; ?>
         <?php print render($page['content_top']); ?>
       </div>
     <?php endif; ?>
-<!-- /content_top -->
+  <!------content  top----->
 
 
 
-  <!-- ______________________ MAIN _______________________ -->
-
-  <div id="main" class="clearfix">
-
-    <div id="content" class="srow">
+    <div id="content">
       <div id="content-inner" class="inner column center">
+
+        <?php if ($breadcrumb || $title|| $messages || $tabs || $action_links): ?>
+          <div id="content-header">    
+
             <?php if ($page['highlight']): ?>
               <div id="highlight"><?php print render($page['highlight']) ?></div>
             <?php endif; ?>
@@ -96,8 +83,11 @@
             <?php if ($action_links): ?>
               <ul class="action-links"><?php print render($action_links); ?></ul>
             <?php endif; ?>
+            
+          </div> <!-- /#content-header -->
+        <?php endif; ?>
 
-        <div id="content-area"   >
+        <div id="content-area">
           <?php print render($page['content']) ?>
         </div>
 
@@ -106,7 +96,14 @@
       </div>
     </div> <!-- /content-inner /content -->
 
-
+<!--- commented by zhanglin
+    <?php if ($main_menu || $secondary_menu): ?>
+      <div id="navigation" class="menu <?php if (!empty($main_menu)) {print "with-primary";} if (!empty($secondary_menu)) {print " with-secondary";} ?>">
+        <?php print theme('links', array('links' => $main_menu, 'attributes' => array('id' => 'primary', 'class' => array('links', 'clearfix', 'main-menu')))); ?>
+        <?php print theme('links', array('links' => $secondary_menu, 'attributes' => array('id' => 'secondary', 'class' => array('links', 'clearfix', 'sub-menu')))); ?>
+      </div>
+    <?php endif; ?>
+commented by zhanglin-->
 
     <?php if ($page['sidebar_first']): ?>
       <div id="sidebar-first" class="column sidebar first">
@@ -129,7 +126,7 @@
   <!-- ______________________ FOOTER _______________________ -->
 
   <?php if ($page['footer']): ?>
-    <div id="footer" class="lrow">
+    <div id="footer">
       <?php print render($page['footer']); ?>
     </div> <!-- /footer -->
   <?php endif; ?>

@@ -42,15 +42,10 @@ option{}
 .srow{width:960px;margin:0 auto;overflow: hidden;}  /*一列小布局模块 */
 .lrow{width:100%; margin-bottom:10px;}              /*一列大布局模块 */
 .row{width:auto;overflow:auto; margin: }                      /*自适应行*/
-.column{margin: 0 10px;overflow: hidden;float: left;display:inline;}                         /*重复行列模块 */
+.column{overflow: hidden;float: left;display:inline;}                         /*重复行列模块 */
 .column2{margin: 0 2%;overflow: hidden;float:left;display:inline; width:46%}                 /*2列元素*/
 .column3{margin: 0 2%;overflow: hidden;float:left;display:inline; width:29%}                 /*3列元素*/
 .column4{margin: 0 2%;overflow: hidden;float:left;display:inline; width:21%}                 /*4列元素*/
-.sidebar{width:360px; float:left}                        /*俩列布局的侧边 */
-.main{width:580px; float:right}                          /*俩列布局的主块 */
-.mainleft{width:225px; float:left}                       /*三列布局的左侧边 */
-.mainright{width:350px;float:right}                      /*三列布局的右侧边 */
-.maincenter{width:345px;float:left; margin:0 20px;}      /*三列布局中间内容 */
 .fclear:after{visibility: hidden;display: block;font-size: 0;content: " ";clear: both;height: 0;}    /*清除浮动 */
 .fclear{*zoom:1;}										 /*清除浮动 */
 .fleft{float:left}                                       /*左浮动 */
@@ -81,13 +76,12 @@ article,aside,dialog,figure,footer,header,hgroup,menu,nav,section,time,mark,audi
 /* 出错信息 */                                               
 .err_msg{color:#aa0000; font-weight: 700;}
 /* 广告*/
-.ad{}
 
 /* FLTRP HEADER 通用样式 */
 #header{background: url("../images/banner_bg20110622.jpg") repeat-x; margin: 0}
 #banner{background: url("../images/banner.jpg") no-repeat; height: 111px;}
 #logo{display:block; margin:30px 0;}
-#logo img{_behavior: url(js/iepngfix.htc);}
+#logo img{_behavior: url(/fltrp/js/iepngfix.htc);}
 
 /* 导航nav*/
 #nav{background:#8C0001;height: 38px;line-height:38px;min-width: 960px;}
@@ -106,23 +100,6 @@ article,aside,dialog,figure,footer,header,hgroup,menu,nav,section,time,mark,audi
 .search .sinput{ width:180px; background: #FFF}
 .search .sgo{ width:44px;background: none; color: #FFF;cursor: pointer;  }
 
-/*产品分类 sidebar*/
-#sidebar{width:210px;}
-#sidebar h1,#emain h1{font-size:16px; font-weight: 700;  padding: 6px; margin-bottom:4px }
-#sidebar h2{ height:16px; font-size:14px; font-weight: 700; color:#404040;padding:8px; margin: 2px;background:url("../images/prodtitle_bg20110622.jpg");text-align: center}
-#sidebar .assort{list-style:none; width: 90%; }
-#sidebar .row{margin-bottom:6px;}
-#sidebar .assort li{line-height: 34px; text-align: left; text-indent: .4em;background:url("../images/prodtitle_bg20110622.jpg") no-repeat scroll 0 bottom transparent;}
-#sidebar .assort li a{font-size:13px;font-weight:700; color: #333}
-#sidebar .assort li.cbg{ background:url("../images/prodtitle_bgno20110622.jpg") no-repeat 0 -38px transparent;}
-#sidebar .eborder{ padding-bottom: 10px;}
-#sidebar li.current{ background: none;}
-#sidebar li.current a{ background:#8C0001; display: block; color: #FFF;}
-#sidebar li.current .sfrow ul{ margin-right: 3px;width:96%; border-bottom-style: solid; border-bottom-color: #eee;}
-#sidebar li.current .sfrow a{ background: none; display: inline; color: #404040; padding: 3px; font-size: 12px; margin: 0; font-weight: 400;}
-#sidebar li.current .sfrow a:hover{ background: #8C0001; color: #fff;}
-#sidebar li.current .sfrow li{height:auto; line-height: 12px; background: none; border: none; border-left: 1px solid #404040; padding: 0 4px;text-indent:0;}
-
 /* FOOTER */
 #footer{margin-top: 30px;}
 #footer .srow{border-top:4px solid #7e7e7e; padding:20px 0 40px 0}
@@ -132,10 +109,10 @@ article,aside,dialog,figure,footer,header,hgroup,menu,nav,section,time,mark,audi
 #footer p{ font-size: 12px;color: #666; margin: 10px 0 0 0;}
 
 /* 分页  page*/
-#page ul{list-style:none; float: right}
-#page ul li{float:left; margin-right: 10px;}
-#page ul li a{display: block;padding:5px 8px;border:1px solid #ddd; font-weight:700; color: #404040;}
-#page ul li a.active{ color: #8C0001; background: none; border: none}
+#pagenum ul{list-style:none; float: right}
+#pagenum ul li{float:left; margin-right: 10px;}
+#pagenum ul li a{display: block;padding:5px 8px;border:1px solid #ddd; font-weight:700; color: #404040;}
+#pagenum ul li a.active{ color: #8C0001; background: none; border: none}
 
 /* 元素自定义宽度*/
 .grid1 { width:60px; }
