@@ -1,7 +1,7 @@
 /*产品中心细化样式*/
 #content-area{ margin-left:220px;}
 #booklist ul li{background:#F4F4F4; margin: 0 4px 15px 4px; padding: 9px;border:1px solid #ddd; overflow: hidden; height: 174px}
-#booklist ul li img{ margin: 5px 10px 5px 0}
+#booklist ul li img{ margin: 5px 10px 5px 0;float: left;}
 #booklist ul li h2{ font-size:14px;margin: 17px 0 23px 0;color: #404040;line-height:1.4em;;}
 #booklist ul li a:hover{text-decoration:none;}
 #booklist ul li a:hover h2{text-decoration:underline;}

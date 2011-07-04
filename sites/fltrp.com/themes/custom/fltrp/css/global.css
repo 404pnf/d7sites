@@ -111,10 +111,10 @@ article,aside,dialog,figure,footer,header,hgroup,menu,nav,section,time,mark,audi
 #footer p{ font-size: 12px;color: #666; margin: 10px 0 0 0;}
 
 /* 分页  page*/
-#pagenum ul{list-style:none; float: right}
-#pagenum ul li{float:left; margin-right: 10px;}
-#pagenum ul li a{display: block;padding:5px 8px;border:1px solid #ddd; font-weight:700; color: #404040;}
-#pagenum ul li a.active{ color: #8C0001; background: none; border: none}
+ul.pager{list-style:none; float: right}
+ul.pager li{float:left; margin-right: 10px;}
+ul.pager li a{display: block;padding:5px 8px;border:1px solid #ddd; font-weight:700; color: #404040;}
+ul.pager li a.active{ color: #8C0001; background: none; border: none}
 
 /* 元素自定义宽度*/
 .grid1 { width:60px; }

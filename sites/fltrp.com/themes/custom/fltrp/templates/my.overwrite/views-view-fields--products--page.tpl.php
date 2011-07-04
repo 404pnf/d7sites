@@ -25,8 +25,13 @@
  */
 ?>
 
-<?
+<?php
      print $fields['field_img']->content;
 ?>
-<h2>读物系列读物系列读物系列读物系列读物系</h2>
-										<p>读物系列读物系列读物系列读物系列读物系列读物系列读物系列读物系列读物系列读物系列读物系列读物系列读物系物系列.......</p>
+<h2> 
+<?php
+     print $fields['title']->content;
+?></h2>
+<p><?php
+     print $fields['body']->content;
+?></p>
