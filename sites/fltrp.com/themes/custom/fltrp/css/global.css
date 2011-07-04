@@ -4,6 +4,7 @@
 /* 其中参考了Tyler Tate的1kbcss框架 */
 /* 全局样式，谨慎操作！ */
 /* RESET CSS 统一浏览器 */
+/* 2011-07-04 修改页面的 pager 分页*/
 
 html{color:#000;background:#FFF; font-size: 14px;}
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;vertical-align:baseline; font-family:"\5B8B\4F53"}
@@ -92,7 +93,7 @@ article,aside,dialog,figure,footer,header,hgroup,menu,nav,section,time,mark,audi
 #nav ul li{ float: left;display:inline;}
 #nav ul li a{font-weight:700;color: #FFFFFF;padding: 0 20px; display: block;font-size:14px;}
 #nav ul li a:hover{ background:url("../images/nav_hoverbg20110622.jpg") 0 2px repeat-x;text-decoration:none;}
-.active{background:url("../images/nav_hoverbg20110622.jpg") 0 2px repeat-x;}
+#nav .active{background:url("../images/nav_hoverbg20110622.jpg") 0 2px repeat-x;}
 
 /* 面包屑 breadcrumb*/
 #breadcrumb a{ color:#404040; font-size: 12px;}
@@ -113,8 +114,8 @@ article,aside,dialog,figure,footer,header,hgroup,menu,nav,section,time,mark,audi
 
 /* 分页  page*/
 .item-list ul.pager{list-style:none; float: right}
-.item-list ul.pager li{float:left; margin: 0 10px 0 0; padding: 0}
-.item-list ul.pager li a{display: block;padding:5px 8px;border:1px solid #ddd; font-weight:700; color: #404040;}
+.item-list ul.pager li{float:left; margin: 0 10px 0 0; padding: 0; height: 19px!important;padding:4px 8px!important}
+.item-list ul.pager li a{display: block;border:1px solid #ddd; font-weight:700; color: #404040;}
 .item-list ul.pager li a.active{ color: #8C0001; background: none; border: none}
 
 /* 元素自定义宽度*/

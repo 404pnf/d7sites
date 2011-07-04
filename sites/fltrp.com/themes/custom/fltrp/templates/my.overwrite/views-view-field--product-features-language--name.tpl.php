@@ -26,7 +26,8 @@
 			$education = $_GET["education"];
 			$language = $_GET["language"];
 			$url = "productslist";
-
+		    if($row->tid==820) 
+			   $row->tid="All";
 			if(!empty ($education)){
 				//print l($row->taxonomy_term_data_name,$url ,array('query' =>array('category' =>$category,'education' =>$education,'language' =>$row->tid, ))); 
 				$output.='<a href="'.$url.'?category='.$category.'&education='.$education.'&language='.$row->tid.'"';

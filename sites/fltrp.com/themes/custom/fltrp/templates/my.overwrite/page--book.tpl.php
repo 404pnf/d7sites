@@ -1,3 +1,10 @@
+<?php
+  $custom_style_file ='/css/product.css';
+if(!empty($custom_style_file)){
+    $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','fltrp').$custom_style_file.'");</style>';
+    print   $custom_style_uri ;
+}
+?>
 <div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
 
   <!-- ______________________ HEADER _______________________ -->
@@ -90,17 +97,6 @@ commented by zhanglin-->
 
         <div id="content-area">
 
-       		   <!--新品推荐 -->
-			 <div class="row" id="booklist">
- 			 <h1>新品推荐 </h1>
-					<?php
-			             $views_name = 'products';
-                        $display_id = 'page';
-                         print views_embed_view($views_name, $display_id);
-                        ?>
-			 
-			 </div>
-				  <!--/新品推荐 -->			
 
           <?php print render($page['content']) ?>
 
@@ -123,12 +119,10 @@ commented by zhanglin-->
      <!-- sidebar-first -->
       <div id="sidebar-first" class="column sidebar first">
         <div id="sidebar-first-inner" class="inner">
-     
-			 <h1>产品分类 </h1>
+           
 				<!-- 产品左侧公共调用栏 -->
 			<?php include 'products_left.tpl.php';?>	
-             <!-- 产品左侧公共调用栏 -->
-
+             <!-- 产品左侧公共调用栏 -->			
 
 	          <?php print render($page['sidebar_first']); ?>
         </div>

@@ -1,5 +1,5 @@
 		   <!--产品分类 -->
-			 <h1>产品分类 </h1>
+
 			<div class="row eborder">
 				<h2>图书</h2>
 				<div class="row">

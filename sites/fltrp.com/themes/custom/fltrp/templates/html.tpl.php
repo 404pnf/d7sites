@@ -27,6 +27,15 @@
 	 case "productsdetails":
           $custom_style_file ='/css/product.css';
 		 break;
+	case "training":
+          $custom_style_file ='/css/trainning.css';
+		 break;
+	case "training/teacher":
+          $custom_style_file ='/css/trainning.css';
+		 break;
+	case "training/person":
+          $custom_style_file ='/css/trainning.css';
+		 break;
 	 }
 if(!empty($custom_style_file)){
     $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','fltrp').$custom_style_file.'");</style>';

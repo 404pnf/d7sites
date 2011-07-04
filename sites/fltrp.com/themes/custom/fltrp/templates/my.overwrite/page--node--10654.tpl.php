@@ -90,6 +90,113 @@ commented by zhanglin-->
 
         <div id="content-area">
 
+  <!--属性筛选条件 -->		
+<div id="teach" class="row">
+	<h2>
+			<?php
+			             $category = $_GET["category"];
+						 $views_name = 'cate';
+                        $display_id = 'block';
+                         print views_embed_view($views_name, $display_id,$category);
+              ?>
+	
+	</h2>
+	
+	<?php
+             $category = $_GET["category"];
+			 if($category<698||$category>709) {
+      ?>
+		<div class="sfrow">
+			<span>教育阶段:</span>
+				<?php
+			             $views_name = 'product_features_education';
+                        $display_id = 'block_1';
+                         print views_embed_view($views_name, $display_id);
+              ?>
+		</div>
+		<?php
+			 }	  
+		 ?>
+		
+		<div class="sfrow">
+			<span>语种:</span>
+			<?php
+			             $views_name = 'product_features_language';
+                        $display_id = 'block';
+                         print views_embed_view($views_name, $display_id);
+                ?>
+		</div>
+</div>
+  <!--/属性筛选条件 -->		
+
+
+
+   <!--产品列表 排序-->
+   <?php
+
+			$output ="";
+			$url = "productslist";
+			$category = $_GET["category"];
+			$education = $_GET["education"];
+			$language = $_GET["language"];
+
+			if(empty($category))
+				$category="All";			
+			if(empty($education))
+				$education="All";
+		   if(empty($language))
+				$language="All";
+
+			$sort_by = $_GET["sort_by"];
+			$sort_order = $_GET["sort_order"];
+
+			if($sort_order=="ASC")
+					$sort_order="DESC";
+			else
+					$sort_order="ASC";
+
+
+			$output.='<a href="'.$url.'?category='.$category.'&education='.$education.'&language='.$language;
+
+   ?>
+						<div id="booklb_title">
+							<ul>
+								<li class="strong">排序</li>
+								<li >
+								<?php
+									$orderoutput = "";
+              						$orderoutput=$output.'&sort_by=field_publish_date_value&sort_order='.$sort_order.'"';	
+									if($sort_by=="field_publish_date_value")										
+									    $orderoutput.='  class="active" ';		
+									$orderoutput.='  >出版日期</a>';
+									print  $orderoutput;
+								?>
+								</li>
+								<li>
+								<?php
+   								    $orderoutput = "";
+              						$orderoutput.=$output.'&sort_by=title&sort_order='.$sort_order.'"';	
+									if($sort_by=="title")										
+									    $orderoutput.='  class="active" ';		
+									$orderoutput.='  >书名</a>';
+									print  $orderoutput;
+								?>								
+								</li>
+								<li>
+								<?php
+ 								    $orderoutput = "";
+              						$orderoutput.=$output.'&sort_by=field_price_value&sort_order='.$sort_order.'"';	
+									if($sort_by=="price")										
+									    $orderoutput.='  class="active" ';		
+									$orderoutput.='  >定价</a>';
+									print  $orderoutput;
+								?>
+								</li>
+							</ul>
+						</div>
+	  <!--/产品列表排序 -->		
+
+
        		   <!--产品列表 -->
 			 <div class="row" id="booklb">
  	
