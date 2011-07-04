@@ -21,14 +21,24 @@
   */
 ?>
 <?php 
+			$output ="";
 			$category = $_GET["category"];
 			$language = $_GET["language"];
+			$education = $_GET["education"];
 			$url = "productslist";
 			if(!empty ($language)){
-				print l($row->taxonomy_term_data_name,$url ,array('query' =>array('category' =>$category,'education' =>$row->tid,'language' =>$language, ))); 
-			}else{
-				print l($row->taxonomy_term_data_name,$url ,array('query' =>array('category' =>$category,'education' =>$row->tid, ))); 
-			}
+				//print l($row->taxonomy_term_data_name,$url ,array('query' =>array('category' =>$category,'education' =>$row->tid,'language' =>$language, ))); 
+				$output.='<a href="'.$url.'?category='.$category.'&education='.$row->tid.'&language='.$language.'"';
 
+					
+			}else{
+				//print l($row->taxonomy_term_data_name,$url ,array('query' =>array('category' =>$category,'education' =>$row->tid, ))); 
+				$output.='<a href="'.$url.'?category='.$category.'&education='.$row->tid.'"';
+
+			}
 			
+			if($education==$row->tid)
+			   $output.='  class="active" ';
+			$output.='  >'.$row->taxonomy_term_data_name.'</a>';
+			print  $output;
 ?>

@@ -4,7 +4,6 @@
 /* 其中参考了Tyler Tate的1kbcss框架 */
 /* 全局样式，谨慎操作！ */
 /* RESET CSS 统一浏览器 */
-#page{ margin:0 auto;width:100%;}
 
 html{color:#000;background:#FFF; font-size: 14px;}
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;vertical-align:baseline; font-family:"\5B8B\4F53"}
@@ -17,7 +16,7 @@ abbr,acronym{border:0;font-variant:normal;}
 sup{vertical-align:text-top;}
 sub{vertical-align:text-bottom;}
 input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;*font-size:100%;}
-h1,h2,h3,h4,h5,h6{padding:0}
+h1,h2,h3,h4,h5,h6{padding:0; font-weight:700;}
 h1{font-size:18px;margin:0 0 .75em}
 h2{font-size:16px;margin:0 0 1em}
 h3{font-size:14px;margin:0 0 1.286em}
@@ -29,6 +28,7 @@ p{font-weight:300;margin:0 0 1.5em}
 ul{list-style:none}
 
 /* 预定义样式 */
+#page{ margin:0 auto;width:100%;}
 .button{cursor:pointer;display:block;font-size:1em;height:2em;line-height:1.5em;margin:1.75em 0 0;padding:0 .5em;}
 input[type=file]{height:2.25em;padding:0}
 input{background:#FFFFFF;border-color: #999999 #DDDDDD #DDDDDD #999999;border-left: 1px solid #999999;border-style: solid;border-width: 1px;color: #CFCFCF;font-size: 14px;padding: 8px 8px 8px 30px;width: 86%;}
@@ -87,8 +87,9 @@ article,aside,dialog,figure,footer,header,hgroup,menu,nav,section,time,mark,audi
 
 /* 导航nav*/
 #nav{background:#8C0001;height: 38px;line-height:38px;min-width: 960px;}
-#nav ul{list-style: none;}
-#nav ul li{ float: left; margin-right:9px;display:inline;padding-top:0;}
+#nav .leaf{ margin: 0 8px 0 0; padding: 0}
+#nav ul{list-style: none;width:960px;margin:0 auto;overflow: hidden;}
+#nav ul li{ float: left;display:inline;}
 #nav ul li a{font-weight:700;color: #FFFFFF;padding: 0 20px; display: block;font-size:14px;}
 #nav ul li a:hover{ background:url("../images/nav_hoverbg20110622.jpg") 0 2px repeat-x;text-decoration:none;}
 .active{background:url("../images/nav_hoverbg20110622.jpg") 0 2px repeat-x;}
@@ -111,10 +112,10 @@ article,aside,dialog,figure,footer,header,hgroup,menu,nav,section,time,mark,audi
 #footer p{ font-size: 12px;color: #666; margin: 10px 0 0 0;}
 
 /* 分页  page*/
-ul.pager{list-style:none; float: right}
-ul.pager li{float:left; margin-right: 10px;}
-ul.pager li a{display: block;padding:5px 8px;border:1px solid #ddd; font-weight:700; color: #404040;}
-ul.pager li a.active{ color: #8C0001; background: none; border: none}
+.item-list ul.pager{list-style:none; float: right}
+.item-list ul.pager li{float:left; margin: 0 10px 0 0; padding: 0}
+.item-list ul.pager li a{display: block;padding:5px 8px;border:1px solid #ddd; font-weight:700; color: #404040;}
+.item-list ul.pager li a.active{ color: #8C0001; background: none; border: none}
 
 /* 元素自定义宽度*/
 .grid1 { width:60px; }
