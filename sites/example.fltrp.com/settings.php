@@ -178,16 +178,29 @@
  *   );
  * @endcode
  */
- $databases['default']['default'] = array(
- 'driver' => 'mysql',
- 'database' => 'database',
- 'username' => 'py',
- 'password' => 'pengyou',
- 'host' => 'localhost',
 
+$databases['default']['default'] = array(
+	'driver' => 'mysql',
+ 	'database' => 'databasename',
+	'username' => 'py',
+ 	'password' => 'pengyou',
+ 	'host' => 'localhost',
+ 	'prefix' => array(
+			'default'   => '',
+    			'users'     => 'ncec.',
+    			'sessions'  => 'ncec.',
+    			'authmap'   => 'ncec.',
+  			),
  );
-
-
+// set db connection to d6 sites. '2u4u' is the db name zhanglin called in his moudle
+ $databases['2u4u']['default'] = array(
+ 	'driver' => 'mysql',
+        'database' => '2u4u',
+ 	'username' => 'zl',
+ 	'password' => '8b51575413560e07859cd1380b82d6d2',
+ 	'host' => '221.122.115.57',
+        'port' => '3306',
+  );
 
 /**
  * Access control for update.php script.
