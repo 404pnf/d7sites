@@ -9,7 +9,7 @@
        <div class="content">
          <div class="english">
           <div class="fenlei_english">English</div>
-          <div class="bookpart1">
+          <div class="en_bookpart1">
               <div class="bookpic">               
                 <?php print render($content['field_img']); ?>
                 <div class="largerpic"><a href="#">See Larger Image</a></div>
@@ -25,12 +25,11 @@
                 <strong>Publishing Date:</strong><?php print $node->field_publish_date['und'][0]['value'];?><br>
                 <strong>Components:</strong><?php print $node->field_components['und'][0]['value'];?><br>
                 <div class="notice">Not for sale out the territory of the People's Republic of China. Any<br>
-                                    requestof purchase please visit <a href="#">Links</a>
-                 
+                                    requestof purchase please visit <a href="#">Links</a> 
                 </div>
               </div>  
           </div>     
-          <div class="bookpart2">
+          <div class="en_bookpart2">
              <div class="english_content">
                     <div class="english_contents_title">CONTENTS:</div>
                     <?php if (strlen($node->field_directory['und'][0]['value'])>0): ?>
@@ -56,10 +55,24 @@
                     <?php if (strlen($node->field_english_author_info['und'][0]['value'])>0): ?>
                           <?php print $node->field_english_author_info['und'][0]['value'];?>
                     <?php else: ?>
-                          <div class="engliash_none"><?php print "none"; ?></div>
+                          <div class="engliash_none"><?php //print "none"; ?></div>
                     <?php endif; ?>
-
              </div>       
+             <div class="enlish_other_recommendation">
+                    <div class="english_other_recommendation_title">OTHER RECOMMENDATION:</div>
+                        <?php           
+                             $output="";
+                             $node_terms=taxonomy_node_get_terms($node , $key = 'tid');  
+                             foreach($node_terms as $tid => $tmp_term){
+                                  $output .= $tid.",";
+                             }
+                             $output=substr($output,0,strlen($output)-1);
+                             $relate_ebook ='';
+                             $relate_ebook =views_embed_view('book_recommendation','block_1',$node->nid,$output);
+                             $relate_ebook = '<div class="ebook_none_mrelate">'.$relate_ebook.'</div>'; 
+                        ?>
+                   
+
           </div> 
          </div>
        </div>

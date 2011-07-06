@@ -36,6 +36,18 @@
 	case "training/person":
           $custom_style_file ='/css/trainning.css';
 		 break;
+	case "home":
+          $custom_style_file ='/css/index.css';
+		 break;
+	case "digital":
+          $custom_style_file ='/css/product.css';
+		 break;
+	case "news":
+          $custom_style_file ='/css/information.css';
+	case "newsmore":
+          $custom_style_file ='/css/information.css';
+
+		 break;
 	 }
 if(!empty($custom_style_file)){
     $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','fltrp').$custom_style_file.'");</style>';

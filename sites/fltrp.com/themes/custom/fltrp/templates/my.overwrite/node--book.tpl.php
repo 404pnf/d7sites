@@ -17,9 +17,9 @@
         hide($content['comments']);
         hide($content['links']);
         //print render($content);
-		print ("<pre>");
-		print_r($node);
-		print ("</pre>");
+		//print ("<pre>");
+		//print_r($node);
+		//print ("</pre>");
 
 		$title = $node->title;        //图书名称
 		$series = $node->field_series['und'][0]['taxonomy_term']->name;        //图书系列名称
@@ -47,9 +47,12 @@
 							<p>开本：<?php print $format?> 页数：<?php print $pages?> 页 装订：<?php print $zdfs?> </p>
 							<p>出版日期：<?php print $publish_date?></p>
 							<p>定价：<?php print $price?></p>
+							
 							<p class="buy fclear ">
+						
 								<a href=""><img src="images/b.gif" /></a>
 								<a href=""><img src="images/r.gif" /></a>
+							
 							</p>
 							
 							<div class="wrapper">
@@ -80,8 +83,13 @@ span.stico_tqq{
 								<a href="">内容简介</a>
 								<a href="" class="active">章节目录</a>
 							</p>
-							<div class="bookcontent"
+							<div class="bookcontent">
 								<?php print $body?>
+
+							</div>
+
+							<div class="bookdirectory">
+								<?php print $directory?>
 
 							</div>
 							

@@ -102,6 +102,9 @@ commented by zhanglin-->
 			 </div>
 				  <!--/新品推荐 -->			
 
+	  
+
+
           <?php print render($page['content']) ?>
 
         </div>
@@ -129,7 +132,20 @@ commented by zhanglin-->
 			<?php include 'products_left.tpl.php';?>	
              <!-- 产品左侧公共调用栏 -->
 
+ 
+ <!--关注排行 -->
 
+				  <div id="ph">
+						<h1>关注排行榜 </h1>	
+						<div class="eborder">
+					<?php
+			             $views_name = 'products';
+                        $display_id = 'block_1';
+                         print views_embed_view($views_name, $display_id);
+                        ?>
+						</div>
+             	</div>
+						  <!--/关注排行 -->	
 	          <?php print render($page['sidebar_first']); ?>
         </div>
       </div>

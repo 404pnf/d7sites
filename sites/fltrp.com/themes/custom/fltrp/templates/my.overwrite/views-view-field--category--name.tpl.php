@@ -23,13 +23,13 @@
 <?php 
 			$output ="";
 			$category = $_GET["category"];
-			$url = "productslist";
+			$url = "/productslist";
 
 
 				$output.='<a href="'.$url.'?category='.$row->tid.'"';
 			
 			if($category==$row->tid)
-			   $output.='  class="active" ';
+			   $output.='  class="isactive" ';
 			$output.='  >'.$row->taxonomy_term_data_name.'</a>';
 			print  $output;
 

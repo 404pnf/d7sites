@@ -40,7 +40,7 @@
 			}
 			
 			if($education==$row->tid)
-			   $output.='  class="active" ';
+			   $output.='  class="isactive" ';
 			$output.='  >'.$row->taxonomy_term_data_name.'</a>';
 			print  $output;
 ?>

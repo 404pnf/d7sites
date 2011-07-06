@@ -1,0 +1,38 @@
+/*------- 左侧导航 js 效果需要的 css --------
+#category_list .category_content .item-list{
+}
+#category_list .category_content .item-list ul{
+    display:none;
+}
+#category_list .category_content .item-list ul.hover_display{
+	position:absolute;
+	left:210px;
+	display:block;
+}
+*/
+
+/*------- 左侧导航 js 效果需要的 css --------*/
+#main{
+    position:relative;
+}
+#category_list .category_content .item-list{
+    /*position:relative;*/
+}
+#category_list .category_content .item-list ul{
+    display:none;
+    border:1px solid #dddddd;
+    width:200px;
+}
+#category_list .category_content .item-list ul.hover_display{
+    position:absolute;
+    left:180px;
+    display:block;
+    clear:both;
+    top:2px;
+}
+#category_list .category_content .item-list ul li, #category_list .category_content .item-list ul li div{
+   display:inline;
+}
+#category_list .category_content .item-list ul li{
+	border-right:1px solid #ddd;
+}
