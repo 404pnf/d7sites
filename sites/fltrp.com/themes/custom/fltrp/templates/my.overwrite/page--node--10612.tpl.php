@@ -1,11 +1,8 @@
 <?php
-print ($node);
-if(!empty($node) && $node->type == 'book'){
-  include('my.overwrite/page--book.tpl.php');
-   return;
-}
+// 资讯中心首页模版
+?>
 
-?><div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
+<div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
 
   <!-- ______________________ HEADER _______________________ -->
 

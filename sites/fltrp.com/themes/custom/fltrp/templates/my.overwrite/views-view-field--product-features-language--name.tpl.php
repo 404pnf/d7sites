@@ -1,5 +1,6 @@
 <?php
-// $Id: views-view-field.tpl.php,v 1.1 2008/05/16 22:22:32 merlinofchaos Exp $
+//产品属性--语种views的覆写 ，作用:处理特殊的属性id，为820时，作为全选（All），另外由于作为筛选条件，所以要记录所选的产品分类和其他属性
+//$Id: views-view-field.tpl.php,v 1.1 2008/05/16 22:22:32 merlinofchaos Exp $
  /**
   * This template is used to print a single field in a view. It is not
   * actually used in default Views, as this is registered as a theme

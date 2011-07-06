@@ -1,4 +1,5 @@
 <?php
+//未启用，对产品分类属性的覆写，由于已经在上层模版覆写，所以这个目前不用
 // $Id: views-view-field.tpl.php,v 1.1 2008/05/16 22:22:32 merlinofchaos Exp $
  /**
   * This template is used to print a single field in a view. It is not

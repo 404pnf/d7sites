@@ -1,3 +1,6 @@
+<?php
+// 产品中心首页模版
+?>
 <div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
 
   <!-- ______________________ HEADER _______________________ -->

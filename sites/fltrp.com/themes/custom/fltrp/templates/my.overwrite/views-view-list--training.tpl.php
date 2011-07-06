@@ -1,4 +1,7 @@
 <?php
+// ÅàÑµviewsÁÐ±íÄ£°æ
+?>
+<?php
 /**
  * @file views-view-list.tpl.php
  * Default simple view template to display a list of rows.

@@ -1,10 +1,12 @@
 <?php
-print ($node);
 if(!empty($node) && $node->type == 'book'){
   include('my.overwrite/page--book.tpl.php');
    return;
 }
-
+if(!empty($node) && $node->type == 'news'){
+  include('my.overwrite/page--news.tpl.php');
+   return;
+}
 ?><div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
 
   <!-- ______________________ HEADER _______________________ -->

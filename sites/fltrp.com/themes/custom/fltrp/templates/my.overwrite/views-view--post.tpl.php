@@ -1,4 +1,5 @@
 <?php
+//首页重要公告views模版覆写
 // $Id: views-view-grid.tpl.php,v 1.3.6.3 2010/12/10 08:19:15 dereine Exp $
 /**
  * @file views-view-grid.tpl.php

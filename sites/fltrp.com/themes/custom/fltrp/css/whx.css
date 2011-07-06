@@ -1,38 +1,96 @@
-/*------- 左侧导航 js 效果需要的 css --------
-#category_list .category_content .item-list{
-}
-#category_list .category_content .item-list ul{
-    display:none;
-}
-#category_list .category_content .item-list ul.hover_display{
-	position:absolute;
-	left:210px;
-	display:block;
-}
-*/
 
 /*------- 左侧导航 js 效果需要的 css --------*/
-#main{
+
+#content #content-area,#sidebar-first{
+	position:relative;
+	z-index:100;
+	overflow: visible;
+}
+#category_list {
+	overflow: visible;
+	*zoom:1;
+	*+zoom:1;
+}
+
+#category_list .category_content .item-list{
     position:relative;
 }
-#category_list .category_content .item-list{
-    /*position:relative;*/
+#category_list .category_content .item-list h3{
+	margin:0;
+	font-size:13px;
+    border: 1px solid #FFFFFF;
+    border-width:1px 0px 0 1px;
+   	height: 34px;/*为ie，ie下定义了line-height的同时，height*/
+    *width:193px;/*为ie*/
+    *+width:193px;/*为ie*/
 }
 #category_list .category_content .item-list ul{
     display:none;
-    border:1px solid #dddddd;
-    width:200px;
-}
-#category_list .category_content .item-list ul.hover_display{
-    position:absolute;
-    left:180px;
-    display:block;
-    clear:both;
-    top:2px;
-}
-#category_list .category_content .item-list ul li, #category_list .category_content .item-list ul li div{
-   display:inline;
+    /*margin-left: 1em;*/
+    width: 180px;
+    margin: 0;
+    padding: 1.286em 1em;
+     white-space: normal;
 }
 #category_list .category_content .item-list ul li{
-	border-right:1px solid #ddd;
+	float:left;
+	white-space: nowrap;	
+	margin: 0 1em 0.25em 0;
+	line-height: 2em;
 }
+#category_list .category_content .item-list ul li a{
+	border-right: 1px solid #DDDDDD;
+	padding-right:5px;
+}
+#category_list .category_content .item-list h3.hover{
+    border-color: #8C0001;
+    border-style: solid;
+    border-width: 1px 0 1px 1px;
+    position: relative;
+    z-index: 9999;
+    *width:194px;
+    *+width:194px;
+    background:none repeat scroll 0 0 #fff6f7;
+}
+#category_list .category_content .item-list ul.hover_display{
+	width:230px;
+	position:absolute;
+    left:194px;
+    display:block;
+    clear:both;
+    top:0px;
+    z-index:999;
+    border:1px solid #8C0001;
+    background:none repeat scroll 0 0 #fff6f7;
+
+}
+#category_list .category_content .fore h3{
+	background:none repeat scroll 0 0 #8C0001;
+	
+}
+#category_list .category_content .fore h3 a{
+	color:#fff;	
+}
+#category_list .category_content .fore ul{
+	display:block;
+	position:raletive;
+	overflow:auto;
+	clear:both;
+}
+
+
+/*qita*/
+#booklb_title{
+	clear:both;
+}
+#booklb_title ul {
+	height:32px;
+	clear:both;
+	position:relative;
+}
+#booklb_title ul li{
+	float:left;
+	height:32px;
+	/*display:inline;*/
+}
+ 

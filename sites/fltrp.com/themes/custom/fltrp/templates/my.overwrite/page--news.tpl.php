@@ -1,7 +1,9 @@
 <?php
-// 产品列表页模版
+// 资讯中心列表页模版
 ?>
-<div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
+
+
+?><div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
 
   <!-- ______________________ HEADER _______________________ -->
 
@@ -71,8 +73,7 @@
             <?php if ($page['highlight']): ?>
               <div id="highlight"><?php print render($page['highlight']) ?></div>
             <?php endif; ?>
-
-  <!--- commented by zhanglin
+   <!--  commented by zhanglin
             <?php if ($title): ?>
               <h1 class="title"><?php print $title; ?></h1>
             <?php endif; ?>
@@ -93,40 +94,58 @@ commented by zhanglin-->
 
         <div id="content-area">
 
+		<!--  焦点列表开始 -->
+						<div id="news">
+						<div class="imgnews column2">
+						<?php
+			             $views_name = 'news';
+                        $display_id = 'block_2';
+		                print views_embed_view($views_name, $display_id);
+						 ?>
+						 </div>
+						<div class="imgnews column2 cborder">
+						 <?php
+			             $views_name = 'news';
+                        $display_id = 'block_3';
+		                print views_embed_view($views_name, $display_id);
+						 ?>
+						 </div>
+						</div>
+						<!--  焦点列表结束 -->
 
 
-
-       		   <!--产品列表 -->
-			   <?php 
-					$category = $_GET["category"];
-
-					if($category==776){
-			   ?>
-			 <div class="row" id="booklist">
- 	
-					<?php
-			             $views_name = 'digital';
-                        $display_id = 'page_2';
-                         print views_embed_view($views_name, $display_id);
-                        ?>
-			 
-			 </div>
-			 <?php }else{?>
-
-			 <div class="row" id="bookld">
- 	
-					<?php
-			             $views_name = 'digital';
-                        $display_id = 'page_1';
-                         print views_embed_view($views_name, $display_id);
-                        ?>
-			 
-			 </div>
-			<?php }?>
-				  <!--/产品列表 -->			
+						<!--  外研社新闻列表开始 -->
+						<?php
+								$cid=$_GET["cid"];
+								switch($cid){
+								case 821:
+									$h2class = "wysxw";
+									break;
+					             case 822:
+									$h2class = "jxky";
+									break;
+					             case 823:
+									$h2class = "cpzx";
+									break;
+					             case 824:
+									$h2class = "hdss";
+									break;
+								}
+						
+						?>
+						<div class="newslist">
+							<h2 class="<?php print $h2class ?>">外研社新闻</h2>
+						<?php
+			             $views_name = 'news';
+                        $display_id = 'block_1';
+						$views_arg1=$cid;
+                         print views_embed_view($views_name, $display_id,$views_arg1);
+						 ?>
+						</div>
+						<!--  外研社新闻列表结束 -->
+						
 
           <?php print render($page['content']) ?>
-
         </div>
 
         <?php print $feed_icons; ?>
@@ -143,26 +162,26 @@ commented by zhanglin-->
     <?php endif; ?>
 commented by zhanglin-->
 
-     <!-- sidebar-first -->
+    <?php if ($page['sidebar_first']): ?>
       <div id="sidebar-first" class="column sidebar first">
         <div id="sidebar-first-inner" class="inner">
-           
-				<!-- 产品左侧公共调用栏 -->
-			<?php include 'products_left.tpl.php';?>	
-             <!-- 产品左侧公共调用栏 -->			
-
 	          <?php print render($page['sidebar_first']); ?>
         </div>
       </div>
-    <!-- /sidebar-first -->
+    <?php endif; ?> <!-- /sidebar-first -->
 
-    <?php if ($page['sidebar_second']): ?>
+
       <div id="sidebar-second" class="column sidebar second">
         <div id="sidebar-second-inner" class="inner">
+	<?php 
+	$block9= block_load('block',9);
+	$renderable_block9=  _block_get_renderable_array(_block_render_blocks(array($block9)));
+	print render($renderable_block9);
+?>
           <?php print render($page['sidebar_second']); ?>
         </div>
       </div>
-    <?php endif; ?> <!-- /sidebar-second -->
+     <!-- /sidebar-second -->
 
   </div> <!-- /main -->
 

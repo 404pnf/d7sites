@@ -1,4 +1,5 @@
 <?php
+//Î´ÆôÓÃ
 // $Id: views-view-field.tpl.php,v 1.1 2008/05/16 22:22:32 merlinofchaos Exp $
  /**
   * This template is used to print a single field in a view. It is not
@@ -29,7 +30,7 @@
 				$output.='<a href="'.$url.'?category='.$row->tid.'"';
 			
 			if($category==$row->tid)
-			   $output.='  class="active" ';
+			   $output.='  class="isactive" ';
 			$output.='  >'.$row->taxonomy_term_data_name.'</a>';
 			print  $output;
 

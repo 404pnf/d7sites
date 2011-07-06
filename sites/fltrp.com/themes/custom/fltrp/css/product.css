@@ -6,6 +6,7 @@
 #booklist ul li h2{ font-size:14px;margin: 17px 0 23px 0;color: #404040;line-height:1.4em;;}
 #booklist ul li h2 a{ color:#404040; font-weight:700; }
 #booklist ul li p{font-size:12px; line-height: 1.5em; color: #666}
+#booklist .bookbg3{ float:left;margin-bottom: 28px; margin-right: 10px;}
 #breadcrumb{ height: 40px;}
 
 /*产品中心动画样式*/
@@ -23,7 +24,7 @@
 #sidebar-first #ph .assort li a{ font-weight: 400; font-size: 12px}
 
 /* 产品二级列表 booklb*/
-#booklb_title{height:32px; border: 1px solid #DFDFDF; background: url("../images/booklb_title20110622.jpg"); margin-left: 10px;*width:728px;}
+#booklb_title{height:32px; border: 1px solid #DFDFDF; background: url("../images/booklb_title20110622.jpg"); margin-left: 10px;*width:728px; overflow: hidden;}
 #booklb_title li{ float: left; padding: 6px 30px; border-right:1px solid #ccc; font-size: 12px; position: relative;}
 #booklb_title li.strong{ font-weight: 700; font-size: 14px;overflow: hidden;padding: 6px 30px;}
 #booklb_title li.active{ background: #ba0006; color: #FFF; font-weight: 700;z-index:0;height:14px; }
@@ -58,14 +59,14 @@
 .r{background: url("../images/buy_20110623.gif") -103px 0;text-indent:2.2em;width: 81px;}
 
 /*教辅教材 teach*/
-#teach{ margin-left: 10px; border: 1px solid #EEE; margin-bottom: 12px;_zoom:1}
+#teach{ margin-left: 10px; border: 1px solid #EEE; margin-bottom: 12px;_zoom:1;}
 #teach h2{ background: url("../images/jf_titlebg20110623.jpg"); line-height: 34px; text-indent:1em; font-size: 14px;}
 .sfrow{overflow: auto; font-size: 12px;}
 .sfrow span{float:left; margin: 16px  0 6px 16px; font-weight: 700;}
-.sfrow ul{float:right;width:86%; overflow: hidden; border-bottom:1px dashed #999; margin-right: 25px; padding: 10px 0;_width:89%;_margin-right: 0px;}
-.sfrow ul li{line-height:1.1em;float:left; padding: 0 8px; border-left: 1px solid #444; margin: 6px 0 6px -1px;white-space:nowrap;}
+.sfrow ul{float:right;width:86%; overflow: hidden; border-bottom:1px dashed #999; margin-right: 25px; padding: 10px 0;_width:86%;_margin-right: 10px;}
+.sfrow ul li{line-height:1.1em;float:left; padding: 0 8px; border-left: 1px solid #444; margin: 6px 0 6px -1px;white-space:nowrap;_line-height: 1.2em}
 .sfrow ul li a{ color: #404040; padding: 2px 6px;}
-.sfrow ul li a:hover{ background: #8B0101; color: #fff; padding: 2px 6px; text-decoration:none;}
+.sfrow ul li a:hover{color: #8B0101; padding: 2px 6px; text-decoration:none;}
 
 /*编辑推荐  recommendation*/
 #recommendation{overflow:hidden; width:728px;height:110px;margin-left: 10px; border: 1px solid #fee9b9; margin-bottom: 16px; background-image:url("../images/tuijian20110623.gif"); background-color:#FFFEF7; background-repeat: no-repeat; position: relative;}

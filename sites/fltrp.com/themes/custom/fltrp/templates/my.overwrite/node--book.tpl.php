@@ -1,3 +1,6 @@
+<?php
+// 图书产品详细页模版
+?>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     

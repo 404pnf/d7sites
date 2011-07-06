@@ -1,4 +1,6 @@
 <?php
+//内容类型为图书的模版显示；
+
   $custom_style_file ='/css/product.css';
 if(!empty($custom_style_file)){
     $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','fltrp').$custom_style_file.'");</style>';

@@ -1,4 +1,5 @@
 <?php
+//首页重要公告views覆写
 /**
  * @file views-view-list.tpl.php
  * Default simple view template to display a list of rows.

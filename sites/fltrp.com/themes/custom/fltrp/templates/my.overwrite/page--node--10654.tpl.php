@@ -1,3 +1,6 @@
+<?php
+// 产品列表页模版
+?>
 <div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
 
   <!-- ______________________ HEADER _______________________ -->

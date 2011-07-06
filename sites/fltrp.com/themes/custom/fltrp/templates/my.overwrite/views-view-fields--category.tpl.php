@@ -1,7 +1,6 @@
 <?php
-// 培训views覆写
-?>
-<?php
+// 产品分类覆写，1、去掉多余的html元素修饰，2、比较传过来的分类ID参数与当前分类ID，如果相同，则增加一个当前激活的样式
+//$Id: views-view-fields.tpl.php,v 1.6.6.1 2010/12/04 07:39:35 dereine Exp $
 /**
  * @file views-view-fields.tpl.php
  * Default simple view template to all the fields as a row.
@@ -27,14 +26,17 @@
  */
 ?>
 
-<div class="listleft">
-	<?php print $fields['field_training_image']->content ?>
-	<?php print $fields['field_training_url']->content ?>
-</div>										
-<div class="listright">
-	<h2><?php print $fields['title']->content ?></h2>
-	<?php print $fields['body']->content ?>
-	<span class="train_time"><?php print $fields['field_training_period']->content ?></span>
-	<span class="contect"><?php print $fields['field_training_contact']->content ?></span>
-</div>
-
+<?php foreach ($fields as $id => $field): ?>
+  <?php if (!empty($field->separator)): ?>
+    <?php print $field->separator; ?>
+  <?php endif; ?>
+<!--
+  <?php print $field->wrapper_prefix; ?>
+  -->
+    <?php print $field->label_html; ?>
+    <?php 
+			print $field->content;
+	
+	?>
+ <!-- <?php print $field->wrapper_suffix; ?> -->
+<?php endforeach; ?>
