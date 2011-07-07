@@ -24,7 +24,7 @@
 <?php 
 			$output ="";
 			$category = $_GET["category"];
-			$url = "digital";
+			$url = "/digital";
 
 
 				$output.='<a href="'.$url.'?category='.$row->tid.'"';

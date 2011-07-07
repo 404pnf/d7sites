@@ -1,0 +1,232 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+[Table of contents]
+
+1. Body
+2. Top / #top
+3. Header / #header
+    - Logo
+	- Navigation
+4. Slider / #slider
+5. About / #about
+6. Content / #content
+    - Article
+	- Article footer
+	- Post types
+	- Entry meta: list
+	- Entry meta: post
+	- Paginator
+	- Comments
+	- Gallery
+7. Aside / #aside
+8. Footer / #footer
+9. Bottom / #bottom
+10. Misc
+11. Widgets
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+*/
+
+
+
+/* [4. Slider] */
+html,body,ul{ margin: 0;list-style: none; background-color:transparent; background: none;}
+#slider{
+	width: 960px;
+	height: 276px;
+	margin: 0 auto -6px auto;
+	position: relative;
+	background: url(../images/slider_bg.png) no-repeat center 0;
+	_background: url(../images/slider_bg.gif) no-repeat center 0;
+	
+	
+}
+.slot{
+	position: absolute;
+	overflow: hidden;
+}
+	.slot ul{
+		height: 100%;
+	}
+		.slot ul li{
+			position: relative;
+		}
+		.slot ul li, .slot ul li img{
+			float: left;
+		}
+		#slot_left li, #slot_right li, #slot_left li img, #slot_right li img{
+			width: 230px;
+			height: 155px;
+		}
+		#slot_center li, #slot_center li img{
+			height: 236px;
+    	    width: 392px;
+		}
+			/*.slot a{
+				display: none;
+				position: absolute;
+				left: 0;
+				right: 0;
+				text-decoration: none;
+				padding: 10px 20px 0px 20px;
+				width: 220px;
+				height: 145px;
+				background: url(../images/night_slot_bg.png) repeat;
+				color: #272727;
+				text-shadow: 1px 1px 0 #fff;
+			}
+			.slot ul li:hover a{
+				display: block;
+			}
+		#slot_center a{
+			padding: 10px 30px 0px 30px;
+			width: 260px;
+			height: 180px;
+		}*/
+			.slot h4{
+				width: 220px;
+				height: 30px;
+				padding: 10px 0 0 0;
+				overflow: hidden;
+			}
+		#slot_center h4{
+			width: 280px;
+		}		
+			.slot span{
+				display: block;
+				width: 220px;
+				height: 80px;
+				padding: 0;
+				overflow: hidden;
+			}
+		#slot_center span{
+			width: 280px;
+			height: 120px;
+		}	
+			.slot p{
+				margin: 0;
+				padding: 0;
+			}
+			
+/* IE7 z-index bug fix for slider */
+div#bg div#header ul#nav li.parent div { z-index: 23; }
+div#bg div#header ul#nav li.parent { z-index: 22; }
+div#bg div#header ul#nav { z-index: 21; }
+div#bg div#header { z-index: 20; }
+div#bg div#slider div.slot ul { z-index: 4; }
+div#bg div#slider div.slot { z-index: 3; }
+div#bg div#slider .do_slide { z-index: 19; }
+div#bg div#slider { z-index: 2; }
+div#bg { z-index: 1; }
+
+#slides { display: none; }
+
+.slot ul li {
+	position: absolute;
+}
+	.slot .desc {
+		visibility: hidden;
+		top: 0px;
+		left: 0px;
+		position: absolute;
+		z-index: 999;
+		text-decoration: none;
+		padding: 10px 20px 0px 20px;
+		width: 220px;
+		height: 145px;
+		/* background: url(../images/night_slot_bg.png) repeat; */
+		color: #272727;
+		text-shadow: 1px 1px 0 #e8e8e8;
+		cursor: pointer;
+	}
+	#slot_center.slot .desc {
+		width: 320px;
+		height: 190px;
+	}
+#form_prev {
+	margin: 20px 0 10px;
+}
+	#form_prev_holder .header {
+		margin: 0;
+	}	
+	
+#slot_left, #slot_right{
+	width: 228px;
+	height: 148px;
+	top: 59px;
+}
+#slot_left{
+	left: 30px;
+	*left: 31px;
+}
+#slot_right{
+	right: 31px;
+	*right: 30px;
+}
+#slot_center{
+	height: 236px;
+    width: 392px;
+	top: 5px;
+	left: 282px;
+	*left:283px
+}
+.do_slide{
+	display: block;
+	position: absolute;
+	width: 44px;
+	height: 44px;
+	top: 110px;
+	background-repeat: no-repeat;
+	background-position: 0 0;
+}
+.do_slide:hover{
+	background-position: 0 -44px;
+}
+	.do_slide.left{
+		left: 10px;
+		background-image: url(../images/do_slide_left.png);
+		_behavior: url(/sites/fltrp.com/themes/custom/fltrp/js/iepngfix.htc);
+  		z-index:100;
+	}
+	.do_slide.right{
+		right: 10px;
+		background-image: url(../images/do_slide_right.png);
+		_behavior: url(/sites/fltrp.com/themes/custom/fltrp/js/iepngfix.htc);
+  		z-index:100;
+	}
+#slider_dots{
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	height: 12px;
+	left: 0;
+	bottom: 0;
+	cursor: default;
+	padding:0; 
+	font-size:0
+	
+}
+	#slider_dots li{
+		display: inline-block;
+		width: 11px;
+		height: 12px;
+		cursor: pointer;
+		padding: 0 2px 0 2px;
+		background-repeat: no-repeat;
+		background-position: 0 0;
+		vertical-align: top;
+		text-align: center;
+	}
+	#slider_dots li:hover{
+		background-position: 0 -12px;
+	}
+	#slider_dots li.act{
+		background-position: 0 -24px;
+		 
+	}
+	#slider_dots li{
+	background-image: url(../images/night_slider_dots.png);
+}
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */

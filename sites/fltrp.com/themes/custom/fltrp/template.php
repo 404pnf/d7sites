@@ -53,6 +53,7 @@ function fltrp_preprocess_block(&$vars, $hook) {
  *   A string containing the breadcrumb output.
  */
 function fltrp_breadcrumb($variables) {
+
   $breadcrumb = $variables['breadcrumb'];
   // Determine if we are to display the breadcrumb.
   $show_breadcrumb = theme_get_setting('fltrp_breadcrumb');

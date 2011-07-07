@@ -1,6 +1,7 @@
 <?php
 // 产品中心首页模版
 ?>
+
 <div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
 
   <!-- ______________________ HEADER _______________________ -->
@@ -46,7 +47,13 @@
     <?php endif; ?>
 
   </div> <!-- /header -->
-
+	<?php 
+	
+	//输出广告
+	$block10 = block_load('block',10);
+	$renderable_block10 =  _block_get_renderable_array(_block_render_blocks(array($block10)));
+	print render($renderable_block10);
+?>
   <!-- ______________________ MAIN _______________________ -->
 
   <div id="main"  class="srow">

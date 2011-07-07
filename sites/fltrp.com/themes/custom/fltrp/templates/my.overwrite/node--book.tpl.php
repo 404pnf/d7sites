@@ -83,9 +83,9 @@ span.stico_tqq{
 							</div>
 							
 							<p class="sel">
-								<a href="">内容简介</a>
-								<a href="" class="active">章节目录</a>
-							</p>
+							<span>内容简介</span>
+								<span>章节目录</span>
+								</p>
 							<div class="bookcontent">
 								<?php print $body?>
 
@@ -96,6 +96,7 @@ span.stico_tqq{
 
 							</div>
 							
+							<!--最佳组合开始
 							<div id="bestgroup">
 								<a href="" class="fleft"></a>
 								<a href="" class="fright"></a>
@@ -137,6 +138,7 @@ span.stico_tqq{
 									</ul>
 								</div>
 							</div>
+							--最佳组合结束-->
 							
 						</div>
   	</div>

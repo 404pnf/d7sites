@@ -1,5 +1,7 @@
 /*产品中心细化样式*/
 #content-area{ margin-left:220px;}
+.with-navigation #content, .with-navigation .sidebar{ margin-top:30px;}
+.page-node-10653 h1 {font-size: 17px;margin: 0 0 0.5em;text-indent:0.3em;}
 #block-block-7 h1{ margin:4px;}
 #booklist ul li{background:#F4F4F4; margin: 0 4px 15px 4px; padding: 9px;border:1px solid #ddd; overflow: hidden; height: 174px}
 #booklist ul li img{ margin: 5px 10px 5px 0;float: left;}
@@ -8,10 +10,10 @@
 #booklist ul li p{font-size:12px; line-height: 1.5em; color: #666}
 #booklist .bookbg3{ float:left;margin-bottom: 28px; margin-right: 10px;}
 #breadcrumb{ height: 40px;}
+#content-inner{ float: none;}
 
 /*产品中心动画样式*/
-#flash{background-color: #000;margin-bottom: 2px;}
-
+#block-block-10{margin: 30px auto 0;background: url("../images/flash_bottombg20110622.gif") no-repeat center bottom; height: 294px; width: 960px; overflow: hidden;*height:306px;height:306px\9;}
 /* 产品中心排行 ph*/
 #ph{ margin-top: 20px;}
 #sidebar-first{ background: none;}
@@ -24,11 +26,11 @@
 #sidebar-first #ph .assort li a{ font-weight: 400; font-size: 12px}
 
 /* 产品二级列表 booklb*/
-#booklb_title{height:32px; border: 1px solid #DFDFDF; background: url("../images/booklb_title20110622.jpg"); margin-left: 10px;*width:728px; overflow: hidden;}
+#booklb_title{height:32px; border: 1px solid #DFDFDF; background: url("../images/booklb_title20110622.jpg"); margin-left: 10px;*width:728px;}
 #booklb_title li{ float: left; padding: 6px 30px; border-right:1px solid #ccc; font-size: 12px; position: relative;}
 #booklb_title li.strong{ font-weight: 700; font-size: 14px;overflow: hidden;padding: 6px 30px;}
 #booklb_title li.active{ background: #ba0006; color: #FFF; font-weight: 700;z-index:0;height:14px; }
-#booklb_title li.active span{ z-index:2;display: block;width:0;height:0;position: absolute; top:32px; border-left:8px solid #FFF;border-right:8px solid #FFF;border-top:8px solid #ba0006;border-bottom:8px solid #FFF;left:50%; margin-left:-10px }
+#booklb_title li span{ z-index:2;display: block;width:0;height:0;position: absolute; top:32px; border-left:8px solid #FFF;border-right:8px solid #FFF;border-top:8px solid #ba0006;border-bottom:8px solid #FFF;left:50%; margin-left:-10px }
 #booklb{margin-top: 2px; margin-left: 10px;}
 #booklb .view-content li a{ color: #404040;}
 #booklb .view-content li{ padding: 20px 0; border-bottom: 1px dashed #ccc;width:726px; *width:720px;font-size: 12px;line-height:24px;margin: 0} 
@@ -37,7 +39,7 @@
 #booklb .view-content li h2{ margin: 6px; font-size: 14px; color: #404040;}
 #booklb .view-content li .bookbg{ float: left; background: url("../images/books_bg20110623.gif"); width: 133px; height: 184px; margin-right: 18px;}
 #booklb .view-content li .bookbg2{ float:left;margin-right: 18px;}
-#bookld .view-content li .bookbg img{ margin: 7px;}
+#booklb .view-content li .bookbg img{ margin: 7px;}
 #booklb .view-content li span{color: #5b5b5b; }
 /* 数字二级列表 booklb*/
 #bookld{margin-top: 2px; margin-left: 10px;}
@@ -87,10 +89,10 @@
 #share span{font-weight:700; font-size: 12px;display: block;line-height: 30px; float: left;}
 #share a{ display: block;float:left; margin: 6px 3px 0 5px;}
 #bookinfo p.sel{margin:30px 0 -1px 10px;}
-p.sel a{ padding:8px 20px; font-weight: 700; font-size: 14px; border: 1px solid #ddd;  background: #eee; color: #404040;}
-p.sel a.active{ background:#C5292D; color: #fff;}
-#bookinfo .bookcontent{ margin: 10px; line-height: 26px; border-top:3px solid #d5d5d5;border-bottom:3px solid #d5d5d5; padding: 20px; font-size: 12px;}
-#bookinfo .bookcontent p{ margin:6px 0;}
+p.sel span{ padding:8px 20px; font-weight: 700; font-size: 14px; border: 1px solid #ddd;  background: #eee; color: #404040; cursor: pointer;}
+p.sel span.active{ background:#C5292D; color: #fff;}
+#bookinfo .bookcontent,#bookinfo .bookdirectory{ margin: 10px; line-height: 26px; border-top:3px solid #d5d5d5;border-bottom:3px solid #d5d5d5; padding: 20px; font-size: 12px;}
+#bookinfo .bookcontent p,#bookinfo .bookdirectory p{ margin:6px 0;}
 
 /*最佳组合 bestgroup  推荐产品 recommend*/
 #bestgroup{ margin:22px 0 22px 10px; border: 1px solid #ddd; background: #eee; position: relative; overflow: hidden;width:728px;}
@@ -110,7 +112,7 @@ p.sel a.active{ background:#C5292D; color: #fff;}
 #productnotfount li{ text-indent:2em;}
 
 /*产品分类 sidebar*/
-#sidebar-first{width:210px;}. region-sidebar-first
+#sidebar-first{width:210px;}
 #sidebar-first h1,#main h1{font-size:16px; font-weight: 700;  padding: 6px; margin-bottom:4px }
 #sidebar-first h2{ height:16px; font-size:14px; font-weight: 700; color:#404040;padding:8px; margin: 2px;background:url("../images/prodtitle_bg20110622.jpg");text-align: center}
 #sidebar-first .row{margin-bottom:6px;}

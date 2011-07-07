@@ -58,7 +58,7 @@ if(!empty($custom_style_file)){
   <div id="main"  class="srow">
 	
 	<!------content  top----->
-	<?php if ($page['content_top']): ?>
+		<?php if ($page['content_top']): ?>
       <div id="content-top">
         <?php print $breadcrumb; ?>
         <?php print render($page['content_top']); ?>

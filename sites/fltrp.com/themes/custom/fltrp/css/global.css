@@ -85,7 +85,7 @@ article,aside,dialog,figure,footer,header,hgroup,menu,nav,section,time,mark,audi
 #header{background: url("../images/banner_bg20110622.jpg") repeat-x; margin: 0}
 #banner{background: url("../images/banner.jpg") no-repeat; height: 111px;}
 #logo{display:block; margin:30px 0;}
-#logo img{_behavior: url(/fltrp/js/iepngfix.htc);}
+#logo img{_behavior: url("/sites/fltrp.com/themes/custom/fltrp/js/iepngfix.htc");}
 
 /* 导航nav*/
 #nav{background:#8C0001;height: 38px;line-height:38px;min-width: 960px;}

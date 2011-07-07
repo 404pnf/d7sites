@@ -1,7 +1,7 @@
 /*资讯中心细化样式*/
 
 #sidebar-second{ width: 200px; border: 1px solid #d7d7d7; background: #f6f6f6;}
-#content-inner{ margin-right: 226px;}
+#content-inner{ margin-right: 226px; width: 740px;}
 #breadcrumb{ height: 40px;}
 #pagenum{ padding: 30px 140px 0;}
 
@@ -20,7 +20,7 @@
 .newslist .jxky{background: url("../images/info_newstitle20110627.gif") no-repeat 0 -23px;}
 .newslist .cpzx{background: url("../images/info_newstitle20110627.gif") no-repeat 0 -46px;;}
 .newslist .hdss{background: url("../images/info_newstitle20110627.gif") no-repeat 0 -69px;;}
-.newslist .more{position: absolute;text-indent:0;top:8px;right:0; font-weight:400; color: #404040;font-size:12px;}
+.newslist .more{position: absolute;text-indent:0;top:8px;right:0; font-weight:400; color: #404040;font-size:12px;*+top:6px;}
 .newslist li{ line-height: 32px; background:url("../images/blackpoint.gif") no-repeat .4em 50% ; text-indent:1.8em;}
 .newslist li a{ color: #272727; margin-right: 12px;font-size:14px;}
 .newslist li span{ color: #a9a9a9; font-size: 12px;}
@@ -30,12 +30,16 @@
 .redborder{ border: 1px solid #EFD9DB;}
 .articletitle{ text-align: center; font-size: 26px; margin-top: 40px;}
 .articledate{ display: block; margin: 10px 20px 30px; text-align: right; color: #999; font-size: 12px; border-bottom: 1px dashed #ddd; padding-bottom: 14px}
-.articlecontent{ margin: 20px 40px;}
+.articlecontent{ margin: 20px 40px; font-size: 14px;}
 .articlecontent p{ text-indent:2em; line-height:2em;}
-#share{margin: 20px 20px; text-align: right; padding:20px 30px; border-bottom: 1px dashed #ddd; font-weight:700;}
+.articlecontent img{ margin-bottom: 1.5em;}
+#share{margin: 20px 20px; text-align: right; padding:20px 30px; border-bottom: 1px dashed #ddd; font-weight:700;width:640px;}
+#share span{}
+.shareto_toolbox {float: right; text-align: right; display: inline;}
 
 /* 相关新闻relatednews*/
 .relatednews{ margin: 10px 50px; padding-bottom: 20px}
 .relatednews h3{ margin-bottom: .8em;}
 .relatednews li{ line-height:1.9em; background:url("../images/blackpoint.gif") no-repeat .4em 50% ; text-indent:1.8em; font-size: 12px;}
 .relatednews li a{ color: #333;}
+
