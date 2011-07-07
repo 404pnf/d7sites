@@ -1,4 +1,4 @@
-<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
+<div id="" class="node--page">
 	<div class="node-inner">
     
     <?php if (!$page): ?>
@@ -19,7 +19,10 @@
         print render($content);
        ?>
   	</div>
-  	
+  
+     <pre><?php print_r($content);?></pre>
+
+	
     <?php if (!empty($content['links']['terms'])): ?>
       <div class="terms"><?php print render($content['links']['terms']); ?></div>
     <?php endif;?>

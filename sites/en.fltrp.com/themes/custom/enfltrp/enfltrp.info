@@ -1,44 +1,42 @@
-; $Id: bartik.info,v 1.5 2010/11/07 00:27:20 dries Exp $
+name = en.fltrp.com
+description = Basic starter theme for Drupal 7
+screenshot = images/screenshot.gif
+core = "7.x"
+project = "2u4u"
+engine = phptemplate
 
-name = chinadebate
-description = A flexible, recolorable theme with many regions.
-package = Core
-version = VERSION
-core = 7.x
+regions[page_top] = Page top
+regions[header] = Header
+regions[highlight] = Highlight
+regions[help] = Help
+regions[content] = Content
+regions[sidebar_first] = First sidebar
+regions[sidebar_second] = Second sidebar
+regions[footer] = Footer
+regions[page_bottom] = Page bottom
 
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = node_user_picture
+features[] = comment_user_picture
+features[] = search
+features[] = favicon
+features[] = main_menu
+features[] = secondary_menu
+
+stylesheets[all][] = css/default.css
 stylesheets[all][] = css/layout.css
 stylesheets[all][] = css/style.css
-stylesheets[all][] = css/colors.css
-stylesheets[all][] = css/enfltrp.css
 stylesheets[print][] = css/print.css
 
-
-regions[header] = Header
-regions[help] = Help
-regions[page_top] = Page top
-regions[page_bottom] = Page bottom
-regions[highlighted] = Highlighted
-
-regions[featured] = Featured
-regions[content] = Content
-regions[sidebar_first] = Sidebar first
-regions[sidebar_second] = Sidebar second
-
-regions[triptych_first] = Triptych first
-regions[triptych_middle] = Triptych middle
-regions[triptych_last] = Triptych last
-
-regions[footer_firstcolumn] = Footer first column
-regions[footer_secondcolumn] = Footer second column
-regions[footer_thirdcolumn] = Footer third column
-regions[footer_fourthcolumn] = Footer fourth column
-regions[footer] = Footer
-
-settings[shortcut_module_link] = 0
-
-
-; Information added by drupal.org packaging script on 2011-01-05
-version = "7.0"
-project = "drupal"
-datestamp = "1294208756"
+settings[basic_tabs] = 1
+settings[basic_breadcrumb_separator] = »
+settings[wireframe_mode] = 0
+settings[clear_registry] = 0
+; Information added by drupal.org packaging script on 2011-02-16
+version = "7.x-2.0-rc3"
+core = "7.x"
+project = "basic"
+datestamp = "1297878443"
 
