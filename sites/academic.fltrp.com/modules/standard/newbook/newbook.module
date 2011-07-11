@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the newbook feature.
+ */
+
+include_once('newbook.features.inc');
