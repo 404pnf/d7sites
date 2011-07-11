@@ -1,5 +1,4 @@
 <?php
-// $Id: entity.wrapper.inc,v 1.1.2.11 2011/02/15 13:19:40 fago Exp $
 
 /**
  * @file
@@ -26,13 +25,15 @@ abstract class EntityMetadataWrapper {
    * @param $info
    *   Optional. Used internally to pass info about properties down the tree.
    */
-  public function __construct($type, &$data = NULL, $info = array()) {
+  public function __construct($type, $data = NULL, $info = array()) {
     $this->type = $type;
-    $this->data = &$data;
     $this->info = $info + array(
       'langcode' => NULL,
     );
     $this->info['type'] = $type;
+    if (isset($data)) {
+      $this->set($data);
+    }
   }
 
   /**
@@ -129,7 +130,7 @@ abstract class EntityMetadataWrapper {
    * Returns whether $value is a valid value to set.
    */
   public function validate($value) {
-    if (!entity_property_verify_data_type($value, $this->type)) {
+    if (isset($value) && !entity_property_verify_data_type($value, $this->type)) {
       return FALSE;
     }
     return !isset($this->info['validation callback']) || call_user_func($this->info['validation callback'], $value, $this->info);
@@ -279,7 +280,7 @@ class EntityStructureWrapper extends EntityMetadataWrapper implements IteratorAg
    *     data structure. It has to contain an array of property info in the same
    *     structure as used by hook_entity_property_info().
    */
-  public function __construct($type, &$data = NULL, $info = NULL) {
+  public function __construct($type, $data = NULL, $info = array()) {
     parent::__construct($type, $data, $info);
     $this->info += array('property defaults' => array());
     $info += array('property info' => array());
@@ -564,9 +565,8 @@ class EntityDrupalWrapper extends EntityStructureWrapper {
    * @param $info
    *   Optional. Used internally to pass info about properties down the tree.
    */
-  public function __construct($type, $data = NULL, $info = NULL) {
+  public function __construct($type, $data = NULL, $info = array()) {
     parent::__construct($type, $data, $info);
-    $this->setEntity($data);
     $this->setUp();
   }
 
@@ -650,7 +650,7 @@ class EntityDrupalWrapper extends EntityStructureWrapper {
    * @see entity_id()
    */
   public function getIdentifier() {
-    return $this->dataAvailable() && $this->value() ? $this->id : NULL;
+    return $this->dataAvailable() ? $this->value(array('identifier' => TRUE)) : NULL;
   }
 
   /**
@@ -665,10 +665,17 @@ class EntityDrupalWrapper extends EntityStructureWrapper {
 
   /**
    * Overridden.
+   *
+   * @param $options
+   *   An array of options. Known keys:
+   *   - identifier: If set to TRUE, the entity identifier is returned.
    */
   public function value(array $options = array()) {
     $this->setEntity(parent::value());
-    if (!$this->data && !empty($this->id)) {
+    if (!empty($options['identifier'])) {
+      return $this->id;
+    }
+    elseif (!$this->data && !empty($this->id)) {
       // Lazy load the entity if necessary.
       $return = entity_load($this->type, array($this->id));
       $this->data = reset($return);
@@ -751,7 +758,7 @@ class EntityDrupalWrapper extends EntityStructureWrapper {
    * @return EntityDrupalWrapper
    */
   public function delete() {
-    if ($this->dataAvailable()) {
+    if ($this->dataAvailable() && $this->value()) {
       $return = entity_delete($this->type, $this->id);
       if ($return === FALSE) {
         throw new EntityMetadataWrapperException("There is no information about how to delete entities of type " . check_plain($this->type) . '.');
@@ -820,8 +827,6 @@ class EntityDrupalWrapper extends EntityStructureWrapper {
  */
 class EntityListWrapper extends EntityMetadataWrapper implements IteratorAggregate, ArrayAccess, Countable {
 
-  protected $data = NULL;
-
   protected function itemType() {
     $type = entity_property_list_extract_type($this->type);
     return $type ? $type : 'unknown';
@@ -879,8 +884,8 @@ class EntityListWrapper extends EntityMetadataWrapper implements IteratorAggrega
   /**
    * @param $options
    *   An array of options. Known keys:
-   *   identifier: If set to TRUE for a list of entities, it won't be returned
-   *   as list of fully loaded entity objects, but as a list of entity ids.
+   *   - identifier: If set to TRUE for a list of entities, it won't be returned
+   *     as list of fully loaded entity objects, but as a list of entity ids.
    */
   public function value(array $options = array()) {
     // For lists of entities fetch full entity objects before returning.
@@ -889,7 +894,10 @@ class EntityListWrapper extends EntityMetadataWrapper implements IteratorAggrega
       $entities = entity_load($this->get(0)->type, $list);
       // Make sure to keep the array keys as present in the list.
       foreach ($list as $key => $id) {
-        $list[$key] = isset($entities[$id]) ? $entities[$id] : NULL;
+        if (!isset($entities[$id])) {
+          throw new EntityMetadataWrapperException('Unable to load the ' . check_plain($this->itemType()) . ' with the id ' . check_plain($id) . '.');
+        }
+        $list[$key] = $entities[$id];
       }
       return $list;
     }
@@ -946,7 +954,7 @@ class EntityListWrapper extends EntityMetadataWrapper implements IteratorAggrega
    * list items.
    */
   public function validate($value) {
-    return entity_property_verify_data_type($value, $this->type);
+    return !isset($value) || entity_property_verify_data_type($value, $this->type);
   }
 
   /**
