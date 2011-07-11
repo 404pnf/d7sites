@@ -1,9 +1,0 @@
-name = "Migrate FLTRP"
-description = "FLTRP migration data."
-package = "Development"
-core = 7.x
-dependencies[] = image
-dependencies[] = migrate
-
-files[] = migrate_fltrp.module
-files[] = book.inc

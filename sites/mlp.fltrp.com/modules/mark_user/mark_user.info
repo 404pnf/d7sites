@@ -1,7 +1,0 @@
-; $Id: mark_user.info
-name = mark_user
-description = mark users name and password.
-package = devlope custom drupal
-version = VERSION
-core = 7.x
-

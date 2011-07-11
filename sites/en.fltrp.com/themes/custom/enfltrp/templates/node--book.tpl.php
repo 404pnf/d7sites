@@ -146,7 +146,7 @@
              <div class="enlish_other_recommendation">
                     <div class="english_other_recommendation_title">推荐图书:</div>
                        <?php          
-                             $output=$field_en_fenlei[0]['tid'];
+                             $output=$node->field_en_fenlei['und'][0]['tid'];
                              $relate_book =views_embed_view('book_recommendation','block_1',$output);
                              $relate_book= '<div class="book_relate">'.$relate_book.'</div>'; 
                              print $relate_book;

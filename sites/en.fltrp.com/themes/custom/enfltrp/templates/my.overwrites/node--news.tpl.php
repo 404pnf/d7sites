@@ -1,4 +1,4 @@
-<div id="" class="node--page">
+<div id="" class="news">
 	<div class="node-inner">
     
     <?php if (!$page): ?>

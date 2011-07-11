@@ -59,13 +59,13 @@
 /* line 55, ../sass/layout.sass */
 .two-sidebars .center,
 .sidebar-first .center {
-  margin-left: 190px;
+  margin-left: 234px;
 }
 
 /* line 59, ../sass/layout.sass */
 #sidebar-first {
-  width: 190px;
-  margin-right: -190px;
+  width: 260px;
+  margin-right: -260px;
 }
 
 /* line 65, ../sass/layout.sass */
@@ -108,7 +108,6 @@
 .with-navigation .sidebar {
   margin-top: 40px;
 }
-
 /* Layout
  * ------
  * Using a negative margin technique, adapted from ZEN. The page is loaded by this order:
@@ -170,13 +169,13 @@
 /* line 151, ../sass/layout.sass */
 .two-sidebars .center,
 .sidebar-first .center {
-  margin-left: 190px;
+  margin-left: 234px;
 }
 
 /* line 155, ../sass/layout.sass */
 #sidebar-first {
-  width: 190px;
-  margin-right: -190px;
+  width: 234px;
+  margin-right: -234px;
 }
 
 /* line 161, ../sass/layout.sass */

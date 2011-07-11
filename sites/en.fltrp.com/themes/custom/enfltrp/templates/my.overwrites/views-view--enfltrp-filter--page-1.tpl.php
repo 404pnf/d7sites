@@ -26,29 +26,47 @@
  * @ingroup views_templates
  */
 ?>
-
+<div class="category1">
 <?php
-              $views_name = "testing";
-              $display_id = "block_1";
-              print views_embed_view($views_name, $display_id);
+ if(empty ($yz)){
+	  $yz="All";
+	 }
+ if(empty ($rd)){
+           $rd="All";     
+         }        
+ $path = 'en?rd='.$rd.'&yz='.$yz;
 ?>
+      Sort by Ages: <a href="<?php print $path; ?>">All</a>
+        <?php 
+             $views_name = "filter_fenlei";
+             $display_id = "block_1";
+	     print views_embed_view($views_name, $display_id);
+        ?>     
+</div>
 
 
-
-
-
-
-
+<div class="category2">
+<?php
+ if(empty ($yz)){
+	  $yz="All";
+	 }
+ if(empty ($rd)){
+           $rd="All";     
+         }  
+ $path = 'en?rd='.$rd.'&yz='.$yz;
+?> 
+	Sort by Language：<a href="<?php print $path;?>">All</a>
+          <?php
+             $views_name = "filter_fenlei";
+             $display_id = "block_2";
+             print views_embed_view($views_name, $display_id);
+          ?>
+</div>
 
 
 
 <div class="<?php print $classes; ?>">
 
-  <?php if ($exposed): ?>
-    <div class="view-filters">
-      <?php print $exposed; ?>
-    </div>
-  <?php endif; ?>
 
 
   <?php if ($rows): ?>
