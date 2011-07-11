@@ -1,5 +1,5 @@
 <?php
-// $Id: default.settings.php,v 1.51 2010/10/11 23:49:48 dries Exp $
+// $Id: default.settings.php,v 1.52 2011/01/28 07:03:57 webchick Exp $
 
 /**
  * @file
@@ -178,33 +178,29 @@
  *   );
  * @endcode
  */
+
 $databases['default']['default'] = array(
 	'driver' => 'mysql',
-	'database' => 'mlp-fltrp',
+ 	'database' => 'mlp-fltrp',
 	'username' => 'py',
-	'password' => 'pengyou',
-	'host' => 'localhost',
-	'prefix' => '',
+ 	'password' => 'pengyou',
+ 	'host' => 'localhost',
+ 	'prefix' => array(
+			'default'   => '',
+    			'users'     => 'ncec.',
+    			'sessions'  => 'ncec.',
+    			'authmap'   => 'ncec.',
+  			),
 );
-
-$databases['data']['default'] = array(
-	'driver' => 'mysql',
-	'database' => 'data',
-	'username' => 'py',
-	'password' => 'pengyou',
-	'host' => 'localhost',
-	'prefix' => '',
-);
-
-$databases['drupal6']['default'] = array(
-	'driver' => 'mysql',
-	'database' => 'jiate',
-	'username' => 'py',
-	'password' => 'pengyou',
-	'host' => 'localhost',
-	'prefix' => '',
-);
-
+// set db connection to d6 sites. '2u4u' is the db name zhanglin called in his moudle
+ $databases['2u4u']['default'] = array(
+ 	'driver' => 'mysql',
+        'database' => '2u4u',
+ 	'username' => 'zl',
+ 	'password' => '8b51575413560e07859cd1380b82d6d2',
+ 	'host' => '221.122.115.57',
+        'port' => '3306',
+  );
 
 /**
  * Access control for update.php script.
@@ -308,11 +304,11 @@ ini_set('session.cookie_lifetime', 2000000);
 
 /**
  * Drupal automatically generates a unique session cookie name for each site
- * based on on its full domain name. If you have multiple domains pointing at
- * the same Drupal site, you can either redirect them all to a single domain
- * (see comment in .htaccess), or uncomment the line below and specify their
- * shared base domain. Doing so assures that users remain logged in as they
- * cross between your various domains.
+ * based on its full domain name. If you have multiple domains pointing at the
+ * same Drupal site, you can either redirect them all to a single domain (see
+ * comment in .htaccess), or uncomment the line below and specify their shared
+ * base domain. Doing so assures that users remain logged in as they cross
+ * between your various domains.
  */
 # $cookie_domain = 'example.com';
 
@@ -402,6 +398,7 @@ ini_set('session.cookie_lifetime', 2000000);
  * getting cached pages from the proxy.
  */
 # $conf['omit_vary_cookie'] = TRUE;
+ $conf['omit_vary_cookie'] = TRUE;
 
 /**
  * CSS/JS aggregated file gzip compression:
