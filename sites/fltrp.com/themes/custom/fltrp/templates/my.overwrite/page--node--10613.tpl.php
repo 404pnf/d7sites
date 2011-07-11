@@ -52,12 +52,14 @@
   <div id="main"  class="srow">
 	
 	<!------content  top----->
-	<?php if ($page['content_top']): ?>
+	
       <div id="content-top">
         <?php print $breadcrumb; ?>
-        <?php print render($page['content_top']); ?>
+				<?php if ($page['content_top']): ?>
+          <?php print render($page['content_top']); ?>
+				<?php endif; ?>
       </div>
-    <?php endif; ?>
+    
   <!------content  top----->
 
 
@@ -94,21 +96,7 @@ commented by zhanglin-->
         <div id="content-area">
 
        		   <!--产品列表 -->
-			   <?php 
-					$category = $_GET["category"];
-
-					if($category==776){
-			   ?>
-			 <div class="row" id="booklist">
- 	
-					<?php
-			             $views_name = 'digital';
-                        $display_id = 'page_2';
-                         print views_embed_view($views_name, $display_id);
-                        ?>
-			 
-			 </div>
-			 <?php }else{?>
+			
 
 			 <div class="row" id="bookld">
  	
@@ -119,7 +107,7 @@ commented by zhanglin-->
                         ?>
 			 
 			 </div>
-			<?php }?>
+
 				  <!--/产品列表 -->			
 
           <?php print render($page['content']) ?>

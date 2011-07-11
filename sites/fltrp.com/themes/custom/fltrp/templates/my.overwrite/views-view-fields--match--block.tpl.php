@@ -30,10 +30,11 @@
  * 覆写该模板的目的是为了增加对于“活动火热进行中”的特殊处理支持
  */
 ?>
+<?php
+	print $fields['field_match_hot']->content;
+	 
+?>
 
-<div class="hot_ing">
-<img src="http://new.fltrp.com/sites/new.fltrp.com/themes/custom/fltrp/images/hot_ing20110707_03.gif" alt="" />
-</div>
 
 <div class="huodongbox">
 <?php

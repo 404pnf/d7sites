@@ -20,8 +20,8 @@
         hide($content['comments']);
         hide($content['links']);
         //print render($content);
-	//	print ("<pre>");
-		//print_r($node);
+		//print ("<pre>");
+	//	print_r($node);
 	//	print ("</pre>");
 
 		$nid = $node->nid;     
@@ -30,15 +30,15 @@
 		$tid = $node->field_series['und'][0]['taxonomy_term']->tid;   
 		$isbn = $node->field_isbn['und'][0]['value'];        //ISBN
 		$author = $node->field_author['und'][0]['value'];        //作者名
-		$format = $node->field_format['und'][0]['value'];        //开本
+		$format = $node->field_format['und'][0]['taxonomy_term']->name; ;        //开本
 		$pages = $node->field_pages['und'][0]['value'];        //页数
-		$zdfs = $node->field_zdfs['und'][0]['value'];        //装订方式
+		$zdfs = $node->field_zdfs['und'][0]['taxonomy_term']->name;;        //装订方式
 		$publish_date= $node->field_publish_date['und'][0]['value'];        //发布日期
 		$price = $node->field_price['und'][0]['value'];        //价格
 	    $img = $node->field_img['und'][0]['uri'];        //封面
 		$img =file_create_url($img );        //封面
-		$body = $node->body['und'][0]['value'];        //简介    
-		$directory = $node->field_directory['und'][0]['value'];        //目录    
+		$body = $node->body['und'][0]['safe_value'];        //简介    
+		$directory = $node->field_directory['und'][0]['safe_value'];        //目录    
 		
        ?>
 	   <div id="bookinfo">
@@ -49,7 +49,7 @@
 							<?php }?>	
 							<p>ISBN：<?php print $isbn?> </p>
 							<p>著译者：<?php print $author?>  </p>
-							<p>开本：<?php print $format?> 页数：<?php print $pages?> 页 装订：<?php print $zdfs?> </p>
+							<p>开本：<?php print $format?> 页数：<?php print $pages?> 页  </p>
 							<p>出版日期：<?php print $publish_date?></p>
 							<p>定价：<?php print $price?></p>
 							
@@ -101,8 +101,10 @@ span.stico_tqq{
 							
 							<!--最佳组合开始-->
 							<div id="bestgroup">
+								<!--
 								<a href="" class="fleft"></a>
 								<a href="" class="fright"></a>
+								-->
 								<div class="srlist">
 									<h3>最佳组合</h3>
 						<?php

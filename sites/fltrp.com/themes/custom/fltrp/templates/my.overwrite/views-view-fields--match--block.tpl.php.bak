@@ -31,17 +31,12 @@
  */
 ?>
 <?php
-     
-	 $match_hot = $fields['field_match_hot']->content;
-
-	 if($mach_hot==1)
-	 {
-			print "fdassssssssssss";
-	 }
-
-	 print $fields['field_match_hot']->content==1;
-
+	print  $fields['field_match_hot']->content: 
 ?>
+<div class="hot_ing">
+<img src="http://new.fltrp.com/sites/new.fltrp.com/themes/custom/fltrp/images/hot_ing20110707_03.gif" alt="" />
+</div>
+
 <div class="huodongbox">
 <?php
      print $fields['field_match_image']->content;

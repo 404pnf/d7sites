@@ -53,6 +53,52 @@ function fltrp_preprocess_block(&$vars, $hook) {
  *   A string containing the breadcrumb output.
  */
 function fltrp_breadcrumb($variables) {
+  $current_path   = drupal_get_path_alias();
+	if($current_path =='productslist'||$current_path =='digital'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		if($current_path =='productslist'){
+		  $breadcrumbs[] = '<a href="'.url('productslist').'">'.t('产品中心').'</a>';
+		}else{
+		 // $breadcrumbs[] = '<a href="'.url('digital').'">'.t('数字产品').'</a>';
+		}
+	  $category = $_GET["category"];
+		$tid = $category;
+		$parents = taxonomy_get_parents_all($tid);
+		//debug($parents);
+		$parents = array_reverse($parents);
+		foreach($parents as $parent){
+			//$breadcrumbs[] = l($parent->name, 'productslist?category='.$parent->tid);
+			$breadcrumbs[] = '<a href="'.$current_path.'?category='.$parent->tid.'">'.$parent->name.'</a>';
+		}
+	  $output = '<div class="breadcrumb">';
+		$output .=implode(' > ', $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+  if(arg(0)=='node' && arg(1)>0){
+	  $nid = arg(1);
+		$node = node_load($nid);
+		if($node->type == 'book'){
+		
+		  $breadcrumbs = array();
+			$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+			$breadcrumbs[] = '<a href="'.url('productslist').'">'.t('产品中心').'</a>';
+			$tid = $node->field_category['und'][0]['tid'];
+			$parents = taxonomy_get_parents_all($tid);
+			//debug($parents);
+			$parents = array_reverse($parents);
+			foreach($parents as $parent){
+			  //$breadcrumbs[] = l($parent->name, 'productslist?category='.$parent->tid);
+				$breadcrumbs[] = '<a href="productslist?category='.$parent->tid.'">'.$parent->name.'</a>';
+			}
+		  $output = '<div class="breadcrumb">';
+			$output .=implode(' > ', $breadcrumbs);
+			$output .= '</div>';
+			return $output;
+				
+		}
+	}
 
   $breadcrumb = $variables['breadcrumb'];
   // Determine if we are to display the breadcrumb.

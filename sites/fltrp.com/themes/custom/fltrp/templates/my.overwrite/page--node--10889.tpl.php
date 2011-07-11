@@ -1,9 +1,7 @@
 <?php
 // 资讯中心列表页模版
 ?>
-
-
-?><div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
+<div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
 
   <!-- ______________________ HEADER _______________________ -->
 
