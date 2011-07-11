@@ -98,6 +98,9 @@ function fltrp_breadcrumb($variables) {
 			return $output;
 				
 		}
+		
+		if($node->type == 'news'){
+		}
 	}
 
   $breadcrumb = $variables['breadcrumb'];
