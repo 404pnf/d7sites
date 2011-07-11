@@ -46,7 +46,8 @@
           $custom_style_file ='/css/information.css';
 	case "newsmore":
           $custom_style_file ='/css/information.css';
-
+	case "match":
+          $custom_style_file ='/css/match.css';
 		 break;
 	 }
 if(!empty($custom_style_file)){
@@ -57,7 +58,24 @@ if(!empty($custom_style_file)){
 
 ?>
 <!---   added by zhanglin//  -->
-
+<?php if ($current_path == "products"): ?>
+<link href="/sites/fltrp.com/themes/custom/fltrp/lunbo/css/style.css" rel="stylesheet" type="text/css" />
+<!--[if lte IE 7]><link href="./css/old_ie.css" rel="stylesheet" type="text/css" /><![endif]-->
+<script src="/sites/fltrp.com/themes/custom/fltrp/lunbo/js/jquery-1.5.min.js" type="text/javascript"></script>
+<script src="/sites/fltrp.com/themes/custom/fltrp/lunbo/js/jquery.easing.1.3.js" type="text/javascript"></script>
+<script src="/sites/fltrp.com/themes/custom/fltrp/lunbo//js/cufon-yui.js" type="text/javascript"></script>
+<script type="text/javascript" src="/sites/fltrp.com/themes/custom/fltrp/lunbo/js/cycle.js"></script>
+<!--±ØÐë-->
+<script>
+var slider_settings = {
+   speed:              800,
+   easing:             'easeInOutQuad',
+   oneAfterAnother:    false
+}
+is_day=false;
+</script>
+<script src="/sites/fltrp.com/themes/custom/fltrp/lunbo/js/vt.js" type="text/javascript"></script>
+<?php endif; ?>
   <?php print $scripts; ?>
 </head>
 <body class="<?php print $classes; ?>" <?php print $attributes;?>>

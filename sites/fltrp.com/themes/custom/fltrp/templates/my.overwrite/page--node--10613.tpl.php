@@ -93,9 +93,6 @@ commented by zhanglin-->
 
         <div id="content-area">
 
-
-
-
        		   <!--产品列表 -->
 			   <?php 
 					$category = $_GET["category"];

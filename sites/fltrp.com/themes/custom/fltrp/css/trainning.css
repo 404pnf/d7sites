@@ -1,8 +1,7 @@
 /* 焦点 动画 flash*/
 #flash{ background: #000;}
-#content-header{ display: none;}
 /* 选项卡 */
-#sbtn{height:28px;border-bottom: 3px solid #484848; padding-left: 14px; margin-top: 30px; overflow: hidden;*+width:100%;}
+#sbtn{height:28px;border-bottom: 3px solid #484848; padding-left: 14px; margin-top: 30px; overflow: hidden;}
 #sbtn a{display:block;width:125px; height:28px; float: left;}
 /* 培训列表*/
 #booklist{ padding-left: 5px;}

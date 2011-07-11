@@ -1,30 +1,6 @@
 <?php
-// 资讯中心列表页模版
-
-  $custom_style_file ='/css/information.css';
-if(!empty($custom_style_file)){
-    $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','fltrp').$custom_style_file.'");</style>';
-    print   $custom_style_uri ;
-}
+	//赛事活动首页
 ?>
-<SCRIPT type="text/javascript" src="<?php print $base_path.$directory?>/js/coin-slider/coin-slider.min.js"></SCRIPT>
-<link href="<?php print $base_path.$directory?>/js/coin-slider/coin-slider-styles.css" media="all" rel="stylesheet" type="text/css">
-<script>
-	var $j=jQuery.noConflict();  //将变量$的控制权让渡给prototype.js
-	$j(function(){
-		 $j('#coin_slider').coinslider({
-            width: 400,//设置的宽度等于容器的宽度
-            height: 268,//设置的高度等于容器的高度
-            delay: 3000,//图片切换延迟
-            effect: "rain",//可以选4种切换效果，'random', 'swirl', 'rain', 'straight'，不写则为随机效果
-            navigation: true,//是否开启数字导航
-            links: false //是否对图片开启超链接
-        });
-        
-        $j('#coin-slider-coin_slider').width($j('#coin_slider').width());
-	});
-</script>
-
 <div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
 
   <!-- ______________________ HEADER _______________________ -->
@@ -87,15 +63,15 @@ if(!empty($custom_style_file)){
 
 
     <div id="content">
-      <div id="content-inner" class="inner column redborder">
+      <div id="content-inner" class="inner column ">
 
         <?php if ($breadcrumb || $title|| $messages || $tabs || $action_links): ?>
           <div id="content-header">    
-
+   
             <?php if ($page['highlight']): ?>
               <div id="highlight"><?php print render($page['highlight']) ?></div>
             <?php endif; ?>
-   <!--  commented by zhanglin
+<!--  commented by zhanglin
             <?php if ($title): ?>
               <h1 class="title"><?php print $title; ?></h1>
             <?php endif; ?>
@@ -115,6 +91,20 @@ commented by zhanglin-->
         <?php endif; ?>
 
         <div id="content-area">
+				<!-- 	培训列表 开始	 -->											
+				<div class="row" id="huodonglist">
+					<?php
+			             $views_name = 'match';
+                        $display_id = 'block';
+                         print views_embed_view($views_name, $display_id);
+                        ?>
+				</div>
+				<!-- 	/培训列表结束	 -->
+
+
+						
+
+
           <?php print render($page['content']) ?>
         </div>
 
@@ -140,18 +130,13 @@ commented by zhanglin-->
       </div>
     <?php endif; ?> <!-- /sidebar-first -->
 
-
+    <?php if ($page['sidebar_second']): ?>
       <div id="sidebar-second" class="column sidebar second">
         <div id="sidebar-second-inner" class="inner">
-	<?php 
-	$block9= block_load('block',9);
-	$renderable_block9=  _block_get_renderable_array(_block_render_blocks(array($block9)));
-	print render($renderable_block9);
-?>
           <?php print render($page['sidebar_second']); ?>
         </div>
       </div>
-     <!-- /sidebar-second -->
+    <?php endif; ?> <!-- /sidebar-second -->
 
   </div> <!-- /main -->
 

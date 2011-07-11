@@ -31,45 +31,49 @@
 		$body = $node->body['zh-hans'][0]['value'];        //内容    
 		$newsimages=$node->field_news_image['zh-hans'];
        ?>
-	   <!--  文章内容 开始 -->
-						<div class="article">
-							<h1 class="articletitle"><?php print $title?></h1>
-							<span class="articledate"><?php print $publish_date?></span>
-							<div class="articlecontent">
-								<?php // print str_replace('taxonomy/term/','newsmore?cid=',render($content));?>
-								<?php // print str_replace('taxonomy/term/','newsmore?cid=',render($content));?>
-								<?php 
-								if(count($newsimages)>0)
-								{
-										$newsimages_output = '';
-										$newsimages_output .='<div id="new-pic">';
-										$newsimages_output .='<ul>';
-										foreach ($newsimages as $newsimage)
-										{
-												$newsimage_title = $newsimage["title"];
-												$newsimage_url= file_create_url($newsimage["uri"]);
-												$newsimage_pic = '<img src="'.$newsimage_url.'"/>';
-												$newsimages_output .='<li>';
-												$newsimages_output .=$newsimage_pic;
-												$newsimages_output .='<h3>'.$newsimage_title.'<h3>';
-												$newsimages_output .='</li>';
-
-										}
-										$newsimages_output .='</ul>';
-										$newsimages_output .='</div>';
-										print  $newsimages_output;
+	<!--  文章内容 开始 -->
+		<div class="article">
+			<h1 class="articletitle"><?php print $title?></h1>
+			<span class="articledate"><?php print $publish_date?></span>
+			<div class="articlecontent">
+				<center>
+					<?php // print str_replace('taxonomy/term/','newsmore?cid=',render($content));?>
+					<?php // print str_replace('taxonomy/term/','newsmore?cid=',render($content));?>
+					<?php 
+					if(count($newsimages)>0)
+					{
+						$newsimages_output = '';
+						$newsimages_output .='<div class="coin_slider_container">';
+						$newsimages_output .='<div id="coin_slider">';
+						
+						foreach ($newsimages as $newsimage)
+						{
+								$newsimage_title = $newsimage["title"];
+								$newsimage_url= file_create_url($newsimage["uri"]);
+								$newsimage_pic = '<img src="'.$newsimage_url.'"/>';
 								
-								}
-								;?>
-								<?php print render($content['body']);?>
-							</div>							
-						</div>
-						<!--  文章内容 结束-->
-						<!--  分享开始  -->
-											<!--分享到----开始------>
-							<div class="wrapper">
-								<div id="share">
-									<span>分享到:</span>
+								$newsimages_output .='<a href="javascript:void(0);return false;">';
+								$newsimages_output .=$newsimage_pic;
+								$newsimages_output .='<span>'.$newsimage_title.'</span>';
+								$newsimages_output .='</a>';
+		
+						} 
+						$newsimages_output .='</div>';
+						$newsimages_output .='</div>';
+						print  $newsimages_output;
+				
+				}
+				?>
+			</center>
+			<?php print render($content['body']);?>
+		</div>							
+	</div>
+	<!--  文章内容 结束-->
+	<!--  分享开始  -->
+						<!--分享到----开始------>
+<div class="wrapper">
+	<div id="share">
+		<span>分享到:</span>
 <style>
 span.stico_tqq{
 	background-position:0 -592px;

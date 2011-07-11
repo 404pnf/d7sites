@@ -573,7 +573,8 @@ $(document).ready(function() {
    });
    $(".cycle:eq(0)").cycle('pager');
    $(".desc").click(function () {
-      window.location.href = $(this).attr("href");
+     // parent.location.href = $(this).attr("href");
+      window.open($(this).attr("href"));
       return false;
    });
 

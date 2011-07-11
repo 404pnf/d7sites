@@ -1,7 +1,7 @@
-<style media="all" type="text/css">@import url("http://new.fltrp.com/sites/fltrp.com/themes/custom/fltrp/css/whx.css");</style>
-<script src="http://new.fltrp.com/sites/new.fltrp.com/themes/custom/fltrp/js/whx.js" type="text/javascript"></script>
-<script src="http://new.fltrp.com/sites/new.fltrp.com/themes/custom/fltrp/js/jquery.getURLparam.js" type="text/javascript"></script>
+<SCRIPT type="text/javascript" src="<?php print $base_path.$directory?>/js/whx.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="<?php print $base_path.$directory?>/js/jquery.getURLparam.js"></SCRIPT>
 
+<link href="<?php print $base_path.$directory?>/css/whx.css" media="all" rel="stylesheet" type="text/css">
 
 
 

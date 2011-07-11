@@ -20,12 +20,14 @@
         hide($content['comments']);
         hide($content['links']);
         //print render($content);
-		//print ("<pre>");
+	//	print ("<pre>");
 		//print_r($node);
-		//print ("</pre>");
+	//	print ("</pre>");
 
+		$nid = $node->nid;     
 		$title = $node->title;        //图书名称
 		$series = $node->field_series['und'][0]['taxonomy_term']->name;        //图书系列名称
+		$tid = $node->field_series['und'][0]['taxonomy_term']->tid;   
 		$isbn = $node->field_isbn['und'][0]['value'];        //ISBN
 		$author = $node->field_author['und'][0]['value'];        //作者名
 		$format = $node->field_format['und'][0]['value'];        //开本
@@ -58,6 +60,7 @@
 							
 							</p>
 							
+							<!--分享到----开始------>
 							<div class="wrapper">
 								<div id="share">
 									<span>分享到:</span>
@@ -81,7 +84,7 @@ span.stico_tqq{
 
 								</div>
 							</div>
-							
+<!--分享到----结束--->							
 							<p class="sel">
 							<span>内容简介</span>
 								<span>章节目录</span>
@@ -96,49 +99,22 @@ span.stico_tqq{
 
 							</div>
 							
-							<!--最佳组合开始
+							<!--最佳组合开始-->
 							<div id="bestgroup">
 								<a href="" class="fleft"></a>
 								<a href="" class="fright"></a>
 								<div class="srlist">
 									<h3>最佳组合</h3>
-									<ul>
-										<li class="column4">
-											<a href="">
-												<div class="imgborder">
-													<img src="images/h.gif" alt="" height="122" width="90"/>
-												</div>
-												<p>高中英语新概念读写教材考试资料</p>
-											</a>
-										</li>
-										<li class="column4">
-											<a href="">
-												<div class="imgborder">
-													<img src="images/h.gif" alt="" height="122" width="90"/>
-												</div>
-												<p>高中英语新概念读写教材考试资料</p>
-											</a>
-										</li>
-										<li class="column4">
-											<a href="">
-												<div class="imgborder">
-													<img src="images/h.gif" alt="" height="122" width="90"/>
-												</div>
-												<p>高中英语新概念读写教材考试资料</p>
-											</a>
-										</li>
-										<li class="column4">
-											<a href="">
-												<div class="imgborder">
-													<img src="images/h.gif" alt="" height="122" width="90"/>
-												</div>
-												<p>高中英语新概念读写教材考试资料</p>
-											</a>
-										</li>
-									</ul>
+						<?php
+			             $views_name = 'products';
+                        $display_id = 'block_2';
+						$views_parameter1=$tid ;
+						$views_parameter2=$nid ;
+		                print views_embed_view($views_name, $display_id,$views_parameter1,$views_parameter2);
+						 ?>
 								</div>
 							</div>
-							--最佳组合结束-->
+							<!--最佳组合结束-->
 							
 						</div>
   	</div>

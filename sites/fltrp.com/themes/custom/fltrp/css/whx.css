@@ -52,6 +52,11 @@
     *+width:194px;
     background:none repeat scroll 0 0 #fff6f7;
 }
+#category_list .category_content .single-category h3.hover{
+	border-width: 1px;
+	*width:193px;
+    *+width:193px;
+}
 #category_list .category_content .item-list ul.hover_display{
 	width:230px;
 	position:absolute;
