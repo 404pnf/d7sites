@@ -32,7 +32,7 @@
     <?php print $admin_links; ?>
   <?php endif; ?>
 
-  <div class="news_pic">11 </div>
+  <div class="fp-news-list-icon">这里方图标 </div>
 
   <?php if ($rows): ?>
       <?php print $rows; ?>

@@ -110,7 +110,15 @@ commented by zhanglin-->
 	
 	<?php
              $category = $_GET["category"];
-			 if($category<698||$category>709) {
+			 $parent_category = taxonomy_get_parents($category);
+			 $parent_category_tid='';
+			 foreach($parent_category as $parent_category_item)
+			 {
+							$parent_category_tid= $parent_category_item->tid ;
+
+			 }
+		
+			 if($parent_category_tid!=1369&&$category!=1369) {
       ?>
 		<div class="sfrow">
 			<span>教育阶段:</span>

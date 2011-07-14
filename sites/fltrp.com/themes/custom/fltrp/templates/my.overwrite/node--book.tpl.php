@@ -21,16 +21,16 @@
         hide($content['links']);
         //print render($content);
 		//print ("<pre>");
-	//	print_r($node);
+		//print_r($node);
 	//	print ("</pre>");
 
 		$nid = $node->nid;     
 		$title = $node->title;        //图书名称
 		$series = $node->field_series['und'][0]['taxonomy_term']->name;        //图书系列名称
-		$tid = $node->field_series['und'][0]['taxonomy_term']->tid;   
+		$seriestid = $node->field_series['und'][0]['taxonomy_term']->tid;   
 		$isbn = $node->field_isbn['und'][0]['value'];        //ISBN
 		$author = $node->field_author['und'][0]['value'];        //作者名
-		$format = $node->field_format['und'][0]['taxonomy_term']->name; ;        //开本
+		$format = $node->field_format['und'][0]['taxonomy_term']->name;        //开本
 		$pages = $node->field_pages['und'][0]['value'];        //页数
 		$zdfs = $node->field_zdfs['und'][0]['taxonomy_term']->name;;        //装订方式
 		$publish_date= $node->field_publish_date['und'][0]['value'];        //发布日期
@@ -39,7 +39,19 @@
 		$img =file_create_url($img );        //封面
 		$body = $node->body['und'][0]['safe_value'];        //简介    
 		$directory = $node->field_directory['und'][0]['safe_value'];        //目录    
-		
+		$educations = $node->field_education['und'];   
+		$education_tids = '';
+		$i=1;
+		//print_r($educations);
+		foreach($educations as $education)
+		{
+			if($i==1)
+				$education_tids.=$education['tid'];
+			else
+			    $education_tids.='+'.$education['tid'];
+            $i++;
+		}
+
        ?>
 	   <div id="bookinfo">
 							<h1><?php print $title?></h1>
@@ -108,10 +120,17 @@ span.stico_tqq{
 								<div class="srlist">
 									<h3>最佳组合</h3>
 						<?php
-			             $views_name = 'products';
-                        $display_id = 'block_2';
-						$views_parameter1=$tid ;
-						$views_parameter2=$nid ;
+						if (!empty($seriestid)){
+							$views_name = 'products';
+	                        $display_id = 'block_3';
+							$views_parameter1=$seriestid ;
+							$views_parameter2=$nid ;						
+						}else{
+							$views_name = 'products';
+	                        $display_id = 'block_2';
+							$views_parameter1=$education_tids ;
+							$views_parameter2=$nid ;
+						}
 		                print views_embed_view($views_name, $display_id,$views_parameter1,$views_parameter2);
 						 ?>
 								</div>

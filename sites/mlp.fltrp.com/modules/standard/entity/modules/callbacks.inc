@@ -1,5 +1,4 @@
 <?php
-// $Id: callbacks.inc,v 1.1.2.11 2011/02/14 09:05:01 fago Exp $
 
 /**
  * @file
@@ -53,7 +52,8 @@ function entity_metadata_comment_get_properties($comment, array $options, $name)
       if (!empty($comment->pid)) {
         return $comment->pid;
       }
-      throw new EntityMetadataWrapperException('This comment has no parent comment.');
+      // There is no parent comment.
+      return NULL;
 
     case 'author':
       return $comment->uid;
@@ -153,7 +153,8 @@ function entity_metadata_poll_node_get_properties($node, array $options, $name) 
     return $total_votes;
   }
   elseif (!isset($winner)) {
-    throw new EntityMetadataWrapperException('There is no poll winner yet.');
+    // There is no poll winner yet.
+    return NULL;
   }
   switch ($name) {
     case 'poll_winner_votes':
@@ -172,14 +173,15 @@ function entity_metadata_poll_node_get_properties($node, array $options, $name) 
  * @see entity_metadata_statistics_entity_info_alter()
  */
 function entity_metadata_statistics_node_get_properties($node, array $options, $name) {
-  $statistics = statistics_get($node->nid);
+  $statistics = (array) statistics_get($node->nid);
+  $statistics += array('totalcount' => 0, 'daycount' => 0, 'timestamp' => NULL);
 
   switch ($name) {
     case 'views':
-      return $statistics['totalviews'];
+      return $statistics['totalcount'];
 
     case 'day_views':
-      return $statistics['dayviews'];
+      return $statistics['daycount'];
 
     case 'last_view':
       return $statistics['timestamp'];
@@ -207,8 +209,23 @@ function entity_metadata_system_get_properties($data = FALSE, array $options, $n
     case 'current_date':
       return time();
 
+    case 'current_page':
+      // Subsequent getters of the struct retrieve the actual values.
+      return array();
+
     default:
       return variable_get('site_' . $name, '');
+  }
+}
+
+/**
+ * Callback for getting properties for the current page request.
+ * @see entity_metadata_system_entity_info_alter()
+ */
+function entity_metadata_system_get_page_properties($data = array(), array $options, $name) {
+  switch ($name) {
+    case 'url':
+      return $GLOBALS['base_root'] . request_uri();
   }
 }
 
@@ -348,7 +365,7 @@ function entity_metadata_language_list() {
 /**
  * Callback for getting field property values.
  */
-function entity_metadata_field_property_get($entity, array $options, $name, $entity_type) {
+function entity_metadata_field_property_get($entity, array $options, $name, $entity_type, $info) {
   $field = field_info_field($name);
   $columns = array_keys($field['columns']);
   $langcode = field_language($entity_type, $entity, $name, isset($options['language']) ? $options['language']->language : NULL);
@@ -356,6 +373,10 @@ function entity_metadata_field_property_get($entity, array $options, $name, $ent
   if (isset($entity->{$name}[$langcode])) {
     foreach ($entity->{$name}[$langcode] as $delta => $data) {
       $values[$delta] = $data[$columns[0]];
+      if ($info['type'] == 'boolean' || $info['type'] == 'list<boolean>') {
+        // Ensure that we have a clean boolean data type.
+        $values[$delta] = (boolean) $values[$delta];
+      }
     }
   }
   // For an empty single-valued field, we have to return NULL.
@@ -373,7 +394,9 @@ function entity_metadata_field_property_set($entity, $name, $value, $langcode, $
 
   $items = array();
   foreach ($values as $delta => $value) {
-    $items[$delta][$columns[0]] = $value;
+    if (isset($value)) {
+      $items[$delta][$columns[0]] = $value;
+    }
   }
   $entity->{$name}[$langcode] = $items;
   // Empty the static field language cache, so the field system picks up any
@@ -418,7 +441,10 @@ function entity_metadata_field_verbatim_get($entity, array $options, $name, $ent
 function entity_metadata_field_verbatim_set($entity, $name, $items, $langcode) {
   $field = field_info_field($name);
   $langcode = isset($langcode) ? $langcode : LANGUAGE_NONE;
-  $entity->{$name}[$langcode] = $field['cardinality'] == 1 ? array($items) : $items;
+  $value = $field['cardinality'] == 1 ? array($items) : $items;
+  // Filter out any items set to NULL.
+  $entity->{$name}[$langcode] = array_filter($value);
+
   // Empty the static field language cache, so the field system picks up any
   // possible new languages.
   drupal_static_reset('field_language');
@@ -635,6 +661,10 @@ function entity_metadata_create_node($values = array()) {
   foreach (array('status', 'promote', 'sticky') as $key) {
     $node->$key = (int) in_array($key, $node_options);
   }
+  if (module_exists('comment') && !isset($node->comment)) {
+    $node->comment = variable_get("comment_$node->type", COMMENT_NODE_OPEN);
+  }
+  // Apply the given values.
   foreach ($values as $key => $value) {
     $node->$key = $value;
   }
@@ -644,11 +674,11 @@ function entity_metadata_create_node($values = array()) {
 /**
  * Callback to save a user account.
  */
-function entity_metadata_user_save(&$account) {
+function entity_metadata_user_save($account) {
   $edit = (array) $account;
   // Don't save the hashed password as password.
   unset($edit['pass']);
-  $account = user_save($account, $edit);
+  user_save($account, $edit);
 }
 
 /**
@@ -664,6 +694,27 @@ function entity_metadata_delete_file($fid) {
  */
 function entity_metadata_view_node($entities, $view_mode = 'full', $langcode = NULL) {
   return node_view_multiple($entities, $view_mode, 0, $langcode);
+}
+
+/**
+ * Callback to view comments.
+ */
+function entity_metadata_view_comment($entities, $view_mode = 'full', $langcode = NULL) {
+  $build = array();
+  $nodes = array();
+  // The comments, indexed by nid and then by cid.
+  $nid_comments = array();
+  foreach ($entities as $cid => $comment) {
+    $nid = $comment->nid;
+    $nodes[$nid] = $nid;
+    $nid_comments[$nid][$cid] = $comment;
+  }
+  $nodes = node_load_multiple(array_keys($nodes));
+  foreach ($nid_comments as $nid => $comments) {
+    $node = isset($nodes[$nid]) ? $nodes[$nid] : NULL;
+    $build += comment_view_multiple($comments, $node, $view_mode, 0, $langcode);
+  }
+  return $build;
 }
 
 /**
@@ -683,9 +734,12 @@ function entity_metadata_view_single($entities, $view_mode = 'full', $langcode =
  * entities main db table.
  */
 function entity_metadata_table_query($entity_type, $property, $value, $limit) {
+  $properties = entity_get_all_property_info($entity_type);
+  $info = $properties[$property] + array('schema field' => $property);
+
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', $entity_type, '=')
-        ->propertyCondition($property, $value, '=')
+        ->propertyCondition($info['schema field'], $value, is_array($value) ? 'IN' : '=')
         ->range(0, $limit);
 
   $result = $query->execute();
@@ -703,9 +757,9 @@ function entity_metadata_field_query($entity_type, $property, $value, $limit) {
   $columns = array_keys($field['columns']);
 
   $query->entityCondition('entity_type', $entity_type, '=')
-        ->fieldCondition($field, $columns[0], $value, '=')
+        ->fieldCondition($field, $columns[0], $value, is_array($value) ? 'IN' : '=')
         ->range(0, $limit);
 
   $result = $query->execute();
-  return array_keys($result[$entity_type]);
+  return !empty($result[$entity_type]) ? array_keys($result[$entity_type]) : array();
 }

@@ -53,12 +53,14 @@
   <div id="main"  class="srow">
 	
 	<!------content  top----->
-	<?php if ($page['content_top']): ?>
+	
       <div id="content-top">
         <?php print $breadcrumb; ?>
-        <?php print render($page['content_top']); ?>
+		<?php if ($page['content_top']): ?>
+		    <?php print render($page['content_top']); ?>
+		<?php endif; ?>
       </div>
-    <?php endif; ?>
+ 
   <!------content  top----->
 
 

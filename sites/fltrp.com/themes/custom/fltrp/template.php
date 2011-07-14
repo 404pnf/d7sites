@@ -53,15 +53,17 @@ function fltrp_preprocess_block(&$vars, $hook) {
  *   A string containing the breadcrumb output.
  */
 function fltrp_breadcrumb($variables) {
+
+ $breadcrumb_separator = theme_get_setting('fltrp_breadcrumb_separator');
   $current_path   = drupal_get_path_alias();
 	if($current_path =='productslist'||$current_path =='digital'){
 	  $breadcrumbs = array();
 		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
-		if($current_path =='productslist'){
+		//if($current_path =='productslist'){
 		  $breadcrumbs[] = '<a href="'.url('productslist').'">'.t('产品中心').'</a>';
-		}else{
-		 // $breadcrumbs[] = '<a href="'.url('digital').'">'.t('数字产品').'</a>';
-		}
+		//}else{
+		//   $breadcrumbs[] = '<a href="'.url('digital').'">'.t('数字产品').'</a>';
+		//}
 	  $category = $_GET["category"];
 		$tid = $category;
 		$parents = taxonomy_get_parents_all($tid);
@@ -72,13 +74,104 @@ function fltrp_breadcrumb($variables) {
 			$breadcrumbs[] = '<a href="'.$current_path.'?category='.$parent->tid.'">'.$parent->name.'</a>';
 		}
 	  $output = '<div class="breadcrumb">';
+		$output .=implode( $breadcrumb_separator , $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+ /**
+
+if($current_path =='news'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		 $breadcrumbs[] = '<a href="'.url('news').'">'.t('资讯中心').'</a>';
+
+	  $output = '<div class="breadcrumb">';
 		$output .=implode(' > ', $breadcrumbs);
 		$output .= '</div>';
 		return $output;
 	}
+
+if($current_path =='match'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		 $breadcrumbs[] = '<a href="'.url('match').'">'.t('赛事活动').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode(' > ', $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+if($current_path =='training'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		 $breadcrumbs[] = '<a href="'.url('training').'">'.t('培训业务').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode(' > ', $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+*/
+	if($current_path =='newsmore'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		if($current_path =='newsmore'){
+		  $breadcrumbs[] = '<a href="'.url('news').'">'.t('资讯中心').'</a>';
+		}else{
+		 // $breadcrumbs[] = '<a href="'.url('digital').'">'.t('数字产品').'</a>';
+		}
+	  $cid = $_GET["cid"];
+		$tid = $cid;
+		$term =taxonomy_term_load($tid);
+		$breadcrumbs[] = '<a href="'.base_path().'newsmore?cid='.$term->tid.'">'.$term->name.'</a>';
+	  $output = '<div class="breadcrumb">';
+		$output .=implode( $breadcrumb_separator , $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+
+
+
+
+
+  $current_path   = drupal_get_path_alias();
+if($current_path =='training'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		 $breadcrumbs[] = '<a href="'.url('training').'">'.t('培训业务').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+
   if(arg(0)=='node' && arg(1)>0){
 	  $nid = arg(1);
 		$node = node_load($nid);
+
+		if($node->type == 'router'){
+            $path_ailas   = drupal_get_path_alias();
+		    $title = $node->title;
+		    $breadcrumbs = array();
+			$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+			$breadcrumbs[] = '<a href="'.url($path_ailas).'">'.t($title).'</a>';
+		    $output = '<div class="breadcrumb">';
+			$output .=implode($breadcrumb_separator, $breadcrumbs);
+			$output .= '</div>';
+			return $output;
+				
+		}
+		
+
+
+
+
 		if($node->type == 'book'){
 		
 		  $breadcrumbs = array();
@@ -90,16 +183,36 @@ function fltrp_breadcrumb($variables) {
 			$parents = array_reverse($parents);
 			foreach($parents as $parent){
 			  //$breadcrumbs[] = l($parent->name, 'productslist?category='.$parent->tid);
-				$breadcrumbs[] = '<a href="productslist?category='.$parent->tid.'">'.$parent->name.'</a>';
+				$breadcrumbs[] = '<a href="'.base_path().'productslist?category='.$parent->tid.'">'.$parent->name.'</a>';
 			}
 		  $output = '<div class="breadcrumb">';
-			$output .=implode(' > ', $breadcrumbs);
+			$output .=implode($breadcrumb_separator, $breadcrumbs);
 			$output .= '</div>';
 			return $output;
 				
 		}
 		
 		if($node->type == 'news'){
+		
+		  $breadcrumbs = array();
+			$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+			$breadcrumbs[] = '<a href="'.url('news').'">'.t('资讯中心').'</a>';
+			$tid = $node->field_channel['zh-hans'][0]['tid'];
+			$term =taxonomy_term_load($tid);
+			$breadcrumbs[] = '<a href="'.base_path().'newsmore?cid='.$term->tid.'">'.$term->name.'</a>';
+			/*
+			$parents = taxonomy_get_parents_all($tid);
+			//debug($parents);
+			$parents = array_reverse($parents);
+			foreach($parents as $parent){
+			  //$breadcrumbs[] = l($parent->name, 'productslist?category='.$parent->tid);
+				$breadcrumbs[] = '<a href="'.base_path().'newsmore?cid='.$term->tid.'">'.$term->name.'</a>';
+			}
+		*/
+		  $output = '<div class="breadcrumb">';
+			$output .=implode($breadcrumb_separator, $breadcrumbs);
+			$output .= 	'</div>';
+			return $output;
 		}
 	}
 
@@ -137,7 +250,7 @@ function fltrp_breadcrumb($variables) {
 
       // Provide a navigational heading to give context for breadcrumb links to
       // screen-reader users. Make the heading invisible with .element-invisible.
-      $heading = '<h2 class="element-invisible">' . t('You are here') . '</h2>';
+    //  $heading = '<h2 class="element-invisible">' . t('You are here') . '</h2>';
 
       return $heading . '<div class="breadcrumb">' . implode($breadcrumb_separator, $breadcrumb) . $trailing_separator . $title . '</div>';
     }

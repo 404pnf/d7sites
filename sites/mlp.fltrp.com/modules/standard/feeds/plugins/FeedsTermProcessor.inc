@@ -1,5 +1,4 @@
 <?php
-// $Id: FeedsTermProcessor.inc,v 1.25.2.14 2010/10/29 21:19:06 yhahn Exp $
 
 /**
  * @file
@@ -105,55 +104,54 @@ class FeedsTermProcessor extends FeedsProcessor {
       form_set_error('vocabulary', t('Choose a vocabulary'));
     }
   }
-	
-	/**
-	 * Override setTargetElement to operate on a target item that is a term.
-	 */
-	public function setTargetElement(FeedsSource $source, $target_node, $target_element, $value) {
-		switch ($target_element) {
-			case 'parent':      
-				if (!empty($value)) {
-					$terms = taxonomy_get_term_by_name($value);
-					$parent_tid = '';
-					foreach ($terms as $term) {
-						if ($term->vid == $target_node->vid) {
-							$parent_tid = $term->tid;
-						}
-					}
-					
-					if (!empty($parent_tid)) {
-						$target_node->parent = $parent_tid;
-					}
-					else {
-					  $term = new stdClass();
-				    $term->vid = $target_node->vid;
-				    $term->name = $value;
-			      $status = taxonomy_term_save($term);
-				    $tid = $term->tid;
-						$target_node->parent = $tid;
-					}
-				}
-				else {
-					$target_node->parent = 0;
-				}        
+   /**
+   * Override setTargetElement to operate on a target item that is a term.
+   */
+  public function setTargetElement(FeedsSource $source, $target_node, $target_element, $value) {
+    switch ($target_element) {
+      case 'parent':      
+        if (!empty($value)) {
+          $terms = taxonomy_get_term_by_name($value);
+          $parent_tid = '';
+          foreach ($terms as $term) {
+            if ($term->vid == $target_node->vid) {
+              $parent_tid = $term->tid;
+            }
+          }
+          
+          if (!empty($parent_tid)) {
+            $target_node->parent = $parent_tid;
+          }
+          else {
+					   $term = new stdClass();
+				     $term->vid = $target_node->vid;
+				     $term->name = $value;
+			       $status = taxonomy_term_save($term);
+				     $tid = $term->tid;
+						 $target_node->parent = $tid;
+            //$target_node->parent = 0;
+          }
+        }
+        else {
+          $target_node->parent = 0;
+        }        
 
-				break;
-			case 'weight':
-				if (!empty($value)) {
-					$weight = intval($value);
-				}
-				else {
-					$weight = 0;
-				}
-				$target_node->weight = $weight;
+        break;
+      case 'weight':
+        if (!empty($value)) {
+          $weight = intval($value);
+        }
+        else {
+          $weight = 0;
+        }
+        $target_node->weight = $weight;
 
-				break;        
-			default:
-				parent::setTargetElement($source, $target_node, $target_element, $value);
-				break;
-		}
-	}
-
+        break;        
+      default:
+        parent::setTargetElement($source, $target_node, $target_element, $value);
+        break;
+    }
+  }
   /**
    * Return available mapping targets.
    */
@@ -178,14 +176,16 @@ class FeedsTermProcessor extends FeedsProcessor {
         'name' => t('Term Weight'),
         'description' => t('Weight of the Term.'),
         'optional_unique' => TRUE,
-       ), 
+       ),    
     );
     // Let implementers of hook_feeds_term_processor_targets() add their targets.
     try {
       self::loadMappers();
       feeds_alter('feeds_processor_targets', $targets, 'taxonomy_term', $this->vocabulary()->machine_name);
     }
-    catch (Exception $e) {}
+    catch (Exception $e) {
+      // Do nothing.
+    }
     return $targets;
   }
 

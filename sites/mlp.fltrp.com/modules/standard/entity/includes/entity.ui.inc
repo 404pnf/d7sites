@@ -1,5 +1,4 @@
 <?php
-// $Id: entity.ui.inc,v 1.1.2.4 2011/01/13 14:19:51 fago Exp $
 
 /**
  * @file
@@ -27,7 +26,7 @@ class EntityDefaultUIController {
   public function hook_menu() {
     $items = array();
     $id_count = count(explode('/', $this->path));
-    $wildcard = isset($this->entityInfo['admin ui']['menu wildcard']) ? $this->entityInfo['admin ui']['menu wildcard'] : '%' . $this->entityType;
+    $wildcard = isset($this->entityInfo['admin ui']['menu wildcard']) ? $this->entityInfo['admin ui']['menu wildcard'] : '%entity_object';
 
     $items[$this->path] = array(
       'title' => $this->entityInfo['label'] . 's',
@@ -180,8 +179,8 @@ class EntityDefaultUIController {
     ksort($entities);
 
     $rows = array();
-    foreach ($entities as $id => $entity) {
-      $rows[] = $this->overviewTableRow($conditions, $id, $entity);
+    foreach ($entities as $entity) {
+      $rows[] = $this->overviewTableRow($conditions, entity_id($this->entityType, $entity), $entity);
     }
     // Assemble the right table header.
     $header = array(t('Label'));

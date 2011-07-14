@@ -4,9 +4,9 @@ core = 7.x
 dependencies[] = field
 dependencies[] = image
 files[] = image_url_formatter.module
-; Information added by drupal.org packaging script on 2011-05-19
-version = "7.x-1.0-beta1"
+; Information added by drupal.org packaging script on 2011-07-10
+version = "7.x-1.0-rc1"
 core = "7.x"
 project = "image_url_formatter"
-datestamp = "1305818815"
+datestamp = "1310270216"
 

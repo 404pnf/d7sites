@@ -16,6 +16,8 @@
 #search .search{ height: 28px; background: #B21319; padding: 3px 0 0 3px;}
 .form-item, .form-actions { margin: 0; float: left;}
 #search .search input{ height: 25px; padding: 0; float: left;border: none; line-height: 25px;}
+#search .search input.form-text{width:232px;}
+#search .search input.form-submit{background: none repeat scroll 0 0 transparent;color: #FFFFFF; font-size: 14px; width: 64px; cursor: pointer;}
 #search #edit-search-block-form--2{ width:232px; background: #FFF}
 #search #edit-submit{ width:64px;background: none; color: #FFF;cursor: pointer;}
 #search #blog a{ padding:0 4px;}

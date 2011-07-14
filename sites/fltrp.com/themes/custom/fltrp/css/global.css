@@ -31,7 +31,9 @@ ul{list-style:none}
 #page{ margin:0 auto;width:100%;}
 .button{cursor:pointer;display:block;font-size:1em;height:2em;line-height:1.5em;margin:1.75em 0 0;padding:0 .5em;}
 input[type=file]{height:2.25em;padding:0}
+/* 此样式影响太广，但是应用不普遍。所以哪儿需要，再特殊设定。
 input{background:#FFFFFF;border-color: #999999 #DDDDDD #DDDDDD #999999;border-left: 1px solid #999999;border-style: solid;border-width: 1px;color: #CFCFCF;font-size: 14px;padding: 8px 8px 8px 30px;width: 86%;}
+*/
 a{text-decoration:none;}                             
 a:hover{text-decoration:underline;}
 .isactive{background:#8C0001;color: #FFFFFF!important;}
@@ -99,10 +101,15 @@ article,aside,dialog,figure,footer,header,hgroup,menu,nav,section,time,mark,audi
 #breadcrumb a{ color:#404040; font-size: 12px;}
 
 /*搜索框  search*/
-.search{ height: 25px; background: #B21319; padding: 1px 0 1px 1px;}
-.search input{ height: 25px; padding: 0; float: left;border: none; line-height: 25px;}
-.search .sinput{ width:180px; background: #FFF}
-.search .sgo{ width:44px;background: none; color: #FFF;cursor: pointer;  }
+#content-top{position:relative;   height: 45px;  line-height: 45px;}
+#search-block-form{position:absolute;top:10px;right:0px;}
+#search-block-form{height: 25px; background: #8C0001; padding: 1px 0 1px 1px; width:218px;}
+/*.search{ height: 25px; background: #B21319; padding: 1px 0 1px 1px;}*/
+#search-block-form input{ height: 25px; padding: 0; float: left;border: none; line-height: 25px;}
+#search-block-form input.form-text{ width:176px; background: #FFF}
+#search-block-form input.form-submit{ width:42px;background: none; color: #FFF;cursor: pointer;  }
+#search-block-form input.form-submit:hover{background: #B21319;color:#ffffff;}
+#search-block-form .form-item,#search-block-form .form-actions{margin:0px;}/*复写drupal自带css*/
 
 /* FOOTER */
 #footer{margin-top: 30px; background: none;}

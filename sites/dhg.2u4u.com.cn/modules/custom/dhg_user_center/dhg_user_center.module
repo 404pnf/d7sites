@@ -76,7 +76,7 @@ function dhg_user_center_content() {
 			$tempstring .= '<li>' . l ( '查看我提交的读后感', "mydhg" ) . '</li>';
 		}
 		
-		$tempstring .= '<li>' . l ( '修改我的报名信息', "profile-$profile_type/1/edit" ) . '</li>';
+		$tempstring .= '<li>' . l ( '修改我的报名信息', "profile-$profile_type/$user->uid/edit" ) . '</li>';
 		
 		//** 登出
 		$tempstring .= '<li>';

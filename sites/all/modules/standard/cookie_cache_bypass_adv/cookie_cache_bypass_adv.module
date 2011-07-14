@@ -33,29 +33,30 @@ function cookie_cache_bypass_adv_form_alter(&$form, $form_state, $form_id) {
       '#options' => array('before_validate'=>'Before Validation','after_validate'=>'After Validation','before_submit'=>'Befor Submit','after_submit'=>'After Submit'),
       '#default_value' => variable_get('cookie_cache_bypass_adv_set_time', 'before_validate'),
     );
-  }
 
-  // When should we set our cookie? Before validation is perfered
-  $cookie_set = variable_get('cookie_cache_bypass_adv_set_time', 'before_validate');
-  if ($cookie_set == 'before_validate') {
-    $form['#validate'][-1000] = 'cookie_cache_bypass_adv_setcookie';
-    ksort($form['#validate']);
-    reset($form['#validate']);
-  } else
-  if ($cookie_set == 'after_validate') {
-    $form['#validate'][1000] = 'cookie_cache_bypass_adv_setcookie';
-    ksort($form['#validate']);
-    reset($form['#validate']);
-  } else
-  if ($cookie_set == 'before_submit') {
-    $form['#validate'][-1000] = 'cookie_cache_bypass_adv_setcookie';
-    ksort($form['#validate']);
-    reset($form['#validate']);
-  } else
-  if ($cookie_set == 'after_submit') {
-    $form['#validate'][1000] = 'cookie_cache_bypass_adv_setcookie';
-    ksort($form['#validate']);
-    reset($form['#validate']);
+    // When should we set our cookie? Before validation is perfered
+    $cookie_set = variable_get('cookie_cache_bypass_adv_set_time', 'before_validate');
+    if ($cookie_set == 'before_validate') {
+      $form['#validate'][-1000] = 'cookie_cache_bypass_adv_setcookie';
+      ksort($form['#validate']);
+      reset($form['#validate']);
+    } else
+    if ($cookie_set == 'after_validate') {
+      $form['#validate'][1000] = 'cookie_cache_bypass_adv_setcookie';
+      ksort($form['#validate']);
+      reset($form['#validate']);
+    } else
+    if ($cookie_set == 'before_submit') {
+      $form['#validate'][-1000] = 'cookie_cache_bypass_adv_setcookie';
+      ksort($form['#validate']);
+      reset($form['#validate']);
+    } else
+    if ($cookie_set == 'after_submit') {
+      $form['#validate'][1000] = 'cookie_cache_bypass_adv_setcookie';
+      ksort($form['#validate']);
+      reset($form['#validate']);
+    }
+
   }
 
 }
@@ -74,6 +75,5 @@ function cookie_cache_bypass_adv_setcookie() {
   } else {
     $set_cookie_path = request_uri().'/';
   }
-  print 'moo';
   setcookie('NO_CACHE', 'Y', $_SERVER['REQUEST_TIME'] + $lifetime , $set_cookie_path, $cookie_domain);
 }

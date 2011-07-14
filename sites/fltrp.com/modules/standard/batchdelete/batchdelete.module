@@ -57,7 +57,7 @@ function batchdelete_form(){
 	);
 	*/
 	$form['submit'] = array(
-		'#type' =>'submit',
+		//'#type' =>'submit',
 		'#value' => t('Delete'),
 	);
 	return $form;

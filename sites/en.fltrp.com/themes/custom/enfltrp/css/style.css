@@ -221,12 +221,12 @@ div.status {
 /* Region Colors. delete when starting a new theme. */
 /* line 157, ../sass/style.sass */
 #header, #footer {
-  background: #efefef;
+  /*background: #efefef;*/
 }
 
 /* line 160, ../sass/style.sass */
 #sidebar-first {
-  background: #e7edff;
+  /*background: #e7edff;*/
 }
 
 /* line 163, ../sass/style.sass */
@@ -238,3 +238,91 @@ div.status {
 #navigation {
   background: #feffa5;
 }
+
+/* ======== 首页 ============= */
+
+.fp-news-list li {
+	list-style-type:none;
+}
+
+
+/* ============ about us ============= */
+
+.luokuan { 
+	float:right  /* 领导签名和职务落款 */
+}
+
+#about_article2, #about_article1 {
+    float: left;
+    margin-bottom: 50px;
+    width: 400px;
+    font-size:1.2em;
+    line-height:1.5em;
+}
+#about_img1, #about_img2 {
+    float: left;
+    margin-right: 20px;
+    width: 200px;
+}
+
+#about_img2 {
+    float: right;
+    margin-right: 20px;
+    width: 200px;
+}
+
+#ycc, #lpy {
+	clear:both;
+	margin-bottom:3em;
+}
+
+
+/* ========== milestone ========= */
+
+#milestones_article h3 {
+	font-size: 1.6em;
+}
+
+/* ========== aboutus/tour ========= */
+
+.aboutus-tour li {
+	list-style-type:none;
+	float:left;
+	width:220px;
+	height:220px;
+}
+
+/* ========== /company ========= */
+#company_profile_article h3 {
+	padding-top:2em;
+	font-size:1.6em;
+}
+/* ========== /sales ========= */
+#sales-distribution {
+	width:720px;
+}
+
+#sales-distribution img{
+	width:320px;
+	float:right;
+	margin-left:3em;
+}
+/* ========== /contactus ========= */
+
+#contact_us_img img {
+	float:right;
+}
+/* ========== /writing ========= */
+#writing {
+	width:720px;
+}
+
+#writing img{
+	width:340px;
+	height:160px;
+	float:right;
+	margin-left:1em;
+	margin-bottom:1em;
+}
+/* ======= 所有内容类型为page的页面，内容与左边栏保持一定距离 ==== */
+.content-type-page .node-inner .content {padding-left:2em;}

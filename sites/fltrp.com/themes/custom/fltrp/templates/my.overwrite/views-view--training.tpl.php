@@ -13,7 +13,7 @@
 <div id="sbtn">
   <?php $current_path   = drupal_get_path_alias(); ?>
 	<?php //print  $current_path; ?>
-	<a class="<?php print  $current_path !='training/person' ? 'active': '' ?>" href="<?php print base_path(); ?>training"><img src="<?php print base_path().path_to_theme(); ?>/images/<?php print  $current_path !='training/person' ? 's': '' ?>js-btn20110630.gif"/></a>
+	<a class="<?php print  $current_path !='training/person' ? 'active': '' ?>" href="<?php print base_path(); ?>training/teacher"><img src="<?php print base_path().path_to_theme(); ?>/images/<?php print  $current_path !='training/person' ? 's': '' ?>js-btn20110630.gif"/></a>
 	<a class="<?php print  $current_path =='training/person' ? 'active': '' ?>" href="<?php print base_path(); ?>training/person"><img src="<?php print base_path().path_to_theme(); ?>/images/<?php print  $current_path =='training/person' ? 's': '' ?>px-btn20110630.gif"/></a>
 </div>
 

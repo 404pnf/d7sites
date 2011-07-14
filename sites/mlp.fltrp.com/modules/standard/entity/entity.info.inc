@@ -1,5 +1,4 @@
 <?php
-// $Id: entity.info.inc,v 1.1.2.2 2011/01/17 11:56:45 fago Exp $
 
 /**
  * @file
@@ -15,8 +14,12 @@ function entity_entity_property_info() {
   $items = array();
   // Add in info about entities provided by the CRUD API.
   foreach (entity_crud_get_info() as $type => $info) {
-    $info += array('metadata controller class' => 'EntityDefaultMetadataController');
-    if ($info['metadata controller class']) {
+    // Automatically enable the controller only if the module does not implement
+    // the hook itself.
+    if (!isset($info['metadata controller class']) && (!isset($info['module']) || !module_hook($info['module'], 'entity_property_info'))) {
+      $info['metadata controller class'] = 'EntityDefaultMetadataController';
+    }
+    if (!empty($info['metadata controller class'])) {
       $controller = new $info['metadata controller class']($type);
       $items += $controller->entityPropertyInfo();
     }
@@ -47,7 +50,7 @@ function entity_entity_property_info_alter(&$entity_info) {
 }
 
 function _entity_metadata_core_modules() {
-  return array_filter(array('book', 'comment', 'field', 'node', 'taxonomy', 'user', 'system'), 'module_exists');
+  return array_filter(array('book', 'comment', 'field', 'node', 'taxonomy', 'user', 'system', 'statistics'), 'module_exists');
 }
 
 /**
@@ -131,7 +134,7 @@ function entity_metadata_convert_schema($table) {
       $properties[$name] = array(
         'type' => $type,
         'label' => drupal_ucfirst($name),
-        'query callback' => 'entity_metadata_table_query',
+        'schema field' => $name,
         // As we cannot know about any setter access, leave out the setter
         // callback. For getting usually no further access callback is needed.
       );
