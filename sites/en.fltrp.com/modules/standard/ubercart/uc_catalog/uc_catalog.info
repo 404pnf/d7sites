@@ -8,10 +8,11 @@ package = "Ubercart - core (optional)"
 core = 7.x
 files[] = uc_catalog.module
 files[] = classes/treenode.inc
+configure = admin/store/settings/catalog
 
-; Information added by drupal.org packaging script on 2011-05-26
-version = "7.x-3.0-beta3"
+; Information added by drupal.org packaging script on 2011-07-20
+version = "7.x-3.x-dev"
 core = "7.x"
 project = "ubercart"
-datestamp = "1306429923"
+datestamp = "1311122484"
 

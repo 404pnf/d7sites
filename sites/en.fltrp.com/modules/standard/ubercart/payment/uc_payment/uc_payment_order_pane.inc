@@ -17,18 +17,22 @@
 function uc_order_pane_payment($op, $order, &$form = NULL, &$form_state = NULL) {
   switch ($op) {
     case 'view':
-      if (variable_get('uc_payment_tracking', TRUE)) {
-        $build['balance'] = array('#markup' => t('Balance: @balance', array('@balance' => uc_currency_format(uc_payment_balance($order)))));
+      $build['balance'] = array('#markup' => t('Balance: @balance', array('@balance' => uc_currency_format(uc_payment_balance($order)))));
+
+      if (user_access('view payments')) {
         $build['view_payments'] = array(
           '#markup' => ' (' . l(t('View'), 'admin/store/orders/' . $order->order_id . '/payments') . ')',
-          '#suffix' => '<br />',
         );
       }
+
       $method_name = _uc_payment_method_data($order->payment_method, 'review');
       if (empty($method_name)) {
         $method_name = _uc_payment_method_data($order->payment_method, 'name');
       }
-      $build['method'] = array('#markup' => t('Method: @payment_method', array('@payment_method' => $method_name)));
+      $build['method'] = array(
+        '#markup' => t('Method: @payment_method', array('@payment_method' => $method_name)),
+        '#prefix' => '<br />',
+      );
       $func = _uc_payment_method_data($order->payment_method, 'callback');
       if (function_exists($func)) {
         $method_output = $func('order-view', $order);
@@ -67,15 +71,15 @@ function uc_order_pane_payment($op, $order, &$form = NULL, &$form_state = NULL) 
 
       $methods = _uc_payment_method_list();
       $options = array();
-      foreach ($methods as $method) {
-        $options[$method['id']] = $method['name'];
+      foreach ($methods as $id => $method) {
+        $options[$id] = $method['name'];
       }
       $form['payment']['payment_method'] = array(
         '#type' => 'select',
         '#title' => t('Payment method'),
         '#default_value' => $order->payment_method,
         '#options' => !empty($options) ? $options : array(t('None available')),
-        '#attributes' => array('onchange' => "add_order_save_hold(); get_payment_details(Drupal.settings.ucURL.adminOrders + '" . $order->order_id . "/payment_details/' + this.value);"),
+        '#attributes' => array('onchange' => "get_payment_details(Drupal.settings.ucURL.adminOrders + '" . $order->order_id . "/payment_details/' + this.value);"),
         '#disabled' => empty($options),
       );
       return $form;
@@ -86,8 +90,8 @@ function uc_order_pane_payment($op, $order, &$form = NULL, &$form_state = NULL) 
       // build a JS array of our payment methods
       $methods = _uc_payment_method_list();
       $method_array_js = array();
-      foreach ($methods as $method) {
-        $method_array_js[$method['name']] = $method['id'];
+      foreach ($methods as $id => $method) {
+        $method_array_js[$method['name']] = $id;
       }
       drupal_add_js(array('methods' => $method_array_js), 'setting');
 

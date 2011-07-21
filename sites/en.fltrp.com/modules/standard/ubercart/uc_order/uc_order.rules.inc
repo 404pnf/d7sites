@@ -204,7 +204,7 @@ function uc_order_rules_action_info() {
         'type' => 'text',
         'label' => t('Comment type'),
         'restriction' => 'input',
-        'options list' => 'uc_order_action_comment_types',
+        'options list' => 'uc_order_action_order_comment_types',
       ),
     ),
   );
@@ -233,7 +233,7 @@ function uc_order_rules_action_info() {
         'label' => t('Message'),
       ),
       'format' => array(
-        'type' => 'integer',
+        'type' => 'text',
         'label' => t('Message format'),
         'options list' => 'uc_order_message_formats',
       ),
@@ -288,13 +288,13 @@ function uc_order_condition_has_products($order, $products, $required, $forbidde
     $order_products[] = $product->model;
   }
   $required_products = array_intersect($products, $order_products);
-  if ($settings['required']) {
+  if ($required) {
     $required_check = $required_products == $products;
   }
   else {
     $required_check = (bool)count($required_products);
   }
-  if ($settings['forbidden']) {
+  if ($forbidden) {
     $forbidden_products = array_diff($order_products, $products);
     $forbidden_check = (bool)count($forbidden_products);
   }
@@ -329,14 +329,21 @@ function uc_order_condition_count_products($order, $products, $count, $op) {
   $total = 0;
   foreach ($order->products as $product) {
     $totals['all'] += $product->qty;
-    $totals[$product->nid] += $product->qty;
+    if (isset($totals[$product->nid])) {
+      $totals[$product->nid] += $product->qty;
+    }
+    else {
+      $totals[$product->nid] = $product->qty;
+    }
   }
   if (in_array('all', $products)) {
     $total = $totals['all'];
   }
   else {
     foreach ($products as $product) {
-      $total += $totals[$product];
+      if (isset($totals[$product])) {
+        $total += $totals[$product];
+      }
     }
   }
   switch ($op) {

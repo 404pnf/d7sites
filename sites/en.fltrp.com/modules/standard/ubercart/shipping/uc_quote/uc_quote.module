@@ -75,8 +75,6 @@ function uc_quote_menu() {
  * Implements hook_init().
  */
 function uc_quote_init() {
-  drupal_add_css(drupal_get_path('module', 'uc_quote') . '/uc_quote.css', array('every_page' => TRUE));
-
   global $conf;
   $conf['i18n_variables'][] = 'uc_quote_err_msg';
   $conf['i18n_variables'][] = 'uc_quote_pane_description';
@@ -319,7 +317,7 @@ function uc_quote_uc_cart_pane($items) {
     $body = '';
   }
 
-  $panes[] = array('id' => 'quotes',
+  $panes['quotes'] = array(
     'title' => t('Shipping quotes'),
     'enabled' => FALSE,
     'weight' => 5,
@@ -333,8 +331,7 @@ function uc_quote_uc_cart_pane($items) {
  * Defines the shipping quote checkout pane.
  */
 function uc_quote_uc_checkout_pane() {
-  $panes[] = array(
-    'id' => 'quotes',
+  $panes['quotes'] = array(
     'callback' => 'uc_checkout_pane_quotes',
     'title' => t('Calculate shipping cost'),
     'desc' => t('Extra information necessary to ship.'),
@@ -348,10 +345,7 @@ function uc_quote_uc_checkout_pane() {
  * Defines the shipping quote order pane.
  */
 function uc_quote_uc_order_pane() {
-  $panes = array();
-
-  $panes[] = array(
-    'id' => 'quotes',
+  $panes['quotes'] = array(
     'callback' => 'uc_order_pane_quotes',
     'title' => t('Shipping quote'),
     'desc' => t('Get a shipping quote for the order from a quoting module.'),
@@ -397,8 +391,7 @@ function uc_quote_uc_order($op, $order, $arg2) {
  * Implements hook_uc_line_item().
  */
 function uc_quote_uc_line_item() {
-  $items[] = array(
-    'id' => 'shipping',
+  $items['shipping'] = array(
     'title' => t('Shipping'),
     'weight' => 1,
     'default' => FALSE,
@@ -540,6 +533,8 @@ function uc_cart_pane_quotes($form, &$form_state, $items) {
   $order->delivery_postal_code = isset($form_state['values']['delivery_postal_code']) ? $form_state['values']['delivery_postal_code'] : '';
   $order->products = $items;
 
+  $form['#attached']['css'][] = drupal_get_path('module', 'uc_quote') . '/uc_quote.css';
+
   $form['address'] = array(
     '#type' => 'uc_address',
     '#default_value' => array(
@@ -583,8 +578,8 @@ function uc_cart_pane_quotes($form, &$form_state, $items) {
   $form['quote'] = array(
     '#theme' => 'item_list',
     '#items' => $quote_options,
-    '#prefix' => '<div id="quote"><div class="solid-border">',
-    '#suffix' => '</div></div>',
+    '#prefix' => '<div id="quote">',
+    '#suffix' => '</div>',
   );
 
   return $form;
@@ -598,10 +593,8 @@ function uc_cart_pane_quotes($form, &$form_state, $items) {
 function theme_uc_cart_pane_quotes($variables) {
   $form = $variables['form'];
 
-  $output = '<div class="solid-border">';
-  $output .= '<p><strong>' . t('Estimated shipping cost:') . '</strong></p>';
+  $output = '<p class="quote-title">' . t('Estimated shipping cost:') . '</p>';
   $output .= drupal_render_children($form);
-  $output .= '</div>';
 
   return $output;
 }
@@ -622,6 +615,8 @@ function uc_checkout_pane_quotes($op, &$order, $form = NULL, &$form_state = NULL
   switch ($op) {
     case 'view':
       $description = filter_xss_admin(variable_get('uc_quote_pane_description', t('Shipping quotes are generated automatically when you enter your address and may be updated manually with the button below.')));
+
+      $contents['#attached']['css'][] = drupal_get_path('module', 'uc_quote') . '/uc_quote.css';
 
       // Let Javascript know where we are.
       $contents['page'] = array(
@@ -683,7 +678,7 @@ function uc_checkout_pane_quotes($op, &$order, $form = NULL, &$form_state = NULL
 
       if (!isset($form_state['values']['panes']['quotes']['quotes']['quote_option'])) {
         if (variable_get('uc_quote_require_quote', TRUE)) {
-          drupal_set_message(t('You must select a shipping option before continuing.'), 'error');
+          form_set_error('panes][quotes][quotes][quote_option', t('You must select a shipping option before continuing.'));
           return FALSE;
         }
         else {
@@ -978,7 +973,7 @@ function theme_uc_quote_returned_rates($variables) {
 
   $output .= drupal_render_children($form);
 
-  return '<div class="solid-border">' . $output . '</div>';
+  return $output;
 }
 
 /**

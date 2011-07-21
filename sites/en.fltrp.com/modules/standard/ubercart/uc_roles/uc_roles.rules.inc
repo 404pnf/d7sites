@@ -120,7 +120,7 @@ function uc_roles_rules_action_info() {
       'label' => t('Message'),
     ),
     'format' => array(
-      'type' => 'integer',
+      'type' => 'text',
       'label' => t('Message format'),
       'options list' => 'uc_roles_message_formats',
     ),
@@ -297,7 +297,7 @@ function uc_roles_action_user_email($account, $role_expiration, $from, $addresse
     $sent = drupal_mail('uc_order', 'action-mail', $email, uc_store_mail_recipient_language($email), $settings, $settings['from']);
 
     if (!$sent['result']) {
-      watchdog('uc_roles', 'Attempt to e-mail @email concerning order @order_id failed.', array('@email' => $email, '@order_id' => $order->order_id), WATCHDOG_ERROR);
+      watchdog('uc_roles', 'Attempt to e-mail @email concerning role notification failed.', array('@email' => $email), WATCHDOG_ERROR);
     }
   }
 }
@@ -315,8 +315,6 @@ function uc_roles_action_user_email($account, $role_expiration, $from, $addresse
  *
  * @param $order
  *   An Ubercart order object.
- *
- * @see uc_roles_action_order_renew_form()
  */
 function uc_roles_action_order_renew($order) {
   // Load the order's user and exit if not available.

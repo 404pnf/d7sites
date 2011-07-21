@@ -70,8 +70,7 @@ function uc_authorizenet_menu() {
  * Implements hook_uc_payment_gateway().
  */
 function uc_authorizenet_uc_payment_gateway() {
-  $gateways[] = array(
-    'id' => 'authorizenet',
+  $gateways['authorizenet'] = array(
     'title' => t('Authorize.net'),
     'description' => t('Process credit card payments using the AIM service of Authorize.net.'),
     'settings' => 'uc_authorizenet_settings_form',
@@ -1131,6 +1130,7 @@ function _uc_authorize_cim_xml_billto($order) {
     'state' => substr(uc_get_zone_code($order->billing_zone), 0, 2),
     'zip' => substr($order->billing_postal_code, 0, 20),
     'country' => !$billing_country ? '' : $billing_country[0]['country_iso_code_2'],
+    'phoneNumber' => substr($order->billing_phone, 0, 25), 
   );
 }
 

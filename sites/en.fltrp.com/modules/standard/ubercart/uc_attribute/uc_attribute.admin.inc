@@ -139,6 +139,7 @@ function uc_attribute_form($form, &$form_state, $attribute = NULL) {
   );
   $form['ordering'] = array(
     '#type' => 'weight',
+    '#delta' => 25,
     '#title' => t('List position'),
     '#description' => t('Multiple attributes on an add to cart form are sorted by this value and then by their name.<br />May be overridden at the product level.'),
     '#default_value' => isset($attribute->ordering) ? $attribute->ordering : 0,
@@ -239,26 +240,6 @@ function uc_attribute_delete_confirm_submit($form, &$form_state) {
 
     $form_state['redirect'] = 'admin/store/products/attributes';
   }
-}
-
-/**
- * Changes the display of attribute option prices.
- *
- * @ingroup forms
- */
-function uc_attribute_admin_settings($form, &$form_state) {
-  $form['uc_attribute_option_price_format'] = array(
-    '#type' => 'radios',
-    '#title' => t('Option price format'),
-    '#default_value' => variable_get('uc_attribute_option_price_format', 'adjustment'),
-    '#options' => array('none' => t('Do not display'),
-      'adjustment' => t('Display price adjustment'),
-      'total' => t('Display total price'),
-    ),
-    '#description' => t('Determines how price variations are displayed to the customer. Prices may be displayed directly next to each attribute option in the attribute selection form either as a total price for the product with that option or as an adjustment (+ or -) showing how that option affects the product base price. However, the total price will not be displayed if a product has more than one attribute that can affect the price.'),
-  );
-
-  return system_settings_form($form);
 }
 
 /**
@@ -426,6 +407,7 @@ function uc_attribute_option_form($form, &$form_state, $attribute, $option = NUL
   );
   $form['ordering'] = array(
     '#type' => 'weight',
+    '#delta' => 50,
     '#title' => t('List position'),
     '#description' => t('Options will be listed sorted by this value and then by their name.<br />May be overridden at the product level.'),
     '#default_value' => $option->ordering,
@@ -638,8 +620,9 @@ function uc_object_attributes_form($form, &$form_state, $object, $type, $view = 
           ),
           'ordering' => array(
             '#type' => 'weight',
+            '#delta' => 25,
             '#default_value' => $attribute->ordering,
-            '#attributes' => array('class' => array('uc-attribute-table-weight')),
+            '#attributes' => array('class' => array('uc-attribute-table-ordering')),
           ),
           'display' => array(
             '#type' => 'select',
@@ -731,7 +714,7 @@ function theme_uc_object_attributes_form($variables) {
         );
       }
 
-      drupal_add_tabledrag('uc-attribute-table', 'order', 'sibling', 'uc-attribute-table-weight');
+      drupal_add_tabledrag('uc-attribute-table', 'order', 'sibling', 'uc-attribute-table-ordering');
     }
     else {
       if ($form['type']['#value'] == 'class') {

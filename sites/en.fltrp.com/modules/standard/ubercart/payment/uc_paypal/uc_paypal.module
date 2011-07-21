@@ -85,23 +85,6 @@ function uc_paypal_init() {
 }
 
 /**
- * Implements hook_page_alter().
- *
- * Alter the checkout review form to post the order to PayPal.
- */
-function uc_paypal_page_alter(&$page) {
-  // Somebody is going to put the Main Content in a weird place just because they can.
-  $block = block_load('system', 'main');
-  if (isset($page[$block->region]['system_main']['#theme']) && $page[$block->region]['system_main']['#theme'] == 'uc_cart_checkout_review' && ($order_id = intval($_SESSION['cart_order'])) > 0) {
-    $order = uc_order_load($order_id);
-
-    if ($order->payment_method == 'paypal_wps') {
-      $page[$block->region]['system_main']['#form'] = drupal_get_form('uc_paypal_wps_form', $order);
-    }
-  }
-}
-
-/**
  * Implements hook_form_FORM_ID_alter() for uc_cart_checkout_form().
  */
 function uc_paypal_form_uc_cart_checkout_form_alter(&$form, &$form_state, $form_id) {
@@ -128,8 +111,7 @@ function uc_paypal_form_uc_cart_checkout_review_form_alter(&$form, &$form_state,
  * Implements hook_uc_cart_pane().
  */
 function uc_paypal_uc_cart_pane() {
-  $panes[] = array(
-    'id' => 'uc_paypal_ec',
+  $panes['uc_paypal_ec'] = array(
     'title' => t('PayPal Express Checkout'),
     'enabled' => FALSE,
     'weight' => 1,
@@ -151,8 +133,7 @@ function uc_paypal_uc_payment_gateway() {
     return;
   }
 
-  $gateways[] = array(
-    'id' => 'paypal_wpp',
+  $gateways['paypal_wpp'] = array(
     'title' => t('PayPal Website Payments Pro'),
     'description' => t('Process credit card payments using Website Payments Pro.'),
     'settings' => 'uc_paypal_wpp_settings_form',
@@ -185,6 +166,7 @@ function uc_paypal_uc_payment_method() {
     'review' => t('PayPal'),
     'desc' => t('Redirect users to submit payments through PayPal.'),
     'callback' => 'uc_payment_method_paypal_wps',
+    'redirect' => 'uc_paypal_wps_form',
     'weight' => 1,
     'checkout' => FALSE,
     'no_gateway' => TRUE,
@@ -785,6 +767,7 @@ function uc_paypal_ec_form_submit($form, &$form_state) {
   $_SESSION['cart_order'] = $order->order_id;
   $_SESSION['TOKEN'] = $nvp_response['TOKEN'];
 
+  $sandbox = '';
   if (strpos(variable_get('uc_paypal_wpp_server', 'https://api-3t.sandbox.paypal.com/nvp'), 'sandbox') > 0) {
     $sandbox = 'sandbox.';
   }
@@ -793,6 +776,11 @@ function uc_paypal_ec_form_submit($form, &$form_state) {
   exit();
 }
 
+/**
+ * Additional submit handler for uc_cart_checkout_review_form().
+ *
+ * @see uc_cart_checkout_review_form()
+ */
 function uc_paypal_ec_submit_form_submit($form, &$form_state) {
   $order = uc_order_load($_SESSION['cart_order']);
 

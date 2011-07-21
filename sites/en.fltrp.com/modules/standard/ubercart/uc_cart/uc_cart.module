@@ -743,7 +743,7 @@ function uc_cart_uc_message() {
 
   $messages['checkout_instructions'] = '';
   $messages['review_instructions'] = t("Your order is almost complete. Please review the details below and click 'Submit order' if all the information is correct.  You may use the 'Back' button to make changes to your order if necessary.");
-  $messages['completion_message'] = t('Your order is complete! Your order number is [uc_order:order-id].');
+  $messages['completion_message'] = t('Your order is complete! Your order number is [uc_order:order-number].');
   $messages['completion_logged_in'] = t('Thank you for shopping at [store:name]. While logged in, you may continue shopping or <a href="[uc_order:url]">view your current order status</a> and order history.');
   $messages['completion_existing_user'] = t("Thank you for shopping at [store:name]. Your current order has been attached to the account we found matching your e-mail address.\n\n<a href=\"!user_url\">Login</a> to view your current order status and order history. Remember to login when you make your next purchase for a faster checkout experience!", array('!user_url' => url('user')));
   $messages['completion_new_user'] = t("Thank you for shopping at [store:name]. A new account has been created for you here that you may use to view your current order status.\n\n<a href=\"!user_url\">Login</a> to your new account using the following information:\n\n<strong>Username:</strong> !new_username\n<strong>Password:</strong> !new_password", array('!user_url' => url('user')));
@@ -765,8 +765,7 @@ function uc_cart_uc_cart_pane($items) {
     );
   }
 
-  $panes[] = array(
-    'id' => 'cart_form',
+  $panes['cart_form'] = array(
     'title' => t('Default cart form'),
     'enabled' => TRUE,
     'weight' => 0,
@@ -780,8 +779,7 @@ function uc_cart_uc_cart_pane($items) {
  * Implements hook_uc_checkout_pane().
  */
 function uc_cart_uc_checkout_pane() {
-  $panes[] = array(
-    'id' => 'cart',
+  $panes['cart'] = array(
     'callback' => 'uc_checkout_pane_cart',
     'title' => t('Cart contents'),
     'desc' => t("Display the contents of a customer's shopping cart."),
@@ -789,30 +787,26 @@ function uc_cart_uc_checkout_pane() {
     'process' => FALSE,
     'collapsible' => FALSE,
   );
-  $panes[] = array(
-    'id' => 'customer',
+  $panes['customer'] = array(
     'callback' => 'uc_checkout_pane_customer',
     'title' => t('Customer information'),
     'desc' => t('Get the necessary information to create a customer on the site.'),
     'weight' => 2,
   );
-  $panes[] = array(
-    'id' => 'delivery',
+  $panes['delivery'] = array(
     'callback' => 'uc_checkout_pane_delivery',
     'title' => t('Delivery information'),
     'desc' => t('Get the information for where the order needs to ship.'),
     'weight' => 3,
     'shippable' => TRUE,
   );
-  $panes[] = array(
-    'id' => 'billing',
+  $panes['billing'] = array(
     'callback' => 'uc_checkout_pane_billing',
     'title' => t('Billing information'),
     'desc' => t('Get basic information needed to collect payment.'),
     'weight' => 4,
   );
-  $panes[] = array(
-    'id' => 'comments',
+  $panes['comments'] = array(
     'callback' => 'uc_checkout_pane_comments',
     'title' => t('Order comments'),
     'desc' => t('Allow a customer to put comments on an order.'),
@@ -1190,7 +1184,7 @@ function uc_cart_complete_sale($order, $login = FALSE) {
   // Logic to create new user if necessary:
   if ($order->uid == 0) {
     // Check for an existing user account with the e-mail address from checkout.
-    $result = db_query("SELECT uid FROM {users} WHERE mail = :email", array(':email' => $order->primary_email));
+    $result = db_query("SELECT uid FROM {users} WHERE mail LIKE :email", array(':email' => $order->primary_email));
 
     // If it was found, update the order.
     if ($account = $result->fetchObject()) {
@@ -1302,7 +1296,7 @@ function uc_cart_complete_sale($order, $login = FALSE) {
   }
 
   // Clear our the session variables used to force the cart workflow.
-  unset($_SESSION['cart_order'], $_SESSION['do_complete'], $_SESSION['new_user']);
+  unset($_SESSION['cart_order'], $_SESSION['do_review'], $_SESSION['do_complete'], $_SESSION['new_user']);
 
   return array(
     '#theme' => 'uc_cart_complete_sale',
@@ -1709,29 +1703,35 @@ function uc_cart_empty($cart_id, $op = 'remove') {
  *
  * @param $items
  *   The contents of the cart.
- * @param $action
- *   If 'rebuild' is passed, the static pane cache is cleared.
  */
-function uc_cart_cart_pane_list($items, $action = NULL) {
-  static $panes;
+function uc_cart_cart_pane_list($items) {
+  $panes = array();
 
-  if (count($panes) > 0 && $action !== 'rebuild') {
-    return $panes;
+  foreach (module_invoke_all('uc_cart_pane', $items) as $id => $pane) {
+    // Preserve backward compatibility for panes with no key specified.
+    if (is_numeric($id)) {
+      $id = $pane['id'];
+    }
+
+    // Set defaults.
+    $panes[$id] = $pane + array(
+      'id' => $id,
+      'enabled' => TRUE,
+      'weight' => 0,
+      'body' => array(),
+    );
   }
 
-  $panes = module_invoke_all('uc_cart_pane', $items);
-
-  // Allow other modules to alter the panes.
+  // Allow other modules to alter the defaults.
   drupal_alter('uc_cart_pane', $panes, $items);
 
-  if (!is_array($panes) || count($panes) == 0) {
-    return array();
+  // Use admin-specified enabled and weight values.
+  foreach ($panes as $id => &$pane) {
+    $pane['enabled'] = variable_get('uc_cap_' . $id . '_enabled', $pane['enabled']);
+    $pane['weight'] = variable_get('uc_cap_' . $id . '_weight', $pane['weight']);
   }
-  foreach ($panes as $i => $value) {
-    $panes[$i]['enabled'] = variable_get('uc_cap_' . $panes[$i]['id'] . '_enabled', (!isset($panes[$i]['enabled']) ? TRUE : $panes[$i]['enabled']));
-    $panes[$i]['weight'] = variable_get('uc_cap_' . $panes[$i]['id'] . '_weight', (!isset($panes[$i]['weight']) ? 0 : $panes[$i]['weight']));
-  }
-  usort($panes, 'uc_weight_sort');
+
+  uasort($panes, 'uc_weight_sort');
 
   return $panes;
 }
@@ -1806,13 +1806,11 @@ function uc_cart_product_is_shippable($product) {
  *   A checkout pane array with panes filtered out that have key values
  *   matching the combinations in the $remove array.
  */
-function uc_cart_filter_checkout_panes($panes, $remove = NULL) {
-  if (is_array($remove)) {
-    for ($i = 0, $j = count($panes); $i < $j; $i++) {
-      foreach ($remove as $key => $value) {
-        if (isset($panes[$i][$key]) and $panes[$i][$key] == $value) {
-          unset($panes[$i]);
-        }
+function uc_cart_filter_checkout_panes($panes, $remove) {
+  foreach ($panes as $id => $pane) {
+    foreach ($remove as $key => $value) {
+      if (isset($panes[$id][$key]) && $panes[$id][$key] == $value) {
+        unset($panes[$id]);
       }
     }
   }

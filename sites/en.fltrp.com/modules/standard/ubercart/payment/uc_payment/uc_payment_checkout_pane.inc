@@ -11,6 +11,13 @@
 function uc_checkout_pane_payment($op, &$order, $form = NULL, &$form_state = NULL) {
   switch ($op) {
     case 'view':
+      $contents['#attached']['css'][] = drupal_get_path('module', 'uc_payment') . '/uc_payment.css';
+      $contents['#attached']['js'][] = drupal_get_path('module', 'uc_payment') . '/uc_payment.js';
+      $contents['#attached']['js'][] = array(
+        'data' => array('ucURL' => array('creditCardCVVInfo' => url('cart/checkout/credit/cvv_info'))),
+        'type' => 'setting',
+      );
+
       if (empty($order->line_items)) {
         $order->line_items = uc_order_load_line_items($order, FALSE);
       }
@@ -23,7 +30,7 @@ function uc_checkout_pane_payment($op, &$order, $form = NULL, &$form_state = NUL
         $contents['line_items'] = array(
           '#theme' => 'uc_payment_totals',
           '#order' => $order,
-          '#prefix' => '<div style="padding: .5em 1em; margin-bottom: 1em; border: dashed 1px #bbb;" id="line-items-div">',
+          '#prefix' => '<div id="line-items-div">',
           '#suffix' => '</div>',
           '#weight' => -20,
         );
@@ -33,9 +40,9 @@ function uc_checkout_pane_payment($op, &$order, $form = NULL, &$form_state = NUL
       $options = array();
       $default = NULL;
 
-      foreach ($methods as $method) {
+      foreach ($methods as $id => $method) {
         if ($method['checkout']) {
-          $options[$method['id']] = $method['title'];
+          $options[$id] = $method['title'];
         }
       }
 
@@ -67,21 +74,28 @@ function uc_checkout_pane_payment($op, &$order, $form = NULL, &$form_state = NUL
         '#theme' => 'uc_payment_method_select',
         '#ajax' => array(
           'callback' => 'uc_payment_checkout_payment_details',
-          'wrapper' => 'payment_details',
+          'wrapper' => 'payment-details',
+          'progress' => array(
+            'type' => 'throbber',
+          ),
         ),
       );
 
       $contents['details'] = array(
-        '#prefix' => '<div id="payment_details" class="solid-border">',
+        '#prefix' => '<div id="payment-details" class="clearfix payment-details-' . $default . '">',
         '#suffix' => '</div>',
       );
 
+      $details = FALSE;
       $func = _uc_payment_method_data($default, 'callback');
       if (function_exists($func)) {
         $details = $func('cart-details', $order, $form, $form_state);
-        if (is_array($details) && !empty($details)) {
-          $contents['details'] += $details;
-        }
+      }
+      if (is_array($details) && !empty($details)) {
+        $contents['details'] += $details;
+      }
+      else {
+        $contents['details']['#markup'] = t('Continue with checkout to complete payment.');
       }
 
       return array('description' => $description, 'contents' => $contents);

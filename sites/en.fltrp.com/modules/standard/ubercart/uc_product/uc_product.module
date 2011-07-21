@@ -45,46 +45,8 @@ function uc_product_menu() {
     'title' => 'Product settings',
     'description' => 'Configure product settings.',
     'access arguments' => array('administer products'),
-    'page callback' => 'uc_product_settings_overview',
-    'file' => 'uc_product.admin.inc',
-  );
-  $items['admin/store/settings/products/overview'] = array(
-    'title' => 'Overview',
-    'weight' => -10,
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-  );
-  $items['admin/store/settings/products/edit'] = array(
-    'title' => 'Edit',
-    'access arguments' => array('administer products'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('uc_product_settings_form'),
-    'weight' => -5,
-    'type' => MENU_LOCAL_TASK,
-    'file' => 'uc_product.admin.inc',
-  );
-  $items['admin/store/settings/products/edit/general'] = array(
-    'title' => 'Product settings',
-    'access arguments' => array('administer products'),
-    'weight' => -10,
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'file' => 'uc_product.admin.inc',
-  );
-  $items['admin/store/settings/products/edit/fields'] = array(
-    'title' => 'Product fields',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('uc_product_field_settings_form'),
-    'access arguments' => array('administer products'),
-    'weight' => -5,
-    'type' => MENU_LOCAL_TASK,
-    'file' => 'uc_product.admin.inc',
-  );
-  $items['admin/store/settings/products/edit/features'] = array(
-    'title' => 'Product features',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('uc_product_feature_settings_form'),
-    'access arguments' => array('administer product features'),
-    'weight' => 0,
-    'type' => MENU_LOCAL_TASK,
     'file' => 'uc_product.admin.inc',
   );
 
@@ -208,6 +170,9 @@ function uc_product_permission() {
     'administer product features' => array(
       'title' => t('Administer product features'),
     ),
+    'administer own product features' => array(
+      'title' => t('Administer own product features'),
+    ),
   );
 
   return $perms;
@@ -245,18 +210,9 @@ function uc_product_node_access($op, $node, $account) {
  * Menu access callback for 'node/%node/edit/features'.
  */
 function uc_product_feature_access($node) {
-  return uc_product_is_product($node) && user_access('administer product features');
-}
-
-/**
- * Implements hook_init().
- */
-function uc_product_init() {
-  drupal_add_css(drupal_get_path('module', 'uc_product') . '/uc_product.css', array('every_page' => TRUE));
-
-  global $conf;
-  $conf['i18n_variables'][] = 'uc_product_add_to_cart_text';
-  $conf['i18n_variables'][] = 'uc_teaser_add_to_cart_text';
+  global $user;
+  return uc_product_is_product($node) &&
+    ((user_access('administer product features') || (user_access('administer own product features') && ($user->uid == $node->uid))));
 }
 
 /**
@@ -267,10 +223,6 @@ function uc_product_theme() {
     'uc_product_inline_form' => array(
       'render element' => 'form',
     ),
-    'uc_product_field_settings_form' => array(
-      'render element' => 'form',
-      'file' => 'uc_product.admin.inc',
-    ),
     'uc_product_model' => array(
       'variables' => array('model' => '', 'view_mode' => 'full'),
     ),
@@ -278,7 +230,7 @@ function uc_product_theme() {
       'variables' => array('body' => '', 'view_mode' => 'full'),
     ),
     'uc_product_add_to_cart' => array(
-      'variables' => array('node' => NULL, 'view_mode' => 'full'),
+      'variables' => array('form' => NULL, 'view_mode' => 'full'),
     ),
     'uc_product_price' => array(
       'render element' => 'element',
@@ -395,17 +347,6 @@ function uc_product_edit_access($node) {
  */
 function uc_product_form($node, $form_state) {
   $type = node_type_get_type($node);
-
-  $location = array();
-  $location[] = menu_get_item('admin');
-  $location[] = menu_get_item('admin/store');
-  $location[] = menu_get_item('admin/store/products');
-  $location[] = menu_get_item('admin/store/settings/products');
-  $breadcrumb = array(l('Home', ''));
-  foreach ($location as $item) {
-    $breadcrumb[] = l($item['title'], $item['path']);
-  }
-  drupal_set_breadcrumb($breadcrumb);
 
   $sign_flag = variable_get('uc_sign_after_amount', FALSE);
   $currency_sign = variable_get('uc_currency_sign', '$');
@@ -725,38 +666,9 @@ function uc_product_delete(&$node) {
 }
 
 /**
- * Convenience function to get the enabled fields.
- */
-function uc_product_field_enabled() {
-  $enabled = variable_get('uc_product_field_enabled', array(
-    'display_price' => 1,
-    'model' => 1,
-    'list_price' => 0,
-    'cost' => 0,
-    'sell_price' => 1,
-    'weight' => 0,
-    'dimensions' => 0,
-    'add_to_cart' => 1,
-  ));
-  return $enabled;
-}
-
-/**
  * Implements hook_view().
  */
 function uc_product_view($node, $view_mode) {
-  $enabled = uc_product_field_enabled();
-  $weight = variable_get('uc_product_field_weight', array(
-    'display_price' => -1,
-    'model' => 0,
-    'list_price' => 2,
-    'cost' => 3,
-    'sell_price' => 4,
-    'weight' => 5,
-    'dimensions' => 6,
-    'add_to_cart' => 10,
-  ));
-
   $node->content['display_price'] = array(
     '#theme' => 'uc_product_price',
     '#value' => $node->sell_price,
@@ -765,49 +677,33 @@ function uc_product_view($node, $view_mode) {
         'display-price',
       ),
     ),
-    '#access' => $enabled['display_price'],
-    '#weight' => $weight['display_price'],
   );
-
-  if ($view_mode != 'teaser') {
-    $node->content['model'] = array(
-      '#theme' => 'uc_product_model',
-      '#model' => $node->model,
-      '#view_mode' => $view_mode,
-      '#access' => $enabled['model'],
-      '#weight' => $weight['model'],
-    );
-
-    $node->content['list_price'] = array(
-      '#theme' => 'uc_product_price',
-      '#title' => t('List price:'),
-      '#value' => $node->list_price,
-      '#attributes' => array(
-        'class' => array(
-          'list-price',
-        ),
+  $node->content['model'] = array(
+    '#theme' => 'uc_product_model',
+    '#model' => $node->model,
+    '#view_mode' => $view_mode,
+  );
+  $node->content['list_price'] = array(
+    '#theme' => 'uc_product_price',
+    '#title' => t('List price:'),
+    '#value' => $node->list_price,
+    '#attributes' => array(
+      'class' => array(
+        'list-price',
       ),
-      '#access' => $enabled['list_price'],
-      '#weight' => $weight['list_price'],
-    );
-
-    $node->content['cost'] = array(
-      '#theme' => 'uc_product_price',
-      '#title' => t('Cost:'),
-      '#value' => $node->cost,
-      '#attributes' => array(
-        'class' => array(
-          'cost',
-        ),
+    ),
+  );
+  $node->content['cost'] = array(
+    '#theme' => 'uc_product_price',
+    '#title' => t('Cost:'),
+    '#value' => $node->cost,
+    '#attributes' => array(
+      'class' => array(
+        'cost',
       ),
-      '#access' => $enabled['cost'] && user_access('administer products'),
-      '#weight' => $weight['cost'],
-    );
-  }
-  else {
-    $node->content['#attributes'] = array('style' => 'display: inline');
-  }
-
+    ),
+    '#access' => user_access('administer products'),
+  );
   $node->content['sell_price'] = array(
     '#theme' => 'uc_product_price',
     '#title' => t('Price:'),
@@ -817,46 +713,26 @@ function uc_product_view($node, $view_mode) {
         'sell-price',
       ),
     ),
-    '#access' => $enabled['sell_price'],
-    '#weight' => $weight['sell_price'],
   );
-
-  if ($view_mode != 'teaser') {
-    $node->content['weight'] = array(
-      '#theme' => 'uc_product_weight',
-      '#amount' => $node->weight,
-      '#units' => $node->weight_units,
-      '#view_mode' => $view_mode,
-      '#access' => $enabled['weight'],
-      '#weight' => $weight['weight'],
-    );
-    $node->content['dimensions'] = array(
-      '#theme' => 'uc_product_dimensions',
-      '#length' => $node->length,
-      '#width' => $node->width,
-      '#height' => $node->height,
-      '#units' => $node->length_units,
-      '#view_mode' => $view_mode,
-      '#access' => $enabled['dimensions'],
-      '#weight' => $weight['dimensions'],
-    );
-    if (module_exists('uc_cart')) {
-      $node->content['add_to_cart'] = array(
-        '#theme' => 'uc_product_add_to_cart',
-        '#node' => $node,
-        '#view_mode' => $view_mode,
-        '#access' => $enabled['add_to_cart'],
-        '#weight' => $weight['add_to_cart'],
-      );
-    }
-  }
-  elseif (module_exists('uc_cart') && variable_get('uc_product_add_to_cart_teaser', TRUE)) {
+  $node->content['weight'] = array(
+    '#theme' => 'uc_product_weight',
+    '#amount' => $node->weight,
+    '#units' => $node->weight_units,
+    '#view_mode' => $view_mode,
+  );
+  $node->content['dimensions'] = array(
+    '#theme' => 'uc_product_dimensions',
+    '#length' => $node->length,
+    '#width' => $node->width,
+    '#height' => $node->height,
+    '#units' => $node->length_units,
+    '#view_mode' => $view_mode,
+  );
+  if (module_exists('uc_cart')) {
     $node->content['add_to_cart'] = array(
       '#theme' => 'uc_product_add_to_cart',
-      '#node' => $node,
+      '#form' => drupal_get_form('uc_product_add_to_cart_form_' . $node->nid, $node),
       '#view_mode' => $view_mode,
-      '#access' => $enabled['add_to_cart'],
-      '#weight' => $weight['add_to_cart'],
     );
   }
 
@@ -1083,6 +959,24 @@ function uc_product_field_extra_fields() {
 }
 
 /**
+ * Sets default display settings for product teasers.
+ */
+function uc_product_set_teaser_display($type) {
+  $settings = field_bundle_settings('node', $type);
+  $settings['view_modes']['teaser']['custom_settings'] = TRUE;
+
+  $fields = array('model', 'list_price', 'cost', 'weight', 'dimensions');
+  foreach ($fields as $field) {
+    $settings['extra_fields']['display'][$field]['teaser'] = array(
+      'weight' => 0,
+      'visible' => FALSE,
+    );
+  }
+
+  field_bundle_settings('node', $type, $settings);
+}
+
+/**
  * Implements hook_field_delete_instance().
  *
  * Resets a content type's default image field setting when that field instance
@@ -1247,8 +1141,6 @@ function uc_product_table_header() {
   static $columns = array();
 
   if (empty($columns)) {
-    $enabled = uc_product_field_enabled();
-
     $columns['image'] = array(
       'weight' => -5,
       'cell' => array('data' => t('Image')),
@@ -1258,24 +1150,20 @@ function uc_product_table_header() {
       'cell' => array('data' => t('Name'), 'field' => 'n.title'),
     );
 
-    if ($enabled['list_price']) {
-      $columns['list_price'] = array(
-        'weight' => 3,
-        'cell' => array('data' => t('List price'), 'field' => 'p.list_price'),
-      );
-    }
+    $columns['list_price'] = array(
+      'weight' => 3,
+      'cell' => array('data' => t('List price'), 'field' => 'p.list_price'),
+    );
 
-    if ($enabled['sell_price']) {
-      $columns['price'] = array(
-        'weight' => 5,
-        'cell' => array('data' => t('Price'), 'field' => 'p.sell_price'),
-      );
-    }
+    $columns['price'] = array(
+      'weight' => 5,
+      'cell' => array('data' => t('Price'), 'field' => 'p.sell_price'),
+    );
 
-    if (module_exists('uc_cart') && arg(0) != 'admin' && $enabled['add_to_cart']) {
+    if (module_exists('uc_cart') && arg(0) != 'admin') {
       $columns['add_to_cart'] = array(
         'weight' => 10,
-        'cell' => array('data' => variable_get('uc_teaser_add_to_cart_text', t('Add to cart')), 'nowrap' => 'nowrap'),
+        'cell' => array('data' => t('Add to cart'), 'nowrap' => 'nowrap'),
       );
     }
 
@@ -1292,7 +1180,6 @@ function uc_product_table_header() {
  * Displays image, name, price, and add to cart form.
  */
 function uc_product_table($args = array()) {
-  $enabled = uc_product_field_enabled();
   $table = array(
     '#type' => 'tapir_table',
     '#attributes' => array(
@@ -1324,14 +1211,10 @@ function uc_product_table($args = array()) {
       '#cell_attributes' => array('width' => '100%'),
     );
 
-    if ($enabled['list_price']) {
-      $data['list_price'] = array('#theme' => 'uc_price', '#price' => $node->list_price);
-    }
-    if ($enabled['sell_price']) {
-      $data['price'] = array('#theme' => 'uc_price', '#price' => $node->sell_price);
-    }
+    $data['list_price'] = array('#theme' => 'uc_price', '#price' => $node->list_price);
+    $data['price'] = array('#theme' => 'uc_price', '#price' => $node->sell_price);
 
-    if (module_exists('uc_cart') && arg(0) != 'admin' && $enabled['add_to_cart']) {
+    if (module_exists('uc_cart') && arg(0) != 'admin') {
       $data['add_to_cart'] = drupal_get_form('uc_catalog_buy_it_now_form_' . $node->nid, $node);
     }
 
@@ -1360,6 +1243,8 @@ function uc_product_table($args = array()) {
 }
 
 /**
+ * Form builder for uc_catalog_buy_it_now_form().
+ *
  * @see uc_product_forms()
  * @see uc_catalog_buy_it_now_form_validate()
  * @see uc_catalog_buy_it_now_form_submit()
@@ -1370,7 +1255,7 @@ function uc_catalog_buy_it_now_form($form, &$form_state, $node) {
   $form['actions'] = array('#type' => 'actions');
   $form['actions']['submit'] = array(
     '#type' => 'submit',
-    '#value' =>  variable_get('uc_teaser_add_to_cart_text', t('Add to cart')),
+    '#value' => t('Add to cart'),
     '#id' => 'edit-submit-' . $node->nid,
     '#attributes' => array(
       'class' => array('list-add-to-cart'),
@@ -1398,6 +1283,8 @@ function uc_catalog_buy_it_now_form_validate($form, &$form_state) {
 }
 
 /**
+ * Form submission handler for uc_catalog_buy_it_now_form().
+ *
  * @see uc_catalog_buy_it_now_form()
  */
 function uc_catalog_buy_it_now_form_submit($form, &$form_state) {
@@ -1436,18 +1323,8 @@ function theme_uc_product_body($variables) {
  * @ingroup themeable
  */
 function theme_uc_product_add_to_cart($variables) {
-  $node = $variables['node'];
-
   $output = '<div class="add-to-cart">';
-
-  if ($node->nid) {
-    $form = drupal_get_form('uc_product_add_to_cart_form_' . $node->nid, $node);
-  }
-  else {
-    $form = drupal_get_form('uc_product_add_to_cart_form', $node);
-  }
-
-  $output .= drupal_render($form);
+  $output .= drupal_render($variables['form']);
   $output .= '</div>';
 
   return $output;
@@ -1482,7 +1359,7 @@ function uc_product_add_to_cart_form($form, &$form_state, $node) {
   $form['actions'] = array('#type' => 'actions');
   $form['actions']['submit'] = array(
     '#type' => 'submit',
-    '#value' =>  variable_get('uc_product_add_to_cart_text', t('Add to cart')),
+    '#value' => t('Add to cart'),
     '#id' => 'edit-submit-' . $node->nid,
     '#attributes' => array(
       'class' => array('node-add-to-cart'),
@@ -1616,26 +1493,32 @@ function theme_uc_product_image($variables) {
     'alt' => $first['alt'],
     'title' => $first['title'],
   ));
-  $output .= '</a></div><div class="more-product-images">';
-  foreach ($images as $thumbnail) {
-    // Node preview adds extra values to $images that aren't files.
-    if (!is_array($thumbnail) || empty($thumbnail['uri'])) {
-      continue;
+  $output .= '</a></div>';
+
+  if (!empty($images)) {
+    $output .= '<div class="more-product-images">';
+    foreach ($images as $thumbnail) {
+      // Node preview adds extra values to $images that aren't files.
+      if (!is_array($thumbnail) || empty($thumbnail['uri'])) {
+        continue;
+      }
+      $output .= '<a href="' . image_style_url('uc_product_full', $thumbnail['uri']) . '" title="' . $thumbnail['title'] . '"';
+      if ($image_widget) {
+        $output .= $image_widget_func($rel_count);
+      }
+      $output .= '>';
+      $output .= theme('image_style', array(
+        'style_name' => 'uc_thumbnail',
+        'path' => $thumbnail['uri'],
+        'alt' => $thumbnail['alt'],
+        'title' => $thumbnail['title'],
+      ));
+      $output .= '</a>';
     }
-    $output .= '<a href="' . image_style_url('uc_product_full', $thumbnail['uri']) . '" title="' . $thumbnail['title'] . '"';
-    if ($image_widget) {
-      $output .= $image_widget_func($rel_count);
-    }
-    $output .= '>';
-    $output .= theme('image_style', array(
-      'style_name' => 'uc_thumbnail',
-      'path' => $thumbnail['uri'],
-      'alt' => $thumbnail['alt'],
-      'title' => $thumbnail['title'],
-    ));
-    $output .= '</a>';
+    $output .= '</div>';
   }
-  $output .= '</div></div>';
+
+  $output .= '</div>';
   $rel_count++;
 
   return $output;
@@ -1987,7 +1870,7 @@ function uc_product_feature_save(&$data) {
  * @param $nid
  *   The product node ID.
  *
- * @returns
+ * @return
  *   The array of all product features object.
  */
 function uc_product_feature_load_multiple($nid) {
@@ -2006,7 +1889,7 @@ function uc_product_feature_load_multiple($nid) {
  * @param $fid
  *   Optional. Specify a specific feature id.
  *
- * @returns
+ * @return
  *   The product feature array.
  */
 function uc_product_feature_load($pfid) {
@@ -2021,7 +1904,7 @@ function uc_product_feature_load($pfid) {
  * @param $pfid
  *   The product feature ID.
  *
- * @returns
+ * @return
  *   The product feature object.
  */
 function uc_product_feature_delete($pfid) {

@@ -142,9 +142,9 @@ function uc_checkout_pane_customer($op, $order, $form = NULL, &$form_state = NUL
       }
 
       // Invalidate if an account already exists for this e-mail address, and the user is not logged into that account
-      if ($user->uid == 0 && !empty($pane['primary_email'])) {
+      if (!variable_get('uc_cart_mail_existing', TRUE) && $user->uid == 0 && !empty($pane['primary_email'])) {
         if (db_query("SELECT uid FROM {users} WHERE mail LIKE :mail", array(':mail' => $pane['primary_email']))->fetchField() > 0) {
-          form_set_error('panes][customer][primary_email', t('An account already exists for your e-mail address. You will either need to login with with this e-mail address or use a different e-mail address.'));
+          form_set_error('panes][customer][primary_email', t('An account already exists for your e-mail address. You will either need to login with this e-mail address or use a different e-mail address.'));
         }
       }
 
@@ -152,23 +152,29 @@ function uc_checkout_pane_customer($op, $order, $form = NULL, &$form_state = NUL
       if ((variable_get('uc_cart_new_account_name', FALSE) ||
           variable_get('uc_cart_new_account_password', FALSE)) &&
           $user->uid == 0) {
-        // Validate the username.
-        if (variable_get('uc_cart_new_account_name', FALSE) && !empty($pane['new_account']['name'])) {
-          $message = user_validate_name($pane['new_account']['name']);
-          if (!empty($message)) {
-            form_set_error('panes][customer][new_account][name', $message);
-          }
-          if (db_query("SELECT uid FROM {users} WHERE name LIKE :name", array(':name' => $pane['new_account']['name']))->fetchField()) {
-            form_set_error('panes][customer][new_account][name', t('The username %name is already taken. Please enter a different name or leave the field blank for your username to be your e-mail address.', array('%name' => $pane['new_account']['name'])));
-          }
-          $order->data['new_user']['name'] = $pane['new_account']['name'];
+        // Skip if an account already exists for this e-mail address.
+        if (variable_get('uc_cart_mail_existing', TRUE) && db_query("SELECT uid FROM {users} WHERE mail LIKE :mail", array(':mail' => $pane['primary_email']))->fetchField() > 0) {
+          drupal_set_message(t('An account already exists for your e-mail address. The new account details you entered will be disregarded.'));
         }
-        // Validate the password.
-        if (variable_get('uc_cart_new_account_password', FALSE)) {
-          if (strcmp($pane['new_account']['pass'], $pane['new_account']['pass_confirm'])) {
-            form_set_error('panes][customer][new_account][pass_confirm', t('The passwords you entered did not match. Please try again.'));
+        else {
+          // Validate the username.
+          if (variable_get('uc_cart_new_account_name', FALSE) && !empty($pane['new_account']['name'])) {
+            $message = user_validate_name($pane['new_account']['name']);
+            if (!empty($message)) {
+              form_set_error('panes][customer][new_account][name', $message);
+            }
+            if (db_query("SELECT uid FROM {users} WHERE name LIKE :name", array(':name' => $pane['new_account']['name']))->fetchField()) {
+              form_set_error('panes][customer][new_account][name', t('The username %name is already taken. Please enter a different name or leave the field blank for your username to be your e-mail address.', array('%name' => $pane['new_account']['name'])));
+            }
+            $order->data['new_user']['name'] = $pane['new_account']['name'];
           }
-          $order->data['new_user']['pass'] = $pane['new_account']['pass'];
+          // Validate the password.
+          if (variable_get('uc_cart_new_account_password', FALSE)) {
+            if (strcmp($pane['new_account']['pass'], $pane['new_account']['pass_confirm'])) {
+              form_set_error('panes][customer][new_account][pass_confirm', t('The passwords you entered did not match. Please try again.'));
+            }
+            $order->data['new_user']['pass'] = $pane['new_account']['pass'];
+          }
         }
       }
 
@@ -182,6 +188,12 @@ function uc_checkout_pane_customer($op, $order, $form = NULL, &$form_state = NUL
       return $review;
 
     case 'settings':
+      $form['uc_cart_mail_existing'] = array(
+        '#type' => 'checkbox',
+        '#title' => t("Allow anonymous customers to use an existing account's email address."),
+        '#default_value' => variable_get('uc_cart_mail_existing', TRUE),
+        '#description' => t('If enabled, orders will be attached to the account matching the email address. If disabled, anonymous users using a registered email address must log in or use a different email address.'),
+      );
       $form['uc_cart_email_validation'] = array(
         '#type' => 'checkbox',
         '#title' => t('Require e-mail confirmation in checkout for anonymous customers.'),
@@ -287,33 +299,40 @@ function uc_checkout_pane_address($pane, $op, $order, &$form_state, $description
         $element = &$form_state['triggering_element'];
 
         if ($element['#name'] == "panes[$pane][copy_address]") {
-          $address = &$form_state['values']['panes'][$source]['address'];
+          $address = &$form_state['values']['panes'][$source];
           foreach ($address as $field => $value) {
-            $field = str_replace($source, $pane, $field);
-            $form_state['input']['panes'][$pane]['address'][$field] = $value;
-            $order->$field = $value;
+            if (substr($field, 0, strlen($source)) == $source) {
+              $field = str_replace($source, $pane, $field);
+              $form_state['input']['panes'][$pane][$field] = $value;
+              $order->$field = $value;
+            }
           }
         }
 
         if ($element['#name'] == "panes[$pane][select_address]") {
           $address = $addresses[$element['#value']];
           foreach ($address as $field => $value) {
-            $form_state['input']['panes'][$pane]['address'][$pane . '_' . $field] = $value;
+            $form_state['input']['panes'][$pane][$pane . '_' . $field] = $value;
             $order->{$pane . '_' . $field} = $value;
           }
         }
+
+        // Forget any previous Ajax submissions, as we send new default values.
+        unset($form_state['uc_address']);
       }
 
       return array('description' => $description, 'contents' => $contents);
 
     case 'process':
       $panes = &$form_state['values']['panes'];
-      foreach ($panes[$pane]['address'] as $key => $value) {
-        if (!empty($panes[$pane]['copy_address'])) {
-          $value = $panes[$source]['address'][str_replace($pane, $source, $key)];
-        }
+      foreach ($panes[$pane] as $field => $value) {
+        if (substr($field, 0, strlen($pane)) == $pane) {
+          if (!empty($panes[$pane]['copy_address'])) {
+            $value = $panes[$source][str_replace($pane, $source, $field)];
+          }
 
-        $order->$key = $value;
+          $order->$field = $value;
+        }
       }
       return TRUE;
 
@@ -360,10 +379,10 @@ function uc_checkout_pane_comments($op, $order, $form = NULL, &$form_state = NUL
       return array('description' => $description, 'contents' => $contents);
 
     case 'process':
+      db_delete('uc_order_comments')
+        ->condition('order_id', $order->order_id)
+        ->execute();
       if (strlen($form_state['values']['panes']['comments']['comments']) > 0) {
-        db_delete('uc_order_comments')
-          ->condition('order_id', $order->order_id)
-          ->execute();
         uc_order_comment_save($order->order_id, 0, $form_state['values']['panes']['comments']['comments'], 'order', uc_order_state_default('post_checkout'), TRUE);
       }
       return TRUE;
@@ -426,32 +445,38 @@ function _uc_cart_checkout_next_pane($panes, $pane_id = NULL) {
  * Builds a list of checkout panes defined in the enabled modules.
  */
 function _uc_checkout_pane_list($action = NULL) {
-  static $panes;
+  static $panes = array();
 
   if (count($panes) > 0 && $action !== 'rebuild') {
     return $panes;
   }
 
-  $panes = module_invoke_all('uc_checkout_pane', NULL);
+  foreach (module_invoke_all('uc_checkout_pane') as $id => $pane) {
+    // Preserve backward compatibility for panes with no key specified.
+    if (is_numeric($id)) {
+      $id = $pane['id'];
+    }
 
-  // Set the global default values first
-  foreach ($panes as $i => $value) {
-    $panes[$i]['enabled'] = variable_get('uc_pane_' . $panes[$i]['id'] . '_enabled', (!isset($panes[$i]['enabled']) ? TRUE : $panes[$i]['enabled']));
-    $panes[$i]['weight'] = variable_get('uc_pane_' . $panes[$i]['id'] . '_weight', (!isset($panes[$i]['weight']) ? 0 : $panes[$i]['weight']));
+    // Set defaults.
+    $pane += array(
+      'id' => $id,
+      'enabled' => TRUE,
+      'weight' => 0,
+      'review' => TRUE,
+      'process' => TRUE,
+      'collapsible' => TRUE,
+    );
+
+    $pane['enabled'] = variable_get('uc_pane_' . $id . '_enabled', $pane['enabled']);
+    $pane['weight'] = variable_get('uc_pane_' . $id . '_weight', $pane['weight']);
+
+    $panes[$id] = $pane;
   }
 
-  // Allow other modules to alter the panes.
+  // Allow other modules to alter the defaults.
   drupal_alter('uc_checkout_pane', $panes);
 
-  // Make sure that all the required attributes are set
-  foreach ($panes as $i => $value) {
-    $panes[$i]['enabled'] = !isset($panes[$i]['enabled']) ? TRUE : $panes[$i]['enabled'];
-    $panes[$i]['weight'] = !isset($panes[$i]['weight']) ? 0 : $panes[$i]['weight'];
-    $panes[$i]['review'] = !isset($panes[$i]['review']) ? TRUE : $panes[$i]['review'];
-    $panes[$i]['process'] = !isset($panes[$i]['process']) ? TRUE : $panes[$i]['process'];
-    $panes[$i]['collapsible'] = !isset($panes[$i]['collapsible']) ? TRUE : $panes[$i]['collapsible'];
-  }
-  usort($panes, 'uc_weight_sort');
+  uasort($panes, 'uc_weight_sort');
 
   return $panes;
 }
@@ -461,11 +486,7 @@ function _uc_checkout_pane_list($action = NULL) {
  */
 function _uc_checkout_pane_data($pane_id, $key) {
   $panes = _uc_checkout_pane_list();
-  foreach ($panes as $pane) {
-    if ($pane['id'] == $pane_id) {
-      return $pane[$key];
-    }
-  }
+  return $panes[$pane_id][$key];
 }
 
 /**

@@ -79,28 +79,28 @@ function uc_order_workflow_form($form, &$form_state) {
     '#tree' => TRUE,
   );
 
-  foreach ($states as $state) {
-    $form['order_states'][$state['id']]['title'] = array(
+  foreach ($states as $state_id => $state) {
+    $form['order_states'][$state_id]['title'] = array(
       '#markup' => $state['title'],
     );
 
     // Create the select box for specifying a default status per order state.
     $options = array();
     foreach ($statuses as $status) {
-      if ($status['state'] == $state['id']) {
+      if ($status['state'] == $state_id) {
         $options[$status['id']] = $status['title'];
       }
     }
     if (empty($options)) {
-      $form['order_states'][$state['id']]['default'] = array(
+      $form['order_states'][$state_id]['default'] = array(
         '#markup' => t('- N/A -'),
       );
     }
     else {
-      $form['order_states'][$state['id']]['default'] = array(
+      $form['order_states'][$state_id]['default'] = array(
         '#type' => 'select',
         '#options' => $options,
-        '#default_value' => uc_order_state_default($state['id']),
+        '#default_value' => uc_order_state_default($state_id),
       );
     }
   }
@@ -115,8 +115,8 @@ function uc_order_workflow_form($form, &$form_state) {
 
   // Build the state option array for the order status table.
   $options = array();
-  foreach ($states as $state) {
-    $options[$state['id']] = $state['title'];
+  foreach ($states as $state_id => $state) {
+    $options[$state_id] = $state['title'];
   }
 
   foreach ($statuses as $status) {
@@ -211,22 +211,22 @@ function uc_order_panes_form($form, &$form_state) {
   $panes = _uc_order_pane_list();
   $form['pane-settings'] = array('#type' => 'vertical_tabs');
 
-  foreach ($panes as $pane) {
+  foreach ($panes as $id => $pane) {
     foreach ($pane['show'] as $view) {
-      $form['panes'][$view][$pane['id']]['title'] = array(
+      $form['panes'][$view][$id]['title'] = array(
         '#markup' => $pane['title'],
       );
-      $form['panes'][$view][$pane['id']]['uc_order_pane_' . $pane['id'] . '_show_' . $view] = array(
+      $form['panes'][$view][$id]['uc_order_pane_' . $id . '_show_' . $view] = array(
         '#type' => 'checkbox',
-        '#default_value' => variable_get('uc_order_pane_' . $pane['id'] . '_show_' . $view, $pane['enabled']),
+        '#default_value' => variable_get('uc_order_pane_' . $id . '_show_' . $view, $pane['enabled']),
       );
-      $form['panes'][$view][$pane['id']]['uc_order_pane_' . $pane['id'] . '_enabled'] = &$form['panes'][$view][$pane['id']]['uc_order_pane_' . $pane['id'] . '_show_' . $view];
-      $form['panes'][$view][$pane['id']]['uc_order_pane_' . $pane['id'] . '_weight_' . $view] = array(
+      $form['panes'][$view][$id]['uc_order_pane_' . $id . '_enabled'] = &$form['panes'][$view][$id]['uc_order_pane_' . $id . '_show_' . $view];
+      $form['panes'][$view][$id]['uc_order_pane_' . $id . '_weight_' . $view] = array(
         '#type' => 'weight',
-        '#default_value' => variable_get('uc_order_pane_' . $pane['id'] . '_weight_' . $view, $pane['weight']),
+        '#default_value' => variable_get('uc_order_pane_' . $id . '_weight_' . $view, $pane['weight']),
       );
-      $form['panes'][$view][$pane['id']]['uc_order_pane_' . $pane['id'] . '_weight'] = &$form['panes'][$view][$pane['id']]['uc_order_pane_' . $pane['id'] . '_weight_' . $view];
-      $form['panes'][$view][$pane['id']]['weight'] = variable_get('uc_order_pane_' . $pane['id'] . '_weight_' . $view, $pane['weight']);
+      $form['panes'][$view][$id]['uc_order_pane_' . $id . '_weight'] = &$form['panes'][$view][$id]['uc_order_pane_' . $id . '_weight_' . $view];
+      $form['panes'][$view][$id]['weight'] = variable_get('uc_order_pane_' . $id . '_weight_' . $view, $pane['weight']);
     }
   }
 
@@ -1043,8 +1043,8 @@ function uc_order_edit_form($form, &$form_state, $order) {
   $form['order_modified'] = array('#type' => 'hidden', '#value' => $modified);
 
   $panes = _uc_order_pane_list('edit');
-  foreach ($panes as $pane) {
-    if (in_array('edit', $pane['show']) && variable_get('uc_order_pane_' . $pane['id'] . '_show_edit', $pane['enabled'])) {
+  foreach ($panes as $id => $pane) {
+    if (in_array('edit', $pane['show']) && variable_get('uc_order_pane_' . $id . '_show_edit', $pane['enabled'])) {
       $func = $pane['callback'];
       if (function_exists($func)) {
         $func('edit-form', $order, $form, $form_state);
@@ -1098,8 +1098,8 @@ function uc_order_edit_form_submit($form, &$form_state) {
   $log = array();
 
   $panes = _uc_order_pane_list();
-  foreach ($panes as $pane) {
-    if (in_array('edit', $pane['show']) && variable_get('uc_order_pane_' . $pane['id'] . '_show_edit', TRUE)) {
+  foreach ($panes as $id => $pane) {
+    if (in_array('edit', $pane['show']) && variable_get('uc_order_pane_' . $id . '_show_edit', TRUE)) {
       $func = $pane['callback'];
       if (function_exists($func)) {
         if (($changes = $func('edit-process', $order, $form, $form_state)) != NULL) {
@@ -1184,9 +1184,8 @@ function theme_uc_order_edit_form($variables) {
   $output = '';
 
   $panes = _uc_order_pane_list();
-  foreach ($panes as $pane) {
-    if (in_array('edit', $pane['show']) &&
-        variable_get('uc_order_pane_' . $pane['id'] . '_show_edit', TRUE)) {
+  foreach ($panes as $id => $pane) {
+    if (in_array('edit', $pane['show']) && variable_get('uc_order_pane_' . $id . '_show_edit', TRUE)) {
       $func = $pane['callback'];
       if (function_exists($func) && ($contents = $func('edit-theme', $form['#order'], $form)) != NULL) {
         if (isset($pane['theme_all']) && is_array($pane['theme_all']) && in_array('edit', $pane['theme_all'])) {

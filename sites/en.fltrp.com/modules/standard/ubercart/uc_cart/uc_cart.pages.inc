@@ -35,11 +35,11 @@ function uc_cart_view() {
 
   $build = array();
   // Load through the cart panes...
-  foreach (uc_cart_cart_pane_list($items) as $pane) {
+  foreach (uc_cart_cart_pane_list($items) as $id => $pane) {
     // If the pane is enabled...
     if ($pane['enabled']) {
       // Add its output to the cart view.
-      $build[$pane['id']] = $pane['body'];
+      $build[$id] = $pane['body'];
     }
   }
 
@@ -153,19 +153,16 @@ function uc_cart_checkout_form($form, &$form_state) {
     $panes = uc_cart_filter_checkout_panes($panes, array('shippable' => TRUE));
   }
 
-  foreach ($panes as $pane) {
+  foreach ($panes as $id => $pane) {
     if ($pane['enabled']) {
-      $pane['prev'] = _uc_cart_checkout_prev_pane($panes, $pane['id']);
-      $pane['next'] = _uc_cart_checkout_next_pane($panes, $pane['id']);
+      $pane['prev'] = _uc_cart_checkout_prev_pane($panes, $id);
+      $pane['next'] = _uc_cart_checkout_next_pane($panes, $id);
 
       if (!isset($pane['collapsed'])) {
         $collapsed = ($pane['prev'] === FALSE || empty($displayed[$pane['prev']])) ? FALSE : TRUE;
       }
-      if (isset($form_state['expanded_panes'])) {
-        if (is_array($form_state['expanded_panes']) &&
-            in_array($pane['id'], $form_state['expanded_panes'])) {
-          $collapsed = FALSE;
-        }
+      if (isset($form_state['expanded_panes']) && in_array($id, $form_state['expanded_panes'])) {
+        $collapsed = FALSE;
       }
 
       $return = $pane['callback']('view', $order, $form, $form_state);
@@ -173,26 +170,26 @@ function uc_cart_checkout_form($form, &$form_state) {
       // Add the pane if any display data is returned from the callback.
       if (is_array($return) && (!empty($return['description']) || !empty($return['contents']))) {
         // Create the fieldset for the pane.
-        $form['panes'][$pane['id']] = array(
+        $form['panes'][$id] = array(
           '#type' => 'fieldset',
           '#title' => $pane['title'],
           '#description' => !empty($return['description']) ? $return['description'] : NULL,
           '#collapsible' => $pane['collapsible'],
           '#collapsed' => variable_get('uc_use_next_buttons', FALSE) ? $collapsed : FALSE,
-          '#id' => $pane['id'] . '-pane',
+          '#id' => $id . '-pane',
           '#theme' => isset($return['theme']) ? $return['theme'] : NULL,
         );
 
         // Add the contents of the fieldset if any were returned.
         if (!empty($return['contents'])) {
-          $form['panes'][$pane['id']] = array_merge($form['panes'][$pane['id']], $return['contents']);
+          $form['panes'][$id] = array_merge($form['panes'][$id], $return['contents']);
         }
 
         // Add the 'Next' button if necessary.
         if ((!isset($return['next-button']) || $return['next-button'] !== FALSE) && $pane['next'] !== FALSE &&
             variable_get('uc_use_next_buttons', FALSE) != FALSE) {
-          $opt = variable_get('uc_collapse_current_pane', FALSE) ? $pane['id'] : 'false';
-          $form['panes'][$pane['id']]['next'] = array(
+          $opt = variable_get('uc_collapse_current_pane', FALSE) ? $id : 'false';
+          $form['panes'][$id]['next'] = array(
             '#type' => 'button',
             '#value' => t('Next'),
             '#weight' => 20,
@@ -203,7 +200,7 @@ function uc_cart_checkout_form($form, &$form_state) {
         }
 
         // Log that this pane was actually displayed.
-        $displayed[$pane['id']] = TRUE;
+        $displayed[$id] = TRUE;
       }
     }
   }
@@ -228,6 +225,8 @@ function uc_cart_checkout_form($form, &$form_state) {
     '#type' => 'submit',
     '#value' => t('Review order'),
   );
+
+  unset($_SESSION['do_review']);
 
   return $form;
 }
@@ -352,12 +351,10 @@ function uc_cart_checkout_form_cancel($form, &$form_state) {
  */
 function uc_cart_checkout_review() {
   drupal_add_js(drupal_get_path('module', 'uc_cart') . '/uc_cart.js');
-  $form = drupal_get_form('uc_cart_checkout_review_form');
 
-  if ((!isset($_SESSION['do_review']) || $_SESSION['do_review'] !== TRUE) && !uc_referer_check('cart/checkout')) {
+  if (empty($_SESSION['do_review'])) {
     drupal_goto('cart/checkout');
   }
-  unset($_SESSION['do_review']);
 
   $order = uc_order_load($_SESSION['cart_order']);
 
@@ -388,7 +385,7 @@ function uc_cart_checkout_review() {
   $build = array(
     '#theme' => 'uc_cart_checkout_review',
     '#panes' => $data,
-    '#form' => $form,
+    '#form' => drupal_get_form('uc_cart_checkout_review_form', $order),
   );
 
   return $build;
@@ -459,12 +456,8 @@ function theme_uc_cart_checkout_review($variables) {
  * @see uc_cart_checkout_review_form_submit()
  * @ingroup forms
  */
-function uc_cart_checkout_review_form($form, &$form_state) {
-  // Set the session variable to pass the redirect check on the pageload.
-  // @todo This value should be in $form_state somewhere.
-  if (isset($_POST['op']) && $_POST['op'] == t('Back')) {
-    $_SESSION['do_review'] = TRUE;
-  }
+function uc_cart_checkout_review_form($form, &$form_state, $order) {
+  $form_state['uc_order'] = $order;
 
   $form['actions'] = array('#type' => 'actions');
   $form['actions']['back'] = array(
@@ -525,10 +518,10 @@ function uc_cart_checkout_review_form_submit($form, &$form_state) {
   }
 
   if ($error) {
-    $_SESSION['do_review'] = TRUE;
     $form_state['redirect'] = 'cart/checkout/review';
   }
   else {
+    unset($_SESSION['do_review']);
     $_SESSION['do_complete'] = TRUE;
     $form_state['redirect'] = 'cart/checkout/complete';
   }

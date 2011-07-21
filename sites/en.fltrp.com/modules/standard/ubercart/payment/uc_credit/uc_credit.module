@@ -333,6 +333,7 @@ function uc_credit_uc_order($op, $order, $arg2) {
           );
 
           // Attempt to process the CC payment.
+          $order->payment_details = uc_credit_cache('load');
           $pass = uc_payment_process_payment('credit', $order->order_id, $order->order_total, $data, TRUE, NULL, FALSE);
 
           // If the payment failed, store the data back in the session and
@@ -357,21 +358,12 @@ function uc_credit_uc_order($op, $order, $arg2) {
       if (isset($order->payment_method) && $order->payment_method == 'credit') {
         // Build an array of CC data to store with the order.
         if (!empty($order->payment_details)) {
-          // Check for debug mode.
-          if (variable_get('uc_credit_debug', FALSE) && arg(1) != 'checkout') {
-            // If enabled, store the full payment details.
-            $cc_data = $order->payment_details;
-          }
-          else {
-            // Otherwise, save only some limited, PCI compliant data.
-            $cc_data = array(
-              'cc_number' => substr($order->payment_details['cc_number'], -4),
-              'cc_exp_month' => $order->payment_details['cc_exp_month'],
-              'cc_exp_year' => $order->payment_details['cc_exp_year'],
-            );
-            if (isset($order->payment_details['cc_type'])) {
-              $cc_data['cc_type'] = $order->payment_details['cc_type'];
-            }
+          $cc_data = $order->payment_details;
+
+          // If not in debug mode, save only some limited, PCI compliant data.
+          if (!variable_get('uc_credit_debug', FALSE)) {
+            $cc_data['cc_number'] = substr($cc_data['cc_number'], -4);
+            unset($cc_data['cc_cvv']);
           }
 
           _uc_credit_save_cc_data_to_order($cc_data, $order->order_id);
@@ -409,8 +401,7 @@ function uc_credit_uc_payment_method() {
       $title .= ' <img class="uc-credit-cctype uc-credit-cctype-' . $type . '" src="' . $path . '/images/' . $type . '.gif" style="position: relative; top: 5px;" />';
     }
   }
-  $methods[] = array(
-    'id' => 'credit',
+  $methods['credit'] = array(
     'name' => t('Credit card'),
     'title' => $title,
     'desc' => t('Pay by credit card.'),
@@ -560,9 +551,6 @@ function uc_payment_method_credit($op, &$order, $form = NULL, &$form_state = NUL
       if (variable_get('uc_credit_issue_enabled', FALSE)) {
         $review[] = array('title' => t('Issue Number'), 'data' => user_access('view cc numbers') ? $order->payment_details['cc_issue'] : str_repeat('-', strlen($order->payment_details['cc_issue'])));
       }
-      if (variable_get('uc_credit_cvv_enabled', TRUE)) {
-        $review[] = array('title' => t('CVV'), 'data' => user_access('view cc numbers') ? $order->payment_details['cc_cvv'] : str_repeat('-', strlen($order->payment_details['cc_cvv'])));
-      }
       if (variable_get('uc_credit_bank_enabled', FALSE)) {
         $review[] = array('title' => t('Issuing Bank'), 'data' => check_plain($order->payment_details['cc_bank']));
       }
@@ -703,13 +691,13 @@ function uc_payment_method_credit($op, &$order, $form = NULL, &$form_state = NUL
       $form['cc_security']['uc_credit_encryption_path'] = array(
         '#type' => 'textfield',
         '#title' => t('Card number encryption key filepath'),
-        '#description' => t('<b>You must enable encryption</b> by following the <a href="!url">encryption instructions</a> in order to accept credit card payments.<br />In short, you must specify a path outside of your document root where the encryption key may be stored.<br />Relative paths will be resolved relative to the Drupal installation directory.<br />Once this is set, you should not change it.', array('!url' => 'http://www.ubercart.org/docs/user/14512/credit_card_settings#security')),
+        '#description' => t('The card type, expiration date and last four digits of the card number are encrypted and stored.<br /><b>You must enable encryption</b> by following the <a href="!url">encryption instructions</a> in order to accept credit card payments.<br />In short, you must specify a path outside of your document root where the encryption key may be stored.<br />Relative paths will be resolved relative to the Drupal installation directory.<br />Once this is set, you should not change it.', array('!url' => 'http://www.ubercart.org/docs/user/14512/credit_card_settings#security')),
         '#default_value' => variable_get('uc_credit_encryption_path', t('Not configured, see below.')),
       );
       $form['cc_security']['uc_credit_debug'] = array(
         '#type' => 'checkbox',
         '#title' => t('Operate in credit card debug mode.'),
-        '#description' => t('In debug mode, credit card details may be stored in violation of PCI security standards.<br />Debug mode is only recommended for testing transactions with fake credit card details.'),
+        '#description' => t('In debug mode, the full credit card number is stored which may be in violation of PCI security standards.<br />Debug mode is only recommended for testing transactions with fake credit card details.'),
         '#default_value' => variable_get('uc_credit_debug', FALSE),
       );
 
@@ -737,7 +725,7 @@ function uc_payment_method_credit($op, &$order, $form = NULL, &$form_state = NUL
       $form['cc_clear'] = array(
         '#type' => 'fieldset',
         '#title' => t('Debug mode data clearing'),
-        '#description' => t('Specify below the status and age of orders whose credit card details will be removed.  This setting only applies when operating in debug mode.  When not in debug mode, no credit card information except the last 4 digits of the card number will be stored. <strong>Cron must be running for this feature to work.</strong>', array('!url' => url('admin/store/settings/cart/edit'))),
+        '#description' => t('Specify below the status and age of orders whose credit card details will be removed.  This setting only applies when operating in debug mode. <strong>Cron must be running for this feature to work.</strong>', array('!url' => url('admin/store/settings/cart/edit'))),
         '#collapsible' => FALSE,
       );
       foreach (uc_order_status_list() as $status) {
@@ -1311,7 +1299,7 @@ function uc_credit_cart_review_pre_form_submit($form, &$form_state) {
  * Clears the temporary CC data if the review order form submits.
  */
 function uc_credit_cart_review_post_form_submit($form, &$form_state) {
-  if ($_SESSION['do_complete']) {
+  if (isset($_SESSION['do_complete'])) {
     // Otherwise stuff it back in the session for the next pageload.
     unset($_SESSION['sescrd']);
   }
@@ -1528,44 +1516,12 @@ function uc_credit_default_gateway() {
     return FALSE;
   }
 
-  // If we only found one gateway for this payment method...
-  if (count($gateways) == 1) {
-    // Get the payment gateway array and store its ID.
-    $gateway = array_shift($gateways);
-    $gateway_id = $gateway['id'];
+  // Find the default gateway, or otherwise choose the first available.
+  $default = variable_get('uc_payment_credit_gateway', 'none');
+  $gateway = isset($gateways[$default]) ? $gateways[$default] : reset($gateways);
 
-    // Store the callback for this gateway.
-    $callback = $gateway['credit'];
-  }
-  else {
-    // Otherwise attempt to find the appropriate gateway function in the array.
-    $callback = FALSE;
-
-    // Loop through each gateway.
-    foreach ($gateways as $gateway) {
-      // Store the callback if this is the specified default.
-      if ($gateway['id'] == variable_get('uc_payment_credit_gateway', '')) {
-        $callback = $gateway['credit'];
-        $gateway_id = $gateway['id'];
-      }
-    }
-
-    // If we didn't find a default callback...
-    if ($callback === FALSE) {
-      // Get the key for the first payment gateway in the array.
-      $gateway_id = array_shift(array_keys($gateways));
-
-      // Store the callback for this gateway.
-      $callback = $gateways[$gateway_id]['credit'];
-    }
-  }
-
-  // Return FALSE if the specified callback does not exist.
-  if (!function_exists($callback)) {
-    return FALSE;
-  }
-
-  return $gateway_id;
+  // Return FALSE if the credit callback does not exist.
+  return function_exists($gateway['credit']) ? $gateway['id'] : FALSE;
 }
 
 /**
@@ -1691,3 +1647,11 @@ function uc_credit_gateway_txn_types($gateway) {
 
   return $types;
 }
+
+/**
+ * Title callback for admin/store/orders/%uc_order/credit.
+ */
+function uc_credit_terminal_title($order) {
+  return t('Credit card terminal: Order @order_id', array('@order_id' => $order->order_id));
+}
+

@@ -18,49 +18,6 @@ function uc_payment_settings_overview() {
   );
 }
 
-function uc_payment_settings_form($form, &$form_state) {
-  $form['uc_payment_tracking'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Enable payment tracking.'),
-    '#summary callback' => 'uc_summarize_checkbox',
-    '#summary arguments' => array(
-      t('Payment tracking is enabled.'),
-      t('Payment tracking is disabled.'),
-    ),
-    '#default_value' => variable_get('uc_payment_tracking', TRUE),
-  );
-  $form['uc_payment_deleting'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Allow payments to be deleted by users with permission.'),
-    '#summary callback' => 'uc_summarize_checkbox',
-    '#summary arguments' => array(
-      t('Payments can be deleted by users with permission.'),
-      t('Payments cannot be deleted, even if the user has permission.'),
-    ),
-    '#default_value' => variable_get('uc_payment_deleting', TRUE),
-  );
-  $form['uc_payment_logging'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Log payments entered and deleted to order log.'),
-    '#summary callback' => 'uc_summarize_checkbox',
-    '#summary arguments' => array(
-      t('Log payments are being entered to and deleted from the order log.'),
-      t('Log payments are not being entered to and deleted from the order log.'),
-    ),
-    '#default_value' => variable_get('uc_payment_logging', TRUE),
-  );
-
-  $form['uc_default_payment_msg'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Default payment details message'),
-    '#description' => t('Message displayed when a payment method does not display any further details.'),
-    '#default_value' => variable_get('uc_default_payment_msg', t('Continue with checkout to complete payment.')),
-    '#summary' => t('Default payment details message is: <br /> %message', array('%message' => variable_get('uc_default_payment_msg', t('Continue with checkout to complete payment.')))),
-  );
-
-  return system_settings_form($form);
-}
-
 function uc_payment_methods_form($form, &$form_state) {
   $methods = _uc_payment_method_list();
 
@@ -75,66 +32,60 @@ function uc_payment_methods_form($form, &$form_state) {
   );
 
   if (is_array($methods) && count($methods) > 0) {
-    foreach ($methods as $method) {
+    foreach ($methods as $id => $method) {
 
-      $form['pmtable'][$method['id']]['#summary callback'] = 'uc_summarize_form';
+      $form['pmtable'][$id]['#summary callback'] = 'uc_summarize_form';
 
-      $form['pmtable'][$method['id']]['uc_payment_method_' . $method['id'] . '_checkout'] = array(
+      $form['pmtable'][$id]['uc_payment_method_' . $id . '_checkout'] = array(
         '#type' => 'checkbox',
         '#summary callback' => 'uc_summarize_checkbox',
         '#summary arguments' => array(
           t('@payment is enabled for checkout.', array('@payment' => $method['name'])),
           t('@payment is disabled for checkout.', array('@payment' => $method['name'])),
         ),
-        '#default_value' => variable_get('uc_payment_method_' . $method['id'] . '_checkout', $method['checkout']),
+        '#default_value' => variable_get('uc_payment_method_' . $id . '_checkout', $method['checkout']),
       );
-      $form['pmtable'][$method['id']]['name'] = array(
+      $form['pmtable'][$id]['name'] = array(
         '#markup' => $method['name'],
       );
-      $form['pmtable'][$method['id']]['uc_payment_method_' . $method['id'] . '_weight'] = array(
+      $form['pmtable'][$id]['uc_payment_method_' . $id . '_weight'] = array(
         '#type' => 'weight',
-        '#default_value' => variable_get('uc_payment_method_' . $method['id'] . '_weight', $method['weight']),
+        '#default_value' => variable_get('uc_payment_method_' . $id . '_weight', $method['weight']),
       );
 
       if (isset($method['no_gateway']) && $method['no_gateway'] === TRUE) {
-        $form['pmtable'][$method['id']]['uc_payment_' . $method['id'] . '_gateway'] = array(
+        $form['pmtable'][$id]['uc_payment_' . $id . '_gateway'] = array(
           '#markup' => '-',
         );
       }
       else {
-        $gateways = _uc_payment_gateway_list($method['id'], TRUE);
+        $gateways = _uc_payment_gateway_list($id, TRUE);
         $options = array();
-        $default = FALSE;
-        if (is_array($gateways)) {
-          foreach ($gateways as $gateway) {
-            if (!$default) {
-              $default = $gateway['id'];
-            }
-            $options[$gateway['id']] = $gateway['title'];
-          }
+        foreach ($gateways as $gateway_id => $gateway) {
+          $options[$gateway_id] = $gateway['title'];
         }
-        if (!$default) {
+        if (empty($options)) {
           $options = array('none' => t('None available.'));
         }
-        $form['pmtable'][$method['id']]['uc_payment_' . $method['id'] . '_gateway'] = array(
+        $form['pmtable'][$id]['uc_payment_' . $id . '_gateway'] = array(
           '#type' => 'select',
           '#options' => $options,
           '#summary callback' => 'uc_summarize_null',
-          '#default_value' => variable_get('uc_payment_' . $method['id'] . '_gateway', 'none'),
+          '#default_value' => variable_get('uc_payment_' . $id . '_gateway', 'none'),
         );
       }
 
       $null = NULL;
       $method_settings = $method['callback']('settings', $null, array(), $form_state);
       if (is_array($method_settings)) {
-        $form['method_' . $method['id']] = array(
+        $form['method_' . $id] = array(
           '#type' => 'fieldset',
           '#summary callback' => 'uc_summarize_null',
           '#title' => t('!method settings', array('!method' => $method['name'], '!weight' => $method['weight'])),
           '#collapsible' => TRUE,
           '#collapsed' => TRUE,
         );
-        $form['method_' . $method['id']] = array_merge($form['method_' . $method['id']], $method_settings);
+        $form['method_' . $id] = array_merge($form['method_' . $id], $method_settings);
       }
     }
   }
@@ -184,36 +135,36 @@ function uc_payment_gateways_form($form, &$form_state) {
       '#weight' => -10,
     );
 
-    foreach ($gateways as $gateway) {
-      $form['gateways'][$gateway['id']] = array(
+    foreach ($gateways as $id => $gateway) {
+      $form['gateways'][$id] = array(
         '#type' => 'fieldset',
         '#title' => t('@gateway_name settings', array('@gateway_name' => $gateway['title'])),
         '#collapsible' => TRUE,
         '#collapsed' => TRUE,
       );
       $supported_methods = array();
-      foreach ($methods as $method) {
-        if (isset($gateway[$method['id']]) && function_exists($gateway[$method['id']])) {
+      foreach ($methods as $method_id => $method) {
+        if (isset($gateway[$method_id]) && function_exists($gateway[$method_id])) {
           $supported_methods[] = $method['name'];
         }
       }
 
-      $form['gateways'][$gateway['id']]['supported_methods'] = array(
+      $form['gateways'][$id]['supported_methods'] = array(
         '#markup' => '<div>' . t('This gateway supports the following payment methods:')
                    . '<br />' . implode(',', $supported_methods) . '</div>',
         '#weight' => -10,
       );
-      $form['gateways'][$gateway['id']]['uc_pg_' . $gateway['id'] . '_enabled'] = array(
+      $form['gateways'][$id]['uc_pg_' . $id . '_enabled'] = array(
         '#type' => 'checkbox',
         '#title' => t('Enable this payment gateway for use.'),
-        '#default_value' => variable_get('uc_pg_' . $gateway['id'] . '_enabled', TRUE),
+        '#default_value' => variable_get('uc_pg_' . $id . '_enabled', TRUE),
       );
 
       // Find any additional settings defined in the payment gateway callback.
       if (isset($gateway['settings']) && function_exists($gateway['settings'])) {
         $gateway_settings = $gateway['settings'](array(), $form_state);
         if (is_array($gateway_settings)) {
-          $form['gateways'][$gateway['id']] = array_merge($form['gateways'][$gateway['id']], $gateway_settings);
+          $form['gateways'][$id] = array_merge($form['gateways'][$id], $gateway_settings);
         }
       }
     }
@@ -252,8 +203,8 @@ function _uc_payment_gateways_summarize($form, $gateways) {
  */
 function uc_payment_gateway_select() {
   $gateways = _uc_payment_gateway_list($_SESSION['uc_payment_method'], TRUE);
-  foreach ($gateways as $gateway) {
-    $options[$gateway['id']] = $gateway['title'];
+  foreach ($gateways as $id => $gateway) {
+    $options[$id] = $gateway['title'];
   }
 
   $build['instructions'] = array('#markup' => t('Please choose a payment gateway to use for that payment.'));
@@ -349,7 +300,7 @@ function uc_payment_by_order_form($form, &$form_state, $order) {
       $form['payments'][$payment->receipt_id]['comment'] = array(
         '#markup' => ($payment->comment == '') ? '-' : filter_xss_admin($payment->comment),
       );
-      if (variable_get('uc_payment_deleting', TRUE) && user_access('delete payments')) {
+      if (user_access('delete payments')) {
         $action_value = l(t('Delete'), 'admin/store/orders/' . $order->order_id . '/payments/'
                           . $payment->receipt_id . '/delete');
       }
@@ -377,8 +328,8 @@ function uc_payment_by_order_form($form, &$form_state, $order) {
       '#markup' => '-',
     );
     $methods = _uc_payment_method_list();
-    foreach ($methods as $method) {
-      $options[$method['id']] = $method['name'];
+    foreach ($methods as $id => $method) {
+      $options[$id] = $method['name'];
     }
     $form['payments']['new']['method'] = array(
       '#type' => 'select',

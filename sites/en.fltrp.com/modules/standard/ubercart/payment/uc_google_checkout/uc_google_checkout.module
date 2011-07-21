@@ -267,8 +267,7 @@ function uc_google_checkout_node_revision_delete($node) {
  * Implements hook_uc_cart_pane().
  */
 function uc_google_checkout_uc_cart_pane() {
-  $panes[] = array(
-    'id' => 'uc_google_checkout',
+  $panes['uc_google_checkout'] = array(
     'title' => t('Google Checkout'),
     'enabled' => TRUE,
     'weight' => 1,
@@ -285,8 +284,7 @@ function uc_google_checkout_uc_cart_pane() {
  * Implements hook_uc_order_pane().
  */
 function uc_google_checkout_uc_order_pane() {
-  $panes[] = array(
-    'id' => 'email_allowed',
+  $panes['email_allowed'] = array(
     'callback' => 'uc_google_checkout_pane_email_allowed',
     'title' => t('Marketing preferences'),
     'desc' => t("Display the customer's preferences about mass-marketing."),
@@ -302,15 +300,13 @@ function uc_google_checkout_uc_order_pane() {
  * Implements hook_uc_line_item().
  */
 function uc_google_checkout_uc_line_item() {
-  $items[] = array(
-    'id' => 'gc_coupon',
+  $items['gc_coupon'] = array(
     'title' => t('Google Checkout Coupon'),
     'stored' => TRUE,
     'calculated' => TRUE,
     'weight' => 2,
   );
-  $items[] = array(
-    'id' => 'gc_gift_certificate',
+  $items['gc_gift_certificate'] = array(
     'title' => t('Google Checkout Gift Certificate'),
     'stored' => TRUE,
     'calculated' => TRUE,
@@ -356,8 +352,7 @@ function uc_google_checkout_uc_order($op, &$order, $arg2) {
  * Implements hook_uc_payment_method().
  */
 function uc_google_checkout_uc_payment_method() {
-  $methods[] = array(
-    'id' => 'google_checkout',
+  $methods['google_checkout'] = array(
     'name' => t('Google Checkout'),
     'title' => t('Google Checkout'),
     'desc' => t('Express payment with Google Checkout.'),
@@ -373,8 +368,7 @@ function uc_google_checkout_uc_payment_method() {
  * Implements hook_uc_payment_gateway().
  */
 function uc_google_checkout_uc_payment_gateway() {
-  $gateways[] = array(
-    'id' => 'google_checkout',
+  $gateways['google_checkout'] = array(
     'title' => t('Google Checkout'),
     'description' => t('Express payment with Google Checkout.'),
     'google_checkout' => 'uc_google_checkout_charge',
@@ -718,7 +712,7 @@ function uc_google_checkout_send_request($api, $request) {
     'method' => 'POST',
     'data' => $request,
   ));
-  if ($response_obj->error) {
+  if (isset($response_obj->error)) {
     watchdog('google', '@error', array('@error' => $response_obj->error), WATCHDOG_ERROR);
   }
   $response = new SimpleXMLElement($response_obj->data);
@@ -737,10 +731,9 @@ function uc_google_checkout_send_request($api, $request) {
    * Copied from http://drupal.org/node/70915.
    */
   $messages = drupal_set_message();
-  $errors = $messages['error'];
-  $total = count($errors);
-  for ($i = 0; $i <= $total; $i++) {
-    if (strpos($errors[$i], 'SSL: fatal protocol error in')) {
+  $errors = isset($messages['error']) ? $messages['error'] : array();
+  foreach ($errors as $i => $error) {
+    if (strpos($error, 'SSL: fatal protocol error in')) {
       unset($_SESSION['messages']['error'][$i]);
     }
   }
