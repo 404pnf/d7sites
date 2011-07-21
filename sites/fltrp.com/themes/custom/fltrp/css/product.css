@@ -129,3 +129,5 @@ p.sel span.active{ background:#C5292D; color: #fff;}
 
 /*列表页分页 pager*/
 #booklb .pager li,#bookld .pager li{ border: 1px solid #DDDDDD;}
+.pager li{ background: none!important;}
+.pager-current{ border: none!important}
