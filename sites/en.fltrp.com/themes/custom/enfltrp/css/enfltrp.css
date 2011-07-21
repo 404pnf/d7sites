@@ -152,6 +152,7 @@
 	.english,.chinese{ padding-left:2em; line-height:2em;}
 	.page-node-5041 #content-header{ display: none;}
 	.bookpic{ float: left; margin: 0px 50px 50px 20px}
+	.bookpic img{ margin-left: 4px;}
 	.bookinfo{line-height:28px;}
 	.notice{ padding:10px 20px;/* border: 1px solid #FAE185; background: #FDFBE2; */margin: 10px 40px 10px 180px;line-height: 20px; font-weight: 700;}
 	.notice a{ color: #000;text-decoration:underline;}
@@ -177,7 +178,7 @@
 	.node-book .content .chinese .fenlei {background: url("../images/wsssss_03.jpg") no-repeat -134px 0; padding: 0 50px; color: #FFF; font-weight:700;left:180px!important}
 	.bookpart1{ border-top:3px solid #475F77; padding-top: 20px;}
 	.node-book .content .book_content{ padding-top: 25px!important;}
-	#edit-actions--4 input{background: url("../images/buy_03.jpg") no-repeat -4px -44px; width: 140px; height: 40px; border: 0;}
+	#edit-actions--4 input{background: url("../images/buy_03.jpg") no-repeat -4px -54px; width: 140px; height: 42px; border: 0;}
 /*产品列表*/
 	.category1,.category2,.filter_detail{ padding-left: 3em;}
 	.category1,.category2{ font-weight: 700; padding: 14px 0; border-bottom: 1px dashed #ccc; line-height: 30px; margin: 0 0 0 3em ;}
