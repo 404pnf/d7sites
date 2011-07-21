@@ -20,6 +20,14 @@ function uc_payease_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'uc_payease.pages.inc',
   );
+	
+	$items['payment/payease/%'] = array(
+    'title' => '首信易支付',
+    'page callback' => 'uc_payease_pay_order',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'file' => 'uc_payease.pages.inc',
+  );
   
   //从首信易到商户的返回地址
   $items['payease/return'] = array(
@@ -37,17 +45,19 @@ function uc_payease_menu() {
 /**
  * 实现钩子 hook_form_alter().
  */
+ /*
 function uc_payease_form_uc_cart_checkout_review_form_alter(&$form, &$form_state) {
   if (($order_id = intval($_SESSION['cart_order'])) > 0) {
     $order = uc_order_load($order_id);
     if ($order->payment_method == 'payease') {
-      unset($form['submit']);
+      unset($form['actions']['submit']);
 			$checkout = drupal_get_form('uc_payease_form', $order);
       $form['#prefix'] = '<table style="display: inline; padding-top: 1em;"><tr><td>';
       $form['#suffix'] = '</td><td>'. drupal_render($checkout) .'</td></tr></table>';
     }
   }
 }
+*/
 
 /**
  * 从Drupal到首信易的提交表单，这里实现了首信易支付（v4.3）接口说明文档中的
@@ -212,7 +222,32 @@ function uc_payment_method_payease($op, &$arg1) {
     case 'cart-process':
       $_SESSION['pay_method'] = isset($_POST['pay_method']) ? $_POST['pay_method'] : 'payease';
       return;
-
+			
+		case 'order-view':
+			//$base_path = 'http://'.$_SERVER['HTTP_HOST'].base_path();
+			$url = 'payment/payease/'.$arg1->order_id;
+			$output = '<br />';
+			$output .= l('现在去支付',$url,array('attributes'=>array('target'=>'_blank')));
+      $output .= '<br />';
+			if($arg1->order_status =='processing'){
+			  $build['#markup'] = $output;
+			}else{
+			  $build['#markup'] = "";
+			}
+			
+      return $build;
+		case 'customer-view':
+			$url = 'payment/payease/'.$arg1->order_id;
+			$output = '<br />';
+			$output .= l('现在去支付',$url,array('attributes'=>array('target'=>'_blank')));
+      $output .= '<br />';
+			if($arg1->order_status =='processing'){
+			  $build['#markup'] = $output;
+			}else{
+			  $build['#markup'] = "";
+			}
+			
+      return $build;
     case 'settings':
     	//首信易商家的商户编号设置
       $form['uc_payease_seller'] = array(

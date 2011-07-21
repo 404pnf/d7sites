@@ -323,3 +323,9 @@ function payease_quickbuy(){
 
 	return $output;
 }
+function uc_payease_pay_order(){
+  $order_id = arg(2);
+	$order = uc_order_load($order_id);
+  $checkout = drupal_get_form('uc_payease_form', $order);
+	return drupal_render($checkout) ;
+}
