@@ -1,0 +1,24 @@
+这是复写 /ourproducts 下的panels模板。
+复写了 panels/plugins/layouts下面的一个模板
+具体方法参考：
+http://drupal.org/node/495654
+
+基本方法就是去模块里把那个你要复写的模板文件夹复制到mytheme目录，把它所有的名字改成你要的名字，包括文件夹的名字。然后一个一个文件根据需要编辑下就好了。
+
+在创建panels的时候，一定要选择no style。注意：不但每个pane的内容选择No markup at all ，pane本身是 no style。
+
+也就是左上角那个圆圈点击后都选no styles。右上角的圆圈点击后选no markup at all。这样，默认结构的css基本没了。在上面的复写模板时，删除tpl中的css和手工添加自己的就可以了。
+
+别忘了在 mytheme.info 中声明存放panels模板复写的文件夹
+; Panels layouts. You can place multiple layouts under the "layouts" folder.
+plugins[panels][layouts] = layouts
+
+这样，所有放在mytheme/layouts下的文件夹都会被drupal自动发现，当然要刷新缓存。
+
+
+实例参考：
+
+http://en.fltrp.com/ourproducts
+
+从页面源代码是看不出用panels布局的。基本可以和设计稿一样。
+

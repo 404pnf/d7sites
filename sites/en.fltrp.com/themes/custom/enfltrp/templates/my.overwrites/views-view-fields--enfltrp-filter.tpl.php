@@ -23,34 +23,25 @@
  * @ingroup views_templates
  */
 ?>
-<?php 
-      //需要判断category和yz是不是为空，初始化需要赋值All
-      $category = $_GET['category'];
-      if(empty ($category)){
-	  $category="All";
-	 }
-      $yz = $_GET['yz'];
-      if(empty ($yz)){
-	  $yz="All";
-	 }      
-      $rd = $row->tid;  
-      $path_rd = 'en?category='.$category.'&rd='.$rd.'&yz='.$yz;
-?>
-
-<div class="isactive">
-
-<?php
-
-$initialize=$_GET['rd'];
-
-if ($initialize == $rd){
-	$content = "<div class='sort_reader'><a href='$path_rd'>".$row->taxonomy_term_data_name."</a></div>";
-	print $content;       
-}else{
-    
-    $full_path ="<a href='$path_rd'>".$row->taxonomy_term_data_name."</a>";
-    
-    print $full_path;	
-}
-?>
+<div class="enfilter_img">
+  <?php print $fields['field_img']->content; ?>
+  <?php print $fields['nid']->content; ?>
+  
 </div>
+
+<div class="enfilter_other">
+ <ul>
+  <li><strong>Title: <?php print $fields['field_ebname']->content; ?></strong></li>
+  <li><strong>ISBN:</strong><?php print $fields['field_isbn']->content; ?></li>
+  <li><strong>Dimensions:</strong> <?php print $fields['field_english_dimensions']->content; ?></li>
+  <li><strong>Price:</strong><?php print $fields['sell_price']->content; ?></li>
+  <li><strong>Pages:</strong><?php print $fields['field_pages']->content; ?></li>
+  <li><strong>Components:</strong><?php print $fields['field_components']->content; ?></li>
+ </ul> 
+</div>
+
+<div class="enfilter_des">
+    <div class="enfilter_des_title">Description:</div>
+    <div class="enfilter_des_content"><?php print $fields['field_features']->content;?></div>
+</div>
+

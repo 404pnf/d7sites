@@ -25,26 +25,30 @@
 ?>
 
 <?php
-        
+      $category = $_GET['category'];
+      if(empty ($category)){
+	  $category="All";
+	 }  
       $rd = $_GET['rd'];
       if (empty($rd)){
 	 $rd="All";	 
       }
       $yz = $row->tid;
-      $path_yz = 'en?rd='.$rd.'&yz='.$yz;;
+      $path_yz = 'en?category='.$category.'&rd='.$rd.'&yz='.$yz;
 ?>
 
-<div class="test2">
+<div class="isactive">
 
 <?php
 
 $initialize=$_GET['yz'];
 
 if ($initialize == $yz){
-	$content = "<div class='sort2'><a href='$path_yz'>".$row->taxonomy_term_data_name."</a></div>";
+	//$content = "<div class='sort2'><a href='$path_yz'>".$row->taxonomy_term_data_name."</a></div>";
+        $content = "<div class='sort2'><a href='$path_yz'>".$fields['field_language_en']->content."</a></div>";
 	print $content;       
 }else{ 
-    $full_path ="<a href='$path_yz'>".$row->taxonomy_term_data_name."</a></div>";
+    $full_path ="<a href='$path_yz'>".$fields['field_language_en']->content."</a>";
     print $full_path;	
 }
 ?>

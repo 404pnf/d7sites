@@ -28,7 +28,11 @@ features[] = secondary_menu
 stylesheets[all][] = css/default.css
 stylesheets[all][] = css/layout.css
 stylesheets[all][] = css/style.css
+stylesheets[all][] = css/enfltrp.css
 stylesheets[print][] = css/print.css
+
+; Panels layouts. You can place multiple layouts under the "layouts" folder.
+plugins[panels][layouts] = layouts
 
 settings[basic_tabs] = 1
 settings[basic_breadcrumb_separator] = »

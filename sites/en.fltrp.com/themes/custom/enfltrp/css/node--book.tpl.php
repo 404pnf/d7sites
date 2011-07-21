@@ -12,7 +12,7 @@
 				  <div class="bookpart1">
 					  <div class="bookpic">               
 						<?php print render($content['field_img']); ?>
-						<div class="largerpic"><a href="#"></a></div>
+						<div class="largerpic"><a href="#">See Larger Image</a></div>
 										<?php $add_to_cart =drupal_get_form('uc_product_add_to_cart_form_' . $node->nid, $node);print  drupal_render($add_to_cart) ?>
 					  </div>
 					  <div class="bookinfo">
@@ -61,6 +61,7 @@
 							<div class="english_consider_title">CONSIDER THESE TITLE:</div>
 							<?php    
 								   $output= $node->field_series['und'][0]['tid'];
+					   
 								   $relate_series =views_embed_view('book_recommendation','block_2',$output);
 								   $relate_series= '<div class="book_none_mrelate">'.$relate_series.'</div>'; 
 								   print $relate_series;
@@ -88,7 +89,7 @@
 				  <div class="bookpart1">
 					  <div class="bookpic">               
 						<?php print render($content['field_img']); ?>
-						<div class="largerpic"><a href="#"></a></div>
+						<div class="largerpic"><a href="#">See Larger Image</a></div>
 					  </div>
 					  <div class="bookinfo">
 						<strong>图书:<?php print $node->field_title['und'][0]['value']; ?></strong><br>
@@ -174,7 +175,7 @@
 
 <?php print render($content['comments']); ?>
 
-<!--专为切换效果，写的css、js-->
+<!--专为切换效果，写的js,css放在了enfltrp.css中-->
 <script>
 	$j = jQuery.noConflict();
 	$j(function(){
@@ -188,26 +189,3 @@
 	});
 
 </script>
-<style>
-	.node-book .content{
-		position:relative;
-	}
-	.node-book .content .fenlei{
-		position:absolute;
-		top:0px;
-	}
-	.node-book .content .english .fenlei{
-		left:200px;
-	}
-	.node-book .content .chinese .fenlei{
-		left:280px;
-	}
-	.node-book .content .book_content{
-		display:none;
-		padding-top:30px;
-	}
-	
-	.node-book .content .book_content.display_this{
-		display:block;
-	}
-</style>

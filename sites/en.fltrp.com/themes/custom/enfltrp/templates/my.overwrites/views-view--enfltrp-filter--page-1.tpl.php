@@ -28,13 +28,16 @@
 ?>
 <div class="category1">
 <?php
+ if(empty ($category)){
+          $category="All"; 
+         }
  if(empty ($yz)){
 	  $yz="All";
 	 }
  if(empty ($rd)){
            $rd="All";     
          }        
- $path = 'en?rd='.$rd.'&yz='.$yz;
+ $path = 'en?category='.$category.'&rd='.$rd.'&yz='.$yz;
 ?>
       Sort by Ages: <a href="<?php print $path; ?>">All</a>
         <?php 
@@ -45,17 +48,21 @@
 </div>
 
 
+
 <div class="category2">
 <?php
+ if(empty ($category)){
+          $category="All";
+         }
  if(empty ($yz)){
 	  $yz="All";
 	 }
  if(empty ($rd)){
            $rd="All";     
          }  
- $path = 'en?rd='.$rd.'&yz='.$yz;
+ $path = 'en?category='.$category.'&rd='.$rd.'&yz='.$yz;
 ?> 
-	Sort by Language：<a href="<?php print $path;?>">All</a>
+	Sort by Language: <a href="<?php print $path;?>">All</a>
           <?php
              $views_name = "filter_fenlei";
              $display_id = "block_2";
@@ -65,9 +72,7 @@
 
 
 
-<div class="<?php print $classes; ?>">
-
-
+<div class="filter_detail">
 
   <?php if ($rows): ?>
     <div class="view-content">
@@ -83,8 +88,5 @@
     <?php print $pager; ?>
   <?php endif; ?>
 
-
-
-
-</div> <?php /* class view */ ?>
+</div><?php /* class view */ ?>
 

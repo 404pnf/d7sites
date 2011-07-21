@@ -1,4 +1,11 @@
-<div class="aboutus-tour">
+<?php
+/**
+ 修改去掉这个views整体的最外面css class
+ 这是图书页面每本书下面的相关图书区块用的那个views
+ http://en.fltrp.com/admin/structure/views/view/book_recommendation/
+ */
+?>
+
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
     <?php print $title; ?>
@@ -23,7 +30,9 @@
   <?php endif; ?>
 
   <?php if ($rows): ?>
+    <?php // 顺便删除这个div <div class="view-content"> ?>
       <?php print $rows; ?>
+    <?php //</div> ?>
   <?php elseif ($empty): ?>
     <div class="view-empty">
       <?php print $empty; ?>
@@ -56,4 +65,3 @@
     </div>
   <?php endif; ?>
 
-</div> <?php /* class view */ ?>
