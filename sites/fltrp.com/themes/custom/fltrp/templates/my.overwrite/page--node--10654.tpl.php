@@ -95,7 +95,13 @@ commented by zhanglin-->
         <?php endif; ?>
 
         <div id="content-area">
-
+		<div id="recommendation">
+				<?php
+			             $views_name = 'products';
+                        $display_id = 'block_4';
+                         print views_embed_view($views_name, $display_id);
+              ?>
+						</div>
   <!--属性筛选条件 -->		
 <div id="teach" class="row">
 	<h2>
@@ -118,7 +124,7 @@ commented by zhanglin-->
 
 			 }
 		
-			 if($parent_category_tid!=1369&&$category!=1369) {
+			 if($parent_category_tid!=1606&&$category!=1606) {
       ?>
 		<div class="sfrow">
 			<span>教育阶段:</span>

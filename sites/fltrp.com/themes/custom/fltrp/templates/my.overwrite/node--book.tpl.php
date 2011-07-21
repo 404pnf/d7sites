@@ -39,6 +39,8 @@
 		$img =file_create_url($img );        //封面
 		$body = $node->body['und'][0]['safe_value'];        //简介    
 		$directory = $node->field_directory['und'][0]['safe_value'];        //目录    
+     	$read_online = $node->field_read_online['und'][0]['value'];        //在线阅读地址
+
 		$educations = $node->field_education['und'];   
 		$education_tids = '';
 		$i=1;
@@ -67,9 +69,9 @@
 							
 							<p class="buy fclear ">
 						
-								<a href=""><img src="images/b.gif" /></a>
-								<a href=""><img src="images/r.gif" /></a>
-							
+                             <?php if (!empty($read_online)) :?>
+								<a class="r" href="<?php print $read_online ;?>">在线阅读</a>
+							<?php endif?>
 							</p>
 							
 							<!--分享到----开始------>

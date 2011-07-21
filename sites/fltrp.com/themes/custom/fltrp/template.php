@@ -56,6 +56,19 @@ function fltrp_breadcrumb($variables) {
 
  $breadcrumb_separator = theme_get_setting('fltrp_breadcrumb_separator');
   $current_path   = drupal_get_path_alias();
+
+	if($current_path =='searcher'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+	     $breadcrumbs[] = '<a href="'.url('searcher').'">'.t('搜索').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode( $breadcrumb_separator , $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+
 	if($current_path =='productslist'||$current_path =='digital'){
 	  $breadcrumbs = array();
 		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';

@@ -1,6 +1,6 @@
 /*产品中心细化样式*/
 #content-area{ margin-left:220px;}
-.with-navigation #content, .with-navigation .sidebar{ margin-top:30px;}
+/*.with-navigation #content, .with-navigation .sidebar{ margin-top:30px;}*/
 .page-node-10653 h1 {font-size: 17px;margin: 0 0 0.5em;text-indent:0.3em;}
 #block-block-7 h1{ margin:4px;}
 #booklist ul li{background:#F4F4F4; margin: 0 4px 15px 4px; padding: 9px;border:1px solid #ddd; overflow: hidden; height: 174px}
@@ -41,6 +41,7 @@
 #booklb .view-content li .bookbg2{ float:left;margin-right: 18px;}
 #booklb .view-content li .bookbg img{ margin: 7px;}
 #booklb .view-content li span{color: #5b5b5b; }
+
 /* 数字二级列表 booklb*/
 #bookld{margin-top: 2px; margin-left: 10px;}
 #bookld .view-content li.views-row-first{ padding-top: 0}
@@ -54,9 +55,11 @@
 #bookld .view-content li .bookbg2{ float:left;margin-right: 18px;}
 #bookld .view-content li .bookbg img{ margin: 7px;}
 #bookld .view-content li span{color: #5b5b5b; }
+#bookld .view-content li span.views-field-field-digital-url {background: url("../images/learnmore.jpg") no-repeat; padding: 2px 12px; color: #FFF;}
+#bookld .view-content li span.views-field-field-digital-url a {color:#FFF;}
 .wrapper{ clear: both}
-.buy{display:none;}
-.buy a{ float: left; display: block;height: 26px; margin: 10px 10px 0 0;line-height: 26px; }
+.buy{ clear: none;}
+.buy a{ float: left; display: block;height: 26px; margin: 10px 10px 0 0;line-height: 26px; color: #333}
 .b{background: url("../images/buy_20110623.gif");text-indent:2em;width: 103px;}
 .r{background: url("../images/buy_20110623.gif") -103px 0;text-indent:2.2em;width: 81px;}
 

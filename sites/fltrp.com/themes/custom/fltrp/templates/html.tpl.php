@@ -52,6 +52,9 @@
 	case "match":
           $custom_style_file ='/css/match.css';
 		 break;
+	case "searcher":
+          $custom_style_file ='/css/searcher.css';
+		 break;
 	 }
 if(!empty($custom_style_file)){
     $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','fltrp').$custom_style_file.'");</style>';

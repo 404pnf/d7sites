@@ -240,3 +240,52 @@ a.disabled {
     position: relative;
     height:280px;
 }
+
+#bestgroup-items div.views-row a{
+	text-indent:1.6em;
+	color: #404040;
+	display: block;
+	width:146px;
+}
+
+/*------图书产品 编辑推荐 需要的jQuery效果-------*/
+#recommendation{
+	height:115px;;
+}
+#recommendation .navi{
+	height: 10px;
+}
+#recommendation a.browse{
+    margin: 5px;
+    top: 40px;
+    background:url("../images/lrb_03.jpg") no-repeat scroll 0 0 transparent;
+    height: 22px;
+    width: 22px;
+}
+#recommendation a.right,#recommendation a.right:hover{
+	right: 5px;
+	background-position: 0 0;
+}
+#recommendation a.left,#recommendation a.left:hover{ 
+	left: 35px;
+	background-position: 0 -22px;
+}
+#recommendation .scrollable{
+	width: 630px;
+	height: 110px;
+	background: none;
+	border: none;
+}
+#recommendation .scrollable img{
+	margin: 5px;
+}
+#recommendation .items div.views-row {
+	width: 210px;
+}
+#recommendation #bestgroup-items div.views-row a{
+	width:100%;
+	text-indent: 0em;
+}
+#recommendation p{
+	margin:5px;
+}

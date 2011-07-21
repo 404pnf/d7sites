@@ -18,7 +18,7 @@
 ?>
 <div class="search">
 	<?php 
-	$search_block = block_load('search','form');
+	$search_block = block_load('block','11');
 	$renderable_search_block=  _block_get_renderable_array(_block_render_blocks(array($search_block)));
 	print render($renderable_search_block);
 ?>
