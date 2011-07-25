@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the hanyu feature.
+ */
+
+include_once('hanyu.features.inc');

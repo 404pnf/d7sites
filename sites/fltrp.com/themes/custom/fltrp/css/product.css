@@ -59,7 +59,7 @@
 #bookld .view-content li span.views-field-field-digital-url a {color:#FFF;}
 .wrapper{ clear: both}
 .buy{ clear: none;}
-.buy a{ float: left; display: block;height: 26px; margin: 10px 10px 0 0;line-height: 26px; color: #333}
+.buy a{ float: left; display: block;height: 26px; margin: 10px 10px 0 0;line-height: 26px; color: #BA0006!important}
 .b{background: url("../images/buy_20110623.gif");text-indent:2em;width: 103px;}
 .r{background: url("../images/buy_20110623.gif") -103px 0;text-indent:2.2em;width: 81px;}
 

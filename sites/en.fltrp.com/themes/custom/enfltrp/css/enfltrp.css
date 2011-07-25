@@ -141,37 +141,37 @@
 	.no-sidebars #content-inner{ margin-left: 0}
 	.no-sidebars #sidebar-first{ float: left; margin-right: 30px;}
 	#neirong{ float: left;}
-	.new_products_title,.key_book{ height: 33px;line-height:33px ; border: 1px solid #ddd; font-weight:700;text-indent:5em;background: url("/sites/en.fltrp.com/files/fatupian/enfp_new20110718.gif") no-repeat scroll 2px 2px transparent; font-size:15px; margin-top: 36px; margin-bottom: 20px;}
+	.new_products_title,.key_book{width: 700px; height: 33px;line-height:33px ; border: 1px solid #ddd; font-weight:700;text-indent:5em;background: url("/sites/en.fltrp.com/files/fatupian/enfp_new20110718.gif") no-repeat scroll 2px 2px transparent; font-size:15px; margin-top: 36px; margin-bottom: 20px;}
 	#neirong table a{ display: block; color: #000}
 	#neirong td{ width: 25%;text-align:center; float: left}
 	#neirong .our-products img{height:175px; width: 120px;}
 	.new_products_title{ position: relative}
 	.new_products_title a{ position:absolute; right:20px;color:#D62937!important; font-weight:400;top:2px;font-size:12px; }
 /* 产品内容页面 */
-	.english,.chinese{ padding-left:2em; line-height:2em;}
-	.page-node-5041 #content-header{ display: none;}
-	.bookpic{ float: left; margin: 0px 50px 50px 20px}
-	.bookpic img{ margin-left: 4px;}
-	.bookinfo{line-height:28px;}
-	.notice{ padding:10px 20px;/* border: 1px solid #FAE185; background: #FDFBE2; */margin: 10px 40px 10px 180px;line-height: 20px; font-weight: 700;}
-	.notice a{ color: #000;text-decoration:underline;}
-	.book_none_mrelate ul,.book_relate ul{list-style:none; padding: 0; margin: 0; overflow: hidden; }
-	.book_none_mrelate ul li a,.book_relate ul li a{ display: block}
-	.book_none_mrelate ul li,.book_relate ul li{ float: left; margin: 30px 28px;text-align: center;width: 110px;}
-	.bookpart2{ margin: 20px; clear: both}
-	.english .english_contents_title{ margin: 20px 0;background: url("../images/booktitle20110719.jpg") no-repeat; text-indent:-20em; width: 700px; overflow: hidden;}
-	.engliash_none,.english_des_content,.engliash_preview a{ padding:10px  20px; color: #404040}
-	.english .english_des_title,.enfilter_des .enfilter_des_title{ margin: 20px 0; background: url("../images/booktitle20110719.jpg") no-repeat 0 -24px; text-indent:-20em;width: 700px; overflow: hidden;}
-	.english .engliash_preview_title{ margin: 20px 0; background: url("../images/booktitle20110719.jpg") no-repeat 0 -48px; text-indent:-20em;width: 700px; overflow: hidden;}
-	.english .english_about_author_title{ margin: 20px 0;background: url("../images/booktitle20110719.jpg") no-repeat 0 -72px; text-indent:-20em;width: 700px; overflow: hidden;}
-	.english .english_consider_title{ margin: 20px 0;background: url("../images/booktitle20110719.jpg") no-repeat 0 -96px; text-indent:-20em;width: 700px; overflow: hidden;}
-	.english .english_other_recommendation_title{ margin: 20px 0;background: url("../images/booktitle20110719.jpg") no-repeat 0 -120px; text-indent:-20em;width: 700px; overflow: hidden;}
-	.chinese .english_contents_title,
-	.chinese .english_des_title,
-	.chinese .engliash_preview_title,
-	.chinese .english_about_author_title,
-	.chinese .english_consider_title,
-	.chinese .english_other_recommendation_title
+	#content .english,.chinese{ padding-left:2em; line-height:2em;}
+	#content .page-node-5041 #content-header{ display: none;}
+	#content .bookpic{ float: left; margin: 0px 50px 50px 20px}
+	#content .bookpic img{ margin-left: 4px;}
+	#content .bookinfo{line-height:28px;}
+	#content .notice{ padding:10px 20px;margin: 10px 40px 10px 180px;line-height: 20px; font-weight: 700;}
+	#content .notice a{ color: #000;text-decoration:underline;}
+	#content .book_none_mrelate ul,.book_relate ul{list-style:none; padding: 0; margin: 0; overflow: hidden; }
+	#content .book_none_mrelate ul li a,.book_relate ul li a{ display: block}
+	#content .book_none_mrelate ul li,.book_relate ul li{ float: left; margin: 30px 28px;text-align: center;width: 110px;}
+	#content .bookpart2{ margin: 20px; clear: both; _margin:0}
+	#content .english .english_contents_title{ margin: 20px 0;background: url("../images/booktitle20110719.jpg") no-repeat; text-indent:-20em; width: 700px; overflow: hidden;}
+	#content .engliash_none,.english_des_content,.engliash_preview a{ padding:10px  20px; color: #404040}
+	#content .english .english_des_title,.enfilter_des .enfilter_des_title{ margin: 20px 0; background: url("../images/booktitle20110719.jpg") no-repeat 0 -24px; text-indent:-20em;width: 700px; overflow: hidden;}
+	#content .english .engliash_preview_title{ margin: 20px 0; background: url("../images/booktitle20110719.jpg") no-repeat 0 -48px; text-indent:-20em;width: 700px; overflow: hidden;}
+	#content .english .english_about_author_title{ margin: 20px 0;background: url("../images/booktitle20110719.jpg") no-repeat 0 -72px; text-indent:-20em;width: 700px; overflow: hidden;}
+	#content .english .english_consider_title{ margin: 20px 0;background: url("../images/booktitle20110719.jpg") no-repeat 0 -96px; text-indent:-20em;width: 700px; overflow: hidden;}
+	#content .english .english_other_recommendation_title{ margin: 20px 0;background: url("../images/booktitle20110719.jpg") no-repeat 0 -120px; text-indent:-20em;width: 700px; overflow: hidden;}
+	#content .chinese .english_contents_title,
+	#content .chinese .english_des_title,
+	#content .chinese .engliash_preview_title,
+	#content .chinese .english_about_author_title,
+	#content .chinese .english_consider_title,
+	#content .chinese .english_other_recommendation_title
 	{ font-weight:700; font-size: 14px; color: #AF1C22; margin: 20px 0}
 	
 	

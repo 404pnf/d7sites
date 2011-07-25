@@ -1,0 +1,397 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * 实现publisher字段的迁移.
+ */
+ 
+ /**
+ * 实现钩子hook_menu().
+ */
+function bookotype_menu() {
+
+  $items['admin/config/development/bookotype'] = array(
+    'title'            => 'bookotype',
+    'page callback'    => 'drupal_get_form',
+	  'page arguments'    =>  array('bookotype_generate_relation_form'),
+    'access arguments' => array('administer site configuration'),
+    'weight'           => 1,   
+  );
+	$items['admin/config/development/bookotype/generate'] = array(
+    'title'            => '旧网分类同步',
+    'page callback'    => 'drupal_get_form',
+	  'page arguments'    =>  array('bookotype_generate_relation_form'),
+    'access arguments' => array('administer site configuration'),
+		'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight'           => 1,   
+  );
+	$items['admin/config/development/bookotype/education'] = array(
+    'title'            => '教育阶段同步',
+    'page callback'    => 'drupal_get_form',
+	  'page arguments'    =>  array('bookotype_generate_education_form'),
+    'access arguments' => array('administer site configuration'),
+		'type' => MENU_LOCAL_TASK,
+    'weight'           => 2,   
+  );
+	$items['admin/config/development/bookotype/config'] = array(
+    'title'            => '配置',
+    'page callback'    => 'drupal_get_form',
+	  'page arguments'    =>  array('bookotype_config_form'),
+    'access arguments' => array('administer site configuration'),
+		'type' => MENU_LOCAL_TASK,
+		'file' => 'bookotype.pages.inc',
+    'weight'           => 3,   
+  );
+ 	
+  return $items;
+}
+function bookotype_generate_relation_form(){
+	
+	$form['submit'] = array(
+		'#type' =>'submit',
+		'#value' => t('开始旧网分类同步'),
+	);
+	/*
+	$form['test'] = array(
+		'#value' => t('迁移'),
+	);
+	*/
+	return $form;
+}
+
+function bookotype_generate_relation_form_submit($form,&$form_state){
+	//$types = array_filter($form_state['values']['types']);
+	$batch =array(
+		'operations' => array(
+		  array('bookotype_generate_relation_process',array()),
+		  ),
+		'finished' => 'bookotype_generate_relation_finished',
+		'title' => t('迁移FLTRP分类数据'),
+		'init_message' => t('开始批量迁移.'),
+		//'progress_message' => t('Reindexed @current out of @total.'),
+		'error_message' => t('批量迁移遇到错误.'),
+	);
+	batch_set($batch);
+}
+
+function bookotype_generate_relation_process(&$context){
+	$size =10;
+	$cat_field = variable_get('cat_field','');
+	$cat_machine_name = variable_get('cat_machine_name','');
+	$cat_cid = variable_get('cat_cid','');
+	//$edu_field = variable_get('edu_field','');
+	//$edu_machine_name = variable_get('edu_machine_name','');
+	//$edu_cid = variable_get('edu_cid','');
+	/*
+	$vid = 8;
+	$vocabulary_name = "";
+	
+	$vid_result = db_select('taxonomy_vocabulary', 'tv')
+			->fields('tv', array('vid'))
+			->condition('tv.machine_name', $vocabulary_name, '=')
+			->execute()
+			->fetchAssoc();
+			
+	$vid = $vid_result['vid'];
+	*/
+	//$types_str ='story,page';
+	//$types_str = "'".implode("','", $types)."'";
+	if(!isset($context['sandbox']['progress'])){
+		$context['sandbox']['progress'] = 0;
+		$context['sandbox']['last_nid'] = 0;
+		$context['sandbox']['max'] =
+      db_select('node', 'n')
+			->condition('n.type', 'book')
+			->condition('n.nid', 100000, '<')
+			->countQuery()
+			->execute()
+			->fetchField();
+			
+		
+	}
+	
+	$query = db_select('node', 'n')
+		->fields('n', array('nid', 'vid'))
+		->condition('n.nid', $context['sandbox']['last_nid'], '>')
+		->condition('n.type', 'book')
+		->condition('n.nid', 100000, '<')
+		->orderBy('n.nid', 'ASC')
+		->range(0, $size);
+		
+	$result = $query->execute();
+	//drupal_set_message('tname:12233455');
+	foreach ($result as $record) { 
+	  $nid = $record->nid;
+		$node = node_load($nid);
+
+		$bsno = $node->field_bsno['und'][0]['value'];
+		
+		//根据bsno得到CID
+		$query1 = Database::getConnection('default', 'data')
+	  ->select('book2type', 'b')
+		->fields('b', array('bsno', 'cid'))
+		->condition('b.bsno', $bsno, '=');
+	 
+	  $result1 = $query1->execute();	
+		$cid_array = array();
+		foreach ($result1 as $record1) { 
+		  $cid_array[] = $record1->cid;
+		}
+		if(!empty($cid_array)){
+			//获取cat对应的tids
+			//对$cat_cid字段进行查询,注意这里面字段表的名字,还有值得存储
+			$cat_query = db_select('field_data_'.$cat_cid, 't')
+			->fields('t')
+			->condition('t.entity_type', 'taxonomy_term')
+			->condition('t.bundle', $cat_machine_name)
+			->condition('t.'.$cat_cid.'_value', $cid_array, 'IN');
+			
+			
+			$cat_result = $cat_query->execute();
+			$cat_tid_array = array();
+			foreach ($cat_result as $cat_record) { 
+				$cat_tid_array[] = $cat_record->entity_id;
+			}
+			if(!empty($cat_tid_array)){
+			
+				foreach($cat_tid_array as $key => $value){
+					$node->{$cat_field}['und'][$key] = array(
+						'tid' => $value,
+					);
+				}
+				
+				//node_save($node);
+			}
+			/*
+					//获取edu对应的tids
+			//对$cat_cid字段进行查询,注意这里面字段表的名字,还有值得存储
+			$edu_query = db_select('field_data_'.$edu_cid, 't')
+			->fields('t')
+			->condition('t.entity_type', 'taxonomy_term')
+			->condition('t.bundle', $edu_machine_name)
+			->condition('t.'.$edu_cid.'_value', $cid_array, 'IN');
+			
+			$edu_result = $edu_query->execute();
+			$edu_tid_array = array();
+			foreach ($edu_result as $edu_record) { 
+				$edu_tid_array[] = $edu_record->entity_id;
+			}
+			if(!empty($edu_tid_array)){
+			
+				foreach($edu_tid_array as $key => $value){
+					$node->{$edu_field}['und'][$key] = array(
+						'tid' => $value,
+					);
+				}
+				
+				//node_save($node);
+			}
+			*/
+			if(!empty($cat_tid_array)){
+				node_save($node);
+			}
+		}
+
+	
+	  $context['sandbox']['progress']++;
+	  $context['sandbox']['last_nid'] = $record->nid;
+	}
+
+	if($context['sandbox']['progress'] ==$context['sandbox']['max']){
+		$context['finished'] = 1;
+	}else{
+		$context['finished'] = $context['sandbox']['progress']/$context['sandbox']['max'];
+	}
+		
+}
+
+function bookotype_generate_relation_finished($success, $results, $operations){
+	if ($success) {
+		// Here we do something meaningful with the results.
+		$message = t('迁移FLTRP分社数据完成');
+		
+	}
+	else {
+		// An error occurred.
+		// $operations contains the operations that remained unprocessed.
+		$error_operation = reset($operations);
+		$message = '在迁移FLTRP分社数据时出现一个错误'. $error_operation[0] .' 其参数为 :'. print_r($error_operation[0], TRUE);
+	}
+	drupal_set_message($message);
+}
+
+
+function bookotype_generate_education_form(){
+	
+	$form['submit'] = array(
+		'#type' =>'submit',
+		'#value' => t('开始教育阶段同步'),
+	);
+	/*
+	$form['test'] = array(
+		'#value' => t('迁移'),
+	);
+	*/
+	return $form;
+}
+
+function bookotype_generate_education_form_submit($form,&$form_state){
+	//$types = array_filter($form_state['values']['types']);
+	$batch =array(
+		'operations' => array(
+		  array('bookotype_generate_education_process',array()),
+		  ),
+		'finished' => 'bookotype_generate_education_finished',
+		'title' => t('迁移FLTRP分类数据'),
+		'init_message' => t('开始批量迁移.'),
+		//'progress_message' => t('Reindexed @current out of @total.'),
+		'error_message' => t('批量迁移遇到错误.'),
+	);
+	batch_set($batch);
+}
+
+function bookotype_generate_education_process(&$context){
+	$size =10;
+	//$cat_field = variable_get('cat_field','');
+	//$cat_machine_name = variable_get('cat_machine_name','');
+	//$cat_cid = variable_get('cat_cid','');
+	$edu_field = variable_get('edu_field','');
+	$edu_machine_name = variable_get('edu_machine_name','');
+	$edu_cid = variable_get('edu_cid','');
+	/*
+	$vid = 8;
+	$vocabulary_name = "";
+	
+	$vid_result = db_select('taxonomy_vocabulary', 'tv')
+			->fields('tv', array('vid'))
+			->condition('tv.machine_name', $vocabulary_name, '=')
+			->execute()
+			->fetchAssoc();
+			
+	$vid = $vid_result['vid'];
+	*/
+	//$types_str ='story,page';
+	//$types_str = "'".implode("','", $types)."'";
+	if(!isset($context['sandbox']['progress'])){
+		$context['sandbox']['progress'] = 0;
+		$context['sandbox']['last_nid'] = 0;
+		$context['sandbox']['max'] =
+      db_select('node', 'n')
+			->condition('n.type', 'book')
+			->condition('n.nid', 5884, '<')
+			->countQuery()
+			->execute()
+			->fetchField();
+			
+		
+	}
+	
+	$query = db_select('node', 'n')
+		->fields('n', array('nid', 'vid'))
+		->condition('n.nid', $context['sandbox']['last_nid'], '>')
+		->condition('n.type', 'book')
+		->condition('n.nid', 5884, '<')
+		->orderBy('n.nid', 'ASC')
+		->range(0, $size);
+		
+	$result = $query->execute();
+	//drupal_set_message('tname:12233455');
+	foreach ($result as $record) { 
+	  $nid = $record->nid;
+		$node = node_load($nid);
+
+		$bsno = $node->field_bsno['und'][0]['value'];
+		
+		//根据bsno得到CID
+		$query1 = Database::getConnection('default', 'data')
+	  ->select('book2type', 'b')
+		->fields('b', array('bsno', 'cid'))
+		->condition('b.bsno', $bsno, '=');
+	 
+	  $result1 = $query1->execute();	
+		$cid_array = array();
+		foreach ($result1 as $record1) { 
+		  $cid_array[] = $record1->cid;
+		}
+		if(!empty($cid_array)){
+			/*
+			//获取cat对应的tids
+			//对$cat_cid字段进行查询,注意这里面字段表的名字,还有值得存储
+			$cat_query = db_select('field_data_'.$cat_cid, 't')
+			->fields('t')
+			->condition('t.entity_type', 'taxonomy_term')
+			->condition('t.bundle', $cat_machine_name)
+			->condition('t.'.$cat_cid.'_value', $cid_array, 'IN');
+			
+			
+			$cat_result = $cat_query->execute();
+			$cat_tid_array = array();
+			foreach ($cat_result as $cat_record) { 
+				$cat_tid_array[] = $cat_record->entity_id;
+			}
+			if(!empty($cat_tid_array)){
+			
+				foreach($cat_tid_array as $key => $value){
+					$node->{$cat_field}['und'][$key] = array(
+						'tid' => $value,
+					);
+				}
+				
+				//node_save($node);
+			}
+			*/
+					//获取edu对应的tids
+			//对$cat_cid字段进行查询,注意这里面字段表的名字,还有值得存储
+			$edu_query = db_select('field_data_'.$edu_cid, 't')
+			->fields('t')
+			->condition('t.entity_type', 'taxonomy_term')
+			->condition('t.bundle', $edu_machine_name)
+			->condition('t.'.$edu_cid.'_value', $cid_array, 'IN');
+			
+			$edu_result = $edu_query->execute();
+			$edu_tid_array = array();
+			foreach ($edu_result as $edu_record) { 
+				$edu_tid_array[] = $edu_record->entity_id;
+			}
+			if(!empty($edu_tid_array)){
+			
+				foreach($edu_tid_array as $key => $value){
+					$node->{$edu_field}['und'][$key] = array(
+						'tid' => $value,
+					);
+				}
+				
+				//node_save($node);
+			}
+			if(!empty($edu_tid_array)){
+				node_save($node);
+			}
+    }
+	
+	  $context['sandbox']['progress']++;
+	  $context['sandbox']['last_nid'] = $record->nid;
+	}
+
+	if($context['sandbox']['progress'] ==$context['sandbox']['max']){
+		$context['finished'] = 1;
+	}else{
+		$context['finished'] = $context['sandbox']['progress']/$context['sandbox']['max'];
+	}
+		
+}
+
+function bookotype_generate_education_finished($success, $results, $operations){
+	if ($success) {
+		// Here we do something meaningful with the results.
+		$message = t('迁移FLTRP分社教育阶段数据完成');
+		
+	}
+	else {
+		// An error occurred.
+		// $operations contains the operations that remained unprocessed.
+		$error_operation = reset($operations);
+		$message = '在迁移FLTRP分社教育阶段数据时出现一个错误'. $error_operation[0] .' 其参数为 :'. print_r($error_operation[0], TRUE);
+	}
+	drupal_set_message($message);
+}
