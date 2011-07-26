@@ -129,10 +129,10 @@ $c(function(){
 		clickable:false,
 		//navi:'.navi',
 		items:'#bestgroup-items',
-		prevPage:'.prev',//跳转到上一页
-		nextPage:'.next',//跳转到下一页
-		//prev:'.prev',//跳转到上一页
-		//next:'.next',//跳转到下一页
+		//prevPage:'.prev',//跳转到上一页
+		//nextPage:'.next',//跳转到下一页
+		prev:'.prev',//跳转到上一页
+		next:'.next',//跳转到下一页
 		hoverClass: 'hover',
 		easing:'linear' 
 	
