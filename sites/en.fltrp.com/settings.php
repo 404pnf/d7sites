@@ -460,4 +460,4 @@ $cookie_domain = '.fltrp.com';
 # $conf['allow_authorize_operations'] = FALSE;
 #
 $conf['drupal_http_request_fails'] = FALSE;
-ini_set('error_reporting', 'E_ALL ^ E_NOTICE');                                                                                             
+ini_set('error_reporting', 'E_ALL ^ E_NOTICE');                                                                                            

@@ -136,7 +136,7 @@
 	#sidebar-first h3 a{color: #d62937;}
 	#sidebar-first ul{list-style:none; margin-left: 18px; padding-left: 0; margin-top:10px;}
 	#sidebar-first ul a{line-height:26px; color: #333;font-weight:700;}
-	#content-header .title{ padding-left: 22px;  display: none;}
+	#content-header .title{ padding-left: 22px;}
 /* 产品首页面 sidebar 结构不同*/
 	.no-sidebars #content-inner{ margin-left: 0}
 	.no-sidebars #sidebar-first{ float: left; margin-right: 30px;}
