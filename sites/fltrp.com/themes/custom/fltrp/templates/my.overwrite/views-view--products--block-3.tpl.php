@@ -26,6 +26,7 @@
  * @ingroup views_templates
  */
 ?>
+
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
@@ -106,21 +107,32 @@
   <?php endif; ?>
 
 </div> <?php /* class view */ ?>
-<SCRIPT type="text/javascript" src="/sites/fltrp.com/themes/custom/fltrp/js/jquery.js"></SCRIPT>
+
+<SCRIPT type="text/javascript" src="/<?php print $base_path.$directory?>/js/jquery.tools.min.js"></script>
+
 <script>
 /**/
 var $c=jQuery.noConflict();  //将变量$的控制权让渡给prototype.js
 $c(function(){ 
 	//alert('123');
 	// initialize scrollable together with the navigator plugin
+	total = 0;
+	$c("#bestgroup-items div.views-row").each(function(index){
+		total = index+1;
+	});
+	
+	if(total<4) $c('a.next').addClass('disabled');
+	
 	$c("#scroll").scrollable({
 		size: 4,
-		vertical:false,
+		vertical:false, 
 		clickable:false,
-		navi:'.navi',
+		//navi:'.navi',
 		items:'#bestgroup-items',
 		prevPage:'.prev',//跳转到上一页
 		nextPage:'.next',//跳转到下一页
+		//prev:'.prev',//跳转到上一页
+		//next:'.next',//跳转到下一页
 		hoverClass: 'hover',
 		easing:'linear' 
 	

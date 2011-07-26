@@ -7,7 +7,20 @@ if(!empty($node) && $node->type == 'news'){
   include('my.overwrite/page--news.tpl.php');
    return;
 }
-?><div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
+
+//内容类型为page时增加相应css；
+if(!empty($node) && $node->type == 'page'){
+    $custom_style_file ='/css/extra.css';
+    if(!empty($custom_style_file)){
+    $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','fltrp').$custom_style_file.'");</style>';
+    print   $custom_style_uri ;
+  }
+}
+
+?>
+
+
+<div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
 
   <!-- ______________________ HEADER _______________________ -->
 

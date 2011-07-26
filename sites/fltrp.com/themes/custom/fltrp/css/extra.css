@@ -1,0 +1,58 @@
+/*经销商服务*/
+.jxsserver{color:#880000;background:url("../images/jxsserver.gif") no-repeat 0 1px;text-indent:1.6em; font-size:16px; margin:10px 0}
+.jxs span{color:#D58800;font-weight:700; display: block;; float: left}
+.jxs span.marc{ margin-left: 250px}
+.jxs a{ display: block;float: left; color:#055CAB;font-weight:700}
+.jxs p{ border-top: 1px dashed #c1c1c1; padding: 16px 0; line-height: 40px;height: 40px;margin:0}
+.jxs p img{ margin-right: 16px;}
+.jxs p font{ font-size: 12px; line-height: 20px}
+#content-inner{float:none}
+#content-header h1.title{text-indent:1.4em;background:url("http://new.fltrp.com/sites/new.fltrp.com/files/page_photo/jxsserver.gif") no-repeat 0 2px;color:#870102}
+#tbone{border:1px solid #C1C1C1}
+#tbone tbody{border:0;vertical-align:middle}
+#tbone td{border-color:#C1C1C1;vertical-align:middle;text-align:center;padding:12px 0}
+#tbone td a{color:#404040;}
+
+
+/*作者服务*/
+#node-10656 table tbody{border:0;vertical-align:middle}
+#node-10656 table td{border-color:#C1C1C1;vertical-align:middle;text-align:center;padding:12px 0}
+#node-10656 p{line-height:2.4em}
+#node-10656 table td a{color:#404040;}
+.STYLE1{ color:#C97A01;font-weight:700;margin-top:20px;font-size:14px;margin:10px 0 ;display:block}
+#secc ul{width:33%;float:left;line-height:1.5em; margin-top:30px;}
+#secc ul li a{color:#404040;text-decoration:underline;}
+#secc ul li b{ margin-bottom:10px;display:block}
+
+/*外研社网群*/
+#node-10659 table {border-top:1px solid #ddd;border-left:1px solid #ddd;border-right:3px solid #ccc;border-bottom:3px solid #ccc}
+#node-10659 table tbody{border:0}
+#node-10659 table a,#op span a{color:#404040;text-decoration:underline;}
+#node-10659 table td{width:50%;}
+#op span{display:block;padding-top:12px}
+.style-sites{ color:#C97A01;font-weight:700;margin-top:20px}
+
+/*到达外研社*/
+.style-map{width:100%;padding-top:30px}
+.style-map p{line-height:2em;}
+
+/*友情链接*/
+#node-10661 table {border:1px solid #ddd}
+#node-10661 table  .l{ border-right:1px dashed #ddd;}
+#node-10661 table tbody{border:0}
+#node-10661 table a{color:#404040;text-decoration:underline;background:url("http://new.fltrp.com/sites/new.fltrp.com/files/page_photo/ylbg_03.gif#overlay-context=links") no-repeat 0 0;text-indent:1.4em;padding-left:1.4em;letter-spacing:0}
+#node-10661 table td{width:25%;padding:15px 10px;*padding:15px 0;padding:15px 10px0\9;}
+
+/*盗版举报*/
+#style-jubao div{line-height:2em;text-indent:2.4em}
+
+/*联系我们*/
+#lxwomen{background:url("http://new.fltrp.com/sites/new.fltrp.com/files/page_photo/_03.gif") no-repeat 0 0;width:963px;height:398px;}
+#lxwomen tbody{border:none;letter-spacing:0 ;line-height:1.6em}
+#lxwomen tbody p{margin:0;padding:0;}
+#lxwomen tbody td{padding:0px 0 0 14px}
+.tel{ letter-spacing:-1px}
+#lxwomen tbody td.tf div{padding-left:20px}
+#lxwomen tbody a{color:#404040}
+.tt{ font-size:14px;font-weight:700;padding-top:24px;*padding-top:0px}
+.tt1{padding-top:42px}

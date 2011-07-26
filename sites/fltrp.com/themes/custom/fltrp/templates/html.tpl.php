@@ -55,6 +55,12 @@
 	case "searcher":
           $custom_style_file ='/css/searcher.css';
 		 break;
+	case "guestbook":
+          $custom_style_file ='/css/extra2.css';
+		 break;
+	case "newsletter/subscriptions":
+          $custom_style_file ='/css/extra2.css';
+		 break;
 	 }
 if(!empty($custom_style_file)){
     $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','fltrp').$custom_style_file.'");</style>';
