@@ -121,7 +121,7 @@ $c(function(){
 		total = index+1;
 	});
 	
-	if(total<4) $c('a.next').addClass('disabled');
+	if(total<=4) $c('a.next').addClass('disabled');
 	
 	$c("#scroll").scrollable({
 		size: 4,

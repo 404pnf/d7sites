@@ -106,21 +106,26 @@
   <?php endif; ?>
 
 </div> <?php /* class view */ ?>
-<SCRIPT type="text/javascript" src="/sites/fltrp.com/themes/custom/fltrp/js/jquery.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="/<?php print $base_path.$directory?>/js/jquery.tools.min.js"></script>
+
 <script>
 /**/
 var $c=jQuery.noConflict();  //将变量$的控制权让渡给prototype.js
 $c(function(){ 
 	//alert('123');
 	// initialize scrollable together with the navigator plugin
+	total = 0;
+	$c("#bestgroup-items div.views-row").each(function(index){
+		total = index+1;
+	});
+	
+	if(total<=3) $c('a.next').addClass('disabled');
+	// initialize scrollable together with the navigator plugin
 	$c("#scroll").scrollable({
-		size: 4,
+		size: 3,
 		vertical:false,
-		clickable:false,
-		navi:'.navi',
+		clickable:false, 
 		items:'#bestgroup-items',
-		prevPage:'.prev',//跳转到上一页
-		nextPage:'.next',//跳转到下一页
 		hoverClass: 'hover',
 		easing:'linear' 
 	

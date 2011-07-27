@@ -2,8 +2,10 @@
 
 #simplenews-subscription-manager-form{border: 2px solid #CCCCCC;margin-top: 10px;padding: 40px; width: 876px; font-size: 14px;line-height:30px;}
 #edit-subscriptions .fieldset-legend{white-space: normal;text-indent:2em;display:block;*width:860px;width:860px\9; color:#000000}
-#edit-update,#edit-subscribe{font-size: 0; color:#D60201; background: url("../images/dy20110720_03.gif"); width: 114px ;height: 43px; border: 0;}
+#edit-update,#edit-subscribe{font-size: 0; color:#D60201; background: url("../images/dy20110720_03.gif"); width: 114px ;height: 43px; border: 0; margin-left: 20px}
 .form-item-mail label{ font-size: 18px;font-weight:400;}
+.form-type-checkbox { float: left;margin: 10px 10px 10px 22px; display: inline;}
+.form-item-mail{ float: none; margin-top: 100px; padding-left: 20px;* margin-top: 50px;}
 #edit-mail{padding: 8px 8px 8px 30px;width: 400px;background: none repeat scroll 0 0 #FFFFFF;border-color: #999999 #DDDDDD #DDDDDD #999999;border-style: solid;border-width: 1px;color: #CFCFCF;font-size: 14px;}
 /* 留言*/
 #content-inner{float:none;}
