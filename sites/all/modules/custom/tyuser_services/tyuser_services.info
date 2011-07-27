@@ -1,0 +1,6 @@
+name = tyuser services
+description = 用户信息服务
+core = 7.x
+dependencies[] = services
+package = decoxy develope module
+version = "7.x"

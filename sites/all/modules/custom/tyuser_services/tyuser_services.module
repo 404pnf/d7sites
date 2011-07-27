@@ -1,0 +1,162 @@
+<?php
+
+// $Id: tyuser_services.module 2011/07/13 fu shun Exp $
+//本模块提供两个services方法，批量删除用户和批量更改用户信息
+/**
+ * Implements hook_services_resources().
+ */
+function tyuser_services_services_resources() {
+  return array(
+    'tyuser_services' => array(
+     'update' => array(
+        'callback' => '_tyuser_services_update',
+        'args' => array(
+          array(
+            'name' => 'name',
+            'optional' => FALSE,
+            'source' => array('path' => 0),
+            'type' => 'string',
+            'description' => 'The user name.',
+          ),
+          array(
+            'name' => 'pass',
+            'optional' => FALSE,
+            'source' => array('path' => 0),
+            'type' => 'int',
+            'description' => 'The user pass.',
+          ),
+        array(
+            'name' => 'mail',
+            'optional' => FALSE,
+            'source' => array('path' => 0),
+            'type' => 'string',
+            'description' => 'The user mail.',
+          ),
+         array(
+            'name' => 'status',
+            'optional' => FALSE,
+            'source' => array('path' => 0),
+            'type' => 'int',
+            'description' => 'The user status.',
+          ),
+        array(
+            'name' => 'signature',
+            'optional' => FALSE,
+            'source' => array('path' => 0),
+            'type' => 'string',
+            'description' => 'The user signature.',
+          ),
+        ),
+        'access callback' => '_tyuser_services_access',
+        'access arguments' => array('view'),
+      ),
+     'delete' => array(
+        'callback' => '_tyuser_services_delete',
+        'args' => array(
+          array(
+            'name' => 'name',
+            'optional' => FALSE,
+            'source' => array('path' => 0),
+            'type' => 'string',
+            'description' => 'user name.',
+          ),
+          array(
+            'name' => 'method',
+            'optional' => FALSE,
+            'source' => array('path' => 0),
+            'type' => 'string',
+            'description' => 'Delete user method.',
+          ),
+         array(
+            'name' => 'notify',
+            'optional' => FALSE,
+            'source' => array('path' => 0),
+            'type' => 'int',
+            'description' => 'notify.',
+          ),
+        ),
+        'access callback' => '_tyuser_services_access',
+        'access arguments' => array('view'),
+      ),
+    ),
+  );
+}
+
+/**
+ * 更新用户信息
+ * @param $name
+ *   (string) 被更新的用户名称
+ * @param $pass
+ *   (string) 被更新的用户密码
+ * @param $mail
+ *   (string) 被更新的用户邮件
+ * @param $status
+ *   (int) 被更新的用户状态
+ * @param $signature
+ *   (string) 提供一种验证匹配,用用户名称加上动态的用户初始邮件来防止一些不法
+ *    人员通过后台来篡改用户信息
+ */
+function _tyuser_services_update($name,$pass,$mail,$status,$signature){
+  if(!empty($name)){
+     $object = db_select('users', 'u')->fields('u', array('uid','init'))
+        ->condition('name', $name)
+        ->execute()->fetchObject();
+       if($object->uid){
+         $string = md5($name.$object->init);
+         if($string == $signature){
+          $new = array(
+            'name' => $name,
+            'mail' => $mail,
+            'pass' => $pass,
+            'status'=>$status
+           );
+          $account = user_load($object->uid);
+          $account = user_save($account, $new);
+          if($account){
+            $result = array('result'=>1,'message'=>'update success');
+          } else {
+            $result = array('result'=>2,'message'=>'update false');
+          }
+       }
+     } else {
+        $result = array('result'=>0,'message'=>'There is no use infomation');
+     }
+      return $result;
+  }
+}
+
+/**
+ * 删除用户信息
+ * @param $name
+ *   (string) 被删除的用户名称
+ * @param $method
+ *   (string) 删除方式
+ * @param $notify
+ *   (int)  是否要邮件通知用户的标识
+ */
+function _tyuser_services_delete($name,$method,$notify){
+ if(!empty($name)){
+    $uid = db_select('users', 'u')->fields('u', array('uid'))
+          ->condition('name', $name)
+          ->execute()->fetchField();
+    if($uid){
+      $account = user_load($uid);
+      $edit = array('user_cancel_notify'=>$notify);
+	  //drupal7 系统自带的删除用户的操作都是通过此方法处理，但这里因为通过webservice
+	  //方式 调用 user_cancel()方式,batch_set 函数没能生效执行操作_user_cancel()函数
+	  // 所以这里我手动添加此步骤,此方式与原系统操作保持一致
+	   user_cancel($edit, $uid, $method); 
+	   _user_cancel($edit,$account,$method);
+	  $result = array('result'=>1,'message'=>'delete success');
+    } else {
+	  $result = array('result'=>0,'message'=>'There is no use infomation');
+	}
+  }
+	return $result;
+}
+/**
+ * Access callback.
+ */
+function _tyuser_services_access($op) {
+  return TRUE;
+}
