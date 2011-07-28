@@ -198,7 +198,7 @@ $databases['default']['default'] = array(
         'database' => '2u4u',
  	'username' => 'zl',
  	'password' => '8b51575413560e07859cd1380b82d6d2',
- 	'host' => '221.122.115.57',
+ 	'host' => '119.161.209.18',
         'port' => '3306',
   );
 

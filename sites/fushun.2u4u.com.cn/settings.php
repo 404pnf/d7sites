@@ -181,15 +181,16 @@
 
 $databases['default']['default'] = array(
 	'driver' => 'mysql',
- 	'database' => 'fltrp',
+ 	'database' => 'fushun',
 	'username' => 'py',
  	'password' => 'pengyou',
  	'host' => 'localhost',
  	'prefix' => array(
-			'default'   => '',
-//  			'users'     => 'ncec.',
-//  			'sessions'  => 'ncec.',
-//    			'authmap'   => 'ncec.',
+			/*'default'   => '',
+    			'users'     => 'ncec.',
+    			'sessions'  => 'ncec.',
+    			'authmap'   => 'ncec.',
+			*/
   			),
  );
 // set db connection to d6 sites. '2u4u' is the db name zhanglin called in his moudle
@@ -198,7 +199,7 @@ $databases['default']['default'] = array(
         'database' => '2u4u',
  	'username' => 'zl',
  	'password' => '8b51575413560e07859cd1380b82d6d2',
- 	'host' => '119.161.209.18',
+ 	'host' => '221.122.115.57',
         'port' => '3306',
   );
 
@@ -282,14 +283,14 @@ ini_set('session.gc_divisor', 100);
  * a session is deleted, authenticated users are logged out, and the contents
  * of the user's $_SESSION variable is discarded.
  */
-ini_set('session.gc_maxlifetime', 360000);
+ini_set('session.gc_maxlifetime', 200000);
 
 /**
  * Set session cookie lifetime (in seconds), i.e. the time from the session is
  * created to the cookie expires, i.e. when the browser is expected to discard
  * the cookie. The value 0 means "until the browser is closed".
  */
-ini_set('session.cookie_lifetime', 20000);
+ini_set('session.cookie_lifetime', 2000000);
 
 /**
  * If you encounter a situation where users post a large amount of text, and
