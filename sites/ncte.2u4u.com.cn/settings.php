@@ -187,9 +187,9 @@ $databases['default']['default'] = array(
  	'host' => 'localhost',
  	'prefix' => array(
 			'default'   => '',
-    			'users'     => 'ncec.',
-    			'sessions'  => 'ncec.',
-    			'authmap'   => 'ncec.',
+//  			'users'     => 'ncec.',
+//  			'sessions'  => 'ncec.',
+//    			'authmap'   => 'ncec.',
   			),
  );
 // set db connection to d6 sites. '2u4u' is the db name zhanglin called in his moudle

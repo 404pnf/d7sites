@@ -192,9 +192,11 @@ $databases = array (
       'driver' => 'mysql',
           'prefix' => array(
       'default'   => '',
-      'users'     => 'ncec.',
-      'sessions'  => 'ncec.',
-      'authmap'   => 'ncec.',
+// decoxy update 20110727 begin
+//      'users'     => 'ncec.',
+//      'sessions'  => 'ncec.',
+//      'authmap'   => 'ncec.',
+// decoxy update 20110727 end
     )
     ),
   ),
