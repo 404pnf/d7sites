@@ -132,15 +132,15 @@
 	#sidebar-first{ width: 234px; margin-right: -234px;}
 	#main{ margin-top: 23px; width: 980px;}
 	#content-inner{ margin-left: 240px;}
-	#sidebar-first h3{width: 224px; height: 26px; line-height: 26px; color: #d62937; font-size: 13px; border: 1px solid #ddd; margin: 18px 0 0 10px;text-indent:1em;}
-	#sidebar-first h3 a{color: #d62937;}
+	#sidebar-first h3,#sidebar-first .apple_apps{width: 224px; height: 26px; line-height: 26px; color: #d62937; font-size: 13px; border: 1px solid #ddd; margin: 18px 0 0 10px;text-indent:1em;}
+	#sidebar-first h3 a,#sidebar-first .apple_apps a{color: #d62937; font-weight:700;}	
 	#sidebar-first ul{list-style:none; margin-left: 18px; padding-left: 0; margin-top:10px;}
 	#sidebar-first ul a{line-height:26px; color: #333;font-weight:700;}
 	#content-header .title{ padding-left: 22px;}
 /* 产品首页面 sidebar 结构不同*/
 	.no-sidebars #content-inner{ margin-left: 0}
 	.no-sidebars #sidebar-first{ float: left; margin-right: 30px;}
-	#neirong{ float: left;}
+	#neirong{ float: left; width: 710px}
 	.new_products_title,.key_book{width: 700px; height: 33px;line-height:33px ; border: 1px solid #ddd; font-weight:700;text-indent:5em;background: url("/sites/en.fltrp.com/files/fatupian/enfp_new20110718.gif") no-repeat scroll 2px 2px transparent; font-size:15px; margin-top: 36px; margin-bottom: 20px;}
 	#neirong table a{ display: block; color: #000}
 	#neirong td{ width: 25%;text-align:center; float: left}
@@ -190,6 +190,11 @@
 	.enfilter_other ul{list-style:none;}
 	.enfilter_des .enfilter_des_title{line-height:2em;}
 	.filter_detail .view-content .views-row{ border-bottom: 1px dashed #eee; margin-bottom: 20px;padding-bottom: 20px;}
+	
+/*	APPLE 产品*/
+.page-apple #content-area{ margin-left: 20px;}
+.page-apple #content-area .views-row{ border-bottom: 1px dashed #CCCCCC;font-size: 12px;line-height: 24px;margin: 0;padding: 20px 0;width: 726px;}
+.page-apple #content-area .views-row .field-content img{ float: left; margin-right: 18px}
 /*------专为中英切换-----*/
 #content-area .node-book .content{position:relative;}
 #content-area .node-book .content .fenlei{position:absolute;text-align: center;top: 0;width: 135px;color: #FFF;font-weight:700;background: url("../images/wsssss_03.jpg") no-repeat -134px 0;}
