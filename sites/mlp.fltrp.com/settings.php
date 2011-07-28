@@ -187,9 +187,9 @@ $databases['default']['default'] = array(
  	'host' => 'localhost',
  	'prefix' => array(
 			'default'   => '',
-    			'users'     => 'ncec.',
-    			'sessions'  => 'ncec.',
-    			'authmap'   => 'ncec.',
+//  			'users'     => 'ncec.',
+//    			'sessions'  => 'ncec.',
+//    			'authmap'   => 'ncec.',
   			),
 );
 

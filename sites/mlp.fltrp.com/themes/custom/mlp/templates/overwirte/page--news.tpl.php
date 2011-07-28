@@ -82,6 +82,33 @@
         <?php endif; ?>
 
         <div id="content-area">
+				<!-- 	语种切换 开始	 -->			
+				<?php
+   				        $language = arg(1);
+			             $views_name = 'language';
+                        $display_id = 'news';
+                         print views_embed_view($views_name, $display_id,$language);
+               ?>
+	   			<!-- 	//语种切换 结束	 -->			
+
+				<!-- 	资讯中心首页-聚焦外研  开始	 -->			
+				<?php
+   				        $language = arg(1);
+			             $views_name = 'news';
+                        $display_id = 'yejie';
+                         print views_embed_view($views_name, $display_id,$language);
+               ?>
+	   			<!-- 	//资讯中心首页-聚焦外研  结束	 -->		
+
+	   			<!-- 	资讯中心首页-业界动态  开始	 -->		
+				<?php
+   				        $language =arg(1);
+			             $views_name = 'news';
+                        $display_id = 'jujiao';
+                         print views_embed_view($views_name, $display_id,$language);
+               ?>
+	   			<!-- 	//资讯中心首页-业界动态  结束	 -->		
+
           <?php print render($page['content']) ?>
         </div>
 
