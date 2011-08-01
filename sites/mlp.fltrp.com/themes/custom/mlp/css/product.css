@@ -1,0 +1,19 @@
+/* 产品页面*/
+#content-inner{ width:700px; margin-left: 240px}
+.imglist h2{ margin:20px 0 0 10px}
+.imglist .imglistcontent{ border: 1px solid #BCBCBC; *zoom:1}
+.imglist .imglistcontent ul{ overflow: auto}
+.imglist .imglistcontent ul li{ float: left;width:120px; margin:20px 0 0 43px; font-size: 12px;line-height: 1.4em; display: inline;}
+.imglist .imglistcontent ul li a{ display: block;margin:0 0 14px 0; color: #0D7DC4}
+.imglist .imglistcontent ul li a img{ margin-bottom: 10px;}
+.tab_title{text-indent:1em; font-size:14px; height: 40px;background: url("../images/zysiderbarbg20110726.gif") repeat-x; line-height: 40px;border: 1px solid #BCBCBC; margin: 10px 0 0}
+.tab_title li{float: left;padding: 0 14px;text-indent:0}
+.tab_title li.a{ background: #DD0108; color: #FFF}
+.productlist li{border-bottom: 1px dashed #CCCCCC;font-size: 12px;line-height: 24px;margin: 0;padding: 20px 0;}
+.productlist li img{ float: left; margin: 0 30px 0 4px }
+.productlist li h2{ margin-bottom:0; font-size:14px; }
+.productlist li h2 a{ color: #CB6300} 
+.productlist li span{color:#646464}
+.productlist li span em{ color:#DD0108}
+.productlist li p{ padding-right: 80px;}
+.productlist .buy .b{ background: url("../images/zybuy.gif") no-repeat; padding: 8px 40px;}

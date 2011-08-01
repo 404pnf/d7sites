@@ -1,0 +1,15 @@
+/* 资讯内容页面*/
+#content-inner{ width:708px; margin:10px 0 30px 10px; border: 1px solid #EEDADC}
+/*资讯页面 article*/
+.redborder{ border: 1px solid #EFD9DB;}
+.articletitle{ text-align: center; font-size: 26px; margin-top: 40px;}
+.articledate{ display: block; margin: 10px 20px 30px; text-align: right; color: #999; font-size: 12px; border-bottom: 1px dashed #ddd; padding-bottom: 14px}
+.articlecontent{ margin: 20px 40px;}
+.articlecontent p{ text-indent:2em; line-height:2em;}
+.share{margin: 20px 20px; text-align: right; padding:20px 30px; border-bottom: 1px dashed #ddd; font-weight:700;}
+
+/* 相关新闻relatednews*/
+.textlist{ margin: 10px 50px; padding-bottom: 20px}
+.textlist h3{ margin-bottom: .8em;}
+.textlist li{ line-height:1.9em; background:url("/fltrp/images/blackpoint.gif") no-repeat .4em 50% ; text-indent:1.8em; font-size: 12px;}
+.textlist li a{ color: #333;}

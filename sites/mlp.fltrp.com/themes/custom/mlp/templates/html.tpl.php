@@ -7,6 +7,48 @@
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
   <?php print $styles; ?>
+
+<!---   added by zhanglin  //-->
+<?
+	global $base_url;
+	 $current_path   = drupal_get_path_alias();
+	
+	 switch($current_path){
+	 case "home":
+          $custom_style_file ='/css/index.css';
+		 break;
+	 case "products":
+          $custom_style_file ='/css/product.css';
+		 break;
+	 case "productslist":
+          $custom_style_file ='/css/product.css';
+		 break;
+	 case "productsdetails":
+          $custom_style_file ='/css/product.css';
+		 break;
+	case "news":
+          $custom_style_file ='/css/information.css';
+		 break;	
+	case "newsmore":
+          $custom_style_file ='/css/information.css';
+	      break;
+	case "newsdetails":
+          $custom_style_file ='/css/article.css';
+	      break;
+	case "searcher":
+          $custom_style_file ='/css/searcher.css';
+		 break;
+	 }
+if(!empty($custom_style_file)){
+    $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','mlp').$custom_style_file.'");</style>';
+    print   $custom_style_uri ;
+}
+
+
+?>
+<!---   added by zhanglin//  -->
+
+
   <?php print $scripts; ?>
 </head>
 <body class="<?php print $classes; ?>" <?php print $attributes;?>>

@@ -1,0 +1,10 @@
+/* 产品页面*/
+#content-inner{ margin: 0 100px; float: none; display: block;}
+.tab{ border-bottom: 1px solid #999;overflow: auto;*height:46px}
+.tab img{ margin: 10px; float: left; display: block;}
+.tab ul li{ float: left; margin:20px 5px 3px}
+.tabcontent{ margin: 34px 100px 0}
+.tabcontent li{line-height:2.6em;}
+.tabcontent li a{color:#000000}
+.tabcontent li span{ display: block; float: left; width: 140px; font-weight: 700; color: #B60103}
+.more{display:block;padding-top:30px; text-align: right; font-size: 12px;}

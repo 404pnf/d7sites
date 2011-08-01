@@ -17,12 +17,16 @@
         hide($content['comments']);
         hide($content['links']);
      //   print render($content);
-
+		//print ("<pre>");
+		//print_r($node);
+	//	print ("</pre>");
 
        $nid = $node->nid;     
 		$title = $node->title;        //图书名称
-		$series = $node->field_series['und'][0]['taxonomy_term']->name;        //图书系列名称
-		$seriestid = $node->field_series['und'][0]['taxonomy_term']->tid;   
+		if(!empty($node->field_series['und'])){
+     		$series = $node->field_series['und'][0]['taxonomy_term']->name;        //图书系列名称
+	    	$seriestid = $node->field_series['und'][0]['taxonomy_term']->tid;   
+		}
 		$isbn = $node->field_isbn['und'][0]['value'];        //ISBN
 		$author = $node->field_author['und'][0]['value'];        //作者名
 		$format = $node->field_format['und'][0]['taxonomy_term']->name;        //开本
@@ -121,16 +125,18 @@ span.stico_tqq{
 						<?php
 						if (!empty($seriestid)){
 							$views_name = 'products';
-	                        $display_id = 'block_3';
+	                        $display_id = 'recommended_series';
 							$views_parameter1=$seriestid ;
-							$views_parameter2=$nid ;						
+							//$views_parameter2=$nid ;						
 						}else{
 							$views_name = 'products';
-	                        $display_id = 'block_2';
+	                        $display_id = 'recommended_education';
 							$views_parameter1=$education_tids ;
-							$views_parameter2=$nid ;
+							//$views_parameter2=$nid ;
 						}
-		                print views_embed_view($views_name, $display_id,$views_parameter1,$views_parameter2);
+
+						
+						print views_embed_view($views_name, $display_id,$views_parameter1);
 						 ?>
 								</div>
 							</div>
