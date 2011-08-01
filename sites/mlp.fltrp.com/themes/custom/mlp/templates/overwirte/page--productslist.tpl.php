@@ -90,8 +90,16 @@
 			$url = "productslist";
 			$category = arg(1);
 
-			$sort_by = $_GET["sort_by"];
-			$sort_order = $_GET["sort_order"];
+
+			$sort_by="";
+			$sort_order="";
+
+			if(isset( $_GET["sort_by"]))
+   			    $sort_by = $_GET["sort_by"];
+			
+			if(isset( $_GET["sort_order"]))
+				$sort_order = $_GET["sort_order"];
+
 
 			if($sort_order=="ASC")
 					$sort_order="DESC";

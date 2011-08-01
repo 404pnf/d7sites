@@ -82,33 +82,46 @@
         <?php endif; ?>
 
         <div id="content-area">
-				<!-- 	”Ô÷÷«–ªª ø™ º	 -->			
+			<div class="download">
+				<div class="tab">
+  				 <img src="/sites/mlp.fltrp.com/themes/custom/mlp/images/zyzxzx20110726_03.gif" alt=""/>
+				<!-- 	ËØ≠ÁßçÂàáÊç¢ ÂºÄÂßã	 -->			
 				<?php
-   				        $language = arg(1);
 			             $views_name = 'language';
                         $display_id = 'news';
-                         print views_embed_view($views_name, $display_id,$language);
+                         print views_embed_view($views_name, $display_id);
                ?>
-	   			<!-- 	//”Ô÷÷«–ªª Ω· ¯	 -->			
+	   			<!-- 	//ËØ≠ÁßçÂàáÊç¢ ÁªìÊùü	 -->		
+				</div>
 
-				<!-- 	◊ —∂÷––ƒ ◊“≥-æ€ΩπÕ‚—–  ø™ º	 -->			
-				<?php
+
+		
+				<!-- 	ËµÑËÆØ‰∏≠ÂøÉÈ¶ñÈ°µ-‰∏öÁïåÂä®ÊÄÅ  ÂºÄÂßã	 -->			
+				<div class="tabcontent">
+			 		<h2><a href="">‰∏öÁïåÂä®ÊÄÅ</a></h2>
+					<?php
    				        $language = arg(1);
 			             $views_name = 'news';
                         $display_id = 'yejie';
                          print views_embed_view($views_name, $display_id,$language);
-               ?>
-	   			<!-- 	//◊ —∂÷––ƒ ◊“≥-æ€ΩπÕ‚—–  Ω· ¯	 -->		
+				   ?>
+		        </div>
+	   			<!-- 	//ËµÑËÆØ‰∏≠ÂøÉÈ¶ñÈ°µ-‰∏öÁïåÂä®ÊÄÅ  ÁªìÊùü	 -->		
+	   
 
-	   			<!-- 	◊ —∂÷––ƒ ◊“≥-“µΩÁ∂ØÃ¨  ø™ º	 -->		
+	<!-- 	ËµÑËÆØ‰∏≠ÂøÉÈ¶ñÈ°µ-ËÅöÁÑ¶Â§ñÁ†î  ÂºÄÂßã	 -->	
+			<div class="tabcontent">
+		 		<h2><a href="">ËÅöÁÑ¶Â§ñÁ†î </a></h2>
 				<?php
    				        $language =arg(1);
 			             $views_name = 'news';
                         $display_id = 'jujiao';
                          print views_embed_view($views_name, $display_id,$language);
                ?>
-	   			<!-- 	//◊ —∂÷––ƒ ◊“≥-“µΩÁ∂ØÃ¨  Ω· ¯	 -->		
+			    </div>
+	   			<!-- 	//ËµÑËÆØ‰∏≠ÂøÉÈ¶ñÈ°µ-ËÅöÁÑ¶Â§ñÁ†î ÁªìÊùü	 -->		
 
+        </div>
           <?php print render($page['content']) ?>
         </div>
 
