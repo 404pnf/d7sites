@@ -83,14 +83,22 @@ function _custom_user_login_form_validate($form, &$form_state){
         $account = user_save(new stdClass(), $new);
         $account = user_load($account->uid);
       } else {
-        //更新此用户信息
-        $edit = array(
-          'name' => $values['name'],
-          'mail' => $BaseInfo->Mail,
-          'pass' => $values['pass'],
-        );
-        $account = user_load($uid);
-        $account = user_save($account, $edit);
+         //更新此用户信息
+          $user_id = @user_authenticate($values['name'],trim($values['pass']));
+          if(empty($user_id)){
+            $edit = array(
+              'name' => $values['name'],
+              'mail' => $BaseInfo->Mail,
+              'pass' => $values['pass'],
+           );
+          } else {
+            $edit = array(
+              'name' => $values['name'],
+              'mail' => $BaseInfo->Mail,
+            );
+          }
+         $account = user_load($uid);
+         $account = user_save($account, $edit);
       }
     $ServiceTicket = (array)$BaseInfo->ServiceTicket;
     $_SESSION['userticket'] = $ServiceTicket[0];
