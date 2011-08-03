@@ -1,0 +1,9 @@
+#navigation li {
+	list-style:none;
+	float:left;
+}
+
+.panel-separator {
+   height: 0px;
+}
+

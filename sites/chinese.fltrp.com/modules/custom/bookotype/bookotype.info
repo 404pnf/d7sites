@@ -1,0 +1,5 @@
+; $Id$
+name = Book O type
+description = Book O type
+core = 7.x
+php = 5.2

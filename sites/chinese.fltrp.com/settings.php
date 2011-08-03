@@ -194,6 +194,16 @@ $databases['default']['default'] = array(
   			),
  );
 
+$databases['data']['default'] = array(
+        'driver' => 'mysql',
+        'database' => 'data',
+        'username' => 'py',
+        'password' => 'pengyou',
+        'host' => 'localhost',
+        'prefix' =>'' ,
+);
+
+
 /**
  * Access control for update.php script.
  *
@@ -459,3 +469,5 @@ ini_set('session.cookie_lifetime', 2000000);
  * Remove the leading hash signs to disable.
  */
 # $conf['allow_authorize_operations'] = FALSE;
+
+ini_set('error_reporting', 'E_ALL ^ E_NOTICE');

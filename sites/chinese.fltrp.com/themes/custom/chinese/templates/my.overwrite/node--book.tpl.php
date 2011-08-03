@@ -86,7 +86,8 @@
          			</div>							
 	 					
 							
-			</div>
+		  </div>
+			
   	</div>
   	
     <?php if (!empty($content['links']['terms'])): ?>

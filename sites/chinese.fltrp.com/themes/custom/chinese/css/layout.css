@@ -59,24 +59,24 @@
 /* line 55, ../sass/layout.sass */
 .two-sidebars .center,
 .sidebar-first .center {
-  margin-left: 190px;
+  margin-left: 207px;
 }
 
 /* line 59, ../sass/layout.sass */
 #sidebar-first {
-  width: 190px;
-  margin-right: -190px;
+  width: 207px;
+  margin-right: -207px;
 }
 
 /* line 65, ../sass/layout.sass */
 .two-sidebars .center,
 .sidebar-second .center {
-  margin-right: 200px;
+  margin-right: 245px;
 }
 
 /* line 69, ../sass/layout.sass */
 #sidebar-second {
-  width: 200px;
+  width: 245px;
 }
 
 /* Columns Inner
@@ -170,24 +170,24 @@
 /* line 151, ../sass/layout.sass */
 .two-sidebars .center,
 .sidebar-first .center {
-  margin-left: 190px;
+  margin-left: 207px;
 }
 
 /* line 155, ../sass/layout.sass */
 #sidebar-first {
-  width: 190px;
-  margin-right: -190px;
+  width: 207px;
+  margin-right: -207px; 
 }
 
 /* line 161, ../sass/layout.sass */
 .two-sidebars .center,
 .sidebar-second .center {
-  margin-right: 200px;
+  margin-right: 245px;
 }
 
 /* line 165, ../sass/layout.sass */
 #sidebar-second {
-  width: 200px;
+  width: 245px;
 }
 
 /* Columns Inner

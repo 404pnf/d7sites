@@ -189,3 +189,29 @@ function chinese_menu_local_tasks(&$variables) {
   return $output;
 
 }
+
+
+/**
+  bxy: 复写掉panels的默认css style。主要是为了不显示panel-separator
+  下面的代码来自 panels 模块中的 plugins/styles/default.inc
+*/
+
+/**
+ * Render callback.
+ *
+ * @ingroup themeable
+ */
+/**
+ * Render callback.
+ *
+ * @ingroup themeable
+ */
+function chinese_panels_default_style_render_region($vars) {
+  $output = '';
+  //$output .= implode('<div class="panel-separator"></div>', $vars['panes']);
+  $output .= implode('', $vars['panes']);
+  return $output;
+}
+
+
+
