@@ -189,3 +189,26 @@ function mlp_menu_local_tasks(&$variables) {
   return $output;
 
 }
+
+function mlp_menu_link__menu_footer_menu(array $variables) {
+  $element = $variables['element'];
+  $sub_menu = '';
+
+  if ($element['#below']) {
+    $sub_menu = drupal_render($element['#below']);
+  }
+  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+  return '<li>' . $output . $sub_menu . "</li>\n";
+}
+
+
+function mlp_menu_link__main_menu(array $variables) {
+  $element = $variables['element'];
+  $sub_menu = '';
+
+  if ($element['#below']) {
+    $sub_menu = drupal_render($element['#below']);
+  }
+  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+  return '<li>' . $output . $sub_menu . "</li>\n";
+}

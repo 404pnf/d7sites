@@ -18,13 +18,21 @@
         hide($content['links']);
         //print render($content);
 
+         // print "<pre>";
+		 // print_r($node);
+		//   print "</pre>";
+
 
 		$title = $node->title;        //新闻标题
-		$author = $node->field_news_author['und'][0]['value'];        //作者名
-		$pages = $node->field_news_from['und'][0]['value'];        //来源
+		if(isset( $node->field_news_author['und']))
+			$author = $node->field_news_author['und'][0]['value'];        //作者名
+		if(isset( $node->field_news_from['und']))
+			$from = $node->field_news_from['und'][0]['value'];        //来源
 		$publish_date= date ('Y-m-d',$node->created);        //发布日期
 		$body = $node->body['zh-hans'][0]['value'];        //内容    
-		$newsimages=$node->field_news_image['zh-hans'];
+		$newsimages=array();
+		if(isset( $node->field_news_image['zh-hans']))
+		     $newsimages=$node->field_news_image['zh-hans'];
        ?>
   	</div>
   	

@@ -91,82 +91,34 @@
         <?php endif; ?>
 
         <div id="content-area">
-
-  <!--产品列表 排序-->
-   <?php
-
-			$output ="";
-			$url = "productslist";
-			$category = arg(1);
-
-
-			$sort_by="";
-			$sort_order="";
-
-			if(isset( $_GET["sort_by"]))
-   			    $sort_by = $_GET["sort_by"];
-			
-			if(isset( $_GET["sort_order"]))
-				$sort_order = $_GET["sort_order"];
-
-
-			if($sort_order=="ASC")
-					$sort_order="DESC";
-			else
-					$sort_order="ASC";
-
-
-			$output.='<a href="/'.$url.'/'.$category;
-
-   ?>
-						<div id="booklb_title">
-							<ul>
-								<li class="strong">排序</li>
-								<li >
-								<?php
-									$orderoutput = "";
-              						$orderoutput=$output.'?sort_by=field_publish_date_value&sort_order='.$sort_order.'"';	
-									if($sort_by=="field_publish_date_value")										
-									    $orderoutput.='  class="active" ';		
-									$orderoutput.='  >出版日期</a>';
-									print  $orderoutput;
-								?>
-								</li>
-								<li>
-								<?php
-   								    $orderoutput = "";
-              						$orderoutput.=$output.'?sort_by=title&sort_order='.$sort_order.'"';	
-									if($sort_by=="title")										
-									    $orderoutput.='  class="active" ';		
-									$orderoutput.='  >书名</a>';
-									print  $orderoutput;
-								?>								
-								</li>
-								<li>
-								<?php
- 								    $orderoutput = "";
-              						$orderoutput.=$output.'?sort_by=field_price_value&sort_order='.$sort_order.'"';	
-									if($sort_by=="price")										
-									    $orderoutput.='  class="active" ';		
-									$orderoutput.='  >定价</a>';
-									print  $orderoutput;
-								?>
-								</li>
-							</ul>
-						</div>
-	  <!--/产品列表排序 -->		
-
-
-
-				<!-- 	产品列表 开始	 -->			
+			<div class="download">
+				<div class="tab">
+  				 <img src="/sites/mlp.fltrp.com/themes/custom/mlp/images/zydownload_03.jpg" alt=""/>
+				<!-- 	分类切换 开始	 -->			
 				<?php
-   				        $category = arg(1);
-			             $views_name = 'products';
-                        $display_id = 'productslist';
-                         print views_embed_view($views_name, $display_id,$category);
+			             $views_name = 'resources_category';
+                        $display_id = 'resources';
+                         print views_embed_view($views_name, $display_id);
                ?>
-	   			<!-- 	//产品列表 结束	 -->		
+	   			<!-- 	//分类切换 结束	 -->		
+				</div>
 
+
+		
+				<!-- 	资源下载 开始	 -->			
+				<div class="tabcontent">
+					<?php
+   				        $language = arg(1);
+			             $views_name = 'resources';
+                        $display_id = 'resources';
+                         print views_embed_view($views_name, $display_id,$language);
+				   ?>
+		        </div>
+	   			<!-- 	//资源下载  结束	 -->		
+	   
+
+
+        </div>
           <?php print render($page['content']) ?>
         </div>
 
