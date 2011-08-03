@@ -23,7 +23,11 @@
  * @ingroup views_templates
  */
 ?>
-
+<?php
+	print("<pre>");
+	print_r($fields);
+	print("</pre>");
+?>
 <?php
 	$resources_title=$fields['title']->raw;
 	$resources_id=$fields['nid']->content;

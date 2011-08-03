@@ -185,6 +185,8 @@
 	.category1 div a,.category2 div a{border-left:1px solid #333; padding: 0 10px; background: none; color: #404040}
 	.category1 a,.category2 a{padding: 0 20px; background:#D62937; color: #fff; font-weight:400;}
 	.enfilter_img{float: left; margin: 30px 30px 30px 0; width: 100px; height: 140px}
+	.enfilter_img input{background:#AE1E1E;border: 2px solid #DDCCCC;color: #FFFFFF;font-weight: 700;padding: 4px;text-align: center;width: 103px;}
+	.enfilter_img form .form-wrapper{ margin-top:0}
 	.filter_detail{line-height:2.4em;}
 	.enfilter_other{ padding: 30px 0 0 0}
 	.enfilter_other ul{list-style:none;}
