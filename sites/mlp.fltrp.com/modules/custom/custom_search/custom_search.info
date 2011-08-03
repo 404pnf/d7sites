@@ -1,0 +1,10 @@
+; $Id$
+name = custom_search
+description = 自定义搜索；
+package = fltrp.com
+
+
+project = 2u4u
+core = 7.x
+php = 5.0
+	
