@@ -119,15 +119,15 @@
 			$output.='<a href="/'.$url.'/'.$category;
 
    ?>
-						<div id="booklb_title">
+							<div class="tab_title">
 							<ul>
-								<li class="strong">排序</li>
+								<li >排序</li>
 								<li >
 								<?php
 									$orderoutput = "";
               						$orderoutput=$output.'?sort_by=field_publish_date_value&sort_order='.$sort_order.'"';	
 									if($sort_by=="field_publish_date_value")										
-									    $orderoutput.='  class="active" ';		
+									    $orderoutput.='  class="a" ';		
 									$orderoutput.='  >出版日期</a>';
 									print  $orderoutput;
 								?>
@@ -137,7 +137,7 @@
    								    $orderoutput = "";
               						$orderoutput.=$output.'?sort_by=title&sort_order='.$sort_order.'"';	
 									if($sort_by=="title")										
-									    $orderoutput.='  class="active" ';		
+									    $orderoutput.='  class="a" ';		
 									$orderoutput.='  >书名</a>';
 									print  $orderoutput;
 								?>								
@@ -147,7 +147,7 @@
  								    $orderoutput = "";
               						$orderoutput.=$output.'?sort_by=field_price_value&sort_order='.$sort_order.'"';	
 									if($sort_by=="price")										
-									    $orderoutput.='  class="active" ';		
+									    $orderoutput.='  class="a" ';		
 									$orderoutput.='  >定价</a>';
 									print  $orderoutput;
 								?>

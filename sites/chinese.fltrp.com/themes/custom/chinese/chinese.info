@@ -28,11 +28,14 @@ features[] = favicon
 features[] = main_menu
 features[] = secondary_menu
 
+
+stylesheets[all][] = css/index.css
 stylesheets[all][] = css/default.css
 stylesheets[all][] = css/layout.css
 stylesheets[all][] = css/style.css
 stylesheets[all][] = css/chinese.css
 stylesheets[print][] = css/print.css
+
 
 settings[basic_tabs] = 1
 settings[basic_breadcrumb_separator] = »

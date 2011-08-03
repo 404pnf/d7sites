@@ -39,3 +39,4 @@
           <li> 出版日期: <?php print $fields['field_publish_date']->content; ?></li>
   </ul>
 </div>
+

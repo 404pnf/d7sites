@@ -51,6 +51,8 @@
  if(stristr($current_path,'newsdetails/')||stristr($current_path,'resource/'))
 			   $custom_style_file ='/css/article.css';
 
+ if(stristr($current_path,'productslist/')||stristr($current_path,'product/')||stristr($current_path,'products/'))
+			   $custom_style_file ='/css/product.css';
 
 if(!empty($custom_style_file)){
     $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','mlp').$custom_style_file.'");</style>';

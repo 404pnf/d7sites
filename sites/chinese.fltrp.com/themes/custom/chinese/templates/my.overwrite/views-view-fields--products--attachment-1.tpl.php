@@ -1,3 +1,5 @@
+
+
 <?php
 /**
  * @file views-view-fields.tpl.php
@@ -24,24 +26,11 @@
  */
 ?>
 
+<div class="tuijian_img">
+  <?php print $fields['field_img']->content;?>
+</div>
 
-
-<?php
-	$resources_title=$fields['title']->raw;
-	$resources_id=$fields['nid']->content;
-	$resources_url=$fields['field_url']->content;
-	$resources_term=$fields['term_node_tid']->content;
-	$resources_real_url="";
-	
-	if (!empty($resources_url)){	
-		$resources_real_url=$resources_url;
-	}
-	else
-	{
-		 $resources_base_url ='resource/';
-		 $resources_real_url = $resources_base_url.$resources_id; 
-	}
-		
-    print $resources_term;
-	print  l($resources_title,$resources_real_url);
-?>
+<div class="tuijian_info">
+   <?php print $fields['title']->content; ?>
+   <?php print $fields['field_author']->content;?>
+</div>

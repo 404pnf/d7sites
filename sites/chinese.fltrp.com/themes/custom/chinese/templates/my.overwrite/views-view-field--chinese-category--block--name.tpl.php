@@ -21,7 +21,7 @@
 ?>
 <?php 
  $category=$row->tid;
- $path='category='.$category;
+ $path='list?category='.$category;
 ?>
  
 <?php
