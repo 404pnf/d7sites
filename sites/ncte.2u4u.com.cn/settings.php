@@ -192,8 +192,13 @@ $databases['default']['default'] = array(
 //    			'authmap'   => 'ncec.',
   			),
  );
-// set db connection to d6 sites. '2u4u' is the db name zhanglin called in his moudle
- $databases['2u4u']['default'] = array(
+/* set db connection to d6 sites. '2u4u' is the db name zhanglin called in his moudle
+   由于ncte报名系统是一个封闭系统，不允许一般悠游网和外研社网站用户使用
+   且并不集成到统一用户平台，因此也没有必要检测其注册用户是否在d6站点有注册重名现象。
+   且当本周d6也集成到用户统一系统时，所有站点都不需要下面这些行了。
+*/
+
+ /*$databases['2u4u']['default'] = array(
  	'driver' => 'mysql',
         'database' => '2u4u',
  	'username' => 'zl',
@@ -201,7 +206,7 @@ $databases['default']['default'] = array(
  	'host' => '221.122.115.57',
         'port' => '3306',
   );
-
+*/
 
 
 
