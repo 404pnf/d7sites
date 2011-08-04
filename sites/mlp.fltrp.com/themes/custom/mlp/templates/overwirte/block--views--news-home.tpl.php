@@ -4,7 +4,7 @@
       <?php print render($title_prefix); ?>
     <?php if ($block->subject): ?>
 	<div class="textlist">
-	  <h1 id="" class="blocktitle"><?php print $block->subject ?><a href="news" class="more">更多>></a></h1>
+	  <h1 id="" class="blocktitle"><a href="news" class="more">更多>></a><?php print $block->subject ?></h1>
 	  </div>
     <?php endif;?>
       <?php print render($title_suffix); ?>

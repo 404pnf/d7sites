@@ -1,9 +1,11 @@
 /* 产品页面*/
 #content-inner{ margin: 0 100px; float: none; display: block;}
 .tab{ border-bottom: 1px solid #999;overflow: auto;*height:46px}
-.tab img{ margin: 10px; float: left; display: block;}
-.tab ul li{ float: left;background: url("../images/tableft.gif") no-repeat left 0; padding:8px 0 5px 7px;margin: 4px 0 0 6px}
+.tab img{ margin: 10px; float: left; display: block;_margin-left:5px;}
+.tab ul{margin: 0 0 0.75em;padding: 0;}
+.tab ul li{ float: left;background: url("../images/tableft.gif") no-repeat left 0; padding:8px 0 5px 7px;margin: 4px 0 0 6px;margin-top:7px\9; *+margin-top:19px;_margin-top:17px; }
 .tab ul li a{background: url("../images/tabright.gif") no-repeat right 0; padding: 8px 7px 5px 0; color: #404040;}
+.tab ul li a.active{color: #DD0108;font-weight: 700;}
 .tabcontent{ margin: 34px 56px 0}
 .tabcontent h2{ margin-bottom: .6em;}
 .tabcontent h2 a{ font-size: 14px; color:#B60103 }
