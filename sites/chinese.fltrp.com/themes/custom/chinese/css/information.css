@@ -1,45 +1,35 @@
-/*资讯中心细化样式*/
+/* 资讯页面*/                                                                                                                               
+#content-inner{ width:680px; margin-right: 240px; margin-left: 30px}                                                                        
+#sidebar-second{ width: 220px;  margin-left: -220px; margin-right: 14px; margin-top:30px}                                                   
+#sidebar-second-inner{ background: #F6F6F6; border: 1px solid #ccc; width: 204px; text-align: center; padding-bottom: 6px}                  
+#sidebar-second-inner .ad img{ margin: auto}                                                                                                
+#sidebar-second-inner .ad{ margin-top: 6px;}                                                                                                
+/*.textlist{ overflow: auto;*margin-top:14px;margin:50px auto 30px} */
+.textlist{ overflow: auto;*margin-top:14px;margin:2em auto 30px} */
+.textlist ul{ margin:5px; overflow: auto;font-size:14px; padding-top: 10px}                                                                 
+.textlist ul li{background: url("../images/blackpoint.gif") no-repeat 0 17px;text-indent:.8em;}                                             
+.textlist ul li a{ color:#666; line-height: 2.2em;}                                                                                         
+.textlist ul li a:hover{ color: #9B1E00}                                                                                                    
+h2.hyinfotitle{ height:23px; overflow: hidden;text-indent:-99em;position: relative; width:100%;}
+h2.hyinfotitle {background: url("../images/hyinfo_title20110803.jpg") no-repeat;}                                                    
+h2.hyinfotitle .more{position: absolute;text-indent:0;top:12px;right:0; font-weight:400; color: #404040;font-size:12px;}                         
+.textlist li span{ color: #a9a9a9; font-size: 12px;}                                                                                        
+/*资讯焦点图片列表*/                                                                                                                        
+.imglist{ background-image: url("../images/new20110803.gif"); background-repeat: no-repeat; border: 1px solid #E4E4E4; overflow: auto;_zoom:1; background-color: #F8F9FB; margin-top:30px; *padding-bottom: 10px;}                                                                      
+.imglist{margin-bottom: 2em;}
+.imglistcontent img{float: left;margin: 16px 16px 16px;}                                                                                    
+.imglistcontent h3{margin-top: 20px; margin-bottom: .9em;}                                                                                  
+.imglistcontent h3 a{ color: #CB2411;}                                                                                                      
+.imglistcontent p{ color: #666; font-size: 12px; line-height: 1.6em; padding:  0 10px; margin-bottom: 0.2em;}                               
+.imglistcontent{margin: 20px 0 10px 15px;}                                                                                      
 
-#sidebar-second{ width: 200px; border: 1px solid #d7d7d7; background: #f6f6f6;}
-#content-inner{ margin-right: 226px; width: 740px;}
-#breadcrumb{ height: 40px;}
-#pagenum{ padding: 30px 140px 0;}
+.imglist li {width: 320px; float:left;}
 
-/*资讯焦点 news*/
-#news{ background: url("../images/info_new20110627.jpg") no-repeat; border: 1px solid #eee; border-top:none; overflow: auto;_zoom:1; }
-.imgnews img{float: left;margin: 16px 16px 0;}
-.imgnews h3{margin-top: 20px; margin-bottom: .9em;}
-.imgnews h3 a{ color: #8a0200;}
-.imgnews p{ color: #404040; font-size: 12px; line-height: 1.6em; padding:  0 10px; margin-bottom: 0.2em;}
-.imgnews{ border-right: 1px solid #eee; margin: 20px 3px 10px; width: 49%;}
 
-/*资讯分类列表 newslist*/
-.newslist {margin-top: 26px;}
-.newslist h2{ height:23px; overflow: hidden;text-indent:-99em;position: relative; width:100%; }
-.newslist .wysxw{background: url("../images/info_newstitle20110627.gif") no-repeat;}
-.newslist .jxky{background: url("../images/info_newstitle20110627.gif") no-repeat 0 -23px;}
-.newslist .cpzx{background: url("../images/info_newstitle20110627.gif") no-repeat 0 -46px;;}
-.newslist .hdss{background: url("../images/info_newstitle20110627.gif") no-repeat 0 -69px;;}
-.newslist .more{position: absolute;text-indent:0;top:8px;right:0; font-weight:400; color: #404040;font-size:12px;*+top:6px;}
-.newslist li{ line-height: 32px; background:url("../images/blackpoint.gif") no-repeat .4em 50% ; text-indent:1.8em;}
-.newslist li a{ color: #272727; margin-right: 12px;font-size:14px;}
-.newslist li span{ color: #a9a9a9; font-size: 12px;}
-.ad{ width: 186px; height: 100px; overflow: hidden; margin: 10px auto;}
-
-/*资讯页面 article*/
-.redborder{ border: 1px solid #EFD9DB;}
-.articletitle{ text-align: center; font-size: 26px; margin-top: 40px;}
-.articledate{ display: block; margin: 10px 20px 30px; text-align: right; color: #999; font-size: 12px; border-bottom: 1px dashed #ddd; padding-bottom: 14px}
-.articlecontent{ margin: 20px 40px; font-size: 14px;}
-.articlecontent p{ text-indent:2em; line-height:2em;}
-.articlecontent img{ margin-bottom: 1.5em;}
-#share{margin: 20px 20px; text-align: right; padding:20px 30px; border-bottom: 1px dashed #ddd; font-weight:700;width:640px;}
-#share span{}
-.shareto_toolbox {float: right; text-align: right; display: inline;}
-
-/* 相关新闻relatednews*/
-.relatednews{ margin: 10px 50px; padding-bottom: 20px}
-.relatednews h3{ margin-bottom: .8em;}
-.relatednews li{ line-height:1.9em; background:url("../images/blackpoint.gif") no-repeat .4em 50% ; text-indent:1.8em; font-size: 12px;}
-.relatednews li a{ color: #333;}
-
+/* 资讯文章页*/                                                                                                                             
+.redborder{ border: 1px solid #EFD9DB; margin-top: 30px; margin-left: 10px!important; width: 730px!important; padding-bottom: 40px}         
+.articletitle{ text-align: center; font-size: 26px; margin-top: 40px;}                                                                      
+.articledate{ display: block; margin: 10px 20px 30px; text-align: right; color: #999; font-size: 12px; border-bottom: 1px dashed #ddd; padding-bottom: 14px}                                                                                                                            
+.articlecontent{ margin: 20px 40px;}                                                                                                        
+.articlecontent p{ text-indent:2em; line-height:2em;}                                                                                       
+                                                           

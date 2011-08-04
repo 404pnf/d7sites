@@ -1,6 +1,8 @@
+
+
 <?php
 /**
- * @file views-view-fields.tpl.php 
+ * @file views-view-fields.tpl.php
  * Default simple view template to all the fields as a row.
  *
  * - $view: The view in use.
@@ -24,13 +26,11 @@
  */
 ?>
 
-
-<div class="imgbg">
-       <?php print $fields['field_training_image']->content;?>
-      <a href="<?php print $fields['field_training_url']->content;?>"><img src="http://chinese.fltrp.com/sites/chinese.fltrp.com/files/page_image/fei.gif"></a>
+<div class="tuijian_img">
+  <?php print $fields['field_img']->content;?>
 </div>
 
-   <div class="productname"> 
-       <?php print $fields['title']->content; ?>
-   </div>
-       <?php print $fields['field_training_ename']->content;?>
+<div class="tuijian_info">
+   <?php print $fields['title']->content; ?>
+   <?php print $fields['field_author']->content;?>
+</div>

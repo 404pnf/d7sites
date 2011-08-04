@@ -17,7 +17,7 @@
 .training li a{color: #000;}
 .training li a h2{ margin-bottom: 10px}
 /*编辑推荐  recommendation*/
-.recommendation{overflow:hidden; width:728px;height:110px;border: 1px solid #fee9b9; margin:20px 0 16px; background-image:url("../images/tuijian20110623.gif"); background-color:#FFFEF7; background-repeat: no-repeat; position: relative;}
+.recommendation{overflow:hidden; width:728px;height:160px;border: 1px solid #fee9b9; margin:20px 0 16px; background-image:url("../images/tuijian20110623.gif"); background-color:#FFFEF7; background-repeat: no-repeat; position: relative;}
 .recommendation .fleft{background:url("../images/lrb_03.jpg") 0 -22px; width:23px; height: 23px; position: absolute; top:44px;left:60px;}
 .recommendation .fright{background:url("../images/lrb_03.jpg"); width:23px; height: 23px; position: absolute;top:44px;left:680px; }
 .srlist{ width: 760px;}
@@ -67,4 +67,12 @@ p.sel a.active{ background:#C5292D; color: #fff;}
 
 /* 培训 */
 
+
+
+/*产品列表页面pager*/
+
+.pagenum .pager li{border: 1px solid #DDDDDD;;}
+
+
+.productlist .views-row-last {border:none!important;}                         /*去除元素边*/
 

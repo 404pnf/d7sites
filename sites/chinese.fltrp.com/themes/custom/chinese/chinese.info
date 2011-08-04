@@ -33,8 +33,6 @@ stylesheets[all][] = css/layout.css
 ;stylesheets[all][] = css/style.css
 stylesheets[all][] = css/global.css
 stylesheets[all][] = css/common.css
-stylesheets[all][] = css/index.css
-stylesheets[all][] = css/product.css
 stylesheets[all][] = css/chinese.css
 
 

@@ -26,17 +26,14 @@
  * @ingroup views_templates
  */
 ?>
-<div class="editor-recommand">
                    <?php
                         $views_name = 'products';
                         $display_id = 'attachment_1';
                          print views_embed_view($views_name, $display_id);
                    ?>
-</div>
 
 
 
-<div class="current-category">
                    <?php
                         $category = $_GET["category"];
                         $views_name = 'chinese_category';
@@ -44,7 +41,6 @@
                          print views_embed_view($views_name, $display_id,$category);
                    ?>
      
-</div>
 
 
   <?php  
@@ -64,7 +60,7 @@
   ?>
 
 
-  <div id="booklb_title">
+  <div class="tab">
         <ul>
            <li class="strong">排序</li>
            <li><?php
@@ -119,7 +115,9 @@
   <?php endif; ?>
 
   <?php if ($pager): ?>
+   <div class="pagenum row">
     <?php print $pager; ?>
+   </div>
   <?php endif; ?>
 
   <?php if ($attachment_after): ?>
