@@ -1,0 +1,165 @@
+/*--------产品中心 > 图书 > 品牌教程 最佳组合滚动效果----------*/
+
+/* this makes it possible to add next button beside scrollable */
+.scrollable {
+	float:left;	
+}
+
+/* prev, next, prevPage and nextPage buttons */
+a.browse {
+    background: url("/static/images/hori_large.png") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    display: block;
+    font-size: 1px;
+    height: 30px;
+    margin: 40px 10px;
+    top: 80px;
+    width: 30px;
+    z-index: 999;
+}
+/* right */
+a.right {
+    background-position: 0 -30px;
+    clear: right;
+    margin-right: 0;
+    position: absolute;
+    right: 40px;
+}
+a.right:hover 		{ background-position:-30px -30px; }
+a.right:active 	{ background-position:-60px -30px; } 
+
+
+/* left */
+a.left {
+    left: 5px;
+    margin-left: 0;
+    position: absolute;
+}
+a.left:hover  		{ background-position:-30px 0; }
+a.left:active  	{ background-position:-60px 0; }
+
+/* up and down */
+a.up, a.down		{ 
+	background:url("/static/images/vert_large.png") no-repeat; 
+	float: none;
+	margin: 10px 50px;
+}
+
+/* up */
+a.up:hover  		{ background-position:-30px 0; }
+a.up:active  		{ background-position:-60px 0; }
+
+/* down */
+a.down 				{ background-position: 0 -30px; }
+a.down:hover  		{ background-position:-30px -30px; }
+a.down:active  	{ background-position:-60px -30px; } 
+
+
+/* disabled navigational button */
+a.disabled {
+	visibility:hidden !important;		
+} 	
+
+
+/*
+	root element for the scrollable.
+	when scrolling occurs this element stays still.
+*/
+.scrollable {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    clear: both;
+    height: 230px;
+    left: 45px;
+    overflow: hidden;
+    position: relative;
+    width: 600px;
+}
+
+/*
+	root element for scrollable items. Must be absolutely positioned
+	and it should have a extremely large width to accomodate scrollable items.
+	it's enough that you set the width and height for the root element and
+	not for this element.
+*/
+.scrollable .items {
+	/* this cannot be too large */
+	width:20000em;
+	position:absolute;
+	clear:both;
+}
+
+.items div.views-row {
+	float:left;
+	/*width:680px;*/
+}
+/*
+.items div.views-row span{
+	margin:20px 5px 10px 21px;
+}
+*/
+/* single scrollable item */
+.scrollable img {
+	float:left;
+	margin:20px 5px 10px 21px;
+	background-color:#fff;
+	padding:2px;
+	border:1px solid #ccc;
+	
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+}
+
+/* active item */
+.scrollable .active {
+	border:2px solid #000;
+	position:relative;
+	cursor:default;
+}
+
+
+
+/* position and dimensions of the navigator */
+.navi {
+	margin-left:328px;
+	width:200px;
+	height:20px;
+}
+
+
+/* items inside navigator */
+.navi a {
+	width:8px;
+	height:8px;
+	float:left;
+	margin:3px;
+	background:url(navigator.png) 0 0 no-repeat;
+	display:block;
+	font-size:1px;
+}
+
+/* mouseover state */
+.navi a:hover {
+	background-position:0 -8px;      
+}
+
+/* active state (current page state) */
+.navi a.active {
+	background-position:0 -16px;     
+}
+
+
+#bestgroup-content {
+    clear: both;
+    position: relative;
+    height:280px;
+}
+
+#bestgroup-items div.views-row a{
+	text-indent:1.6em;
+	color: #404040;
+	display: block;
+	width:146px;
+	font-size: 12px;
+}
+
