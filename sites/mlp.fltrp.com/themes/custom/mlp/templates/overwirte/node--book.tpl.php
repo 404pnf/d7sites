@@ -157,3 +157,8 @@ span.stico_tqq{
 </div> <!-- /node-->
 
 <?php print render($content['comments']); ?>
+
+<!--内容，章节目录切换-->
+<SCRIPT type="text/javascript" src="/static/js/book.js"></SCRIPT>
+
+	<!--//内容，章节目录切换-->

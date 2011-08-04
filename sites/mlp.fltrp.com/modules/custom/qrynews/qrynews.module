@@ -1,0 +1,195 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * 实现publisher字段的迁移.
+ */
+ 
+ /**
+ * 实现钩子hook_menu().
+ */
+function qrynews_menu() {
+
+  $items['admin/config/development/qrynews'] = array(
+    'title'            => 'qrynews',
+    'page callback'    => 'drupal_get_form',
+	  'page arguments'    =>  array('qrynews_generate_news_form'),
+    'access arguments' => array('administer site configuration'),
+    'weight'           => 1,   
+  );
+	$items['admin/config/development/qrynews/generate'] = array(
+    'title'            => '旧网新闻同步',
+    'page callback'    => 'drupal_get_form',
+	  'page arguments'    =>  array('bookotype_generate_relation_form'),
+    'access arguments' => array('administer site configuration'),
+		'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight'           => 1,   
+  );
+
+	$items['admin/config/development/qrynews/config'] = array(
+    'title'            => '配置',
+    'page callback'    => 'drupal_get_form',
+	  'page arguments'    =>  array('qrynews_config_form'),
+    'access arguments' => array('administer site configuration'),
+		'type' => MENU_LOCAL_TASK,
+		'file' => 'qrynews.pages.inc',
+    'weight'           => 3,   
+  );
+ 	
+  return $items;
+}
+function qrynews_generate_news_form(){
+	
+	$form['submit'] = array(
+		'#type' =>'submit',
+		'#value' => t('旧网新闻资源同步'),
+	);
+	/*
+	$form['test'] = array(
+		'#value' => t('迁移'),
+	);
+	*/
+	return $form;
+}
+
+function qrynews_generate_news_form_submit($form,&$form_state){
+	//$types = array_filter($form_state['values']['types']);
+	$batch =array(
+		'operations' => array(
+		  array('qrynews_generate_news_process',array()),
+		  ),
+		'finished' => 'qrynews_generate_news_finished',
+		'title' => t('迁移FLTRP新闻资源数据'),
+		'init_message' => t('开始批量迁移.'),
+		//'progress_message' => t('Reindexed @current out of @total.'),
+		'error_message' => t('批量迁移遇到错误.'),
+	);
+	batch_set($batch);
+}
+
+function qrynews_generate_news_process(&$context){
+	$size =1;
+	$qrynews_vid = variable_get('qrynews_vid','');
+	$qrynews_machine_name = variable_get('qrynews_machine_name','');
+	$qrynews_cid = variable_get('qrynews_cid','');
+	$qrynews_content_type = variable_get('qrynews_content_type','');
+	$qrynews_field = variable_get('qrynews_field','');
+
+	/*
+	$vid = 8;
+	$vocabulary_name = "";
+	
+	$vid_result = db_select('taxonomy_vocabulary', 'tv')
+			->fields('tv', array('vid'))
+			->condition('tv.machine_name', $vocabulary_name, '=')
+			->execute()
+			->fetchAssoc();
+			
+	$vid = $vid_result['vid'];
+	*/
+	//$types_str ='story,page';
+	//$types_str = "'".implode("','", $types)."'";
+	if(!isset($context['sandbox']['progress'])){
+		$context['sandbox']['progress'] = 0;
+		$context['sandbox']['last_tid'] = 0;
+		$context['sandbox']['max'] =
+      db_select('taxonomy_term_data', 'ttd')
+			->condition('ttd.vid', $qrynews_vid)
+			->countQuery()
+			->execute()
+			->fetchField();
+			//drupal_set_message('max:'.$context['sandbox']['max']);
+		
+	}
+	
+	$query = db_select('taxonomy_term_data', 'ttd')
+		->fields('ttd', array('tid'))
+		->condition('ttd.vid', $qrynews_vid)
+		->condition('ttd.tid', $context['sandbox']['last_tid'], '>')
+		->orderBy('ttd.tid', 'ASC')
+		->range(0, $size);
+		
+	$result = $query->execute();
+	//drupal_set_message('tname:12233455');
+	foreach ($result as $record) { 
+	  //drupal_set_message('tid:'.$record->tid);
+	  //根据tid加载term
+	  $tid = $record->tid;
+		$term = taxonomy_term_load($tid);
+		//找到该term的cid
+		$cid = $term->{$qrynews_cid}['und'][0]['value'];
+		//drupal_set_message('cid:'.$cid);
+	
+		Database::getConnection('default', 'data')->query('set names latin1');
+		$query1 = Database::getConnection('default', 'data')
+	  ->select('qrynews_pn', 'q')
+		->fields('q', array('subject', 'url', 'idate', 'sno','cntno', 'issuesites'))
+		->condition('q.issuesites', '%'.$cid.'%', 'LIKE');
+    $result1 = $query1->execute();
+	  foreach ($result1 as $record1) { 
+		  //drupal_set_message('idate:'.$record1->idate);
+		  $issuesites_array = explode(',', $record1->issuesites);
+			if(in_array($cid,$issuesites_array)){
+			  $node = new stdClass;
+				$node->uid = 1;
+				$node->type = $qrynews_content_type;
+				$node->language = 'zh-hans';
+				$node->created = strtotime($record1->idate);
+				$record1->subject = iconv('EUC-CN',"UTF-8//IGNORE",$record1->subject) ; //iconv转换
+				$node->title = filter_xss($record1->subject); 
+				$node->{$qrynews_field}['zh-hans'][0]['tid'] = $tid;
+				
+				//drupal_set_message('title:'.$node->title);
+				
+				$field_url = str_replace('www.fltrp.com','old.fltrp.com',$record1->url);
+				$node->field_url['zh-hans'][0]['value'] = $field_url;
+				
+				//drupal_set_message('field_url:'.$field_url);
+				if(empty($field_url)){
+					$date = explode('-', $record1->idate);
+					$year = $date[0];
+					$month = $date[1];
+					if(substr($month,0,1) =='0'){
+					  $month = substr($month,1,1);
+					}
+					$url = 'http://www.fltrp.com/data/'.$year.'/'.$month.'/'.$record1->cntno.'.txt';
+					$body = file_get_contents($url);
+					$body = iconv('EUC-CN',"UTF-8//IGNORE",$body) ; //iconv转换
+					$body = str_replace('www.fltrp.com', 'old.fltrp.com', $body);
+					
+					$node->body['zh-hans'][0]['value'] = $body;
+					$node->body['zh-hans'][0]['format'] = 'full_html';
+					//drupal_set_message('body:'.$body);
+				}
+				node_save($node);
+			}
+		  
+		}
+		
+	  $context['sandbox']['progress']++;
+	  $context['sandbox']['last_tid'] = $record->tid;
+	}
+
+	if($context['sandbox']['progress'] ==$context['sandbox']['max']){
+		$context['finished'] = 1;
+	}else{
+		$context['finished'] = $context['sandbox']['progress']/$context['sandbox']['max'];
+	}
+		
+}
+
+function qrynews_generate_news_finished($success, $results, $operations){
+	if ($success) {
+		// Here we do something meaningful with the results.
+		$message = t('迁移FLTRP新闻资源数据完成');
+		
+	}
+	else {
+		// An error occurred.
+		// $operations contains the operations that remained unprocessed.
+		$error_operation = reset($operations);
+		$message = '在迁移FLTRP新闻资源数据时出现一个错误'. $error_operation[0] .' 其参数为 :'. print_r($error_operation[0], TRUE);
+	}
+	drupal_set_message($message);
+}
