@@ -75,9 +75,10 @@
 		</div>							
 	</div>
 	<!--  文章内容 结束-->
+
 	<!--  分享开始  -->
 						<!--分享到----开始------>
-<div class="wrapper">
+
 	<div id="share">
 		<span>分享到:</span>
 <style>
@@ -98,12 +99,13 @@ span.stico_tqq{
 <script type="text/javascript" src="http://s.shareto.com.cn/js/shareto_button.js" charset="utf-8"></script>
 <!-- ShareTo Button END -->
 
-								</div>
-							</div>
+	</div>
+
 <!--分享到----结束--->	
-						<!--  分享结束  -->
-                 </div>
-  	  <!--  文章内容 结束-->
+<!--  分享结束  -->
+
+
+
     <?php if (!empty($content['links']['terms'])): ?>
       <div class="terms"><?php print render($content['links']['terms']); ?></div>
     <?php endif;?>

@@ -53,7 +53,6 @@
 			    $education_tids.='+'.$education['tid'];
             $i++;
 		}
-
        ?>
 	   <div id="bookinfo">
 							<h1><?php print $title?></h1>

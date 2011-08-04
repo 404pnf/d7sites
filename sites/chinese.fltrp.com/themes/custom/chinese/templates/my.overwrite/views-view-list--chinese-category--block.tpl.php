@@ -1,3 +1,5 @@
+
+
 <?php
 /**
  * @file views-view-list.tpl.php
@@ -10,11 +12,17 @@
 ?>
 <?php print $wrapper_prefix; ?>
   <?php if (!empty($title)) : ?>
-    <h3><?php print $title; ?></h3>
+   <ul class="outul">
+         <li>
+             <span><?php print $title; ?></span>
+         </li>
+   </ul>
   <?php endif; ?>
   <?php print $list_type_prefix; ?>
     <?php foreach ($rows as $id => $row): ?>
-      <li><?php print $row; ?></li>
+      <li class="<?php print $classes_array[$id]; ?>"><?php print $row; ?></li>
     <?php endforeach; ?>
   <?php print $list_type_suffix; ?>
 <?php print $wrapper_suffix; ?>
+
+

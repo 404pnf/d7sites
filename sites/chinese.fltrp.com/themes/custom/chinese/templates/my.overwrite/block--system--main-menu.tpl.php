@@ -7,6 +7,6 @@
 
 */
 ?>
-<div id="nav">
+<div class="logoNav">
   <?php print $content; ?>
 </div>

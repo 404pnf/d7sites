@@ -127,16 +127,16 @@ span.stico_tqq{
 							$views_name = 'products';
 	                        $display_id = 'recommended_series';
 							$views_parameter1=$seriestid ;
-							//$views_parameter2=$nid ;						
+							$views_parameter2=$nid ;						
 						}else{
 							$views_name = 'products';
 	                        $display_id = 'recommended_education';
 							$views_parameter1=$education_tids ;
-							//$views_parameter2=$nid ;
+							$views_parameter2=$nid ;
 						}
 
 						
-						print views_embed_view($views_name, $display_id,$views_parameter1);
+						print views_embed_view($views_name, $display_id,$views_parameter1,$views_parameter2);
 						 ?>
 								</div>
 							</div>

@@ -19,7 +19,8 @@ body{ background: url("../images/badybg20110726.jpg") repeat;}
 /* sidebar-first */
 #sidebar-first{ width: 226px; margin-right: -226px}
 #sidebar-first-inner{margin: 0 12px; width: 202px;}
-.page-home #sidebar-first-inner .outul li, .page-products #sidebar-first-inner .outul li{line-height:32px;text-indent:2em; height: 32px;background: url("../images/zysiderbarbg20110726.gif") repeat-x; border: 1px solid #BCBCBC; margin-top:8px}
+.page-home #sidebar-first-inner .outul li, 
+.page-products #sidebar-first-inner .outul li{line-height:32px;text-indent:2em; height: 32px;background: url("../images/zysiderbarbg20110726.gif") repeat-x; border: 1px solid #BCBCBC; margin-top:8px}
 #sidebar-first-inner .outul li a{ color: #000}
 #sidebar-first-inner .outul li.active{background: url("../images/zysidebarbg_green20110627.gif") repeat-x;}
 #sidebar-first-inner h1{ margin:18px}

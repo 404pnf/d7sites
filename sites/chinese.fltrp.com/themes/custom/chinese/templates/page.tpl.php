@@ -31,25 +31,16 @@ if(!empty($node) && $node->type == 'page'){
 	</div>
    <?php endif; ?>  
 
-   <?php if ($main_menu || $secondary_menu): ?>
-      <div id="navigation" class="menu <?php if (!empty($main_menu)) {print "with-primary";} if (!empty($secondary_menu)) {print " with-secondary";} ?>">
-        <?php print theme('links', array('links' => $main_menu, 'attributes' => array('id' => 'primary', 'class' => array('links', 'clearfix', 'main-menu')))); ?>
-        <?php print theme('links', array('links' => $secondary_menu, 'attributes' => array('id' => 'secondary', 'class' => array('links', 'clearfix', 'sub-menu')))); ?>
-      </div>
-   <?php endif; ?>
-
-
   
   <!-- ______________________ HEADER _______________________ -->
 
   <div id="header">
-
-    <?php if ($logo): ?>
+      <?php if ($logo): ?>
       <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo">
         <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>"/>
       </a>
     <?php endif; ?>
-
+    <!-- comment 
     <?php if ($site_name || $site_slogan): ?>
       <div id="name-and-slogan">
 
@@ -71,10 +62,11 @@ if(!empty($node) && $node->type == 'page'){
 
       </div>
     <?php endif; ?>
+       end comment -->  
 
     <?php if ($page['header']): ?>
       <div id="header-region">
-        <?php print render($page['header']); ?>
+                 <?php print render($page['header']); ?>         
       </div>
     <?php endif; ?>
 
@@ -101,11 +93,11 @@ if(!empty($node) && $node->type == 'page'){
             <?php if ($page['highlight']): ?>
               <div id="highlight"><?php print render($page['highlight']) ?></div>
             <?php endif; ?>
-
+            <!-- comment 
             <?php if ($title): ?>
               <h1 class="title"><?php print $title; ?></h1>
             <?php endif; ?>
-
+            -->
             <?php print $messages; ?>
             <?php print render($page['help']); ?>
 
@@ -128,6 +120,17 @@ if(!empty($node) && $node->type == 'page'){
 
       </div>
     </div> <!-- /content-inner /content -->
+   
+    <!--- commented 
+    <?php if ($main_menu || $secondary_menu): ?>
+      <div id="navigation" class="menu <?php if (!empty($main_menu)) {print "with-primary";} if (!empty($secondary_menu)) {print " with-secondary";} ?>">
+        <?php print theme('links', array('links' => $main_menu, 'attributes' => array('id' => 'primary', 'class' => array('links', 'clearfix', 'main-menu')))); ?>
+        <?php print theme('links', array('links' => $secondary_menu, 'attributes' => array('id' => 'secondary', 'class' => array('links', 'clearfix', 'sub-menu')))); ?>
+      </div>
+    <?php endif; ?>
+      end  comment -->
+
+
 
 
     <?php if ($page['sidebar_first']): ?>

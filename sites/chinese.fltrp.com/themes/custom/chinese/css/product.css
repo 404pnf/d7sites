@@ -1,0 +1,70 @@
+
+
+
+/* 产品首页*/
+#content-inner{ width:730px; margin-left: 240px}
+.productlist{ overflow: auto}
+.productlist li{ border-bottom: 1px dashed #999; padding: 25px 0; overflow: auto; font-size: 12px;_zoom:1;*+height:164px}
+.productlist li a{ display: block; color: #FF6602; padding-right: 2em;}
+.productlist li p{color: #999;line-height:1.4em; margin: 0;}
+.productlist li img{ float: left; margin-right: 15px;}
+.productlist li.column{ width: 98%;}
+.productlist li.column2{ margin:0 0 0 2px; width: 48%;}
+.training .imgbg{background:url("../images/imgbg.gif") no-repeat 0 0; width: 104px; height: 100px; float: left; margin-right:20px}
+.training .imgbg img{ margin: 6px 9px 10px }
+.training li{border-bottom: 1px dashed #DDDDDD;}
+.training li p{ color: #000; margin-bottom: 10px;}
+.training li a{color: #000;}
+.training li a h2{ margin-bottom: 10px}
+/*编辑推荐  recommendation*/
+.recommendation{overflow:hidden; width:728px;height:110px;border: 1px solid #fee9b9; margin:20px 0 16px; background-image:url("../images/tuijian20110623.gif"); background-color:#FFFEF7; background-repeat: no-repeat; position: relative;}
+.recommendation .fleft{background:url("../images/lrb_03.jpg") 0 -22px; width:23px; height: 23px; position: absolute; top:44px;left:60px;}
+.recommendation .fright{background:url("../images/lrb_03.jpg"); width:23px; height: 23px; position: absolute;top:44px;left:680px; }
+.srlist{ width: 760px;}
+.srlist ul{ overflow: auto;margin: 0 30px 0 80px;}
+.srlist ul li.column3{ float: left; margin: 0;width: 31%;} 
+.srlist ul li a{ display: block; font-size: 12px ;color: #666;}
+.srlist ul li p{padding-top: 20px;}
+.srlist ul li a img{ float: left; margin: 10px;}
+
+/* 产品列表*/
+.tab{height:32px; border: 1px solid #DFDFDF; background: url("../images/booklb_title20110622.jpg");}
+.tab li{ float: left; padding: 9px 30px; border-right:1px solid #ccc; font-size: 12px; position: relative;}
+.tab li.strong{ font-weight: 700; font-size: 14px;overflow: hidden;padding: 8px 30px;}
+.tab li.active{ background: #ba0006; color: #FFF; font-weight: 700;z-index:0;height:14px; }{height:32px; border: 1px solid #DFDFDF; background: url("../images/booklb_title20110622.jpg"); margin-left: 10px;}
+.tab li{ float: left; padding: 9px 30px; border-right:1px solid #ccc; font-size: 12px; position: relative;}
+.productlist .productname{font-size:13px; padding-bottom: 6px;}
+.productlist p{ color: #848484; line-height:1.8em;}
+.productlist b{ color: #848484; }
+.productlist .buy{margin-top: 15px;} 
+.productlist .buy a{ display: inline;}
+.hy-title{ position: relative; height: 25px; border-bottom: 2px solid #D3D6DB; margin-bottom: 16px}
+.hy-title .titlecontent{position: absolute; height: 25px;border-bottom: 2px solid #9C6701; width: 120px}
+.hy-title h2{ color: #9C6701 ; border-left: 2px solid #9C6701; padding-left:10px; margin-left:6px }
+
+/* 产品页面*/
+.productimg{padding:15px; border: 1px solid #ddd; float: left; margin: 10px 40px 10px 10px;display: inline;}
+.productinfo p{ font-size: 12px; color: #505050; margin: 1.2em 0 0 0;}
+.productinfo p.pfrist{ margin-top: 3em;}
+.productinfo h1{ margin: 24px 10px 5px 15px}
+.share{border: 1px solid #ddd; width: 195px; margin-left:10px; height: 30px; margin-top: 10px}
+.share span{font-weight:700; background: #dcdcdc; font-size: 12px;display: block;line-height: 30px; float: left; padding: 0 6px;}
+.share a{ display: block;float:left; margin: 6px 3px 0 7px;}
+.productinfo p.sel{margin:30px 0 -1px 10px;}
+p.sel a{ padding:8px 20px; font-weight: 700; font-size: 14px; border: 1px solid #ddd;  background: #eee; color: #404040;}
+p.sel a.active{ background:#C5292D; color: #fff;}
+.productinfo .productcontent{ margin: 10px 10px 10px 10px; line-height: 26px; border-top:3px solid #d5d5d5;border-bottom:1px dashed #d5d5d5; padding:30px 20px; font-size: 12px;}
+.productinfo .productcontent p{ margin:6px 0;}
+.bestgroup{ margin:12px 0 22px 10px; position: relative; overflow: hidden;width:728px;}
+.bestgroup h3{line-height:34px; text-indent:1em;}
+.bestgroup .srlist ul{ margin:0 8px 8px 8px;width: 662px; padding: 0 20px;}
+.bestgroup .srlist ul li img{ float: none; margin:5px auto}
+.bestgroup .srlist .column{ width: 100px; margin: 14px 15px;}
+.bestgroup .srlist .column p{ margin:10px 4px 0; padding: 0; line-height:1.6em;}
+.bestgroup .fleft{background:url("../images/nlrb20110802.gif") no-repeat; width:14px; height: 88px; position: absolute; top:100px;left:5px;display: block; top: 94px}
+.bestgroup .fright{background:url("../images/nlrb20110802.gif") no-repeat -14px 0px; width:14px; height: 88px; position: absolute;top:100px;left:680px;display: block ;top: 94px}
+.bestgroup h3.recommend{background:url("/fltrp/images/recommend_icon20110624.gif") no-repeat 10px 4px; text-indent:3em;}
+
+/* 培训 */
+
+

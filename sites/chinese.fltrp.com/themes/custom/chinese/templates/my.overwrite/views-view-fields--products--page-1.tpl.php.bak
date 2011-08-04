@@ -23,20 +23,14 @@
  * @ingroup views_templates
  */
 ?>
-<div class="prodcuts_img">
-        <?php print $fields['field_img']->content;?>
+<div class="fleft column2">
+          <?php print $fields['field_img']->content;?>
+          <span><?php print $fields['title']->content; ?></span>
+          <span> ISBN:  <?php print $fields['field_isbn']->content; ?></span>
+          <span> 著译者: <?php print $fields['field_author']->content; ?></span>
+          <span> 开本: <?php print $fields['field_format']->content; ?></span>
+          <span> 页数: <?php print $fields['field_pages']->content; ?></span>
+          <span> 定价: <?php print $fields['field_price']->content; ?></span>
+          <span> 出版日期: <?php print $fields['field_publish_date']->content; ?></span>
+  
 </div>
-
-
-<div class="products_info">
-  <ul>
-          <li> <?php print $fields['title']->content; ?></li>
-          <li> ISBN:  <?php print $fields['field_isbn']->content; ?></li>
-          <li> 著译者: <?php print $fields['field_author']->content; ?></li>
-          <li> 开本: <?php print $fields['field_format']->content; ?></li>
-          <li> 页数: <?php print $fields['field_pages']->content; ?></li>
-          <li> 定价: <?php print $fields['field_price']->content; ?></li>
-          <li> 出版日期: <?php print $fields['field_publish_date']->content; ?></li>
-  </ul>
-</div>
-

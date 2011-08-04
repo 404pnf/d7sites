@@ -33,7 +33,6 @@
        ?>
 	<!--  文章内容 开始 -->
 		<div class="article">
-			<h1 class="articletitle"><?php print $title?></h1>
 			<span class="articledate"><?php print $publish_date?></span>
 			<div class="articlecontent">
 				<center>

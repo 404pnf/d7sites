@@ -7,9 +7,11 @@
 .imglist .imglistcontent ul li a{ display: block;margin:0 0 14px 0; color: #0D7DC4}
 .imglist .imglistcontent ul li a img{ margin-bottom: 10px;}
 .tab_title{text-indent:1em; font-size:14px; height: 40px;background: url("../images/zysiderbarbg20110726.gif") repeat-x; line-height: 40px;border: 1px solid #BCBCBC; margin: 10px 0 0}
-.tab_title li{float: left;padding: 0 14px;text-indent:0}
-.tab_title li.a{ background: #DD0108; color: #FFF}
-.productlist li{border-bottom: 1px dashed #CCCCCC;font-size: 12px;line-height: 24px;margin: 0;padding: 20px 0;}
+.tab_title li{float: left;padding: 0 20px;text-indent:0; font-weight:700;}
+.tab_title li a{ color: #404040;font-weight:400;}
+.tab_title li a.a{ color: #DD0108; font-weight:700;}
+.productlist li{border-bottom: 1px dashed #CCCCCC;font-size: 12px;line-height: 24px;margin: 0;padding: 20px 0; width: 100%;}
+.productlist li.views-row-last{ border: none;}
 .productlist li img{ float: left; margin: 0 30px 0 4px }
 .productlist li h2{ margin-bottom:0; font-size:14px; }
 .productlist li h2 a{ color: #CB6300} 
@@ -17,3 +19,20 @@
 .productlist li span em{ color:#DD0108}
 .productlist li p{ padding-right: 80px;}
 .productlist .buy .b{ background: url("../images/zybuy.gif") no-repeat; padding: 8px 40px;}
+.tab{ border-bottom: 1px solid #999;overflow: auto;*height:46px}
+.tab img{ margin: 10px; float: left; display: block;}
+.tab ul li{ float: left;background: url("../images/tableft.gif") no-repeat left 0; padding:8px 0 5px 7px;margin: 4px 0 0 4px;font-size:12px;}
+.tab ul li a{background: url("../images/tabright.gif") no-repeat right 0; padding: 8px 7px 5px 0; color: #404040;}
+
+/* 三级图书内容 bookinfo*/
+.bookimg{padding:15px; border: 1px solid #ddd; float: left; margin: 10px 40px 10px 10px;display: inline;}
+#bookinfo p{ font-size: 12px; color: #505050; margin: 1.2em 0 0 0;}
+#bookinfo p.pfrist{ margin-top: 3em;}
+#share{border: 1px solid #ddd; width: 195px; margin:0 0 0 10px; height: 30px;}
+#share span{font-weight:700; background: #dcdcdc; font-size: 12px;display: block;line-height: 30px; float: left; padding: 0 6px;}
+#share a{ display: block;float:left; margin: 6px 3px 0 7px;}
+#bookinfo p.sel{margin:30px 0 -1px 10px;}
+p.sel a{ padding:8px 20px; font-weight: 700; font-size: 14px; border: 1px solid #ddd;  background: #eee; color: #404040;}
+p.sel a.active{ background:#C5292D; color: #fff;}
+#bookinfo .bookcontent{ margin: 10px; line-height: 26px; border-top:3px solid #d5d5d5;border-bottom:3px solid #d5d5d5; padding: 20px; font-size: 12px;}
+#bookinfo .bookcontent p{ margin:6px 0;}

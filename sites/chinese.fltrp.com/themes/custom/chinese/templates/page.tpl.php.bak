@@ -1,3 +1,4 @@
+
 <?php
 
 if(!empty($node) && $node->type == 'news'){
@@ -19,6 +20,7 @@ if(!empty($node) && $node->type == 'page'){
 
 
 <div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
+
 
   <!-- ______________________ TOP NAVIGATION_______________________ -->
    <?php if ($page['topnav']): ?>
@@ -82,7 +84,13 @@ if(!empty($node) && $node->type == 'page'){
 
   <div id="main" class="clearfix">
 
-    <div id="content">
+  <?php if ($page['content_top']): ?>
+     <div id="content-top">
+       <?php print render($page['content_top']); ?>
+     </div>
+  <?php endif; ?><!-- /content_top -->
+
+  <div id="content">
       <div id="content-inner" class="inner column center">
 
         <?php if ($breadcrumb || $title|| $messages || $tabs || $action_links): ?>
@@ -121,12 +129,6 @@ if(!empty($node) && $node->type == 'page'){
       </div>
     </div> <!-- /content-inner /content -->
 
-    <?php if ($main_menu || $secondary_menu): ?>
-      <div id="navigation" class="menu <?php if (!empty($main_menu)) {print "with-primary";} if (!empty($secondary_menu)) {print " with-secondary";} ?>">
-        <?php print theme('links', array('links' => $main_menu, 'attributes' => array('id' => 'primary', 'class' => array('links', 'clearfix', 'main-menu')))); ?>
-        <?php print theme('links', array('links' => $secondary_menu, 'attributes' => array('id' => 'secondary', 'class' => array('links', 'clearfix', 'sub-menu')))); ?>
-      </div>
-    <?php endif; ?>
 
     <?php if ($page['sidebar_first']): ?>
       <div id="sidebar-first" class="column sidebar first">
@@ -143,6 +145,14 @@ if(!empty($node) && $node->type == 'page'){
         </div>
       </div>
     <?php endif; ?> <!-- /sidebar-second -->
+
+    <?php if ($page['content_bottom']): ?>
+      <div id="content-bottom">
+        <?php print render($page['content_bottom']); ?>
+      </div>
+    <?php endif; ?><!-- /content_bottom -->
+
+
 
   </div> <!-- /main -->
 

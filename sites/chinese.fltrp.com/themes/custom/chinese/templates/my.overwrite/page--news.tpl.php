@@ -37,12 +37,6 @@
 	</div>
    <?php endif; ?>  
 
-   <?php if ($main_menu || $secondary_menu): ?>
-      <div id="navigation" class="menu <?php if (!empty($main_menu)) {print "with-primary";} if (!empty($secondary_menu)) {print " with-secondary";} ?>">
-        <?php print theme('links', array('links' => $main_menu, 'attributes' => array('id' => 'primary', 'class' => array('links', 'clearfix', 'main-menu')))); ?>
-        <?php print theme('links', array('links' => $secondary_menu, 'attributes' => array('id' => 'secondary', 'class' => array('links', 'clearfix', 'sub-menu')))); ?>
-      </div>
-   <?php endif; ?>
 
 
   
@@ -55,7 +49,7 @@
         <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>"/>
       </a>
     <?php endif; ?>
-
+    <!-- comment 
     <?php if ($site_name || $site_slogan): ?>
       <div id="name-and-slogan">
 
@@ -77,6 +71,8 @@
 
       </div>
     <?php endif; ?>
+       end comment -->         
+
 
     <?php if ($page['header']): ?>
       <div id="header-region">
@@ -135,6 +131,17 @@
       </div>
     </div> <!-- /content-inner /content -->
 
+    <!--- comment 
+    <?php if ($main_menu || $secondary_menu): ?>
+      <div id="navigation" class="menu <?php if (!empty($main_menu)) {print "with-primary";} if (!empty($secondary_menu)) {print " with-secondary";} ?>">
+        <?php print theme('links', array('links' => $main_menu, 'attributes' => array('id' => 'primary', 'class' => array('links', 'clearfix', 'main-menu')))); ?>
+        <?php print theme('links', array('links' => $secondary_menu, 'attributes' => array('id' => 'secondary', 'class' => array('links', 'clearfix', 'sub-menu')))); ?>
+      </div>
+    <?php endif; ?>
+      end  comment -->
+     
+
+
 
     <?php if ($page['sidebar_first']): ?>
       <div id="sidebar-first" class="column sidebar first">
@@ -144,7 +151,7 @@
       </div>
     <?php endif; ?> <!-- /sidebar-first -->
 
-    <?php if ($page['sidebar_second']): ?>
+    <?php if ($page['sidebar_second']): ?>      
       <div id="sidebar-second" class="column sidebar second">
         <div id="sidebar-second-inner" class="inner">
           <?php print render($page['sidebar_second']); ?>
