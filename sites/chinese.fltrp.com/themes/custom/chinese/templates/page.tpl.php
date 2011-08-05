@@ -6,6 +6,13 @@ if(!empty($node) && $node->type == 'news'){
    return;
 }
 
+
+if(!empty($node) && $node->type == 'other'){
+  include('my.overwrite/page--other.tpl.php');
+   return;
+}
+
+
 //ÄÚÈÝÀàÐÍÎªpageÊ±Ôö¼ÓÏàÓ¦css£»
 if(!empty($node) && $node->type == 'page'){
     $custom_style_file ='/css/extra.css';
@@ -93,11 +100,11 @@ if(!empty($node) && $node->type == 'page'){
             <?php if ($page['highlight']): ?>
               <div id="highlight"><?php print render($page['highlight']) ?></div>
             <?php endif; ?>
-            <!-- comment 
+            
             <?php if ($title): ?>
               <h1 class="title"><?php print $title; ?></h1>
             <?php endif; ?>
-            -->
+            
             <?php print $messages; ?>
             <?php print render($page['help']); ?>
 

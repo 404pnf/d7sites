@@ -27,7 +27,16 @@
 
 <div class="imgbg">
        <?php print $fields['field_training_image']->content;?>
-      <a href="<?php print $fields['field_training_url']->content;?>"><img src="http://chinese.fltrp.com/sites/chinese.fltrp.com/files/page_image/fei.gif"></a>
+       <?php
+             $output = "";
+             $url =  $fields['field_training_url']->content;
+             if (!empty($url)){
+                      $ouput .='<a href='.$url.'><img src=http://chinese.fltrp.com/sites/chinese.fltrp.com/files/page_image/fei.gif></a>'  ; 
+                      print $ouput;
+             }             
+       ?>
+       
+       
 </div>
 
    <div class="productname"> 
