@@ -1,3 +1,5 @@
+<link href="/static/js/coin-slider/coin-slider-styles.css" media="all" rel="stylesheet" type="text/css">
+<link href="/static/css/shareto.css" media="all" rel="stylesheet" type="text/css">
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
@@ -18,8 +20,8 @@
         hide($content['links']);
         //print render($content);
 
-         // print "<pre>";
-		 // print_r($node);
+       //  print "<pre>";
+	//	 print_r($node);
 		//   print "</pre>";
 
 
@@ -51,11 +53,12 @@
 						$newsimages_output = '';
 						$newsimages_output .='<div class="coin_slider_container">';
 						$newsimages_output .='<div id="coin_slider">';
-						
+						$news_image_style="news";
 						foreach ($newsimages as $newsimage)
 						{
 								$newsimage_title = $newsimage["title"];
-								$newsimage_url= file_create_url($newsimage["uri"]);
+								//$newsimage_url= file_create_url($newsimage["uri"]);
+								$newsimage_url = image_style_url($news_image_style, $newsimage["uri"]);
 								$newsimage_pic = '<img src="'.$newsimage_url.'"/>';
 								
 								$newsimages_output .='<a href="javascript:void(0);return false;">';
@@ -76,33 +79,6 @@
 	</div>
 	<!--  文章内容 结束-->
 
-	<!--  分享开始  -->
-						<!--分享到----开始------>
-
-	<div id="share">
-		<span>分享到:</span>
-<style>
-span.stico_tqq{
-	background-position:0 -592px;
-}
-</style>
-
-<!-- ShareTo Button BEGIN -->
-<div class="shareto_toolbox">
-<a class="shareto_button_tsina"></a>
-<a class="shareto_button_renren"></a>
-<a class="shareto_button_douban"></a>
-<a class="shareto_button_kaixin001"></a>
-<a class="shareto_button_tqq"></a>
-</div>
-
-<script type="text/javascript" src="http://s.shareto.com.cn/js/shareto_button.js" charset="utf-8"></script>
-<!-- ShareTo Button END -->
-
-	</div>
-
-<!--分享到----结束--->	
-<!--  分享结束  -->
 
 
 
@@ -118,3 +94,20 @@ span.stico_tqq{
 </div> <!-- /node-->
 
 <?php print render($content['comments']); ?>
+
+<SCRIPT type="text/javascript" src="/static/js/coin-slider/coin-slider.min.js"></SCRIPT>
+<script>
+	var $j=jQuery.noConflict();  //将变量$的控制权让渡给prototype.js
+	$j(function(){
+		 $j('#coin_slider').coinslider({
+            width: 400,//设置的宽度等于容器的宽度
+            height: 268,//设置的高度等于容器的高度
+            delay: 3000,//图片切换延迟
+            effect: "rain",//可以选4种切换效果，'random', 'swirl', 'rain', 'straight'，不写则为随机效果
+            navigation: true,//是否开启数字导航
+            links: false //是否对图片开启超链接
+        });
+        
+        $j('#coin-slider-coin_slider').width($j('#coin_slider').width());
+	});
+</script>

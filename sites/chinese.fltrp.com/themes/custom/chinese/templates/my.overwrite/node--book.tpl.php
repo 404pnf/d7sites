@@ -1,6 +1,5 @@
-<?php
-// 图书产品详细页模版
-?>
+<link href="/static/css/bookinfoswitch.css" media="all" rel="stylesheet" type="text/css">
+<link href="/static/css/shareto.css" media="all" rel="stylesheet" type="text/css">
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
@@ -10,12 +9,12 @@
 
     <?php print $user_picture; ?>
 		    
-    <!--<?php if ($display_submitted): ?>
+    <?php if ($display_submitted): ?>
       <span class="submitted"><?php print $date; ?> — <?php print $name; ?></span>
-    <?php endif; ?> -->
+    <?php endif; ?>
 
   	<div class="content">
-           	  <?php 
+  	  <?php 
   	    // We hide the comments and links now so that we can render them later.
         hide($content['comments']);
         hide($content['links']);
@@ -37,11 +36,12 @@
 		$zdfs = $node->field_zdfs['und'][0]['taxonomy_term']->name;;        //装订方式
 		$publish_date= $node->field_publish_date['und'][0]['value'];        //发布日期
 		$price = $node->field_price['und'][0]['value'];        //价格
-                $img = $node->field_img['und'][0]['uri'];        //封面
+	    $img = $node->field_img['und'][0]['uri'];        //封面
 		$img =file_create_url($img );        //封面
 		$body = $node->body['und'][0]['safe_value'];        //简介    
 		$directory = $node->field_directory['und'][0]['safe_value'];        //目录    
-               	$read_online = $node->field_read_online['und'][0]['value'];        //在线阅读地址
+     	$read_online = $node->field_read_online['und'][0]['value'];        //在线阅读地址
+
 		$educations = $node->field_education['und'];   
 		$education_tids = '';
 		$i=1;
@@ -58,30 +58,28 @@
        ?>
   	</div>
   
-	 <div id="productinfo">
- 		<div class="productimg"><img src="<?php print $img?>" width="164" height="230" alt=""/></div>
-			<?php if(!empty($series)){?>
-			<p class="pfrist">系列名：<?php print $series?> </p>
-			<?php }?>	
-	        	<p>ISBN：<?php print $isbn?> </p>
-			<p>著译者：<?php print $author?>  </p>
-			<p>开本：<?php print $format?> 页数：<?php print $pages?> 页  </p>
-		        <p>出版日期：<?php print $publish_date?></p>
-			<p>定价：<?php print $price?></p>
-             		<p class="buy fclear ">				
+	 <div id="bookinfo">
+							<div class="bookimg"><img src="<?php print $img?>" width="164" height="230" alt=""/></div>
+							<?php if(!empty($series)){?>
+							<p class="pfrist">系列名：<?php print $series?> </p>
+							<?php }?>	
+							<p>ISBN：<?php print $isbn?> </p>
+							<p>著译者：<?php print $author?>  </p>
+							<p>开本：<?php print $format?> 页数：<?php print $pages?> 页  </p>
+							<p>出版日期：<?php print $publish_date?></p>
+							<p>定价：<?php print $price?></p>
+							
+							<p class="buy fclear ">
+						
                              <?php if (!empty($read_online)) :?>
-					<a class="r" href="<?php print $read_online ;?>">在线阅读</a>
-		             <?php endif?>
-			</p>
-			     <!--分享到----开始------>
-			<div class="wrapper">
-				<div id="share">
-				<span>分享到:</span>
-<style>
-span.stico_tqq{
-	background-position:0 -592px;
-}
-</style>
+								<a class="r" href="<?php print $read_online ;?>">在线阅读</a>
+							<?php endif?>
+							</p>
+							
+							<!--分享到----开始------>
+							<div class="wrapper">
+								<div id="share">
+									<span>分享到:</span>
 
 <!-- ShareTo Button BEGIN -->
 <div class="shareto_toolbox">
@@ -94,6 +92,7 @@ span.stico_tqq{
 
 <script type="text/javascript" src="http://s.shareto.com.cn/js/shareto_button.js" charset="utf-8"></script>
 <!-- ShareTo Button END -->
+
 								</div>
 							</div>
 <!--分享到----结束--->							
@@ -101,18 +100,18 @@ span.stico_tqq{
 							<span>内容简介</span>
 								<span>章节目录</span>
 								</p>
-							<div class="productcontent">
+							<div class="bookcontent">
 								<?php print $body?>
 
 							</div>
 
-							<div class="productcontent">
+							<div class="bookdirectory">
 								<?php print $directory?>
 
 							</div>
 							
-			<!--最佳组合开始-->
-					<div id="bestgroup">
+							<!--最佳组合开始-->
+							<div id="bestgroup">
 								<!--
 								<a href="" class="fleft"></a>
 								<a href="" class="fright"></a>
@@ -122,12 +121,12 @@ span.stico_tqq{
 						<?php
 						if (!empty($seriestid)){
 							$views_name = 'recommends';
-	                                                $display_id = 'recommended_series';
+	                        $display_id = 'recommended_series';
 							$views_parameter1=$seriestid ;
 							$views_parameter2=$nid ;						
 						}else{
 							$views_name = 'recommends';
-	                                                $display_id = 'recommended_education';
+	                        $display_id = 'recommended_education';
 							$views_parameter1=$education_tids ;
 							$views_parameter2=$nid ;
 						}
@@ -140,7 +139,8 @@ span.stico_tqq{
 							<!--最佳组合结束-->
 							
 	  	</div>
-  	
+
+
     <?php if (!empty($content['links']['terms'])): ?>
       <div class="terms"><?php print render($content['links']['terms']); ?></div>
     <?php endif;?>
@@ -153,3 +153,8 @@ span.stico_tqq{
 </div> <!-- /node-->
 
 <?php print render($content['comments']); ?>
+
+<!--内容，章节目录切换-->
+<SCRIPT type="text/javascript" src="/static/js/book.js"></SCRIPT>
+
+	<!--//内容，章节目录切换-->

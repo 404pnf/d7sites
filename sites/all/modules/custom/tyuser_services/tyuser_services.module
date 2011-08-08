@@ -97,7 +97,8 @@ function tyuser_services_services_resources() {
  *    人员通过后台来篡改用户信息
  */
 function _tyuser_services_update($name,$pass,$mail,$status,$signature){
-  if(!empty($name)){
+ $name = utf8togbk($name); 
+ if(!empty($name)){
      $object = db_select('users', 'u')->fields('u', array('uid','init'))
         ->condition('name', $name)
         ->execute()->fetchObject();
@@ -135,7 +136,8 @@ function _tyuser_services_update($name,$pass,$mail,$status,$signature){
  *   (int)  是否要邮件通知用户的标识
  */
 function _tyuser_services_delete($name,$method,$notify){
- if(!empty($name)){
+$name = utf8togbk($name); 
+if(!empty($name)){
     $uid = db_select('users', 'u')->fields('u', array('uid'))
           ->condition('name', $name)
           ->execute()->fetchField();

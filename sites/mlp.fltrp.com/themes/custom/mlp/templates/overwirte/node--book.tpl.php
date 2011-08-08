@@ -1,3 +1,5 @@
+<link href="/static/css/bookinfoswitch.css" media="all" rel="stylesheet" type="text/css">
+<link href="/static/css/shareto.css" media="all" rel="stylesheet" type="text/css">
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
@@ -79,11 +81,6 @@
 							<div class="wrapper">
 								<div id="share">
 									<span>分享到:</span>
-<style>
-span.stico_tqq{
-	background-position:0 -592px;
-}
-</style>
 
 <!-- ShareTo Button BEGIN -->
 <div class="shareto_toolbox">

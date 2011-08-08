@@ -45,11 +45,12 @@
 						$newsimages_output = '';
 						$newsimages_output .='<div class="coin_slider_container">';
 						$newsimages_output .='<div id="coin_slider">';
-						
+						$news_image_style="news";
 						foreach ($newsimages as $newsimage)
 						{
 								$newsimage_title = $newsimage["title"];
-								$newsimage_url= file_create_url($newsimage["uri"]);
+								//$newsimage_url= file_create_url($newsimage["uri"]);
+								$newsimage_url = image_style_url($news_image_style, $newsimage["uri"]);
 								$newsimage_pic = '<img src="'.$newsimage_url.'"/>';
 								
 								$newsimages_output .='<a href="javascript:void(0);return false;">';

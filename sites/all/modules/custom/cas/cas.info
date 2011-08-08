@@ -1,0 +1,7 @@
+name = CAS
+package = decoxy develope module
+core = 7.x
+description = "Provides single sign-on Central Authentication Services"
+version = "7. x"
+
+

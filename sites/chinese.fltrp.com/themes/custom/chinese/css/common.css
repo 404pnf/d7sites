@@ -11,7 +11,7 @@ body{ background: url("../images/badybg20110726.jpg") repeat;}
 #header-region{ overflow: auto; height: 64px}                                                                                               
 .logoNav{margin: 0 auto;}                                                                                                                   
 .logoNav ul{ float: right; margin: 34px 15px 0 0; letter-spacing: 0; overflow: hidden; display: inline}                                     
-.logoNav ul li{ float: left; border-right:2px solid #585858; margin-right: -2px; list-style: none;}                                                           
+.logoNav ul li{ float: left; border-right:2px solid #585858; margin-right: -2px; list-style: none;padding:0px;margin-left:0px;}                                                           
 .logoNav ul li a{ padding:30px 17px 0; color:#585858; font-weight:700; font-size: 14px}                                                   
 #main{width:980px; margin: 0 auto; background: #fff}                                                                                        
 #content-top{ position: relative;}                                                                                                          
@@ -21,7 +21,7 @@ body{ background: url("../images/badybg20110726.jpg") repeat;}
 /* sidebar-first */                                                                                                                         
 #sidebar-first{ width: 226px; margin-right: -226px}                                                                                         
 #sidebar-first-inner{margin: 0 12px; width: 202px;}                                                                                         
-#sidebar-first-inner .outul li{line-height:32px;border: 1px solid #E5E5E5;overflow: auto;*zoom:1}                                           
+#sidebar-first-inner .outul li{line-height:32px;border: 1px solid #E5E5E5;overflow: auto;*zoom:1;margin:0px;}                                           
 #sidebar-first-inner .outul li span{background: url("../images/siderbarbg20110801.gif") no-repeat 15px 6px ; display: block; height:38px;text-align: center;line-height:38px; color: #FFF}                                                                                              
 #sidebar-first-inner .outul li p{ margin: 12px 12px; overflow: auto}                                                                        
 #sidebar-first-inner .outul li p a{ color: #000; float: left; font-size: 12px; padding: 0 10px; white-space: nowrap}                        

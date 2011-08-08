@@ -34,14 +34,7 @@
 .bookimg img{ width:140px;height:200px}
 #bookinfo h1{margin: 24px 10px 5px 15px;}
 #bookinfo p{ font-size: 12px; color: #505050; margin: 1.6em 0 0 0;}
-#share{border: 1px solid #ddd; width: 195px; margin-left:10px; height: 30px; margin-top: 10px}
-#share span{font-weight:700;font-size: 12px;display: block;line-height: 34px; float: left; padding-left: 6px;}
-#share a{ display: block;float:left; margin: 6px 3px 0;}
-#bookinfo p.sel{margin:30px 0 -1px 10px;}
-p.sel span{ padding:8px 20px; font-weight: 700; font-size: 14px; border: 1px solid #ddd;  background: #eee; color: #404040;}
-p.sel span.active{ background:#C5292D; color: #fff;}
+
 #bookinfo .bookcontent,#bookinfo .bookdirectory{ margin: 10px 10px 10px 10px; line-height: 26px; border-top:3px solid #d5d5d5;border-bottom:1px dashed #d5d5d5; padding:30px 20px; font-size: 12px;}
 #bookinfo .bookcontent p,#bookinfo .bookdirectory p{ margin:6px 0;}
 
-#bestgroup{ margin:12px 0 22px 10px; position: relative; overflow: hidden;width:728px;}
-#bestgroup h3{line-height:34px; text-indent:1em; margin-bottom: 0}

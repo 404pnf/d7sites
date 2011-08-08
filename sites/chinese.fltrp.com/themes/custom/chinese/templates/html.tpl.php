@@ -32,8 +32,8 @@
         case "training":
           $custom_style_file = '/css/product.css';
                  break;   	
-	case "resources":
-          $custom_style_file ='/css/information.css';
+	case "edu":
+          $custom_style_file ='/css/resource.css';
 		 break;	
 	case "newsdetails":
           $custom_style_file ='/css/article.css';
@@ -45,6 +45,9 @@
 
  if(stristr($current_path,'news/'))
 			   $custom_style_file ='/css/information.css';
+
+ if(stristr($current_path,'edu/'))
+                           $custom_style_file ='/css/resource.css';
 
  if(stristr($current_path,'newsdetails/'))
 			   $custom_style_file ='/css/information.css';

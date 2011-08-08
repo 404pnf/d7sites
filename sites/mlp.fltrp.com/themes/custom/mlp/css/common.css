@@ -43,7 +43,7 @@ body{ background: url("../images/badybg20110726.jpg") repeat;}
 .pro{padding:4px 9px 0;}
 .searchnav{ padding-top:10px;}
 .searchcontent{ border: 1px solid #EDEAEB; margin:0 9px 9px 9px; height: 36px; background: url("../images/searchlongbg20110726.jpg") repeat-x;}
-.form-text{ width: 250px; float: left; padding: 5px;margin: 5px 10px 0 600px; font-size: 12px;background:#FFFFFF;border-color: #999999 #DDDDDD #DDDDDD #999999;border-style: solid;border-width: 1px;color: #CFCFCF;}
-.form-submit{ background: #8A0101; width: 60px; color:#FFF; padding: 4px;margin: 5px 0 0 0;font-size: 12px; border: 1px solid #FFF}
+.searchnav .form-text{ width: 250px; float: left; padding: 5px;margin: 5px 10px 0 600px; font-size: 12px;background:#FFFFFF;border-color: #999999 #DDDDDD #DDDDDD #999999;border-style: solid;border-width: 1px;color: #CFCFCF;}
+.searchnav .form-submit{ background: #8A0101; width: 60px; color:#FFF; padding: 4px;margin: 5px 0 0 0;font-size: 12px; border: 1px solid #FFF}
 
 
