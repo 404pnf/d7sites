@@ -149,13 +149,16 @@ a.disabled {
 }
 
 
+#bestgroup{ margin:12px 0 22px 10px; position: relative; overflow: hidden;width:728px;}
+#bestgroup h3{line-height:34px; text-indent:1em; margin-bottom: 0}
+
 #bestgroup-content {
     clear: both;
     position: relative;
     height:280px;
 }
 
-#bestgroup-items div.views-row a{
+#bestgroup-items  a{
 	text-indent:1.6em;
 	color: #404040;
 	display: block;
