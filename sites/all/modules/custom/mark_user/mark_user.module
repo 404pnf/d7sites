@@ -12,26 +12,34 @@
 function mark_user_extra_user_register_validate($form, &$form_state){
   $username =$form_state['values']['name'];
   $password = isset($form_state['values']['pass'])?$form_state['values']['pass']:'';
-  //接下来存储用户信息到 {mark_user} 数据库表中
-  db_insert('mark_user')
-  ->fields(array(
-    'username' => $username,
-    'pass' => $password,
-  ))
-  ->execute();
+  $errors = form_get_errors();
+  //此处获得表单提交验证错误信息，如果有错误信息，则禁止插入到mark_user数据库中
+  if(empty($errors)){
+     //接下来存储用户信息到 {mark_user} 数据库表中
+    db_insert('mark_user')
+    ->fields(array(
+      'username' => $username,
+      'pass' => $password,
+    ))
+    ->execute();
+  }
 }
 
 function mark_user_extra_user_profile_validate($form, &$form_state){
   $username =$form_state['values']['name'];
   $password = isset($form_state['values']['pass'])?$form_state['values']['pass']:'';
-	//debug($form_state);
-	if(!empty($username) && !empty($password)){
-		 db_update('mark_user')
-			->fields(array(
-			  'pass' => $password,
-		  ))
-			->condition('username', $username, '=')
-			->execute();
+  $errors = form_get_errors();
+  //此处获得表单提交验证错误信息，如果有错误信息，则禁止更新mark_user数据库表信息
+  if(empty($errors)){
+      //debug($form_state);
+      if(!empty($username) && !empty($password)){
+         db_update('mark_user')
+                ->fields(array(
+                  'pass' => $password,
+          ))
+        ->condition('username', $username, '=')
+        ->execute();
+    }
   }
 }
 /*
