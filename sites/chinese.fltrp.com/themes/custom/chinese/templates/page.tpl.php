@@ -94,7 +94,7 @@ if(!empty($node) && $node->type == 'page'){
 
         <?php if ($breadcrumb || $title|| $messages || $tabs || $action_links): ?>
           <div id="content-header">
-
+            
             <?php print $breadcrumb; ?>
 
             <?php if ($page['highlight']): ?>

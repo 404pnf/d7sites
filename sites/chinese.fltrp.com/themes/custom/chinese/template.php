@@ -53,6 +53,56 @@ function chinese_preprocess_block(&$vars, $hook) {
  *   A string containing the breadcrumb output.
  */
 function chinese_breadcrumb($variables) {
+  $breadcrumb_separator = theme_get_setting('fltrp_breadcrumb_separator');
+  $current_path   = drupal_get_path_alias();
+  
+  	if($current_path =='products'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		$breadcrumbs[] = '<a href="'.url('productslist').'">'.t('产品中心').'</a>';
+		
+	  $category = $_GET["category"];
+		$tid = $category;
+		$parents = taxonomy_get_parents_all($tid);
+		$parents = array_reverse($parents);
+		foreach($parents as $parent){
+			$breadcrumbs[] = '<a href="'.$current_path.'?category='.$parent->tid.'">'.$parent->name.'</a>';
+		}
+	  $output = '<div class="breadcrumb">';
+		$output .=implode( $breadcrumb_separator , $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+  	
+        if($current_path =='news'){
+	        $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		if($current_path =='newsmore'){
+		  $breadcrumbs[] = '<a href="'.url('news').'">'.t('资讯中心').'</a>';
+		}else{
+	        }
+                $output = '<div class="breadcrumb">';
+		$output .=implode( $breadcrumb_separator , $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+        $current_path  = drupal_get_path_alias();
+        if($current_path =='training'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		$breadcrumbs[] = '<a href="'.url('training').'">'.t('汉语培训').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+  
+  
+  
+  
+  
+  
   $breadcrumb = $variables['breadcrumb'];
   // Determine if we are to display the breadcrumb.
   $show_breadcrumb = theme_get_setting('chinese_breadcrumb');

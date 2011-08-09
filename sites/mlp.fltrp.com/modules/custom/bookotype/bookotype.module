@@ -104,18 +104,20 @@ function bookotype_generate_relation_process(&$context){
       db_select('node', 'n')
 			->condition('n.type', 'book')
 			->condition('n.nid', 100000, '<')
+			->condition('n.nid', 8550, '>')
 			->countQuery()
 			->execute()
 			->fetchField();
 			
 		
 	}
-	
+	 
 	$query = db_select('node', 'n')
 		->fields('n', array('nid', 'vid'))
 		->condition('n.nid', $context['sandbox']['last_nid'], '>')
 		->condition('n.type', 'book')
 		->condition('n.nid', 100000, '<')
+		->condition('n.nid', 8550, '>')
 		->orderBy('n.nid', 'ASC')
 		->range(0, $size);
 		

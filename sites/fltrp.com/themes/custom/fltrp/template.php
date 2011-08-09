@@ -174,7 +174,7 @@ if($current_path =='training'){
 		    $breadcrumbs = array();
 			$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
 			$breadcrumbs[] = '<a href="'.url($path_ailas).'">'.t($title).'</a>';
-		    $output = '<div class="breadcrumb">';
+                        $output = '<div class="breadcrumb">';
 			$output .=implode($breadcrumb_separator, $breadcrumbs);
 			$output .= '</div>';
 			return $output;
@@ -198,7 +198,7 @@ if($current_path =='training'){
 			  //$breadcrumbs[] = l($parent->name, 'productslist?category='.$parent->tid);
 				$breadcrumbs[] = '<a href="'.base_path().'productslist?category='.$parent->tid.'">'.$parent->name.'</a>';
 			}
-		  $output = '<div class="breadcrumb">';
+		        $output = '<div class="breadcrumb">';
 			$output .=implode($breadcrumb_separator, $breadcrumbs);
 			$output .= '</div>';
 			return $output;

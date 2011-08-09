@@ -50,7 +50,7 @@
      <span>数字出版</span>
  </li>
  <li>
-     <span>在线学习</span>
+     <span>网络学习</span>
 
  </li>
  <li>

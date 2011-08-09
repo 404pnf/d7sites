@@ -28,13 +28,14 @@
 .tab ul li{ float: left;background: url("../images/tableft.gif") no-repeat left 0; padding:8px 0 5px 7px;margin: 4px 0 0 3px;font-size:12px;*+margin: 21px 0 0 3px;_margin: 19px 0 0 3px; }
 .tab ul li a{background: url("../images/tabright.gif") no-repeat right 0; padding: 9px 7px 5px 0; color: #404040;padding:8px 7px 5px 0\9;*padding: 8px 7px 5px 0;}
 .tab ul li a.active{ color: #DD0108; font-weight:700;}
-/* 三级图书内容 bookinfo*/
+.buy{ clear: none;}
+.r{background: url("../images/buy_20110623.gif") -103px 0;text-indent:2.2em;width: 81px;float: left; display: block;height: 26px; margin: 10px 10px 0 0;line-height: 26px; color: #BA0006!important}
 
+/* 三级图书内容 bookinfo*/
 .bookimg{padding:15px; border: 1px solid #ddd; float: left; margin: 10px 40px 10px 10px;display: inline;}
 .bookimg img{ width:140px;height:200px}
 #bookinfo h1{margin: 24px 10px 5px 15px;}
 #bookinfo p{ font-size: 12px; color: #505050; margin: 1.6em 0 0 0;}
-
 #bookinfo .bookcontent,#bookinfo .bookdirectory{ margin: 10px 10px 10px 10px; line-height: 26px; border-top:3px solid #d5d5d5;border-bottom:1px dashed #d5d5d5; padding:30px 20px; font-size: 12px;}
 #bookinfo .bookcontent p,#bookinfo .bookdirectory p{ margin:6px 0;}
 

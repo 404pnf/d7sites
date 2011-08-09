@@ -26,19 +26,19 @@
 	 case "book":
           $custom_style_file ='/css/product.css';
 		 break;
-	 case "news":
+	case "news":
           $custom_style_file ='/css/information.css';
 		 break;
-         case "training":
+        case "training":
           $custom_style_file = '/css/product.css';
                  break;   	
-	 case "edu":
+	case "edu":
           $custom_style_file ='/css/resource.css';
 		 break;	
-	 case "newsdetails":
+	case "newsdetails":
           $custom_style_file ='/css/article.css';
 	      break;
-	 case "searcher":
+	case "searcher":
           $custom_style_file ='/css/searcher.css';
 		 break;
 	 }
@@ -49,7 +49,7 @@
  if(stristr($current_path,'edu/'))
                            $custom_style_file ='/css/resource.css';
 
- if(stristr($current_path,'newsdetails/'))
+ if(stristr($current_path,'newsdetails/')||stristr($current_path,'training/'))
 			   $custom_style_file ='/css/information.css';
 
  if(stristr($current_path,'list/')||stristr($current_path,'book/')||stristr($current_path,'products/')||stristr($current_path,'training/'))

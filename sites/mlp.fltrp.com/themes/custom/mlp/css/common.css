@@ -1,6 +1,5 @@
-/* 综合英语分社公用样式*/
 body{ background: url("../images/badybg20110726.jpg") repeat;}
-#header{background: url("../images/topnavbg20110726.gif") repeat-x; width: 980px; margin: 0 auto}
+#header{background: url("../images/topnavbg20110726.gif") repeat-x; width: 980px; margin: 0 auto;height:64px;overflow:hidden;}
 .topnav{ background: #8c0101; height: 34px;min-width:980px}
 .topnav a{ float: left}
 .topnav ul{ float: right;}
@@ -38,7 +37,7 @@ body{ background: url("../images/badybg20110726.jpg") repeat;}
 #footer p {color: #666666;font-size: 12px;margin: 10px 0 0;text-align: center;}
 
 
-/* 焦点大图和搜索*/
+
 .focus{ padding:18px 9px 0;}
 .pro{padding:4px 9px 0;}
 .searchnav{ padding-top:10px;}
@@ -46,4 +45,5 @@ body{ background: url("../images/badybg20110726.jpg") repeat;}
 .searchnav .form-text{ width: 250px; float: left; padding: 5px;margin: 5px 10px 0 600px; font-size: 12px;background:#FFFFFF;border-color: #999999 #DDDDDD #DDDDDD #999999;border-style: solid;border-width: 1px;color: #CFCFCF;}
 .searchnav .form-submit{ background: #8A0101; width: 60px; color:#FFF; padding: 4px;margin: 5px 0 0 0;font-size: 12px; border: 1px solid #FFF}
 
-
+/* page*/
+.item-list .pager li{ margin: 0}

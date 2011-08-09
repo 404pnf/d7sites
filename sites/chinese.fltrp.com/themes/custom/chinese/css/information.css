@@ -10,7 +10,7 @@
 .textlist ul li{background: url("../images/blackpoint.gif") no-repeat 0 17px;text-indent:.8em;}                                             
 .textlist ul li a{ color:#666; line-height: 2.2em;}                                                                                         
 .textlist ul li a:hover{ color: #9B1E00}                                                                                                    
-h2.hyinfotitle{ height:23px; overflow: hidden;text-indent:-99em;position: relative; width:100%;}
+h2.hyinfotitle{ height:25px; overflow: hidden;text-indent:-99em;position: relative; width:100%;}
 h2.hyinfotitle {background: url("../images/hyinfo_title20110803.jpg") no-repeat;}                                                    
 h2.hyinfotitle .more{position: absolute;text-indent:0;top:12px;right:0; font-weight:400; color: #404040;font-size:12px;}                         
 .textlist li span{ color: #a9a9a9; font-size: 12px;}                                                                                        
@@ -21,7 +21,7 @@ h2.hyinfotitle .more{position: absolute;text-indent:0;top:12px;right:0; font-wei
 .imglistcontent h3{margin-top: 20px; margin-bottom: .9em;}                                                                                  
 .imglistcontent h3 a{ color: #CB2411;}                                                                                                      
 .imglistcontent p{ color: #666; font-size: 12px; line-height: 1.6em; padding:  0 10px; margin-bottom: 0.2em;}                               
-.imglistcontent{margin: 20px 0 10px 15px;}                                                                                      
+.imglistcontent{margin: 12px 0 10px 15px; overflow: auto}                                                                                      
 
 .imglist li {width: 320px; float:left;}
 

@@ -1,6 +1,10 @@
+
+
+
+
 <?php
 /**
- * @file views-view-fields.tpl.php 
+ * @file views-view-fields.tpl.php
  * Default simple view template to all the fields as a row.
  *
  * - $view: The view in use.
@@ -26,22 +30,23 @@
 
 
 
+<?php
+        $resources_title=$fields['title']->raw;
+        $resources_id=$fields['nid']->content;
+        $resources_url=$fields['field_url']->content;
+        $resources_term=$fields['term_node_tid']->content;
+        $resources_real_url="";
 
-<div class="imgbg">
-       <?php print $fields['field_training_image']->content;?>
-       <?php
-             $output = "";
-             $url =  $fields['field_training_url']->content;
-             if (!empty($url)){
-                      $ouput .='<a href='.$url.'><img src=http://chinese.fltrp.com/sites/chinese.fltrp.com/files/page_image/fei.gif></a>'  ;                      print $ouput;
-             }             
-       ?>
-</div>
+        if (!empty($resources_url)){
+                $resources_real_url=$resources_url;
+        }
+        else
+        {
+                 $resources_base_url ='edu/';
+                 $resources_real_url = $resources_base_url.$resources_id;
+        }
 
-<div class="productname"> 
-     <?php print $fields['title']->content; ?>
-</div>
-     <?php print $fields['field_training_ename']->content;?>
-
-
+    print $resources_term;
+        print  l($resources_title,$resources_real_url);
+?>
 

@@ -44,13 +44,14 @@
   <?php elseif ($empty): ?>
       <?php print $empty; ?>
   <?php endif; ?>
+   
 
-  <?php if ($pager): ?>
-    <?php print $pager; ?>
-  <?php endif; ?>
-
-  <?php if ($attachment_after): ?>
-      <?php print $attachment_after; ?>
-  <?php endif; ?>
 
 </div>
+
+  <?php if ($pager): ?>
+    <div class="pagenum row fclear">
+      <?php print $pager; ?>
+    </div>
+  <?php endif; ?>
+

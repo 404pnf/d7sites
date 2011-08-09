@@ -84,3 +84,15 @@ p.sel a.active{ background:#C5292D; color: #fff;}
 
 .productlist .views-row-last {border:none!important;}                         /*去除元素边*/
 
+
+
+/*training页面资讯焦点页面的CSS，因为在html.tpl.php中一个页面不能同室调取两个CSS故写在这里*/
+.imglist{ background-image: url("../images/new20110803.gif"); background-repeat: no-repeat; border: 1px solid #E4E4E4; overflow: auto;_zoom:1; background-color: #F8F9FB; margin-top:30px; *padding-bottom: 10px;}
+.imglist{margin-bottom: 2em;}
+.imglistcontent img{float: left;margin: 16px 16px 16px;}
+.imglistcontent h3{margin-top: 20px; margin-bottom: .9em;}
+.imglistcontent h3 a{ color: #CB2411;}
+.imglistcontent p{ color: #666; font-size: 12px; line-height: 1.6em; padding:  0 10px; margin-bottom: 0.2em;}
+.imglistcontent{margin: 12px 0 10px 15px; overflow: auto}
+.imglist li {width: 320px; float:left;}
+ 
