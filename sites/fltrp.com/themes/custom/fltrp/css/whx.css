@@ -245,7 +245,7 @@ a.disabled {
 	text-indent:1.6em;
 	color: #404040;
 	display: block;
-	width:146px;
+
 }
 
 /*------图书产品 编辑推荐 需要的jQuery效果-------*/
@@ -283,7 +283,6 @@ a.disabled {
 	width: 210px;
 }
 #recommendation #bestgroup-items div.views-row a{
-	width:100%;
 	text-indent: 0em;
 }
 #recommendation p{

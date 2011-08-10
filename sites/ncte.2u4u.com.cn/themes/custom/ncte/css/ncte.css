@@ -5,4 +5,4 @@
 在显示考生报名信息的时候，会显示该信息
 */
    
-#edit-field-kaochang {display:none;}
+#edit-field-kaochang {display:block;}

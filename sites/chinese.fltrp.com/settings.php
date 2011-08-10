@@ -184,7 +184,7 @@ $databases['default']['default'] = array(
  	'database' => 'chinese',
 	'username' => 'py',
  	'password' => 'pengyou',
- 	'host' => 'localhost',
+ 	'host' => '129.0.0.223',
  	'prefix' => array(
 			/*'default'   => '',
     			'users'     => 'ncec.',
@@ -193,15 +193,6 @@ $databases['default']['default'] = array(
 			*/
   			),
  );
-
-$databases['data']['default'] = array(
-        'driver' => 'mysql',
-        'database' => 'data',
-        'username' => 'py',
-        'password' => 'pengyou',
-        'host' => 'localhost',
-        'prefix' =>'' ,
-);
 
 
 /**

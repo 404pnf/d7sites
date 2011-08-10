@@ -53,50 +53,155 @@ function chinese_preprocess_block(&$vars, $hook) {
  *   A string containing the breadcrumb output.
  */
 function chinese_breadcrumb($variables) {
-  $breadcrumb_separator = theme_get_setting('fltrp_breadcrumb_separator');
-  $current_path   = drupal_get_path_alias();
+   
+  $breadcrumb_separator = theme_get_setting('chinese_breadcrumb_separator');
+
+  $current_path = drupal_get_path_alias();
   
+ 
+        
   	if($current_path =='products'){
-	  $breadcrumbs = array();
-		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
-		$breadcrumbs[] = '<a href="'.url('productslist').'">'.t('产品中心').'</a>';
-		
-	  $category = $_GET["category"];
+	        $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		$breadcrumbs[] = '<a href="'.url('list').'">'.t('产品中心').'</a>';
+		$category = $_GET["category"];
 		$tid = $category;
 		$parents = taxonomy_get_parents_all($tid);
+                
 		$parents = array_reverse($parents);
 		foreach($parents as $parent){
 			$breadcrumbs[] = '<a href="'.$current_path.'?category='.$parent->tid.'">'.$parent->name.'</a>';
 		}
-	  $output = '<div class="breadcrumb">';
+	        $output = '<div class="breadcrumb">';
 		$output .=implode( $breadcrumb_separator , $breadcrumbs);
 		$output .= '</div>';
 		return $output;
-	}
-  	
+	}  
+
+        
+        
         if($current_path =='news'){
+                
 	        $breadcrumbs = array();
-		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
-		if($current_path =='newsmore'){
-		  $breadcrumbs[] = '<a href="'.url('news').'">'.t('资讯中心').'</a>';
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		if($current_path =='news'){
+		  $breadcrumbs[] = '<a href="'.url('news').'">'.t(' 资讯中心').'</a>';
 		}else{
-	        }
-                $output = '<div class="breadcrumb">';
-		$output .=implode( $breadcrumb_separator , $breadcrumbs);
+                  
+	        }                              
+                $output .= '<div class="breadcrumb">';
+                $output .=implode( $breadcrumb_separator , $breadcrumbs);
+                
 		$output .= '</div>';
 		return $output;
 	}
+        
+        if($current_path =='edu'){
+                
+	        $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		if($current_path =='edu'){
+		  $breadcrumbs[] = '<a href="'.url('edu').'">'.t(' 教学资源').'</a>';
+		}else{
+	        }                              
+                $output .= '<div class="breadcrumb">';
+                $output .=implode( $breadcrumb_separator , $breadcrumbs);                
+		$output .= '</div>';
+		return $output;
+	}
+        
+        if($current_path =='expert'){
+                
+	        $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		if($current_path =='expert'){
+		  $breadcrumbs[] = '<a href="'.url('expert').'">'.t(' 专家队伍').'</a>';
+		}else{
+	        }                              
+                $output .= '<div class="breadcrumb">';
+                $output .=implode( $breadcrumb_separator , $breadcrumbs);                
+		$output .= '</div>';
+		return $output;
+	}
+        
+        if($current_path =='aboutus'){
+                
+	        $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		if($current_path =='aboutus'){
+		  $breadcrumbs[] = '<a href="'.url('aboutus').'">'.t(' 分社介绍').'</a>';
+		}else{
+	        }                              
+                $output .= '<div class="breadcrumb">';
+                $output .=implode( $breadcrumb_separator , $breadcrumbs);                
+		$output .= '</div>';
+		return $output;
+	}
+        
+        if($current_path =='contactus'){ 
+	        $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		if($current_path =='contactus'){
+		  $breadcrumbs[] = '<a href="'.url('contactus').'">'.t(' 联系我们').'</a>';
+		}else{
+	        }                              
+                $output .= '<div class="breadcrumb">';
+                $output .=implode( $breadcrumb_separator , $breadcrumbs);                
+		$output .= '</div>';
+		return $output;
+	}
+        
         $current_path  = drupal_get_path_alias();
         if($current_path =='training'){
-	  $breadcrumbs = array();
-		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
-		$breadcrumbs[] = '<a href="'.url('training').'">'.t('汉语培训').'</a>';
-
-	  $output = '<div class="breadcrumb">';
+	        $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		$breadcrumbs[] = '<a href="'.url('training').'">'.t(' 汉语培训').'</a>';
+	        $output = '<div class="breadcrumb">';
 		$output .=implode($breadcrumb_separator, $breadcrumbs);
 		$output .= '</div>';
 		return $output;
 	}
+        if(arg(0)=='node' && arg(1)>0){
+             $nid = arg(1);
+	     $node = node_load($nid);
+             if($node->type == 'book'){
+		  $breadcrumbs = array();
+		  $breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		  $breadcrumbs[] = '<a href="'.url('list').'">'.t(' 产品中心').'</a> ';
+		  $tid = $node->field_book_fenlei['und'][0]['tid'];   //获得产品分类，默认为社网的分类(field_category)
+		  $parents = taxonomy_get_parents_all($tid);
+                   $parents = array_reverse($parents);
+		  foreach($parents as $parent){
+			$breadcrumbs[] = '>> <a href="'.base_path().'list?category='.$parent->tid.'">'.$parent->name.'</a> ';
+		  }
+		  $output = '<div class="breadcrumb">';
+		  $output .=implode($breadcrumb_separator, $breadcrumbs);
+		  $output .= '</div>';
+		  return $output;
+				
+	     }
+             if($node->type =='training'){
+	        $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		$breadcrumbs[] = '<a href="'.url('training').'">'.t(' 汉语培训').'</a>';
+	        $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	     }
+             if($node->type =='news'){
+	        $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		$breadcrumbs[] = '<a href="'.url('news').'">'.t(' 资讯中心').'</a>';
+	        $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	     } 
+        
+           
+        }
+                          
   
   
   

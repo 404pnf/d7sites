@@ -331,7 +331,7 @@ class CAS_Client
 		if ( empty($this->_server['base_url']) ) {
 			 //$this->_server['base_url'] = 'https://' . $this->getServerHostname();
                          /**
-                          * https->http 
+                          * https->http
                           * fushun
                           * 2011/07/19
                           */

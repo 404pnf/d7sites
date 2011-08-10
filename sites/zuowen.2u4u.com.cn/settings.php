@@ -183,7 +183,7 @@
  'database' => 'zuowen11',
  'username' => 'py',
  'password' => 'pengyou',
- 'host' => 'localhost',
+ 'host' => '129.0.0.223',
 
  );
 

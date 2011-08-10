@@ -35,8 +35,8 @@ stylesheets[all][] = css/global.css
 stylesheets[print][] = css/print.css
 
 
-settings[basic_tabs] = 1
-settings[basic_breadcrumb_separator] = »
+settings[mlp_tabs] = 1
+settings[mlp_breadcrumb_separator] = »
 settings[wireframe_mode] = 0
 settings[clear_registry] = 0
 ; Information added by drupal.org packaging script on 2011-02-16

@@ -54,8 +54,6 @@
   <?php if ($rows): ?>
   
 <div id="bestgroup-content">
-	<!-- wrapper for navigator elements -->
-	<div class="navi"></div>
 	
 	<!-- "previous page" action -->
 	<a class="prev browse left disabled"></a>
@@ -107,21 +105,25 @@
   <?php endif; ?>
 
 </div> <?php /* class view */ ?>
-<SCRIPT type="text/javascript" src="/static/js/jquery.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="/static/js/jquery.tools.min.js"></SCRIPT>
 <script>
 /**/
 var $c=jQuery.noConflict();  //将变量$的控制权让渡给prototype.js
 $c(function(){ 
-	//alert('123');
-	// initialize scrollable together with the navigator plugin
+	total = 0;
+	$c("#bestgroup-items div.views-row").each(function(index){
+		total = index+1;
+	});
+	
+	if(total<=4) $c('a.next').addClass('disabled');
 	$c("#scroll").scrollable({
 		size: 4,
 		vertical:false,
 		clickable:false,
-		navi:'.navi',
+		//navi:'.navi',
 		items:'#bestgroup-items',
-		prevPage:'.prev',//跳转到上一页
-		nextPage:'.next',//跳转到下一页
+		prev:'.prev',//跳转到上一页
+		next:'.next',//跳转到下一页
 		hoverClass: 'hover',
 		easing:'linear' 
 	

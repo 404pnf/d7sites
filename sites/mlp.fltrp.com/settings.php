@@ -184,7 +184,7 @@ $databases['default']['default'] = array(
  	'database' => 'mlp-fltrp',
 	'username' => 'py',
  	'password' => 'pengyou',
- 	'host' => 'localhost',
+ 	'host' => '129.0.0.223',
  	'prefix' => array(
 			'default'   => '',
 //  			'users'     => 'ncec.',
@@ -198,7 +198,7 @@ $databases['data']['default'] = array(
         'database' => 'data',
         'username' => 'py',
         'password' => 'pengyou',
-        'host' => 'localhost',
+        'host' => '129.0.0.223',
         'prefix' =>'' ,
 );
 // set db connection to d6 sites. '2u4u' is the db name zhanglin called in his moudle

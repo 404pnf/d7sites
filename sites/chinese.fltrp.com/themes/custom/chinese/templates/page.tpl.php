@@ -85,16 +85,17 @@ if(!empty($node) && $node->type == 'page'){
 
   <?php if ($page['content_top']): ?>
      <div id="content-top">
+       <?php print $breadcrumb; ?>
        <?php print render($page['content_top']); ?>
      </div>
   <?php endif; ?><!-- /content_top -->
 
   <div id="content">
       <div id="content-inner" class="inner column center">
-
+        
         <?php if ($breadcrumb || $title|| $messages || $tabs || $action_links): ?>
           <div id="content-header">
-            
+           
             <?php print $breadcrumb; ?>
 
             <?php if ($page['highlight']): ?>

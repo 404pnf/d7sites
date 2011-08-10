@@ -7,8 +7,9 @@
  * create user accounts automatically.
  */
 
-define('CAS_LOGIN_INVITE_DEFAULT', 'Log in using CAS');
-define('CAS_TYUSER_SERVICES_URL', 'http://129.0.0.48:8080/uums/services/UserAuthWS?wsdl');
+define('CAS_LOGIN_INVITE_DEFAULT', 'Log in using sso');
+define('CAS_TYUSER_SERVICES_URL', 'http://passport.2u4u.com.cn/uums/services/UserAuthWS?wsdl');
+define('CAS_EXCLUDE', 'services/*');
 /**
  * Implements hook_init().
  *
@@ -203,15 +204,7 @@ function cas_user_register($edit = array()) {
  *   The phpCAS version if the phpCAS was successfully loaded, FALSE otherwise.
  */
 function cas_phpcas_load($path = NULL) {
-  if (!isset($path)) {
-    if (module_exists('libraries')) {
-      $path = libraries_get_path('CAS');
-    }
-    else {
-      $path = variable_get('cas_library_dir', 'CAS');
-    }
-  }
-
+  $path = variable_get('cas_library_dir', 'CAS');
   // Build the name of the file to load.
   if ($path != '') {
     $path = rtrim($path, '/') . '/';
@@ -244,12 +237,11 @@ function cas_phpcas_init() {
     return;
   }
   $initialized = TRUE;
-
-  // Variable set
-  $server_version    = (string)variable_get('cas_version', '2.0');
-  $server_cas_server = (string)variable_get('cas_server', 'sso-cas.univ-rennes1.fr');
-  $server_port       = (int)variable_get('cas_port', '443');
-  $server_uri        = (string)variable_get('cas_uri', '');
+  
+  $server_version    = '2.0';
+  $server_cas_server = 'passport.2u4u.com.cn';
+  $server_port       = 80;
+  $server_uri        = '/cas';
   if ( ($debugFile = variable_get("cas_debugfile", "")) != "" ) {
     phpCAS::setDebug($debugFile);
   }
@@ -480,6 +472,10 @@ function cas_login_block($form) {
  */
 function _cas_allow_check_for_login() {
   
+  if (!variable_get('cas_check_first', 0)) {
+    // The user has disabled the feature.
+    return FALSE;
+  }
   // Check to see if we already have.
   if (!empty($_COOKIE['cas_login_checked'])) {
     return FALSE;
@@ -529,6 +525,13 @@ function _cas_allow_check_for_login() {
     return FALSE;
   }
 
+  // Test against exclude pages.
+  if ($pages = variable_get('cas_exclude', CAS_EXCLUDE)) {
+    $path = drupal_get_path_alias($_GET['q']);
+    if (drupal_match_path($path, $pages)) {
+      return FALSE;
+    }
+  }
   return TRUE;
 }
 
@@ -554,6 +557,25 @@ function _cas_force_login() {
   if (function_exists('drush_verify_cli') && drush_verify_cli()) {
     return FALSE;
   }
+  // Excluded page do not need login.
+  if ($pages = variable_get('cas_exclude', CAS_EXCLUDE)) {
+    $path = drupal_get_path_alias($_GET['q']);
+    if (drupal_match_path($path, $pages)) {
+      return FALSE;
+    }
+  }
+
+  // Set the default behavior.
+  $force_login = variable_get('cas_access', 0);
+
+  // If we match the speficied paths, reverse the behavior.
+  if ($pages = variable_get('cas_pages', '')) {
+    $path = drupal_get_path_alias($_GET['q']);
+    if (drupal_match_path($path, $pages)) {
+      $force_login = !$force_login;
+    }
+  }
+   return $force_login;
 }
 /**
  * Implements hook_form_alter().
@@ -561,11 +583,11 @@ function _cas_force_login() {
  * Overrides specific from settings based on user policy.
  */
 function cas_form_alter(&$form, &$form_state, $form_id) {
+  drupal_add_js(drupal_get_path('module', 'cas') . '/cas.js');
   switch ($form_id) {
     case 'user_login':
     case 'user_login_block':
         $form['#attached']['css'][] = drupal_get_path('module', 'cas') . '/cas.css';
-        $form['#attached']['js'][] = drupal_get_path('module', 'cas') . '/cas.js';
         $form['cas.return_to'] = array('#type' => 'hidden', '#value' => user_login_destination());
         $form['userpass'] = array(
             '#type' => 'hidden',
@@ -574,13 +596,15 @@ function cas_form_alter(&$form, &$form_state, $form_id) {
        $form['#attributes'] = array('onclick' => "getreturn()");
        $items = array();
        $items[] = l(t(variable_get('cas_login_invite', CAS_LOGIN_INVITE_DEFAULT)), 'cas', array('attributes' => array('title' => t('cas login.'))));
-       $form['cas_links'] = array('#markup' => theme('item_list', array('items' => $items)));
+       $form['cas_links'] = array('#markup' => theme('item_list', array('items' => $items)),'#attributes' => array('id'=>'sso_login'));
        $form['#submit'] = array('cas_login_submit');
-//    $form['actions']['cancel'] = array(
-//        '#markup' => l(t(variable_get('cas_login_invite', CAS_LOGIN_INVITE_DEFAULT)), 'cas'),
-//    );
       break;
     case 'user_register_form':
+        $form['userpass'] = array(
+            '#type' => 'hidden',
+            '#attributes' => array('id'=>'edit-userpass'),
+         );
+        $form['#attributes'] = array('onclick' => "register_getreturn()");
         $form['cas.return_to'] = array('#type' => 'hidden', '#value' => user_login_destination());
         $form['#submit'] = array('cas_register_submit');
       break;

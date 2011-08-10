@@ -39,6 +39,7 @@ body{ background: url("../images/badybg20110726.jpg") repeat;}
 
 
 .focus{ padding:18px 9px 0;}
+.focus img{ display: block;}
 .pro{padding:4px 9px 0;}
 .searchnav{ padding-top:10px;}
 .searchcontent{ border: 1px solid #EDEAEB; margin:0 9px 9px 9px; height: 36px; background: url("../images/searchlongbg20110726.jpg") repeat-x;}

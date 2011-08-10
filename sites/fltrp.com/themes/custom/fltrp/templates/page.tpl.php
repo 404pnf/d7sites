@@ -1,5 +1,5 @@
 <?php
-if(!empty($node) && $node->type == 'book'){
+if(!empty($node) && ($node->type == 'book'||$node->type == 'digital')){
   include('my.overwrite/page--book.tpl.php');
    return;
 }
@@ -13,7 +13,7 @@ if(!empty($node) && $node->type == 'page'){
     $custom_style_file ='/css/extra.css';
     if(!empty($custom_style_file)){
     $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','fltrp').$custom_style_file.'");</style>';
-    print   $custom_style_uri ;
+  //  print   $custom_style_uri ;
   }
 }
 

@@ -184,7 +184,7 @@ $databases['default']['default'] = array(
  	'database' => 'databasename',
 	'username' => 'py',
  	'password' => 'pengyou',
- 	'host' => 'localhost',
+ 	'host' => '129.0.0.223',
  	'prefix' => array(
 			/*'default'   => '',
     			'users'     => 'ncec.',
@@ -194,7 +194,7 @@ $databases['default']['default'] = array(
   			),
  );
 // set db connection to d6 sites. '2u4u' is the db name zhanglin called in his moudle
- $databases['2u4u']['default'] = array(
+ /* $databases['2u4u']['default'] = array(
  	'driver' => 'mysql',
         'database' => '2u4u',
  	'username' => 'zl',
@@ -202,6 +202,7 @@ $databases['default']['default'] = array(
  	'host' => '221.122.115.57',
         'port' => '3306',
   );
+*/
 
 /**
  * Access control for update.php script.

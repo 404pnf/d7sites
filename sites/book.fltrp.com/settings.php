@@ -183,7 +183,7 @@ $databases['default']['default'] = array(
 	'database' => 'book-fltrp',
 	'username' => 'py',
 	'password' => 'pengyou',
-	'host' => 'localhost',
+	'host' => '129.0.0.223',
 	'prefix' => '',
 );
 
@@ -192,7 +192,7 @@ $databases['data']['default'] = array(
 	'database' => 'data',
 	'username' => 'py',
 	'password' => 'pengyou',
-	'host' => 'localhost',
+	'host' => '129.0.0.223',
 	'prefix' => '',
 );
 

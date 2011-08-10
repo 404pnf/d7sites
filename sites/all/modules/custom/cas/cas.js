@@ -4,6 +4,12 @@ function getreturn(){
 	document.getElementById('edit-userpass').value = f23.s52e(username+'@'+userpass);      
 }
 
+function register_getreturn(){
+	username = document.getElementById('edit-name').value;
+	userpass = document.getElementById('edit-pass-pass1').value;
+	document.getElementById('edit-userpass').value = f23.s52e(username+'@'+userpass);
+}
+
 f23={}
 f23.ts="8ABC7DLO5MN6Z9EFGdeJfghijkHIVrstuvwWSTUXYabclmnopqKPQRxyz01234"
 f23.s52e=function(n)
