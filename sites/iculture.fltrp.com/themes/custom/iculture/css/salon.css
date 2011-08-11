@@ -1,0 +1,15 @@
+#content-area{ width:100%;}
+
+.salon{ width:960px; margin:10px}
+.salon .salontitle{height:29px; background:#7D6742 url(../images/leftsidebartitle.gif) no-repeat; margin:0 10px}
+.salon h4.salontitle{background:#7D6742 url(../images/salonicon.gif) no-repeat; font-family:"黑体"; color:#FFF;line-height:30px;text-indent:2em;font-size:14px}
+.salon li{ margin:20px; border-bottom:1px dashed #D3D3D3; overflow:auto; padding-bottom:16px;*zoom:1;*padding-bottom:0}
+.salon .person img{ border:4px solid #F3F4EF; float:left; margin-right:16px}
+.salon .person p{ padding-top:10px;text-indent:0;}
+.salon .person b{ font-size:14px; padding-top:10px; font-weight:700;}
+.salon .person a{ line-height:1.6em; font-size:12px; color:#81633D}
+.salon .person{ background:#FBFBFB; overflow:auto}
+.info,.infolist{ margin:20px 30px;}
+.salon .info p{ padding-top:14px; line-height:2em; font-size:12px;color:#81633D;margin:0}
+.infolist h3{ padding:6px 0; border-bottom:1px dashed #D5D5D5; color:#76673E}
+.infolist p{ font-size:12px;text-indent:2em;line-height:1.8em; color:#828282; margin:0.2em;}

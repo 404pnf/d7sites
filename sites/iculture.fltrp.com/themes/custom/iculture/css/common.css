@@ -1,0 +1,55 @@
+/* 分社公用样式*/
+body{ background: url("../images/badybg20110726.jpg") repeat;}
+#header{background: url("../images/topnavbg20110726.gif") repeat-x; width: 980px; margin: 0 auto; height: 64px; overflow: hidden;}
+.topnav{ background: #8c0101; height: 34px;min-width:980px}
+.topnav a{ float: left}
+.topnav ul{ float: right;}
+.topnav ul li{ float: left; margin-right: 30px;line-height:34px;}
+.topnav ul li a{ font-weight: 700; color: #E9CFCE; font-size: 12px}
+.topnav ul li a:hover{ color: #fff;}
+.topnavcontent{ width: 980px; margin: 0 auto;}
+
+/* Logo 和菜单*/
+#logo{ float: left; display: inline; margin: 0}
+#header-region{ overflow: auto; height: 64px}
+.logoNav{margin: 0 auto;}
+.logoNav ul{ float: right; margin: 27px 92px 0 0; letter-spacing: 0; overflow: hidden; display: inline}
+.logoNav ul li{ float: left;margin:0 4px}
+.logoNav ul li a{ padding:10px 17px; color:#585858; font-weight:700; font-size: 14px; display: block}
+.logoNav ul li a.active,.logoNav ul li a:hover{background: url("../images/topnavbg20110805.jpg") repeat-x;color: #fff;}
+#main{width:980px; margin: 0 auto; background: #fff}
+#content-top{ position: relative;}
+.breadcrumb{ font-size: 13px;left: 40px;position: absolute;top: 23px;color: #888}
+.breadcrumb a{color: #888;}
+
+/* sidebar-first */
+#sidebar-first{ width: 234px; margin-right: -234px;}
+#sidebar-first-inner{margin: 0 10px; width: 214px;}
+#sidebar-first-inner .outul li{line-height:2.3em;overflow: auto;*zoom:1;background: url("../images/greenpoint.gif") no-repeat 0 1.2em; margin:0 10px; text-indent:1.4em;}
+#sidebar-first-inner .outul li a{ font-size: 12px; color: #5E5F61;}
+#sidebar-first-inner h1{ margin:18px}
+#sidebar-first-inner h3{color:#FFF;background: url("../images/sidebar_20110805.gif") no-repeat;height: 29px;line-height:30px;margin: 8px 0 0;text-indent: 2.4em;}
+#sidebar-first-inner h3.open{color:#FFF;background: url("../images/sidebar_e_20110805.gif") no-repeat;height: 29px;line-height:30px;margin: 8px 0 0;text-indent: 2.4em;}
+#sidebar-second{ width: 262px; margin-left: -262px}
+#sidebar-second-inner{margin: 0 12px; width: 239px;}
+.ad{ margin-top: 10px;}
+
+/* footer */
+#footer{ background: #FFF; width: 980px; margin: 0 auto; padding: 30px 0 50px}
+#footer .fcenter{ border-top: 2px solid #980100; padding: 4px 0}
+#footer .footernav{background:#EFF4F3; height: 30px; width: 100%; margin-bottom: 20px}
+#footer ul{ line-height: 30px; margin:0 40px; width: auto; height: auto;margin-bottom: 20px;overflow: hidden;}
+#footer ul li{border-left: 1px solid #094A71; margin: 8px 0 0 -1px; float: left;line-height: 14px;margin-left: -1px;padding: 0 10px;}
+#footer ul li a{ color:#094A71; font-size: 12px;}
+#footer p {color: #666666;font-size: 12px;margin: 10px 0 0;text-align: center;}
+
+/* 分页*/
+.item-list .pager li {margin: 0;}
+
+/* 焦点大图和搜索*/
+.focus{ padding:9px 9px 0;}
+.pro{padding:4px 9px 0;}
+.searchnav{ padding-top:10px;}
+.searchcontent{ border: 1px solid #EDEAEB; margin:0 9px 0 9px; height: 36px; background: url("../images/searchlongbg20110726.jpg") repeat-x;*width:960px; *margin: 0 auto}
+.searchnav .form-text{ width: 250px; float: left; padding: 5px;margin: 5px 10px 0 600px; font-size: 12px;background:#FFFFFF;border-color: #999999 #DDDDDD #DDDDDD #999999;border-style: solid;border-width: 1px;color: #CFCFCF;}
+.searchnav .form-submit{ background: #8A0101; width: 60px; color:#FFF; padding: 4px;margin: 5px 0 0 0;font-size: 12px; border: 1px solid #FFF}
