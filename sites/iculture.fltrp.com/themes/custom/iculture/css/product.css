@@ -1,0 +1,48 @@
+/* 产品首页*/
+#content-inner{ width:730px; margin-left: 240px}
+.productlist{ overflow: auto}
+.productlist li{ border-bottom: 1px dashed #999; padding: 25px 0; overflow: auto; font-size: 12px;_zoom:1;*+height:164px}
+.productlist li a{ display: block; color: #FF6602; padding: 8px 2em 14px}
+.productlist li p{color: #999;line-height:1.4em; margin: 0;}
+.productlist li img{ float: left; margin-right: 15px;}
+.productlist li.column{ width: 98%;}
+.productlist li.column2{ margin:0 0 0 2px; width: 48%;}
+.training .imgbg{background:url("../images/imgbg.gif") no-repeat 0 0; width: 104px; height: 100px; float: left; margin-right:20px}
+.training .imgbg img{ margin: 6px 9px 10px }
+.training li{border-bottom: 1px dashed #DDDDDD;}
+.training li p{ color: #000; margin-bottom: 10px;}
+.training li a{color: #000;}
+.training li a h2{ margin-bottom: 10px}
+
+/*编辑推荐  recommendation*/
+.recommendation{overflow:hidden; width:728px;height:110px;border: 1px solid #fee9b9; margin:20px 0 16px; background-image:url("../images/tuijian20110623.gif"); background-color:#FFFEF7; background-repeat: no-repeat; position: relative;}
+.recommendation .fleft{background:url("../images/lrb_03.jpg") 0 -22px; width:23px; height: 23px; position: absolute; top:44px;left:60px;}
+.recommendation .fright{background:url("../images/lrb_03.jpg"); width:23px; height: 23px; position: absolute;top:44px;left:680px; }
+.srlist{ width: 760px;}
+.srlist ul{ overflow: auto;margin: 0 30px 0 80px;}
+.srlist ul li.column3{ float: left; margin: 0;width: 31%;} 
+.srlist ul li a{ display: block; font-size: 12px ;color: #666;}
+.srlist ul li p{padding-top: 20px;}
+.srlist ul li a img{ float: left; margin: 10px;}
+
+/* 产品列表*/
+.tab{height:28px; border: 1px solid #DFDFDF;background: url("../images/tabbg20110808.gif") repeat-x;}
+.tab li{ float: left; padding: 9px 30px; border-right:1px solid #ccc; font-size: 12px; position: relative;}
+.tab li.strong{ font-weight: 700; font-size: 13px;overflow: hidden;padding: 6px 30px;}
+.tab li.active{color: #FFF; font-weight: 700;height:14px;background: url("../images/lctopbg20110805.gif");}
+.tab li{ float: left; padding: 7px 30px; border-right:1px solid #ccc; font-size: 12px; position: relative;}
+.productlist .productname{font-size:13px; padding-bottom: 6px;}
+.productlist p{ color: #848484; line-height:1.8em;}
+.productlist b{ color: #848484; padding:15px 0; display:block }
+.productlist li .buy a{ float: left; display: block;height: 26px; margin: 0 10px 0 0;line-height: 26px; padding:0;display: inline; color:#404040; }
+.b{background: url("../images/buy_20110623.gif");text-indent:2em;width: 103px;}
+.r{background: url("../images/buy_20110623.gif") -103px 0;text-indent:2.2em;width: 81px;}
+
+
+/* 三级图书内容 bookinfo*/
+.bookimg{padding:15px; border: 1px solid #ddd; float: left; margin: 10px 40px 10px 10px;display: inline;}
+.bookimg img{ width:140px;height:200px}
+#bookinfo h1{margin: 24px 10px 5px 15px;}
+#bookinfo p{ font-size: 12px; color: #505050; margin: 1.6em 0 0 0;}
+#bookinfo .bookcontent,#bookinfo .bookdirectory{ margin: 10px 10px 10px 10px; line-height: 26px; border-top:3px solid #d5d5d5;border-bottom:1px dashed #d5d5d5; padding:30px 20px; font-size: 12px;}
+#bookinfo .bookcontent p,#bookinfo .bookdirectory p{ margin:6px 0;}

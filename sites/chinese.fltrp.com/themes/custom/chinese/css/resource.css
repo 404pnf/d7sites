@@ -5,5 +5,5 @@
 .textlist ul li{background: url("/fltrp/images/blackpoint.gif") no-repeat 0 17px;text-indent:.8em;}
 .textlist ul li a{ color:#000; line-height: 2.6em;  }
 .textlist ul li a:hover{ color: #9B1E00}                                                                                                    
-.imgbox{ float: left; padding: 10px; border: 1px solid #999; margin: 25px 20px 20px 10px; height: 100%;}                                    
+.imgbox{ float: left; padding: 10px;margin: 25px 20px 20px 10px; height: 100%;}                                    
 .fclear{clear: both;}      

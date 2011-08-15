@@ -44,7 +44,7 @@
 						$newsimages_output = '';
 						$newsimages_output .='<div class="coin_slider_container">';
 						$newsimages_output .='<div id="coin_slider">';
-						
+					        $news_image_style="news";	
 						foreach ($newsimages as $newsimage)
 						{
 								$newsimage_title = $newsimage["title"];

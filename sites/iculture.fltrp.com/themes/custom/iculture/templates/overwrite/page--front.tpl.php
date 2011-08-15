@@ -93,7 +93,7 @@
         <div id="content-area">		
 				<!-- 	首页-资讯中心  开始	 -->			
 					<div class="textlist">
-	        			<h1 class="blocktitle"><a href="" class="more">更多>></a></h1>
+	        			<h1 class="blocktitle"><a href="news" class="more">更多>></a></h1>
 						<?php
 			             $views_name = 'news';
                         $display_id = 'home';
@@ -106,7 +106,7 @@
 
 				<!-- 	    新书推荐开始   		 -->
 	        		<div class="imglist">
-	        			<h1 class="blocktitle"><a href="" class="more">更多>></a></h1>
+	        			<h1 class="blocktitle"><a href="products" class="more">更多>></a></h1>
 						<?php
 			             $views_name = 'products';
                         $display_id = 'home_new';
@@ -116,13 +116,12 @@
 	        		<!-- 	    新书推荐结束  		 -->
 					<!-- 	    博雅双语名家名作开始   		 -->
 	        		<div class="imglist by">
-	        			<h1 class="blocktitle"><a href="" class="more">更多>></a></h1>
-	        			<ul>
-	        				<li><a href=""><img src="/fltrp/images/h.gif" alt=""  width="86" height="120"/>五周突破日汉翻译能力考试语</a></li>
-	        				<li><a href=""><img src="/fltrp/images/h.gif" alt="" width="86" height="120"/>译能力考试语法 Nd2 级</a></li>
-	        				<li><a href=""><img src="/fltrp/images/h.gif" alt="" width="86" height="120"/>五周突破日汉试语法 Nd2 级</a></li>        					
-							<li><a href=""><img src="/fltrp/images/h.gif" alt="" width="86" height="120"/>五周力考试语法 Nd2 级</a></li>				
-	        			</ul>
+	        			<h1 class="blocktitle"><a href="products" class="more">更多>></a></h1>
+	 						<?php
+			             $views_name = 'products';
+                        $display_id = 'baoya';
+                         print views_embed_view($views_name, $display_id);
+					 ?>
 	        		</div>
 	        		<!-- 	    博雅双语名家名作结束  		 -->
 	        
@@ -148,7 +147,8 @@
 
 		<!--       左侧名家沙龙开始  		 -->
                 <div class="slong">
-                	<h3></h3>
+                	<h3><a href="famous" class="more">更多>></a></h3> 
+
               		<?php
 			            $views_name = 'famous';
                         $display_id = 'home';

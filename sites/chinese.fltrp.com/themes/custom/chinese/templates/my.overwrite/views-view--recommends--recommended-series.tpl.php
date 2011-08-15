@@ -106,26 +106,32 @@
     </div>                                                                                                                                  
   <?php endif; ?>                                                                                                                           
                                                                                                                                             
-</div> <?php /* class view */ ?>                                                                                                            
-<SCRIPT type="text/javascript" src="/static/js/jquery.js"></SCRIPT>                                                                         
-<script>                                                                                                                                    
-/**/                                                                                                                                        
-var $c=jQuery.noConflict();  //将变量$的控制权让渡给prototype.js                                                                            
-$c(function(){                                                                                                                              
-        //alert('123');                                                                                                                     
-        // initialize scrollable together with the navigator plugin                                                                         
-        $c("#scroll").scrollable({                                                                                                          
-                size: 4,                                                                                                                    
-                vertical:false,                                                                                                             
-                clickable:false,                                                                                                            
-                navi:'.navi',                                                                                                               
-                items:'#bestgroup-items',                                                                                                   
-                prevPage:'.prev',//跳转到上一页                                                                                             
-                nextPage:'.next',//跳转到下一页                                                                                             
-                hoverClass: 'hover',                                                                                                        
-                easing:'linear'                                                                                                             
-                                                                                                                                            
-        });                                                                                                                                 
-                                                                                                                                            
-});                                                                                                                                         
-</script>                                                              
+</div> <?php /* class view */ ?>                                                                                                           
+
+<script src="/static/js/jquery.tools.min.js" type="text/javascript"></script>
+		
+<script>
+	var $c=jQuery.noConflict();  //将变量$的控制权让渡给prototype.js或其他js库
+	$c(function(){ 
+		total = 0;
+		$c("#bestgroup-items div.views-row").each(function(index){
+			total = index+1;
+		});
+		
+		if(total<=4) $c('a.next').addClass('disabled');
+		
+		$c("#scroll").scrollable({
+                     		size: 4,	//一屏显示4本图书（需要配合css实现，主要是.scrollable{width:600px;}以及图书封面img的大小宽度，以及margin、padding值）
+				vertical:false, 
+				clickable:false,
+				//navi:'.navi', //是否显示可点击翻页的小按钮，同时需要配合<div class="navi"></div>，是否添加到模板文件中。
+				items:'#bestgroup-items',
+				prev:'.prev',//跳转到上一项
+				next:'.next',//跳转到下一项
+				hoverClass: 'hover',
+				easing:'linear' 
+			
+			}); 
+		
+		});
+</script> 

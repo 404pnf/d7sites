@@ -24,9 +24,9 @@ body{ background: url("../images/badybg20110726.jpg") repeat;}
 
 /* sidebar-first */
 #sidebar-first{ width: 234px; margin-right: -234px;}
-#sidebar-first-inner{margin: 0 10px; width: 214px;}
-#sidebar-first-inner .outul li{line-height:2.3em;overflow: auto;*zoom:1;background: url("../images/greenpoint.gif") no-repeat 0 1.2em; margin:0 10px; text-indent:1.4em;}
-#sidebar-first-inner .outul li a{ font-size: 12px; color: #5E5F61;}
+#sidebar-first-inner{margin: 10px 10px; width: 214px;}
+#sidebar-first-inner .outul li{overflow: auto;*zoom:1;padding:10px 0; border-bottom:1px dashed #CCC; margin:0 5px}
+#sidebar-first-inner .outul li a{ font-size: 12px; color: #FFF;background: url("../images/leftbarbg20110811.gif") no-repeat; width:203px; height:20px; display:block;line-height:20px;text-align:center;font-family:"simhei"; font-size:14px}
 #sidebar-first-inner h1{ margin:18px}
 #sidebar-first-inner h3{color:#FFF;background: url("../images/sidebar_20110805.gif") no-repeat;height: 29px;line-height:30px;margin: 8px 0 0;text-indent: 2.4em;}
 #sidebar-first-inner h3.open{color:#FFF;background: url("../images/sidebar_e_20110805.gif") no-repeat;height: 29px;line-height:30px;margin: 8px 0 0;text-indent: 2.4em;}
@@ -48,6 +48,7 @@ body{ background: url("../images/badybg20110726.jpg") repeat;}
 
 /* 焦点大图和搜索*/
 .focus{ padding:9px 9px 0;}
+.focus img{ display: block;}
 .pro{padding:4px 9px 0;}
 .searchnav{ padding-top:10px;}
 .searchcontent{ border: 1px solid #EDEAEB; margin:0 9px 0 9px; height: 36px; background: url("../images/searchlongbg20110726.jpg") repeat-x;*width:960px; *margin: 0 auto}

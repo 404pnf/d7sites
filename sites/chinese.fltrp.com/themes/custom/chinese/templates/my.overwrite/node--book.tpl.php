@@ -1,4 +1,5 @@
-<link href="/static/css/bookinfoswitch.css" media="all" rel="stylesheet" type="text/css">
+<!--<link href="/static/css/bookinfoswitch.css" media="all" rel="stylesheet" type="text/css"> -->
+<link href="/static/css/recommended_books.css" media="all" rel="stylesheet" type="text/css">
 <link href="/static/css/shareto.css" media="all" rel="stylesheet" type="text/css">
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
@@ -23,7 +24,7 @@
 		//print_r($node);
 	//	print ("</pre>");
 
-       $nid = $node->nid;     
+                $nid = $node->nid;     
 		$title = $node->title;        //图书名称
 		if(!empty($node->field_series['und'])){
      		$series = $node->field_series['und'][0]['taxonomy_term']->name;        //图书系列名称
@@ -36,12 +37,11 @@
 		$zdfs = $node->field_zdfs['und'][0]['taxonomy_term']->name;;        //装订方式
 		$publish_date= $node->field_publish_date['und'][0]['value'];        //发布日期
 		$price = $node->field_price['und'][0]['value'];        //价格
-	    $img = $node->field_img['und'][0]['uri'];        //封面
+                $img = $node->field_img['und'][0]['uri'];        //封面
 		$img =file_create_url($img );        //封面
 		$body = $node->body['und'][0]['safe_value'];        //简介    
 		$directory = $node->field_directory['und'][0]['safe_value'];        //目录    
-     	$read_online = $node->field_read_online['und'][0]['value'];        //在线阅读地址
-
+     	        $read_online = $node->field_read_online['und'][0]['value'];        //在线阅读地址
 		$educations = $node->field_education['und'];   
 		$education_tids = '';
 		$i=1;
@@ -121,12 +121,12 @@
 						<?php
 						if (!empty($seriestid)){
 							$views_name = 'recommends';
-	                        $display_id = 'recommended_series';
+                                                        $display_id = 'recommended_series';
 							$views_parameter1=$seriestid ;
 							$views_parameter2=$nid ;						
 						}else{
 							$views_name = 'recommends';
-	                        $display_id = 'recommended_education';
+	                                                $display_id = 'recommended_education';
 							$views_parameter1=$education_tids ;
 							$views_parameter2=$nid ;
 						}

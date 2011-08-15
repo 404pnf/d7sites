@@ -1,7 +1,0 @@
-core = "7.x"
-dependencies[] = "feeds"
-description = "导出feeds适合各个站点"
-features[ctools][] = "feeds:feeds_importer_default:1"
-features[feeds_importer][] = "for_each"
-name = "导出feeds"
-package = "Features"

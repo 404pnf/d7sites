@@ -7,6 +7,24 @@
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
   <?php print $styles; ?>
+<?php
+        global $base_url;
+        $current_path   = drupal_get_path_alias();
+        switch($current_path){
+          case "news":
+          $custom_style_file ='/css/information.css';
+                 break;  
+        }
+ if(stristr($current_path,'news/'))
+                           $custom_style_file ='/css/information.css';
+ if(!empty($custom_style_file)){
+    $custom_style_uri = '<style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','chinese').$custom_style_file.'");</style>';
+    print   $custom_style_uri ;
+}
+ 
+
+?>
+
   <?php print $scripts; ?>
 </head>
 <body class="<?php print $classes; ?>" <?php print $attributes;?>>

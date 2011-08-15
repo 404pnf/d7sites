@@ -1,4 +1,0 @@
-; $Id$
-name = Batch Detele
-description = Batch Detele nodes, terms, blocks, users
-core = 7.x

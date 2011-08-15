@@ -1,4 +1,13 @@
 <div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
+  <!-- ______________________ TOP NAVIGATION_______________________ -->
+    <?php if ($page['topnav']): ?>
+      	<div class="topnav">				
+			<div class="topnavcontent">
+	        <?php print render($page['topnav']); ?>
+		  </div>
+	   </div>
+    <?php endif; ?>
+
 
   <!-- ______________________ HEADER _______________________ -->
 

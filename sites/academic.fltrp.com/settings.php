@@ -1,5 +1,4 @@
 <?php
-// $Id: default.settings.php,v 1.52 2011/01/28 07:03:57 webchick Exp $
 
 /**
  * @file
@@ -178,16 +177,21 @@
  *   );
  * @endcode
  */
-
-$databases['default']['default'] = array(
-	'driver' => 'mysql',
- 	'database' => 'academic',
-	'username' => 'py',
- 	'password' => 'pengyou',
- 	'host' => '129.0.0.223',
- 	'prefix' => array(
-  			),
- );
+$databases = array (
+  'default' => 
+  array (
+    'default' => 
+    array (
+      'database' => 'academic',
+      'username' => 'py',
+      'password' => 'pengyou',
+      'host' => '129.0.0.223',
+      'port' => '',
+      'driver' => 'mysql',
+      'prefix' => '',
+    ),
+  ),
+);
 
 /**
  * Access control for update.php script.
@@ -219,7 +223,7 @@ $update_free_access = FALSE;
  *   $drupal_hash_salt = file_get_contents('/home/example/salt.txt');
  *
  */
-$drupal_hash_salt = '';
+$drupal_hash_salt = 'wzMc8WcFpb4hE4o5F6OdKrhWHLnre-jToCBq2RtFvkU';
 
 /**
  * Base URL (optional).
@@ -378,14 +382,12 @@ ini_set('session.cookie_lifetime', 2000000);
  * the cache. If the site has mostly anonymous users except a few known
  * editors/administrators, the Vary header can be omitted. This allows for
  * better caching in HTTP proxies (including reverse proxies), i.e. even if
- * clients send different cookies, they still get content served from the cache
- * if aggressive caching is enabled and the minimum cache time is non-zero.
+ * clients send different cookies, they still get content served from the cache.
  * However, authenticated users should access the site directly (i.e. not use an
  * HTTP proxy, and bypass the reverse proxy if one is used) in order to avoid
  * getting cached pages from the proxy.
  */
 # $conf['omit_vary_cookie'] = TRUE;
- $conf['omit_vary_cookie'] = TRUE;
 
 /**
  * CSS/JS aggregated file gzip compression:
