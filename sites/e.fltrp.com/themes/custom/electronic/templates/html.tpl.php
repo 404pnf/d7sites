@@ -11,6 +11,9 @@
         global $base_url;
         $current_path   = drupal_get_path_alias();
         switch($current_path){
+          case "frontpage":
+          $custom_style_file ='/css/index.css';
+                 break;
           case "news":
           $custom_style_file ='/css/information.css';
                  break;  

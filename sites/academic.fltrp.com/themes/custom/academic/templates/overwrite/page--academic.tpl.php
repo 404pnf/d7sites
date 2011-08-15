@@ -85,7 +85,7 @@
           <?php print render($page['content']) ?>
 		  <?php
 			$academic = arg(1);
-			$views_name = 'academic_category';
+			$views_name = 'center_category';
 			$display_id = 'academic_category_top';
 			print views_embed_view($views_name, $display_id,$academic);
 		  ?>
@@ -105,11 +105,6 @@
 
     <?php if ($page['sidebar_first']): ?>
       <div id="sidebar-first" class="column sidebar first">
-	  <?php
-      $views_name = 'academic_category';
-      $display_id = 'academic_category_left';
-      print views_embed_view($views_name, $display_id);
-	 ?>
 	  
 	  
         <div id="sidebar-first-inner" class="inner">
