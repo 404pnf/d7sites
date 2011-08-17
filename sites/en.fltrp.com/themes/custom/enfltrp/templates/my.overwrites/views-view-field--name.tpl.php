@@ -30,7 +30,7 @@
 	  $yz="All";
 	 }      
       $category = $row->tid;  
-      $path_rd = 'en?category='.$category.'&rd='.$rd.'&yz='.$yz;
+      $path_rd = '/en?category='.$category.'&rd='.$rd.'&yz='.$yz; //"/"为绝对路径不能不加,否则图书节点选择分类不正常
      
 ?>
 

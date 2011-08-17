@@ -37,6 +37,7 @@
       $path_yz = 'en?category='.$category.'&rd='.$rd.'&yz='.$yz;
 ?>
 
+<div class="isactive">
 
 <?php
 
@@ -44,7 +45,7 @@ $initialize=$_GET['yz'];
 
 if ($initialize == $yz){
 	//$content = "<div class='sort2'><a href='$path_yz'>".$row->taxonomy_term_data_name."</a></div>";
-        $content = "<div class='sort2'><a class='active' href='$path_yz'>".$fields['field_language_en']->content."</a></div>";
+        $content = "<div class='sort2'><a href='$path_yz'>".$fields['field_language_en']->content."</a></div>";
 	print $content;       
 }else{ 
     $full_path ="<a href='$path_yz'>".$fields['field_language_en']->content."</a>";
@@ -52,3 +53,4 @@ if ($initialize == $yz){
 }
 ?>
 
+</div> 

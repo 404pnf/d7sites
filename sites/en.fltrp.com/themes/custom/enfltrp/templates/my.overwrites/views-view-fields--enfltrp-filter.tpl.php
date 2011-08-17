@@ -31,7 +31,11 @@
 
 <div class="enfilter_other">
  <ul>
-  <li><strong>Title: <?php print $fields['field_ebname']->content; ?></strong></li>
+  <li><strong>Title: <?php 
+                         $url=$fields['path']->content;
+                         $content = "<a href='$url'>".$fields['field_ebname']->content."</a>";
+                         print $content; ?>
+      </strong></li>
   <li><strong>ISBN:</strong><?php print $fields['field_isbn']->content; ?></li>
   <li><strong>Dimensions:</strong> <?php print $fields['field_english_dimensions']->content; ?></li>
   <li><strong>Price:</strong><?php print $fields['sell_price']->content; ?></li>

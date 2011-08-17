@@ -34,17 +34,17 @@
 	  $yz="All";
 	 }      
       $rd = $row->tid;  
-      $path_rd = 'en?category='.$category.'&rd='.$rd.'&yz='.$yz;
+      $path_rd = '/en?category='.$category.'&rd='.$rd.'&yz='.$yz;
 ?>
 
-<div class="isactive">
+
 
 <?php
 
 $initialize=$_GET['rd'];
 
 if ($initialize == $rd){
-	$content = "<div class='sort_reader'><a href='$path_rd'>".$row->taxonomy_term_data_name."</a></div>";
+	$content = "<div class='sort_reader'><a class='active' href='$path_rd'>".$row->taxonomy_term_data_name."</a></div>";
 	print $content;       
 }else{
     
@@ -53,4 +53,3 @@ if ($initialize == $rd){
     print $full_path;	
 }
 ?>
-</div>
