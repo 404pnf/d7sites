@@ -1,0 +1,29 @@
+/* 资讯页面*/
+#content-inner{ width:680px; margin-right: 240px; margin-left: 30px}
+#sidebar-second{ width: 220px;  margin-left: -220px; margin-right: 14px; margin-top:30px}
+#sidebar-second-inner{ background: #F6F6F6; border: 1px solid #ccc; width: 204px; text-align: center; padding-bottom: 6px}
+#sidebar-second-inner .ad img{ margin: auto}
+#sidebar-second-inner .ad{ margin-top: 6px;}
+.textlist{ overflow: auto;*margin-top:14px;margin:50px auto 30px}
+.textlist ul{ margin:5px; overflow: auto;font-size:14px; padding-top: 10px}
+.textlist ul li{background: url("../images/blackpoint.gif") no-repeat 0 15px;text-indent:.8em;}
+.textlist ul li a{ color:#4E6471; line-height: 2.2em;}
+.textlist ul li a:hover{ color: #9B1E00}
+.textlist h2{ height:25px; overflow: hidden;text-indent:-99em;position: relative; width:100%;}
+.textlist .hyinfotitle{background: url("../images/infortitle20110805.gif") no-repeat;}
+.textlist .more{position: absolute;text-indent:0;top:12px;right:0; font-weight:400; color: #404040;font-size:12px;}
+.textlist li span{ color: #a9a9a9; font-size: 12px;}
+/*资讯焦点图片列表*/
+.imglist{ background-image: url("../images/zynews20110805.gif"); background-repeat: no-repeat; border: 1px solid #E4E4E4; overflow: auto;_zoom:1; background-color: #F8F9FB; margin-top:30px; *padding-bottom: 10px;}
+.imglistcontent img{float: left;margin: 16px 16px 16px;}
+.imglistcontent h3{margin-top: 20px; margin-bottom: .9em;}
+.imglistcontent h3 a{ color: #CB2411;}
+.imglistcontent p{ color: #666; font-size: 12px; line-height: 1.6em; padding:  0 10px; margin-bottom: 0.2em;}
+.imglistcontent{margin: 16px 0 10px 15px; width: 47%;}
+/* 资讯文章页*/
+.redborder{ border: 1px solid #EFD9DB; margin-top: 30px; margin-left: 10px!important; width: 730px!important; padding-bottom: 40px}
+.articletitle{ text-align: center; font-size: 26px; margin-top: 40px;}
+.articledate{ display: block; margin: 10px 20px 30px; text-align: right; color: #999; font-size: 12px; border-bottom: 1px dashed #ddd; padding-bottom: 14px}
+.articlecontent{ margin: 20px 40px;}
+.articlecontent p{ text-indent:2em; line-height:2em;}
+

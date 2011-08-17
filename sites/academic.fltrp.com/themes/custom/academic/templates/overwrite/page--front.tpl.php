@@ -1,4 +1,13 @@
-<div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
+﻿<div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
+  <!-- ______________________ TOP NAVIGATION_______________________ -->
+    <?php if ($page['topnav']): ?>
+      	<div class="topnav">				
+			<div class="topnavcontent">
+	        <?php print render($page['topnav']); ?>
+		  </div>
+	   </div>
+    <?php endif; ?>
+
 
   <!-- ______________________ HEADER _______________________ -->
 
@@ -82,19 +91,29 @@
         <?php endif; ?>
 
         <div id="content-area">
+		<!-- 	       资讯开始 		 -->
+	        		<div class="textlist">
+	        			<h1 class="blocktitle"><a href="" class="more">更多>></a></h1>
+	        			<?php
+			             $views_name = 'academic_news';
+                        $display_id = 'news_index';
+                         print views_embed_view($views_name, $display_id);
+				   ?>
+	        		</div>
+	        		<!-- 	       资讯结束		 -->
+					
+		<!-- 	    新书推荐开始   		 -->
+	        		<div class="imglist">
+	        			<h1 class="blocktitle"><a href="products" class="more">更多>></a></h1>
+						<?php
+			             $views_name = 'products';
+                        $display_id = 'home_new';
+                         print views_embed_view($views_name, $display_id);
+					 ?>
+	        		</div>
+	        		<!-- 	    新书推荐结束  		 -->
+		
           <?php print render($page['content']) ?>
-		  <?php
-			$academic = arg(1);
-			$views_name = 'center_category';
-			$display_id = 'academic_category_top';
-			print views_embed_view($views_name, $display_id,$academic);
-		  ?>
-		  <?php
-			$academic = arg(1);
-			$views_name = 'center_product';
-			$display_id = 'center_body';
-			print views_embed_view($views_name, $display_id,$academic);
-		  ?>
         </div>
 
         <?php print $feed_icons; ?>
@@ -111,21 +130,40 @@
 
     <?php if ($page['sidebar_first']): ?>
       <div id="sidebar-first" class="column sidebar first">
-	  
-	  
         <div id="sidebar-first-inner" class="inner">
           <?php print render($page['sidebar_first']); ?>
         </div>
       </div>
     <?php endif; ?> <!-- /sidebar-first -->
 
-    <?php if ($page['sidebar_second']): ?>
+    <?php // if ($page['sidebar_second']): ?>
       <div id="sidebar-second" class="column sidebar second">
         <div id="sidebar-second-inner" class="inner">
+		<!-- 辞典知识开始 -->
+				<div class="textlist">
+					<h3><a href="" class="more">more</a></h3>
+					<?php
+			             $views_name = 'academic_news';
+                        $display_id = 'dict_index';
+                         print views_embed_view($views_name, $display_id);
+					 ?>
+				</div>
+				<!-- 辞典知识结束 -->
+		<!-- 资源下载开始 -->
+				<div class="textlist resouredownload">
+					<h3><a href="" class="more">more</a></h3>
+					<p>
+					<?php
+			             $views_name = 'academic_news';
+                        $display_id = 'download_index';
+                         print views_embed_view($views_name, $display_id);
+					 ?>
+				</div>
+				<!-- 资源下载结束 -->
           <?php print render($page['sidebar_second']); ?>
         </div>
-      </div>
-    <?php endif; ?> <!-- /sidebar-second -->
+	  </div>
+    <?php //endif; ?> <!-- /sidebar-second -->
 
 
   <?php if ($page['content_bottom']): ?>

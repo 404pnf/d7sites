@@ -1,0 +1,13 @@
+/* 资源下载页面*/
+#content-inner{ width:730px; margin-left: 240px}
+#sidebar-first{ background:#F8F8EE; margin:10px; padding-bottom:30px; width:214px}
+#sidebar-first-inner{ width:202px; margin:0 6px}
+#sidebar-first h1{ margin:20px 0}
+#sidebar-first ul li{ margin-top:12px;}
+#sidebar-first ul li a{ display: block; background:url("../images/lcsidebar_gray20110805.gif") no-repeat; font-size:15px; color:#47493C; line-height:26px; width:201px;text-indent:2.6em; font-family:"黑体"}
+#sidebar-first ul li a.active{ color:#FFF;background:url("../images/lcsidebar.gif") no-repeat; }
+/* 产品列表*/
+.tab{height:30px; border: 1px solid #DFDFDF;background: url("../images/searchlongbg20110726.jpg") repeat-x; margin-top:20px}
+.tab li.active{color: #FFF; font-weight: 700;background:#787725;}
+.tab li{ float: left;border-right:1px solid #ccc; font-size: 14px; position: relative; color:#666; line-height: 30px; padding: 0 20px;}
+
