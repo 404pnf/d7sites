@@ -14,8 +14,8 @@ body{ background: url("../images/badybg20110726.jpg") repeat;}
 #header-region{ overflow: auto; height: 64px}
 .logoNav{margin: 0 auto;}
 .logoNav ul{ float: right; margin: 27px 32px 0 0; letter-spacing: 0; overflow: hidden; display: inline}
-.logoNav ul li{ float: left;margin:0 4px}
-.logoNav ul li a{ padding:10px 17px; color:#585858; font-weight:700; font-size: 14px; display: block}
+.logoNav ul li{ float: left;margin:0 4px; background: none; list-style: none; padding: 0}
+.logoNav ul li a{ padding:10px 17px; color:#585858; font-weight:700; font-size: 14px; display: block;}
 .logoNav ul li a.active,.logoNav ul li a:hover{background: url("../images/topnavbg20110805.jpg") repeat-x;color: #fff;}
 #main{width:980px; margin: 0 auto; background: #fff}
 #content-top{ position: relative;}

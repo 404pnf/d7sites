@@ -28,15 +28,19 @@
  * @ingroup views_templates
  */
 ?>
-
-<div class="imglist">
+<div class="textlist">
   <?php if ($header): ?>
       <?php print $header; ?>
   <?php endif; ?>
+
 
   <?php if ($rows): ?>
       <?php print $rows; ?>
   <?php elseif ($empty): ?>
       <?php print $empty; ?>
   <?php endif; ?>
-</div>
+
+
+
+
+</div> <?php /* class view */ ?>
