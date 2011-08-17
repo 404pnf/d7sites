@@ -1,0 +1,5 @@
+/* 活动列表 huodonglist*/
+#content-inner {margin:20px 86px;}
+#content-area .view-content .item-list ul li{ margin:0 50px 34px 0; padding: 0; color:#7E828B; font-size: 12px; line-height:24px;}
+#content-area .view-content .item-list ul li a{ font-size: 15px; color: #05438C; margin: 6px 0; display: block; text-decoration: underline;}
+.pager li{border: 1px solid #DDDDDD;}
