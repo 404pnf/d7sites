@@ -1,5 +1,5 @@
-name = Basic
-description = Basic starter theme for Drupal 7
+name = MLP
+description = MLP theme base basic
 screenshot = images/screenshot.gif
 core = "7.x"
 project = "basic"

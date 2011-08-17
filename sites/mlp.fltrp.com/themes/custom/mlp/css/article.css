@@ -6,6 +6,8 @@
 .articledate{ display: block; margin: 10px 20px 30px; text-align: right; color: #999; font-size: 12px; border-bottom: 1px dashed #ddd; padding-bottom: 14px}
 .articlecontent{ margin: 20px 40px;}
 .articlecontent p{ text-indent:2em; line-height:2em;}
+#share {font-weight: 700;margin: 20px;padding: 20px 30px;text-align: right; width: 640px; font-size: 13px; line-height:1.6em;;}
+.shareto_toolbox {display: inline;float: right;text-align: right;}
 
 /* 相关新闻relatednews*/
 .textlist{ margin: 10px 50px; padding-bottom: 20px}
