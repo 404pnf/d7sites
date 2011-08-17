@@ -21,7 +21,7 @@
 ?>
 <?php 
  $category=$row->tid;
- $path='http://chinese.fltrp.com/list?category='.$category;
+ $path='/list?category='.$category;
 ?>
  
 <?php

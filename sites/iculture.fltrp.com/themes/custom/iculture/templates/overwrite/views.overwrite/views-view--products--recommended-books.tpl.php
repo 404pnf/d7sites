@@ -1,3 +1,4 @@
+<link href="/static/css/editor_recommended_books.css" media="all" rel="stylesheet" type="text/css">
 <?php
 /**
  * @file views-view.tpl.php
@@ -38,6 +39,8 @@
     </div>
   <?php endif; ?>
 
+
+
   <?php if ($exposed): ?>
     <div class="view-filters">
       <?php print $exposed; ?>
@@ -50,8 +53,9 @@
     </div>
   <?php endif; ?>
 
+
   <?php if ($rows): ?>
-  
+<div id="recommendation" class="recommendation">  
 <div id="bestgroup-content">
 	<!-- wrapper for navigator elements -->
 	<div class="navi"></div>
@@ -70,11 +74,12 @@
     <a class="next browse right"></a>
     
 </div>   
-
+</div>
   <?php elseif ($empty): ?>
     <div class="view-empty">
       <?php print $empty; ?>
     </div>
+ 
   <?php endif; ?>
   
   

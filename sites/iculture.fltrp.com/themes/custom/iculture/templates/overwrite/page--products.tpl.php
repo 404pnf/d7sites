@@ -92,13 +92,13 @@
 
         <div id="content-area">		
 				<!-- 	编辑推荐 开始	 -->		
-				<div class="recommendation">
+				
 						<?php
 								 $views_name = 'products';
 								  $display_id = 'recommended_books';
 								   print views_embed_view($views_name, $display_id);
 							 ?>
-					</div>
+	
 
    			<!-- 	//编辑推荐  结束	 -->		
 

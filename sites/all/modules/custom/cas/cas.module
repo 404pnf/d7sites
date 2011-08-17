@@ -8,6 +8,7 @@
  */
 
 define('CAS_LOGIN_INVITE_DEFAULT', 'Log in using sso');
+//define('CAS_TYUSER_SERVICES_URL', 'http://129.0.0.48:8080/uums/services/UserAuthWS?wsdl');
 define('CAS_TYUSER_SERVICES_URL', 'http://passport.2u4u.com.cn/uums/services/UserAuthWS?wsdl');
 define('CAS_EXCLUDE', 'services/*');
 /**

@@ -1,7 +1,7 @@
 <?php
 
-define('TYUSER_SERVICES_URL', 'http://129.0.0.48:8080/uums/services/UserAuthWS?wsdl');
-//define('TYUSER_SERVICES_URL', 'http://passport.2u4u.com.cn/uums/services/UserAuthWS?wsdl');
+//define('TYUSER_SERVICES_URL', 'http://129.0.0.48:8080/uums/services/UserAuthWS?wsdl');
+define('TYUSER_SERVICES_URL', 'http://passport.2u4u.com.cn/uums/services/UserAuthWS?wsdl');
 define('WEB_HTTP_HOST', 'http://'.$_SERVER['HTTP_HOST']);
 /**
  * hook_form_alter(&$form, &$form_state, $form_id)
