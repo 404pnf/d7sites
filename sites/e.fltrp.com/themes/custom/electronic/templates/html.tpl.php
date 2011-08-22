@@ -18,9 +18,22 @@
           case "newsdetails":
           $custom_style_file ='/css/information.css';
                  break;  
+          case "products":
+          $custom_style_file ='/css/publishing.css';
+                 break;
+          case "productslist":
+          $custom_style_file = '/css/publishing.css';
+                 break;
+                
         }
  if(stristr($current_path,'newsdetails/'))
                            $custom_style_file ='/css/information.css';
+ if(stristr($current_path,'productslist/'))
+                           $custom_style_file ='/css/publishing.css';
+  if(stristr($current_path,'products/'))
+                           $custom_style_file ='/css/publishing.css';
+
+
  if(!empty($custom_style_file)){
     $custom_style_uri = '<style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','electronic').$custom_style_file.'");</style>';
     print   $custom_style_uri ;

@@ -1,7 +1,7 @@
 /* 数字出版网络产品*/
 #content-inner{ width:730px; margin-left: 240px}
 .productlist{ overflow: auto; line-height:28px;}
-.producttitle{ height:48px; background:url(../images/producttitle.gif) no-repeat; color:#FFF; text-indent:1.7em; font-size:18px;line-height:36px; margin:24px 0 0;}
+.producttitle{ height:48px; background:url(../images/producttitle.gif) no-repeat; color:#FFF; text-indent:2.1em; font-size:16px;line-height:36px; margin:24px 0 0;}
 .productlist li{padding: 25px 0; overflow: auto; font-size: 12px;_zoom:1;*height:144px}
 .productlist li h2{  margin:0}
 .productlist li h2 a{font-size:14px; color:#50646D;}
@@ -21,5 +21,16 @@
 .digital li .productshow img{ float:left; margin:10px 0 10px 14px; }
 .digital li img { margin-bottom:20px;}
 
+/* 双语工程 */
 .article{ margin:20px;}
 
+/* 苹果应用 */
+.appletop{ overflow:auto; margin:0 5px}
+.appletop h2{line-height:1.2em;}
+.productlist li.applelist{padding-bottom:0}
+li .appletop h2 a{ color:#858585}
+li .appletop p{line-height:1.6em;}
+ul li .appletop img{ margin:0 15px 10px}
+li .applebottom b{ color:#858585}
+.applebottom{line-height:1.8em;margin:0 5px}
+li .applebottom a{ color:#0F5988}

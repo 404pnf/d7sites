@@ -35,18 +35,24 @@
   $body=$fields['body']->content;                                                                                                           
   $tags=$fields['field_digital_tags']->content;                                                                                             
                                                                                                                                             
-  $content = '<a href="'.$url.'">'.$image.'</a>';                                                                                           
-  $output = '<a href="'.$url.'">'.$title.'</a>';                                                                                            
+  //$content = '<a href="'.$url.'">'.$image.'</a>';                                                                                           
+  //$output = '<a href="'.$url.'">'.$title.'</a>';                                                                                            
                                                                                                                                             
 ?>                                                                                                                                          
                                                                                                                                             
 <div class="appletop">                                                                                                                      
-   <?php print $content; ?>                                                                                                                 
-   <?php print $output; ?>                                                                                                                  
+   <?php print $image; ?>                                                                                                                 
+   <?php print $title; ?>                                                                                                                  
    <?php print $body; ?>                                                                                                                    
 </div>                                                                                                                                      
                                                                                                                                             
 <div class="applebottom">                                                                                                                   
-  <a href="<?php print $url;?>"><img src="http://e.fltrp.com/sites/e.fltrp.com/files/page_images/learnmore.gif"></a>                        
-  标签:<?php print $tags ?>                                                                                                                      
+  <?php if(!empty($url)){
+              print  '<a href="'. $url.'"><img src="http://e.fltrp.com/sites/e.fltrp.com/files/page_images/learnmore.gif"></a>';                            
+        }
+   ?>
+  <?php if(!empty($tags)){         
+             print "标签:".$tags; 
+         }
+  ?>                                                                                                                      
 </div> 

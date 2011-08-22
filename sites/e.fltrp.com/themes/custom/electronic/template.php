@@ -53,6 +53,116 @@ function electronic_preprocess_block(&$vars, $hook) {
  *   A string containing the breadcrumb output.
  */
 function electronic_breadcrumb($variables) {
+  $breadcrumb_separator = theme_get_setting('chinese_breadcrumb_separator');
+  $current_path = drupal_get_path_alias();
+              
+          if($current_path =='newsdetails'){
+                
+	        $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		if($current_path =='newsdetails'){
+		  $breadcrumbs[] = '<a href="'.url('newsdetails').'">'.t(' 资讯中心').'</a>';
+		}else{
+	        }                              
+                $output .= '<div class="breadcrumb">';
+                $output .=implode( $breadcrumb_separator , $breadcrumbs);                
+		$output .= '</div>';
+		return $output;
+	  }
+          if(arg(0)=='productslist' && arg(1)>0){
+                $tid = arg(1);
+                $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		$breadcrumbs[] = '<a href="'.url('productslist').'">'.t('数字出版').'</a>';	
+		$parents = taxonomy_get_parents_all($tid);             
+		$parents = array_reverse($parents);
+		foreach($parents as $parent){
+			$breadcrumbs[] = ' >> <a href="'.base_path().'productslist/'.$parent->tid.'">'.$parent->name.'</a>';
+		}
+	        $output = '<div class="breadcrumb">';
+		$output .=implode( $breadcrumb_separator , $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	     }
+          
+  
+     
+          if($current_path =='products'){
+                
+	        $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		if($current_path =='products'){
+		  $breadcrumbs[] = '<a href="'.url('products').'">'.t(' 数字出版').'</a>';
+		}else{               
+	        }                              
+                $output .= '<div class="breadcrumb">';
+                $output .=implode( $breadcrumb_separator , $breadcrumbs);
+                
+		$output .= '</div>';
+		return $output;
+	  }     
+
+          if($current_path =='language'){
+
+                $breadcrumbs = array();
+                $breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+                if($current_path =='language'){
+                  $breadcrumbs[] = '<a href="'.url('language').'">'.t(' 双语工程').'</a>';
+                }else{
+                }
+                $output .= '<div class="breadcrumb">';
+                $output .=implode( $breadcrumb_separator , $breadcrumbs);
+
+                $output .= '</div>';
+                return $output;
+          }
+
+          if($current_path =='authorize'){
+
+                $breadcrumbs = array();
+                $breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+                if($current_path =='authorize'){
+                  $breadcrumbs[] = '<a href="'.url('authorize').'">'.t(' 授权业务').'</a>';
+                }else{
+                }
+                $output .= '<div class="breadcrumb">';
+                $output .=implode( $breadcrumb_separator , $breadcrumbs);
+
+                $output .= '</div>';
+                return $output;
+          }
+           
+  
+    
+          if($current_path =='aboutus'){
+                
+	        $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		if($current_path =='aboutus'){
+		  $breadcrumbs[] = '<a href="'.url('aboutus').'">'.t(' 关于我们').'</a>';
+		}else{
+	        }                              
+                $output .= '<div class="breadcrumb">';
+                $output .=implode( $breadcrumb_separator , $breadcrumbs);                
+		$output .= '</div>';
+		return $output;
+	}
+         
+         
+         if(arg(0)=='node' && arg(1)>0){
+             $nid = arg(1);
+	     $node = node_load($nid);
+             if($node->type =='news'){
+	        $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		$breadcrumbs[] = '<a href="'.url('newsdetails').'">'.t(' 资讯中心').'</a>';
+	        $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	     } 
+         }      
+  
   $breadcrumb = $variables['breadcrumb'];
   // Determine if we are to display the breadcrumb.
   $show_breadcrumb = theme_get_setting('electronic_breadcrumb');

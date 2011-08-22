@@ -28,38 +28,9 @@
  * @ingroup views_templates
  */
 ?>
-
-<h3 class="producttitle">  
-  <?php
-            $views_name = 'category';
-            $display_id = 'block_1';
-            print views_embed_view($views_name, $display_id);
-  ?>
-</h3>
-
-  
   <?php if ($rows): ?>
       <?php print $rows; ?>
   <?php elseif ($empty): ?>
       <?php print $empty; ?>
   <?php endif; ?>
-
-  <?php if ($pager): ?>
-    <?php print $pager; ?>
-  <?php endif; ?>
-
-  <?php if ($attachment_after): ?>
-    <div class="attachment attachment-after">
-      <?php print $attachment_after; ?>
-    </div>
-  <?php endif; ?>
-
-
-  <?php if ($footer): ?>
-    <div class="view-footer">
-      <?php print $footer; ?>
-    </div>
-  <?php endif; ?>
-
-
 
