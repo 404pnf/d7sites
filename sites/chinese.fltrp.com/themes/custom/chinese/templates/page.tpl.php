@@ -85,7 +85,7 @@ if(!empty($node) && $node->type == 'page'){
 
   <?php if ($page['content_top']): ?>
      <div id="content-top">
-       <?php print $breadcrumb; ?>
+        <?php print $breadcrumb; ?>
        <?php print render($page['content_top']); ?>
      </div>
   <?php endif; ?><!-- /content_top -->
@@ -96,7 +96,7 @@ if(!empty($node) && $node->type == 'page'){
         <?php if ($breadcrumb || $title|| $messages || $tabs || $action_links): ?>
           <div id="content-header">
            
-            <?php print $breadcrumb; ?>
+            <!--commented <?php print $breadcrumb; ?> 屏蔽默认page.tpl.php的面包屑-->
 
             <?php if ($page['highlight']): ?>
               <div id="highlight"><?php print render($page['highlight']) ?></div>

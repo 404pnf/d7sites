@@ -113,17 +113,17 @@
                          print views_embed_view($views_name, $display_id);
 					 ?>
 	        		</div>
-	        		<!-- 	    新书推荐结束  		 -->
-					<!-- 	    博雅双语名家名作开始   		 -->
-	        		<div class="imglist by">
+	        		<!-- 	    //新书推荐结束  		 -->
+					<!-- 	    精品推荐开始   		 -->
+	        		<div class="imglist">
 	        			<h1 class="blocktitle"><a href="products" class="more">更多>></a></h1>
 	 						<?php
 			             $views_name = 'products';
-                        $display_id = 'baoya';
+                        $display_id = 'home_competitive ';
                          print views_embed_view($views_name, $display_id);
 					 ?>
 	        		</div>
-	        		<!-- 	    博雅双语名家名作结束  		 -->
+	        		<!-- 	    // 精品推荐结束  		 -->
 	        
 
           <?php print render($page['content']) ?>
@@ -141,27 +141,14 @@
       </div>
     <?php endif; ?>
 
-    <?php //if ($page['sidebar_first']): ?>
+    <?php if ($page['sidebar_first']): ?>
       <div id="sidebar-first" class="column sidebar first">
         <div id="sidebar-first-inner" class="inner">
 
-		<!--       左侧名家沙龙开始  		 -->
-                <div class="slong">
-                	<h3><a href="famous" class="more">更多>></a></h3> 
-
-              		<?php
-			            $views_name = 'famous';
-                        $display_id = 'home';
-                         print views_embed_view($views_name, $display_id);
-				   ?>  	
-                </div>
-          		<!--       左侧名家沙龙结束		 -->
-
-
-          <?php print render($page['sidebar_first']); ?>
+         <?php print render($page['sidebar_first']); ?>
         </div>
       </div>
-    <?php //endif; ?> <!-- /sidebar-first -->
+    <?php endif; ?> <!-- /sidebar-first -->
 
     <?php if ($page['sidebar_second']): ?>
       <div id="sidebar-second" class="column sidebar second">

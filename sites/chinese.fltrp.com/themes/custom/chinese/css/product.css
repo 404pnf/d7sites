@@ -4,11 +4,11 @@
 /* 产品首页*/
 #content-inner{ width:730px; margin-left: 240px}
 .productlist{ overflow: auto}
-.productlist li{ border-bottom: 1px dashed #999; padding: 25px 0; overflow: auto; font-size: 12px;_zoom:1;*+height:164px}
+.productlist li{ border-bottom: 1px dashed #999; padding: 25px 0; overflow: auto; font-size: 12px;_zoom:1;*+height:140px;*overflow:hidden;}
 .productlist li a{ display: block; color: #FF6602; padding-right: 2em;}
 .productlist li p{color: #999;line-height:1.4em; margin: 0;}
 .productlist li img{ float: left; margin-right: 15px;}
-.productlist li.column{ width: 98%;}
+.productlist li.column{ width: 98%;line-height:1.8em}
 .productlist li.column2{ margin:0 0 0 2px; width: 48%;}
 .training .imgbg{background:url("../images/imgbg.gif") no-repeat 0 0; width: 104px; height: 100px; float: left; margin-right:20px}
 .training .imgbg img{ margin: 6px 9px 10px }
@@ -28,11 +28,12 @@
 .srlist ul li a img{ float: left; margin: 10px;}
 
 /* 产品列表*/
-.tab{height:32px; border: 1px solid #DFDFDF; background: url("../images/booklb_title20110622.jpg");}
-.tab li{ float: left; padding: 9px 30px; border-right:1px solid #ccc; font-size: 12px; position: relative;}
+.tab{height:32px; border: 1px solid #DFDFDF; background: url("../images/searchlongbg20110726.jpg");}
 .tab li.strong{ font-weight: 700; font-size: 14px;overflow: hidden;padding: 8px 30px;}
 .tab li.active{ background: #ba0006; color: #FFF; font-weight: 700;z-index:0;height:14px; }{height:32px; border: 1px solid #DFDFDF; background: url("../images/booklb_title20110622.jpg"); margin-left: 10px;}
-.tab li{ float: left; padding: 9px 30px; border-right:1px solid #ccc; font-size: 12px; position: relative;}
+.tab li{ float: left; border-right:1px solid #ccc; font-size: 12px; position: relative;}
+.tab li a {color: #000000;display: block; padding: 9px 30px;}
+.tab li a.active {background:#DD0108;color: #FFFFFF;font-weight: 700;}
 .productlist .productname{font-size:13px; padding-bottom: 6px;}
 .productlist p{ color: #848484; line-height:1.8em;}
 .productlist b{ color: #848484; }
@@ -50,9 +51,9 @@
 .share{border: 1px solid #ddd; width: 195px; margin-left:10px; height: 30px; margin-top: 10px}
 .share span{font-weight:700; background: #dcdcdc; font-size: 12px;display: block;line-height: 30px; float: left; padding: 0 6px;}
 .share a{ display: block;float:left; margin: 6px 3px 0 7px;}
-.bookinfo p.sel{margin:30px 0 -1px 10px;}
-p.sel a{ padding:8px 20px; font-weight: 700; font-size: 14px; border: 1px solid #ddd;  background: #eee; color: #404040;}
-p.sel a.active{ background:#C5292D; color: #fff;}
+#bookinfo p.sel{margin:30px 0 -1px 10px;}
+p.sel span{ padding:8px 20px; font-weight: 700; font-size: 14px; border: 1px solid #ddd;  background: #eee; color: #404040;}
+p.sel span.active{ background:#C5292D; color: #fff;}
 .bookinfo .productcontent{ margin: 10px 10px 10px 10px; line-height: 26px; border-top:3px solid #d5d5d5;border-bottom:1px dashed #d5d5d5; padding:30px 20px; font-size: 12px;}
 .bookinfo .productcontent p{ margin:6px 0;}
 .bestgroup{ margin:12px 0 22px 10px; position: relative; overflow: hidden;width:728px;}
@@ -70,7 +71,6 @@ p.sel a.active{ background:#C5292D; color: #fff;}
 .bookimg img{ width:140px;height:200px}
 #bookinfo h1{margin: 24px 10px 5px 15px;}
 #bookinfo p{ font-size: 12px; color: #505050; margin: 1.6em 0 0 0;}
-
 #bookinfo .bookcontent,#bookinfo .bookdirectory{ margin: 10px 10px 10px 10px; line-height: 26px; border-top:3px solid #d5d5d5;border-bottom:1px dashed #d5d5d5; padding:30px 20px; font-size: 12px;}
 #bookinfo .bookcontent p,#bookinfo .bookdirectory p{ margin:6px 0;}
 
@@ -78,9 +78,6 @@ p.sel a.active{ background:#C5292D; color: #fff;}
 
 
 /*产品列表页面pager*/
-
-.pagenum .pager li{border: 1px solid #DDDDDD;;}
-
 
 .productlist .views-row-last {border:none!important;}                         /*去除元素边*/
 

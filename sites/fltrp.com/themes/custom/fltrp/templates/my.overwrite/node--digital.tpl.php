@@ -21,29 +21,32 @@
         hide($content['links']);
         //print render($content);
 		//print ("<pre>");
-		//print_r($node);
-	//	print ("</pre>");
+	//	print_r($node);
+//	print ("</pre>");
 
 		$nid = $node->nid;     
 		$title = $node->title;        //图书名称
 		$price = $node->field_digital_price['und'][0]['value'];        //价格
+		$eprice = $node->field_digital_dollar['und'][0]['value'];        //价格
 	    $img = $node->field_digital_image['und'][0]['uri'];        //封面
 		$img =file_create_url($img );        //封面
 		$body = $node->body['und'][0]['safe_value'];        //简介    
-
+        
+		if(!empty($eprice))
+		   $price =	'$'.$eprice;
 
 		$educations = $node->field_education['und'];   
 		$education_tids = '';
 		$i=1;
 		//print_r($educations);
-		foreach($educations as $education)
-		{
-			if($i==1)
-				$education_tids.=$education['tid'];
-			else
-			    $education_tids.='+'.$education['tid'];
-            $i++;
-		}
+//		foreach($educations as $education)
+//		{
+//			if($i==1)
+//				$education_tids.=$education['tid'];
+//			else
+//			    $education_tids.='+'.$education['tid'];
+//            $i++;
+//		}
        ?>
 	   <div id="bookinfo">
 							<h1><?php print $title?></h1>
@@ -80,7 +83,9 @@ span.stico_tqq{
 							<span>内容简介</span>
 							</p>
 							<div class="bookcontent">
-								<?php print $body?>
+								<?php print $body
+				
+								?>
 
 							</div>
 

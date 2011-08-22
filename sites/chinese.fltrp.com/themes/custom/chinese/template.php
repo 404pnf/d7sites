@@ -76,8 +76,24 @@ function chinese_breadcrumb($variables) {
 		$output .=implode( $breadcrumb_separator , $breadcrumbs);
 		$output .= '</div>';
 		return $output;
-	}  
+	}
 
+        if($current_path =='list'){
+                $breadcrumbs = array();
+                $breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+                $breadcrumbs[] = '<a href="'.url('list').'">'.t('产品中心').'</a>';                
+                $category = $_GET["category"];
+                $tid = $category;
+                $parents = taxonomy_get_parents_all($tid);
+                $parents = array_reverse($parents);
+                foreach($parents as $parent){
+                        $breadcrumbs[] = ' >> <a href="'.$current_path.'?category='.$parent->tid.'">'.$parent->name.'</a>';
+                }
+                $output = '<div class="breadcrumb">';
+                $output .=implode( $breadcrumb_separator , $breadcrumbs);
+                $output .= '</div>';
+                return $output;
+        }
         
         
         if($current_path =='news'){
@@ -168,7 +184,7 @@ function chinese_breadcrumb($variables) {
 		  $breadcrumbs = array();
 		  $breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
 		  $breadcrumbs[] = '<a href="'.url('list').'">'.t(' 产品中心').'</a> ';
-		  $tid = $node->field_book_fenlei['und'][0]['tid'];   //获得产品分类，默认为社网的分类(field_category)
+		  $tid = $node->field_book_fenlei['und'][0]['tid'];   //获得产品分类
 		  $parents = taxonomy_get_parents_all($tid);
                    $parents = array_reverse($parents);
 		  foreach($parents as $parent){
@@ -201,13 +217,7 @@ function chinese_breadcrumb($variables) {
         
            
         }
-                          
-  
-  
-  
-  
-  
-  
+                            
   $breadcrumb = $variables['breadcrumb'];
   // Determine if we are to display the breadcrumb.
   $show_breadcrumb = theme_get_setting('chinese_breadcrumb');

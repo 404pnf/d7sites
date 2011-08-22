@@ -28,8 +28,11 @@ body{ background: url("../images/badybg20110726.jpg") repeat;}
 #sidebar-first-inner h1{ margin:18px}                                                                                                       
 #sidebar-second{ width: 266px; margin-left: -266px}                                                                                         
 #sidebar-second-inner{margin: 0 12px; width: 244px;}                                                                                        
-.ad{ margin-top: 10px;}                                                                                                                     
-                                                                                                                                            
+.ad{ margin-top: 10px;} 
+#sidebar-first-inner .outul li.views-row { font-size: 12px; padding: 4px 20px;}   
+#sidebar-first-inner .outul li.views-row a{ color: #000}   
+#sidebar-first-inner .outul li.views-row .category_all {background:#DD0108;padding: 3px 6px 1px; display: inline; font-size: 12px}                                                                                                              
+#sidebar-first-inner .outul li.views-row .category_all a{color:#FFFFFF;}                                                                                                                                           
 /* footer */                                                                                                                                
 #footer{ background: #FFF; width: 980px; margin: 0 auto; padding: 30px 0 50px}                                                              
 #footer .fcenter{ border-top: 2px solid #980100; padding: 4px 0}                                                                            

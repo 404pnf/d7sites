@@ -33,7 +33,7 @@ if ($initialize == $category){
         print $content;
 }else{
 
-    $full_path ="<a href='$path'>".$row->taxonomy_term_data_name."</a>";
+   $full_path ="<a href='$path'>".$row->taxonomy_term_data_name."</a>";
 
     print $full_path;
 }

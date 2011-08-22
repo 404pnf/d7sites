@@ -4,21 +4,21 @@
 function bookotype_config_form(){
 	$form['cat_machine_name'] = array(
     '#type' => 'textfield',
-    '#title' => t('category machine name'),
+    '#title' => t('产品分类机器名'),
     '#default_value' => variable_get('cat_machine_name','mlp_category'),
     '#maxlength' => 255,
     '#required' => TRUE,
   );
 	$form['cat_field'] = array(
     '#type' => 'textfield',
-    '#title' => t('category field machine name'),
+    '#title' => t('内容类型中的产品分类field名称'),
     '#default_value' => variable_get('cat_field','field_mlp_category'),
     '#maxlength' => 255,
     '#required' => TRUE,
   );
 	$form['cat_cid'] = array(
     '#type' => 'textfield',
-    '#title' => t('category CID'),
+    '#title' => t('产品分类中对应的原始编码field名称'),
     '#default_value' => variable_get('cat_cid','field_mlp_cid'),
     '#maxlength' => 255,
     '#required' => TRUE,
@@ -26,21 +26,21 @@ function bookotype_config_form(){
 	
 	$form['edu_machine_name'] = array(
     '#type' => 'textfield',
-    '#title' => t('education machine name'),
+    '#title' => t('教育阶段分类机器名'),
     '#default_value' => variable_get('edu_machine_name','edu_category'),
     '#maxlength' => 255,
     '#required' => TRUE,
   );
 	$form['edu_field'] = array(
     '#type' => 'textfield',
-    '#title' => t('education field machine name'),
+    '#title' => t('内容类型中的教育阶段field名称'),
     '#default_value' => variable_get('edu_field','field_edu_category'),
     '#maxlength' => 255,
     '#required' => TRUE,
   );
 	$form['edu_cid'] = array(
     '#type' => 'textfield',
-    '#title' => t('education CID'),
+    '#title' => t('教育阶段分类中对应的原始编码field名称'),
     '#default_value' => variable_get('edu_cid','field_edu_cid'),
     '#maxlength' => 255,
     '#required' => TRUE,
