@@ -41,6 +41,9 @@
 	case "searcher":
           $custom_style_file ='/css/searcher.css';
 		 break;
+    case "academic":
+          $custom_style_file ='/css/xscenter.css';
+		 break;		 
 	 }
 
 
@@ -50,8 +53,8 @@
  if(stristr($current_path,'productslist/')||stristr($current_path,'product/')||stristr($current_path,'products/'))
 			   $custom_style_file ='/css/product.css';
 
- if(stristr($current_path,'famousdetails/'))
-			   $custom_style_file ='/css/salon.css';
+ if(stristr($current_path,'academic/'))
+			   $custom_style_file ='/css/xscenter.css';
 
 if(!empty($custom_style_file)){
     $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','academic').$custom_style_file.'");</style>';

@@ -8,6 +8,7 @@
 #sidebar-first ul li a.active{ color:#FFF;background:url("../images/lcsidebar.gif") no-repeat; }
 /* 产品列表*/
 .tab{height:30px; border: 1px solid #DFDFDF;background: url("../images/searchlongbg20110726.jpg") repeat-x; margin-top:20px}
-.tab li.active{color: #FFF; font-weight: 700;background:#787725;}
-.tab li{ float: left;border-right:1px solid #ccc; font-size: 14px; position: relative; color:#666; line-height: 30px; padding: 0 20px;}
+.tab li a.active{color: #FFF; font-weight: 700;background:#787725;}
+.tab li{ float: left;border-right:1px solid #ccc; font-size: 14px; position: relative; color:#666; line-height: 30px; }
+.tab li a{padding: 0 18px;display:block;color:#000}
 

@@ -82,19 +82,28 @@
         <?php endif; ?>
 
         <div id="content-area">
+		
           <?php print render($page['content']) ?>
+		 <div class="tab"> 
 		  <?php
 			$academic = arg(1);
 			$views_name = 'center_category';
 			$display_id = 'academic_category_top';
 			print views_embed_view($views_name, $display_id,$academic);
 		  ?>
+		  </div>
+		  <div class="">
 		  <?php
-			$academic = arg(1);
+		     if(arg(2)!="") {
+			   $academic = arg(2);
+			 }else{
+				$academic = arg(1);			 
+			}	
 			$views_name = 'center_product';
 			$display_id = 'center_body';
 			print views_embed_view($views_name, $display_id,$academic);
 		  ?>
+            </div>
         </div>
 
         <?php print $feed_icons; ?>
@@ -109,15 +118,23 @@
       </div>
     <?php endif; ?>
 
-    <?php if ($page['sidebar_first']): ?>
+    <?php // if ($page['sidebar_first']): ?>
       <div id="sidebar-first" class="column sidebar first">
 	  
 	  
         <div id="sidebar-first-inner" class="inner">
           <?php print render($page['sidebar_first']); ?>
         </div>
+		<!--       左侧菜单开始  		 -->
+               	<h1><img src="/sites/academic.fltrp.com/themes/custom/academic/images/learningcenter.gif" alt="" /></h1>
+				<?php
+			             $views_name = 'center_category';
+                        $display_id = 'academic_category_left';
+                         print views_embed_view($views_name, $display_id);
+				   ?>
+          		<!--       左侧菜单结束		 -->
       </div>
-    <?php endif; ?> <!-- /sidebar-first -->
+    <?php //endif; ?> <!-- /sidebar-first -->
 
     <?php if ($page['sidebar_second']): ?>
       <div id="sidebar-second" class="column sidebar second">
