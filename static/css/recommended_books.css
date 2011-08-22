@@ -23,7 +23,7 @@ a.right {
     clear: right;
     margin-right: 0;
     position: absolute;
-    right: 40px;
+    right: 70px;
 }
 a.right:hover 		{ background-position:-30px -30px; }
 a.right:active 	{ background-position:-60px -30px; } 

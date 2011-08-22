@@ -162,7 +162,7 @@ a.disabled {
 	text-indent:1.6em;
 	color: #404040;
 	display: block;
-	width:146px;
+/*	width:146px;*/
 }
 
 
@@ -199,7 +199,7 @@ a.disabled {
 }
 #recommendation #bestgroup-items  a{
 	font-size:12px;
-	width:100%;
+/*	width:100%;*/
 	text-indent: 0em;
 }
 #recommendation p ,#recommendation span{
