@@ -154,8 +154,8 @@
 					<h3><a href="" class="more">more</a></h3>
 					<p>
 					<?php
-			             $views_name = 'academic_news';
-                        $display_id = 'download_index';
+			             $views_name = 'resources';
+                        $display_id = 'home';
                          print views_embed_view($views_name, $display_id);
 					 ?>
 				</div>

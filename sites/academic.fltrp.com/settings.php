@@ -193,6 +193,18 @@ $databases = array (
   ),
 );
 
+$databases['data']['default'] = array(                                                                                                      
+        'driver' => 'mysql',                                                                                                                
+        'database' => 'data',                                                                                                               
+        'username' => 'py',                                                                                                                 
+        'password' => 'pengyou',                                                                                                            
+        'host' => '129.0.0.223',                                                                                                            
+        'prefix' =>'' ,                                                                                                                     
+);   
+
+
+
+
 /**
  * Access control for update.php script.
  *

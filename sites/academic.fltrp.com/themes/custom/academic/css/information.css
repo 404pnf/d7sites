@@ -11,6 +11,7 @@
 .textlist ul li a:hover{ color: #9B1E00}
 .textlist h2{ height:25px; overflow: hidden;text-indent:-99em;position: relative; width:100%;}
 .textlist .hyinfotitle{background: url("../images/infortitle20110805.gif") no-repeat;}
+.page-download .textlist .hyinfotitle{background: url("../images/downtitle20110805.gif") no-repeat;}
 .textlist .more{position: absolute;text-indent:0;top:12px;right:0; font-weight:400; color: #404040;font-size:12px;}
 .textlist li span{ color: #a9a9a9; font-size: 12px;}
 /*资讯焦点图片列表*/

@@ -43,7 +43,10 @@
 		 break;
     case "academic":
           $custom_style_file ='/css/xscenter.css';
-		 break;		 
+		 break;
+	case "download":
+          $custom_style_file ='/css/information.css';
+		 break;
 	 }
 
 
@@ -55,6 +58,8 @@
 
  if(stristr($current_path,'academic/'))
 			   $custom_style_file ='/css/xscenter.css';
+ if(stristr($current_path,'resource/'))
+			   $custom_style_file ='/css/information.css';
 
 if(!empty($custom_style_file)){
     $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','academic').$custom_style_file.'");</style>';
