@@ -1,0 +1,5 @@
+; $Id$
+name = Qry news
+description = 新闻资源导入
+core = 7.x
+php = 5.2

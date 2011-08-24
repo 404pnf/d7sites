@@ -19,7 +19,10 @@
 .imglistcontent h3{margin-top: 20px; margin-bottom: .9em;}
 .imglistcontent h3 a{ color: #CB2411;}
 .imglistcontent p{ color: #666; font-size: 12px; line-height: 1.6em; padding:  0 10px; margin-bottom: 0.2em;}
-.imglistcontent{margin: 16px 0 10px 15px; width: 47%;}
+.imglistcontent{margin: 16px 0 10px 15px;}
+.imglist li {width: 320px; float:left;}
+
+
 /* 资讯文章页*/
 .redborder{ border: 1px solid #EFD9DB; margin-top: 30px; margin-left: 10px!important; width: 730px!important; padding-bottom: 40px}
 .articletitle{ text-align: center; font-size: 26px; margin-top: 40px;}

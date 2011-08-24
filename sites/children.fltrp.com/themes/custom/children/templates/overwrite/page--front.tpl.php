@@ -92,38 +92,26 @@
 
         <div id="content-area">		
 				<!-- 	首页-资讯中心  开始	 -->			
-					<div class="textlist">
+				<div class="textlist">
 	        			<h1 class="blocktitle"><a href="news" class="more">更多>></a></h1>
 						<?php
-			             $views_name = 'news';
-                        $display_id = 'home';
-                         print views_embed_view($views_name, $display_id);
-				   ?>
+	                         		             $views_name = 'news';
+                                                             $display_id = 'home';
+                                                             print views_embed_view($views_name, $display_id);
+				                ?>
 	        		</div>
 
-	   			<!-- 	//首页-资讯中心  结束	 -->		
 
 
 				<!-- 	    新书推荐开始   		 -->
 	        		<div class="imglist">
 	        			<h1 class="blocktitle"><a href="products" class="more">更多>></a></h1>
 						<?php
-			             $views_name = 'products';
-                        $display_id = 'home_new';
-                         print views_embed_view($views_name, $display_id);
-					 ?>
+                     			             $views_name = 'products';
+                                                     $display_id = 'home_new';
+                                                        print views_embed_view($views_name, $display_id);
+			                         ?>
 	        		</div>
-	        		<!-- 	    //新书推荐结束  		 -->
-					<!-- 	    精品推荐开始   		 -->
-	        		<div class="imglist">
-	        			<h1 class="blocktitle"><a href="products" class="more">更多>></a></h1>
-	 						<?php
-			             $views_name = 'products';
-                        $display_id = 'home_competitive ';
-                         print views_embed_view($views_name, $display_id);
-					 ?>
-	        		</div>
-	        		<!-- 	    // 精品推荐结束  		 -->
 	        
 
           <?php print render($page['content']) ?>

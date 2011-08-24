@@ -9,9 +9,9 @@
 
     <?php print $user_picture; ?>
 		    
-    <?php if ($display_submitted): ?>
+    <!--<?php if ($display_submitted): ?>
       <span class="submitted"><?php print $date; ?> — <?php print $name; ?></span>
-    <?php endif; ?>
+    <?php endif; ?> -->
 
   	<div class="content">
   	  <?php 
@@ -75,6 +75,21 @@
 				?>
 			</center>
 			<?php print render($content['body']);?>
+                        <div id="share">
+                          <span>分享到:</span>
+                          <!-- ShareTo Button BEGIN -->
+                          <div class="shareto_toolbox">
+                           <a class="shareto_button_tsina"></a>
+                           <a class="shareto_button_renren"></a>
+                           <a class="shareto_button_douban"></a>
+                           <a class="shareto_button_kaixin001"></a>
+                           <a class="shareto_button_tqq"></a>
+                          </div>
+                       <script type="text/javascript" src="http://s.shareto.com.cn/js/shareto_button.js" charset="utf-8"></script>
+                       <!-- ShareTo Button END -->
+
+                                                                </div>
+
 		</div>							
 	</div>
 	<!--  文章内容 结束-->

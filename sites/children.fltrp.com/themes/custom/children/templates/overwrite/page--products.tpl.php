@@ -55,6 +55,8 @@
 
   <?php if ($page['content_top']): ?>
       <div id="content-top">
+        <?php print $breadcrumb; ?>
+
         <?php print render($page['content_top']); ?>
       </div>
     <?php endif; ?><!-- /content_top -->
@@ -66,7 +68,7 @@
         <?php if ($breadcrumb || $title|| $messages || $tabs || $action_links): ?>
           <div id="content-header">
 
-            <?php print $breadcrumb; ?>
+            <!--<?php print $breadcrumb; ?>-->
 
             <?php if ($page['highlight']): ?>
               <div id="highlight"><?php print render($page['highlight']) ?></div>
@@ -92,15 +94,18 @@
 
         <div id="content-area">		
 				<!-- 	编辑推荐 开始	 -->		
-				
-						<?php
-								 $views_name = 'products';
-								  $display_id = 'recommended_books';
-								   print views_embed_view($views_name, $display_id);
-							 ?>
-	
-
-   			<!-- 	//编辑推荐  结束	 -->		
+                                <?php
+				     $views_name = 'products';
+			             $display_id = 'recommended_books';
+				     print views_embed_view($views_name, $display_id);
+				 ?>
+   			         
+			        <!-- 获得当前分类显示分类名字 -->
+                                <?php
+				     $views_name = 'category';
+			             $display_id = 'current';
+				     print views_embed_view($views_name, $display_id);
+				 ?>
 
   <!--产品列表 排序-->
    <?php
@@ -134,8 +139,8 @@
 								<li >排序</li>
 								<li >
 								<?php
-									$orderoutput = "";
-              						$orderoutput=$output.'?sort_by=field_publish_date_value&sort_order='.$sort_order.'"';	
+								      $orderoutput = "";
+              						              $orderoutput=$output.'?sort_by=field_publish_date_value&sort_order='.$sort_order.'"';	
 									if($sort_by=="field_publish_date_value")										
 									    $orderoutput.='  class="a" ';		
 									$orderoutput.='  >出版日期</a>';
@@ -145,7 +150,7 @@
 								<li>
 								<?php
    								    $orderoutput = "";
-              						$orderoutput.=$output.'?sort_by=title&sort_order='.$sort_order.'"';	
+              						            $orderoutput.=$output.'?sort_by=title&sort_order='.$sort_order.'"';	
 									if($sort_by=="title")										
 									    $orderoutput.='  class="a" ';		
 									$orderoutput.='  >书名</a>';
@@ -155,7 +160,7 @@
 								<li>
 								<?php
  								    $orderoutput = "";
-              						$orderoutput.=$output.'?sort_by=field_price_value&sort_order='.$sort_order.'"';	
+              						            $orderoutput.=$output.'?sort_by=field_price_value&sort_order='.$sort_order.'"';	
 									if($sort_by=="price")										
 									    $orderoutput.='  class="a" ';		
 									$orderoutput.='  >定价</a>';
@@ -169,9 +174,9 @@
 		<!-- 	产品列表 开始	 -->			
 				<?php
    				        $category = arg(1);
-			             $views_name = 'products';
-                        $display_id = 'productslist';
-                         print views_embed_view($views_name, $display_id,$category);
+			                $views_name = 'products';
+                                        $display_id = 'productslist';
+                                        print views_embed_view($views_name, $display_id,$category);
                ?>
 	   			<!-- 	//产品列表 结束	 -->		
           <?php print render($page['content']) ?>
