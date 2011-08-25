@@ -13,19 +13,11 @@ if (theme_get_setting('clear_registry')) {
   drupal_theme_rebuild();
 }
 // Add Zen Tabs styles
-<<<<<<< HEAD
-if (theme_get_setting('viaton_tabs')) {
-  drupal_add_css( drupal_get_path('theme', 'viaton') .'/css/tabs.css');
-}
-
-function viaton_preprocess_page(&$vars, $hook) {
-=======
 if (theme_get_setting('basic_tabs')) {
   drupal_add_css( drupal_get_path('theme', 'basic') .'/css/tabs.css');
 }
 
 function basic_preprocess_page(&$vars, $hook) {
->>>>>>> fbb3f6e84c38dd6e515594104b8bd6aa7d848fbe
   if (isset($vars['node_title'])) {
     $vars['title'] = $vars['node_title'];
   }
@@ -42,20 +34,12 @@ function basic_preprocess_page(&$vars, $hook) {
   }  
 }
 
-<<<<<<< HEAD
-function viaton_preprocess_node(&$vars) {
-=======
 function basic_preprocess_node(&$vars) {
->>>>>>> fbb3f6e84c38dd6e515594104b8bd6aa7d848fbe
   // Add a striping class.
   $vars['classes_array'][] = 'node-' . $vars['zebra'];
 }
 
-<<<<<<< HEAD
-function viaton_preprocess_block(&$vars, $hook) {
-=======
 function basic_preprocess_block(&$vars, $hook) {
->>>>>>> fbb3f6e84c38dd6e515594104b8bd6aa7d848fbe
   // Add a striping class.
   $vars['classes_array'][] = 'block-' . $vars['zebra'];
 }
@@ -68,16 +52,6 @@ function basic_preprocess_block(&$vars, $hook) {
  * @return
  *   A string containing the breadcrumb output.
  */
-<<<<<<< HEAD
-function viaton_breadcrumb($variables) {
-  $breadcrumb = $variables['breadcrumb'];
-  // Determine if we are to display the breadcrumb.
-  $show_breadcrumb = theme_get_setting('viaton_breadcrumb');
-  if ($show_breadcrumb == 'yes' || $show_breadcrumb == 'admin' && arg(0) == 'admin') {
-
-    // Optionally get rid of the homepage link.
-    $show_breadcrumb_home = theme_get_setting('viaton_breadcrumb_home');
-=======
 function basic_breadcrumb($variables) {
   $breadcrumb = $variables['breadcrumb'];
   // Determine if we are to display the breadcrumb.
@@ -86,22 +60,15 @@ function basic_breadcrumb($variables) {
 
     // Optionally get rid of the homepage link.
     $show_breadcrumb_home = theme_get_setting('basic_breadcrumb_home');
->>>>>>> fbb3f6e84c38dd6e515594104b8bd6aa7d848fbe
     if (!$show_breadcrumb_home) {
       array_shift($breadcrumb);
     }
 
     // Return the breadcrumb with separators.
     if (!empty($breadcrumb)) {
-<<<<<<< HEAD
-      $breadcrumb_separator = theme_get_setting('viaton_breadcrumb_separator');
-      $trailing_separator = $title = '';
-      if (theme_get_setting('viaton_breadcrumb_title')) {
-=======
       $breadcrumb_separator = theme_get_setting('basic_breadcrumb_separator');
       $trailing_separator = $title = '';
       if (theme_get_setting('basic_breadcrumb_title')) {
->>>>>>> fbb3f6e84c38dd6e515594104b8bd6aa7d848fbe
         $item = menu_get_item();
         if (!empty($item['tab_parent'])) {
           // If we are on a non-default tab, use the tab's title.
@@ -114,11 +81,7 @@ function basic_breadcrumb($variables) {
           $trailing_separator = $breadcrumb_separator;
         }
       }
-<<<<<<< HEAD
-      elseif (theme_get_setting('viaton_breadcrumb_trailing')) {
-=======
       elseif (theme_get_setting('basic_breadcrumb_trailing')) {
->>>>>>> fbb3f6e84c38dd6e515594104b8bd6aa7d848fbe
         $trailing_separator = $breadcrumb_separator;
       }
 
@@ -150,11 +113,7 @@ function basic_breadcrumb($variables) {
  */	
 
 
-<<<<<<< HEAD
-function viaton_id_safe($string) {
-=======
 function basic_id_safe($string) {
->>>>>>> fbb3f6e84c38dd6e515594104b8bd6aa7d848fbe
   // Replace with dashes anything that isn't A-Z, numbers, dashes, or underscores.
   $string = strtolower(preg_replace('/[^a-zA-Z0-9_-]+/', '-', $string));
   // If the first character is not a-z, add 'n' in front.
@@ -177,11 +136,7 @@ function basic_id_safe($string) {
  * @ingroup themeable
  */
  
-<<<<<<< HEAD
-function viaton_menu_link(array $variables) {
-=======
 function basic_menu_link(array $variables) {
->>>>>>> fbb3f6e84c38dd6e515594104b8bd6aa7d848fbe
   $element = $variables['element'];
   $sub_menu = '';
 
@@ -190,11 +145,7 @@ function basic_menu_link(array $variables) {
   }
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
   // Adding a class depending on the TITLE of the link (not constant)
-<<<<<<< HEAD
-  $element['#attributes']['class'][] = viaton_id_safe($element['#title']);
-=======
   $element['#attributes']['class'][] = basic_id_safe($element['#title']);
->>>>>>> fbb3f6e84c38dd6e515594104b8bd6aa7d848fbe
   // Adding a class depending on the ID of the link (constant)
   $element['#attributes']['class'][] = 'mid-' . $element['#original_link']['mlid'];
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
@@ -203,11 +154,7 @@ function basic_menu_link(array $variables) {
 /**
  * Override or insert variables into theme_menu_local_task().
  */
-<<<<<<< HEAD
-function viaton_preprocess_menu_local_task(&$variables) {
-=======
 function basic_preprocess_menu_local_task(&$variables) {
->>>>>>> fbb3f6e84c38dd6e515594104b8bd6aa7d848fbe
   $link =& $variables['element']['#link'];
 
   // If the link does not contain HTML already, check_plain() it now.
@@ -223,11 +170,7 @@ function basic_preprocess_menu_local_task(&$variables) {
  *  Duplicate of theme_menu_local_tasks() but adds clearfix to tabs.
  */
 
-<<<<<<< HEAD
-function viaton_menu_local_tasks(&$variables) {  
-=======
 function basic_menu_local_tasks(&$variables) {  
->>>>>>> fbb3f6e84c38dd6e515594104b8bd6aa7d848fbe
   $output = '';
 
   if (!empty($variables['primary'])) {
@@ -245,8 +188,4 @@ function basic_menu_local_tasks(&$variables) {
 
   return $output;
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> fbb3f6e84c38dd6e515594104b8bd6aa7d848fbe

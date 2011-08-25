@@ -96,7 +96,7 @@ function children_breadcrumb($variables) {
 		
 	  }
 	  
-	  if(arg(0)=='productslist' && arg(1)>0){
+	  if(arg(0)=='products' && arg(1)>0){
                 $tid = arg(1);
                 $breadcrumbs = array();
 		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
@@ -104,14 +104,35 @@ function children_breadcrumb($variables) {
 		$parents = taxonomy_get_parents_all($tid);             
 		$parents = array_reverse($parents);
 		foreach($parents as $parent){
-			$breadcrumbs[] = ' >> <a href="'.base_path().'productslist/'.$parent->tid.'">'.$parent->name.'</a>';
+			$breadcrumbs[] = ' >> <a href="'.base_path().'products/'.$parent->tid.'">'.$parent->name.'</a>';
 		}
 	        $output = '<div class="breadcrumb">';
 		$output .=implode( $breadcrumb_separator , $breadcrumbs);
 		$output .= '</div>';
 		return $output;
 	     }
-   		
+             
+   	  if(arg(0)=='node' && arg(1)>0){
+             $nid = arg(1);
+             $node = node_load($nid);
+             if($node->type == 'book'){
+                  $breadcrumbs = array();
+                  $breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+                  $breadcrumbs[] = '<a href="'.url('products').'">'.t(' 小书房').'</a> ';
+                  $tid = $node->field_category['und'][0]['tid'];   //获得产品分类
+                  $parents = taxonomy_get_parents_all($tid);
+                   $parents = array_reverse($parents);
+                  foreach($parents as $parent){
+                        $breadcrumbs[] = '>> <a href="'.base_path().'products/'.$parent->tid.'">'.$parent->name.'</a> ';
+                  }
+                  $output = '<div class="breadcrumb">';
+                  $output .=implode($breadcrumb_separator, $breadcrumbs);
+                  $output .= '</div>';
+                  return $output;
+
+             }
+          }
+	
 
 	  
           

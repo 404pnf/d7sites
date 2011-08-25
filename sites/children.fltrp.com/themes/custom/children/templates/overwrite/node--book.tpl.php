@@ -9,9 +9,9 @@
 
     <?php print $user_picture; ?>
 		    
-    <?php if ($display_submitted): ?>
+    <!--<?php if ($display_submitted): ?>
       <span class="submitted"><?php print $date; ?> — <?php print $name; ?></span>
-    <?php endif; ?>
+    <?php endif; ?> -->
 
   	<div class="content">
   	  <?php 
@@ -26,8 +26,8 @@
        $nid = $node->nid;     
 		$title = $node->title;        //图书名称
 		if(!empty($node->field_series['und'])){
-     		$series = $node->field_series['und'][0]['taxonomy_term']->name;        //图书系列名称
-	    	$seriestid = $node->field_series['und'][0]['taxonomy_term']->tid;   
+     		      $series = $node->field_series['und'][0]['taxonomy_term']->name;        //图书系列名称
+                      $seriestid = $node->field_series['und'][0]['taxonomy_term']->tid;   
 		}
 		$isbn = $node->field_isbn['und'][0]['value'];        //ISBN
 		$author = $node->field_author['und'][0]['value'];        //作者名
@@ -36,7 +36,7 @@
 		$zdfs = $node->field_zdfs['und'][0]['taxonomy_term']->name;;        //装订方式
 		$publish_date= $node->field_publish_date['und'][0]['value'];        //发布日期
 		$price = $node->field_price['und'][0]['value'];        //价格
-	    $img = $node->field_img['und'][0]['uri'];        //封面
+	        $img = $node->field_img['und'][0]['uri'];        //封面
 		$img =file_create_url($img );        //封面
 		$body = $node->body['und'][0]['safe_value'];        //简介    
 		if(!empty($node->field_directory['und']))

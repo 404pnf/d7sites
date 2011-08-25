@@ -1,10 +1,6 @@
 <?php
 // Form override fo theme settings
-<<<<<<< HEAD
-function viaton_form_system_theme_settings_alter(&$form, $form_state) {
-=======
 function basic_form_system_theme_settings_alter(&$form, $form_state) {
->>>>>>> fbb3f6e84c38dd6e515594104b8bd6aa7d848fbe
 
   $form['options_settings'] = array(
     '#type' => 'fieldset',
@@ -12,24 +8,6 @@ function basic_form_system_theme_settings_alter(&$form, $form_state) {
     '#collapsible' => FALSE,
     '#collapsed' => FALSE
   );
-<<<<<<< HEAD
-  $form['options_settings']['viaton_tabs'] = array(
-    '#type' => 'checkbox',
-    '#title' =>  t('Use the ZEN tabs'),
-    '#description'   => t('Check this if you wish to replace the default tabs by the ZEN tabs'),
-    '#default_value' => theme_get_setting('viaton_tabs'),
-  );
-  
-  $form['options_settings']['viaton_breadcrumb'] = array(
-    '#type'          => 'fieldset',
-    '#title'         => t('Breadcrumb settings'),
-    '#attributes'    => array('id' => 'viaton-breadcrumb'),
-  );
-  $form['options_settings']['viaton_breadcrumb']['viaton_breadcrumb'] = array(
-    '#type'          => 'select',
-    '#title'         => t('Display breadcrumb'),
-    '#default_value' => theme_get_setting('viaton_breadcrumb'),
-=======
   $form['options_settings']['basic_tabs'] = array(
     '#type' => 'checkbox',
     '#title' =>  t('Use the ZEN tabs'),
@@ -46,41 +24,12 @@ function basic_form_system_theme_settings_alter(&$form, $form_state) {
     '#type'          => 'select',
     '#title'         => t('Display breadcrumb'),
     '#default_value' => theme_get_setting('basic_breadcrumb'),
->>>>>>> fbb3f6e84c38dd6e515594104b8bd6aa7d848fbe
     '#options'       => array(
                           'yes'   => t('Yes'),
                           'admin' => t('Only in admin section'),
                           'no'    => t('No'),
                         ),
   );
-<<<<<<< HEAD
-  $form['options_settings']['viaton_breadcrumb']['viaton_breadcrumb_separator'] = array(
-    '#type'          => 'textfield',
-    '#title'         => t('Breadcrumb separator'),
-    '#description'   => t('Text only. Don’t forget to include spaces.'),
-    '#default_value' => theme_get_setting('viaton_breadcrumb_separator'),
-    '#size'          => 5,
-    '#maxlength'     => 10,
-    '#prefix'        => '<div id="div-viaton-breadcrumb-collapse">', // jquery hook to show/hide optional widgets
-  );
-  $form['options_settings']['viaton_breadcrumb']['viaton_breadcrumb_home'] = array(
-    '#type'          => 'checkbox',
-    '#title'         => t('Show home page link in breadcrumb'),
-    '#default_value' => theme_get_setting('viaton_breadcrumb_home'),
-  );
-  $form['options_settings']['viaton_breadcrumb']['viaton_breadcrumb_trailing'] = array(
-    '#type'          => 'checkbox',
-    '#title'         => t('Append a separator to the end of the breadcrumb'),
-    '#default_value' => theme_get_setting('viaton_breadcrumb_trailing'),
-    '#description'   => t('Useful when the breadcrumb is placed just before the title.'),
-  );
-  $form['options_settings']['viaton_breadcrumb']['viaton_breadcrumb_title'] = array(
-    '#type'          => 'checkbox',
-    '#title'         => t('Append the content title to the end of the breadcrumb'),
-    '#default_value' => theme_get_setting('viaton_breadcrumb_title'),
-    '#description'   => t('Useful when the breadcrumb is not placed just before the title.'),
-    '#suffix'        => '</div>', // #div-viaton-breadcrumb
-=======
   $form['options_settings']['basic_breadcrumb']['basic_breadcrumb_separator'] = array(
     '#type'          => 'textfield',
     '#title'         => t('Breadcrumb separator'),
@@ -107,7 +56,6 @@ function basic_form_system_theme_settings_alter(&$form, $form_state) {
     '#default_value' => theme_get_setting('basic_breadcrumb_title'),
     '#description'   => t('Useful when the breadcrumb is not placed just before the title.'),
     '#suffix'        => '</div>', // #div-basic-breadcrumb
->>>>>>> fbb3f6e84c38dd6e515594104b8bd6aa7d848fbe
   );
   
   $form['options_settings']['wireframe_mode'] = array(
@@ -123,8 +71,4 @@ function basic_form_system_theme_settings_alter(&$form, $form_state) {
     '#default_value' => theme_get_setting('clear_registry'),
   );
   
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> fbb3f6e84c38dd6e515594104b8bd6aa7d848fbe
