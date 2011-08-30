@@ -69,6 +69,11 @@ function cas_login_check() {
       'name' => phpCAS::getUser(),
       'login' => TRUE,
     );
+    
+   if( !empty($cas_user['name']) && !empty($_SESSION['login_user_name']) && $cas_user['name'] != $_SESSION['login_user_name']){
+          $cas_user['name'] = $_SESSION['login_user_name'];
+          unset($_SESSION['login_user_name']);
+   }
     // Bail out if a module denied login access for this user or unset the user
     // name.
     if (empty($cas_user['login']) || empty($cas_user['name'])) {
@@ -619,7 +624,9 @@ function cas_login_submit(&$form, &$form_state) {
   // Force redirection.
   unset($_GET['destination']);
   $uticket = $form_state['values']['userpass'];
+  $user_name = $form_state['values']['name'];
   $_SESSION['uticket'] = $uticket;
+  $_SESSION['login_user_name'] = $user_name;
   drupal_goto('cas', array('query' => $form_state['values']['cas.return_to']));
 }
 
