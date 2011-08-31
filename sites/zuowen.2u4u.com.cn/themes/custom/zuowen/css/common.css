@@ -1,0 +1,32 @@
+/* 综合英语分社公用样式*/
+body{ background:url("../images/bodybg.jpg") repeat-x;}
+.topnavcontent{margin: 0 auto;text-align: center}
+.clear{clear: both;}
+
+/* Logo 和菜单*/
+#header{width:1002px; margin: 0 auto; height: 64px; overflow: hidden;}
+.logoNav{margin: 0 auto; }
+.logoNavcontent{background: url("../images/navbg.gif") no-repeat;margin: 0 auto; width: 936px; height: 47px;}
+.logoNav ul{ float: left;overflow: hidden; line-height: 47px; margin: 0 80px 0 70px; display: inline;}
+.logoNav ul li{ float: left;margin:0 -2px;padding:0;list-style:none; }
+.logoNav ul li a{ color:#77A13F; font-weight: 700;border-left: 2px solid #77A13F; padding: 0 24px;}
+.logoNav a img{ margin: 6px 4px;}
+#main{width:1002px; margin: 0 auto;}
+
+
+/* sidebar-first */
+#sidebar-first{ width: 349px; margin-right: -349px;}
+#sidebar-first-inner{margin: 0 0 0 34px;}
+#sidebar-first .fouse{ background: url("../images/flashbg.jpg") no-repeat; width: 315px; height: 257px; overflow: hidden}
+#sidebar-first .fousecontent{ width: 292px; height: 214px; margin: 30px auto 0}
+#sidebar-second{ width: 262px; margin-left: -262px}
+.ad{ margin-top: 10px;}
+
+/* footer */
+#footer{  width: 980px; margin: 0 auto; padding: 20px 0;}
+#footer .fcenter{ border-top: 2px solid #BDC9B1; padding: 8px 0; margin: 0 10px;background: #F6F9EE; }
+#footer .footimg{ float: right; margin-left: 160px; margin-right: 50px}
+#footer p {text-indent:3em;color: #666666;font-size: 12px;margin: 0;text-align: center;text-align: left; line-height:1.8em;background: url("../images/icon_right.gif") no-repeat 15px 4px;}
+#footer p b{ font-weight:700; color: #365A7C;}
+#footer p a{color: #365A7C;}
+

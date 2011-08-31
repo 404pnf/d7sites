@@ -73,7 +73,7 @@
             <?php endif; ?>
 
             <?php if ($title): ?>
-              <h1 class="title"><?php // print $title; ?></h1>
+              <h1 class="title"><?php print $title; ?></h1>
             <?php endif; ?>
 
             <?php print $messages; ?>
@@ -91,6 +91,17 @@
         <?php endif; ?>
 
         <div id="content-area">
+			   <!-- 	       资讯开始 		 -->
+	        		<div class="textlist">
+	        			<h1 class="blocktitle"><a href="/news" class="more"><img src="/sites/zuowen.2u4u.com.cn/themes/custom/zuowen/images/more.gif"  alt=""/></a></h1>
+					<?php
+			             $views_name = 'zixun';
+                        $display_id = 'home';
+                         print views_embed_view($views_name, $display_id);
+					 ?>
+	        		</div>
+	        		<!-- 	       资讯结束		 -->
+
           <?php print render($page['content']) ?>
         </div>
 
@@ -114,13 +125,22 @@
       </div>
     <?php endif; ?> <!-- /sidebar-first -->
 
-    <?php if ($page['sidebar_second']): ?>
+    <?php  // if ($page['sidebar_second']): ?>
       <div id="sidebar-second" class="column sidebar second">
         <div id="sidebar-second-inner" class="inner">
-          <?php print render($page['sidebar_second']); ?>
+    		<div class="textlist bestworks">
+					<h1 class="blocktitle"><a href="/jiazuoxuandu" class="more"><img src="/sites/zuowen.2u4u.com.cn/themes/custom/zuowen/images/more.gif" /></a></h1>
+					<?php
+			             $views_name = 'zuowen_jiazouxuandu';
+                        $display_id = 'home';
+                         print views_embed_view($views_name, $display_id);
+					 ?>
+				</div> 
+
+	<?php print render($page['sidebar_second']); ?>
         </div>
       </div>
-    <?php endif; ?> <!-- /sidebar-second -->
+    <?php //endif; ?> <!-- /sidebar-second -->
 
 
   <?php if ($page['content_bottom']): ?>

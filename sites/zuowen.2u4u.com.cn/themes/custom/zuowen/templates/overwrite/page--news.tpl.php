@@ -91,6 +91,17 @@
         <?php endif; ?>
 
         <div id="content-area">
+     <!-- 	       资讯开始 		 -->
+	        		<div class="textlist">
+	        			<h1 class="blocktitle"></h1>
+				<?php
+			             $views_name = 'zixun';
+                        $display_id = 'list';
+                         print views_embed_view($views_name, $display_id);
+					 ?>
+	        		</div>
+	        		<!-- 	       资讯结束		 -->
+
           <?php print render($page['content']) ?>
         </div>
 

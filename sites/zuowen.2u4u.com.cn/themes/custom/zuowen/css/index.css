@@ -1,0 +1,17 @@
+/* 内容*/
+#content-inner{ margin-left: 360px; width:372px;background: url("../images/maininfobg.gif") no-repeat; height: 345px }
+h1.blocktitle{height:27px;}
+a.more{ float: right;padding: 17px 16px;}
+.textlist{ overflow: auto;}
+.textlist ul{ margin:20px; overflow: auto;font-size:12px;}
+.textlist ul li{background: url("../images/yellowpoint.gif") no-repeat 0 12px;text-indent:.8em;overflow: hidden; height: 26px;}
+.textlist ul li a{ color:#4F4D50; line-height: 2.2em;  }
+.textlist ul li a.redfont{ color: red;}
+.textlist span{ float: right; display: block;line-height:26px;}
+.bestworks{background: url("../images/right_infobg.gif") no-repeat; width: 235px; height: 355px;}
+.bestworks ul li{background: url("../images/right_icon.gif") no-repeat 0 -20px; text-indent:2em;}
+.bestworks ul li.pens{background: url("../images/right_icon.gif") no-repeat 0 2px;}
+#content-bottom{margin-top: 354px;}
+#content-bottom .column3{ margin: 0; width: 311px; height:96px; margin:10px 4px 0 0;}
+#content-bottom .first{ margin:10px 4px 0 32px;}
+

@@ -30,7 +30,7 @@
 	case "news":
           $custom_style_file ='/css/information.css';
 		 break;	
-	case "newsmore":
+	case "jiazuoxuandu":
           $custom_style_file ='/css/information.css';
 	      break;
 	case "famous":
@@ -51,12 +51,12 @@
  if(stristr($current_path,'productslist/')||stristr($current_path,'product/')||stristr($current_path,'products/'))
 			   $custom_style_file ='/css/product.css';
 
- if(stristr($current_path,'famousdetails/'))
-			   $custom_style_file ='/css/salon.css';
+ if(stristr($current_path,'jiazuoxuandu/'))
+			   $custom_style_file ='/css/information.css';
 
 if(!empty($custom_style_file)){
     $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','zuowen').$custom_style_file.'");</style>';
-  //  print $base_url.'/'.drupal_get_path('theme','iculture').$custom_style_file;
+  //  print $base_url.'/'.drupal_get_path('theme','zuowen').$custom_style_file;
 	print   $custom_style_uri ;
 }
 
