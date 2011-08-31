@@ -38,6 +38,9 @@
 	 case "newsdetails":
           $custom_style_file ='/css/article.css';
 	      break;
+         case "expert":
+          $custom_style_file = '/css/expert.css';
+              break;
 	 case "searcher":
           $custom_style_file ='/css/searcher.css';
 		 break;
@@ -51,6 +54,9 @@
 
  if(stristr($current_path,'newsdetails/'))
 			   $custom_style_file ='/css/information.css';
+ 
+ if(stristr($current_path,'expert/'))
+                           $custom_style_file ='/css/expert.css';
 
  if(stristr($current_path,'list/')||stristr($current_path,'book/')||stristr($current_path,'products/')||stristr($current_path,'training/'))
 			   $custom_style_file ='/css/product.css';

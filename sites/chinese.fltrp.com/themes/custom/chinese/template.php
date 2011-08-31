@@ -214,6 +214,16 @@ function chinese_breadcrumb($variables) {
 		$output .= '</div>';
 		return $output;
 	     } 
+             if($node->type =='expert'){
+                $breadcrumbs = array();
+                $breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+                $breadcrumbs[] = '<a href="'.url('expert').'">'.t(' 专家队伍').'</a>';
+                $output = '<div class="breadcrumb">';
+                $output .=implode($breadcrumb_separator, $breadcrumbs);
+                $output .= '</div>';
+                return $output;
+
+             }
         
            
         }
