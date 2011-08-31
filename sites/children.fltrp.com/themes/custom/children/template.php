@@ -142,7 +142,7 @@ function children_breadcrumb($variables) {
              if($node->type =='news'){
 	        $breadcrumbs = array();
 		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
-		$breadcrumbs[] = '<a href="'.url('newsdetails').'">'.t(' 童书迅').'</a>';
+		$breadcrumbs[] = '<a href="'.url('news').'">'.t(' 童书迅').'</a>';
 	        $output = '<div class="breadcrumb">';
 		$output .=implode($breadcrumb_separator, $breadcrumbs);
 		$output .= '</div>';
