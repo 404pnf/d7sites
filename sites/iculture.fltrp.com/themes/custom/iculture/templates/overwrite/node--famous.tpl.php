@@ -22,8 +22,8 @@
      // print "<pre>";
  //print_r($node);
 		 //  print "</pre>";
-
-        $famous_style ='famous_list';
+ 
+        $famous_style ='';
 		$title = $node->title;        //标题
 		if(isset( $node->field_famous_works['zh-hans']))
 			$famous_works = $node->field_famous_works['zh-hans'][0]['value'];        //主要作品
@@ -34,8 +34,9 @@
 		$newsimages=array();
 		if(isset( $node->field_famous_photo['zh-hans'])){		
 		   $famous_photo = $node->field_famous_photo['zh-hans'][0]['uri'];
-			$famous_photo_url = image_style_url($famous_style,$famous_photo);
-			$famous_photo_pic = '<img src="'.$famous_photo_url.'"/>';
+		//	$famous_photo_url = image_style_url($famous_style,$famous_photo);
+		 $famous_photo_url =file_create_url($famous_photo);
+		$famous_photo_pic = '<img src="'.$famous_photo_url.'"/>';		
 		}
        ?>
   	</div>
@@ -46,7 +47,10 @@
           <div class="salon">
 						<h4 class="salontitle"><?php print $title?></h4>
 						<div class="person info">
-							<?php print $famous_photo_pic ?> 
+							<?php 
+								if(isset( $famous_photo_pic))
+							      print $famous_photo_pic ;
+					       ?> 
 							<p><?php print render($content['body']);?>
 							</p>
 						</div>

@@ -1,3 +1,11 @@
+<?php
+
+if(!empty($node) && $node->type == 'book'){
+  include('my.overwrite/page--book.tpl.php');
+   return;
+}
+
+?>
 
 <div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
 

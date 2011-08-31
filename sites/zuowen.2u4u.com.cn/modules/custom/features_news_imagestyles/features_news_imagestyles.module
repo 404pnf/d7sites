@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the features.news.imagestyles feature.
+ */
+
+include_once('features_news_imagestyles.features.inc');

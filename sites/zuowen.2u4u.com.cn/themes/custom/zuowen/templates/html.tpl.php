@@ -18,25 +18,10 @@
 	 case "home":
           $custom_style_file ='/css/index.css';
 		 break;
-	 case "products":
-          $custom_style_file ='/css/product.css';
-		 break;
-	 case "productslist":
-          $custom_style_file ='/css/product.css';
-		 break;
-	 case "productsdetails":
-          $custom_style_file ='/css/product.css';
-		 break;
 	case "news":
           $custom_style_file ='/css/information.css';
 		 break;	
 	case "jiazuoxuandu":
-          $custom_style_file ='/css/information.css';
-	      break;
-	case "famous":
-          $custom_style_file ='/css/salon.css';
-			break;
-	case "newsdetails":
           $custom_style_file ='/css/information.css';
 	      break;
 	case "searcher":
@@ -48,8 +33,8 @@
  if(stristr($current_path,'newsdetails/'))
 			   $custom_style_file ='/css/information.css';
 
- if(stristr($current_path,'productslist/')||stristr($current_path,'product/')||stristr($current_path,'products/'))
-			   $custom_style_file ='/css/product.css';
+ if(stristr($current_path,'page/')||stristr($current_path,'page/')||stristr($current_path,'page/'))
+			   $custom_style_file ='/css/information.css';
 
  if(stristr($current_path,'jiazuoxuandu/'))
 			   $custom_style_file ='/css/information.css';

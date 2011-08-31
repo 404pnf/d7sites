@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * ibo number validation
+ */
+ 
+/**
+ * Implements hook_menu().
+ */
+function user_picture_field_menu() { 
+  $items['admin/config/people/user_picture_field'] = array(
+    'title' => 'user_picture_field',
+    'page callback' => 'drupal_get_form',
+		'page arguments' => array('user_picture_field_config_form'),
+    'access callback' => 'user_access',
+		'access arguments' => array('administer site configuration'),
+    'file' => 'user_picture_field.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_user_insert().
+ */
+function user_picture_field_user_insert(&$edit, $account, $category) {
+  $user_picture_field_source_field = variable_get('user_picture_field_source_field','field_user_avatar');
+	
+	$fid = 0;
+	if(isset($account->{$user_picture_field_source_field})){
+    foreach($account->{$user_picture_field_source_field} as $langcode => $items){
+		  if(isset($items[0]['fid'])){
+			  $fid = $items[0]['fid'];
+				break;
+			}
+    }
+  }
+	if($fid){
+		db_update('users')  
+		->fields(array( 'picture' => $fid,))  
+		->condition('uid', $account->uid) 
+		->execute();
+	}
+	//user_save($account);
+}

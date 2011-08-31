@@ -189,10 +189,11 @@
       </div>
     <?php endif; ?>
 
-    <?php if ($page['sidebar_first']): ?>
+    <?php  if ($page['sidebar_first']): ?>
       <div id="sidebar-first" class="column sidebar first">
         <div id="sidebar-first-inner" class="inner">
           <?php print render($page['sidebar_first']); ?>
+		  
         </div>
       </div>
     <?php  endif; ?> <!-- /sidebar-first -->
