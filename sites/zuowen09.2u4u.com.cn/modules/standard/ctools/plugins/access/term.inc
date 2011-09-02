@@ -60,18 +60,28 @@ function ctools_term_ctools_access_settings($form, &$form_state, $conf) {
     $form['settings'][$vocabulary->vid] = array(
       '#title' => t('Terms'),
       '#description' => t('Select a term or terms from @vocabulary.', array('@vocabulary' => $vocabulary->name)), //. $description,
+      '#process' => array('ctools_dependent_process'),
       '#dependency' => array('ctools-select-vid' => array($vocabulary->vid)),
       '#default_value' => !empty($conf[$vid]) ? $conf[$vid] : '',
       '#multiple' => TRUE,
     );
 
-    $terms = array();
-    foreach (taxonomy_get_tree($vocabulary->vid) as $tid => $term) {
-      $terms[$term->tid] = str_repeat('-', $term->depth) . ($term->depth ? ' ' : '') . $term->name;
+    // If it's a tag, use an autocomplete.
+    if ($vocabulary->tags) {
+      $form['settings'][$vocabulary->vid]['#type'] = 'textfield';
+      $form['settings'][$vocabulary->vid]['#autocomplete_path'] = 'taxonomy/autocomplete/' . $vocabulary->vid;
     }
-    $form['settings'][$vocabulary->vid]['#type'] = 'select';
-    $form['settings'][$vocabulary->vid]['#options'] = $terms;
-    unset($terms);
+
+    // Other vocabs just show a list.
+    else {
+      $terms = array();
+      foreach (taxonomy_get_tree($vid) as $x => $term) {
+        $terms[$term->tid] = str_repeat('-', $term->depth) . ($term->depth ? ' ' : '') . $term->name;
+      }
+      $form['settings'][$vocabulary->vid]['#type'] = 'select';
+      $form['settings'][$vocabulary->vid]['#options'] = $terms;
+      unset($terms);
+    }
   }
   $form['settings']['vid']['#options'] = $options;
   return $form;
@@ -99,14 +109,22 @@ function ctools_term_ctools_access_check($conf, $context) {
   }
 
   $return = FALSE;
-
-  $terms = array_filter($conf[$vid]);
-  // For multi-term if any terms coincide, let's call that good enough:
-  if (isset($context->tids)) {
-    return (bool) array_intersect($terms, $context->tids);
+  // Tags get saved as an imploded array of strings.
+  if (!is_array($conf[$vid])) {
+    $terms = explode(', ', $conf[$vid]);
+    // For multi-term with names, we'll only accept the first term because
+    // that is the name we have.
+    return in_array($context->data->name, $terms);
   }
   else {
-    return in_array($context->data->tid, $terms);
+    $terms = array_filter($conf[$vid]);
+    // For multi-term if any terms coincide, let's call that good enough:
+    if (isset($context->tids)) {
+      return (bool) array_intersect($terms, $context->tids);
+    }
+    else {
+      return in_array($context->data->tid, $terms);
+    }
   }
 }
 
@@ -114,11 +132,16 @@ function ctools_term_ctools_access_check($conf, $context) {
  * Provide a summary description based upon the checked terms.
  */
 function ctools_term_ctools_access_summary($conf, $context) {
-  $vid = $conf['vid'];
-  $terms = array();
-  foreach ($conf[$vid] as $tid) {
-    $term = taxonomy_term_load($tid);
-    $terms[] = $term->name;
+  $vocab = taxonomy_vocabulary_load($conf['vid']);
+  if ($vocab->tags) {
+    $terms = explode(', ', $conf[$vocab->vid]);
+  }
+  else {
+    $terms = array();
+    foreach ($conf[$vocab->vid] as $tid) {
+      $term = taxonomy_term_load($tid);
+      $terms[] = $term->name;
+    }
   }
 
   return format_plural(count($terms),

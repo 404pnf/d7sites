@@ -161,18 +161,11 @@ class ctools_context_required {
       $contexts = array($contexts);
     }
 
-    // If we had requested a $context but that $context doesn't exist
-    // in our context list, there is a good chance that what happened
-    // is our context IDs changed. See if there's another context
-    // that satisfies our requirements.
-    if (!empty($context) && !isset($contexts[$context])) {
-      $choices = $this->filter($contexts);
-
-      // If we got a hit, take the first one that matches.
-      if ($choices) {
-        $keys = array_keys($choices);
-        $context = reset($keys);
-      }
+    // Due to a bug, some contexts got recorded with an id of 0. This will
+    // convert them to the correct ID allowing for some earlier panels
+    // to continue to work.
+    if (!empty($context) && $context[strlen($context) - 1] === '0') {
+      $context[strlen($context) - 1] = 1;
     }
 
     if (empty($context) || empty($contexts[$context])) {
@@ -484,11 +477,9 @@ function ctools_context_get_all_converters() {
   $contexts = ctools_get_contexts();
   $converters = array();
   foreach ($contexts as $name => $context) {
-    if (empty($context['no required context ui'])) {
-      $context_converters = _ctools_context_get_converters($name . '.', $name);
-      if ($context_converters) {
-        $converters[$context['title']] = $context_converters;
-      }
+    $context_converters = _ctools_context_get_converters($name . '.', $name);
+    if ($context_converters) {
+      $converters[$context['title']] = $context_converters;
     }
   }
 
@@ -934,7 +925,7 @@ function ctools_context_get_relevant_relationships($contexts) {
   // Go through each relationship
   foreach ($relationships as $rid => $relationship) {
     // For each relationship, see if there is a context that satisfies it.
-    if (empty($relationship['no ui']) && ctools_context_filter($contexts, $relationship['required context'])) {
+    if (ctools_context_filter($contexts, $relationship['required context'])) {
       $relevant[$rid] = $relationship['title'];
     }
   }
@@ -1406,7 +1397,7 @@ function ctools_access_group_summary($access, $contexts) {
     $descriptions[] = ctools_access_summary($plugin, $contexts, $test);
   }
 
-  $separator = (isset($access['logic']) && $access['logic'] == 'and') ? t(', and ') : t(', or ');
+  $separator = $access['logic'] == 'and' ? t(', and ') : t(', or ');
   return implode($separator, $descriptions);
 }
 
