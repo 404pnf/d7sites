@@ -6,7 +6,7 @@ a.more{ float: right;padding: 17px 16px;}
 .textlist ul{ margin:20px; overflow: auto;font-size:12px;}
 .textlist ul li{background: url("../images/yellowpoint.gif") no-repeat 0 12px;text-indent:.8em;overflow: hidden; height: 26px;}
 .textlist ul li a{ color:#4F4D50; line-height: 2.2em;  }
-.textlist ul li a.redfont{ color: red;}
+.textlist ul li.redfont a{ color: red;}
 .textlist span{ float: right; display: block;line-height:26px;}
 .bestworks{background: url("../images/right_infobg.gif") no-repeat; width: 235px; height: 355px;}
 .bestworks ul li{background: url("../images/right_icon.gif") no-repeat 0 -20px; text-indent:2em;}
