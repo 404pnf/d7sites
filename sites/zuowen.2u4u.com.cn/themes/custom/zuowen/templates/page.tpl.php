@@ -73,7 +73,13 @@
             <?php endif; ?>
 
             <?php if ($title): ?>
-              <h1 class="title"><?php // print $title; ?></h1>
+<?php
+	global $base_url;
+	 $current_path   = drupal_get_path_alias();
+	 if(!stristr($current_path,'newsdetails/')){
+?>
+              <h1 class="title"><?php  print $title; ?></h1>
+<?php }?>
             <?php endif; ?>
 
             <?php print $messages; ?>

@@ -1,0 +1,13 @@
+/* 内容*/
+#main #content-inner{float:none;}
+.page-user #content-header,.page-user #content-area,
+.page-user-register #content-area,
+.page-user-register #content-header,
+.page-user-password #content-area,
+.page-user-password #content-header{ margin: 20px 60px 0;}
+#content-area label{ margin: 10px;}
+#content-area input{ padding: 1px; margin: 6px 0;}
+/* 二级列表页*/
+
+/* 注册*/
+

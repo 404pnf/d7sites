@@ -1,0 +1,52 @@
+/* 内容*/
+#content-inner{float:none;}
+#content-area{margin:0 40px;}
+/* 二级列表页*/
+h1.blocktitle{height:31px;background: url("../images/infolist20110823_03.gif") no-repeat 0 0;}
+a.more{ float: right;padding: 17px 16px;}
+.node-inner ul{ font-size:12px;}
+.node-inner ul li{line-height: 2.6em; }
+.node-inner ul li a{ color:#4F4D50; line-height: 2.6em;  }
+.node-inner ol{ font-size:12px;}
+.node-inner ol li{line-height: 2.6em; }
+.node-inner ol li a{ color:#4F4D50; line-height: 2.6em;  }
+.node-inner span{ padding-left:20px}
+
+.node-inner .content h2, h3{color:#333333;margin-bottom:2em}
+.node-inner .content  p{ color:#333333;line-height:2em;font-size:12px;margin-right:20px}
+.ask{color:#DB0249;margin-bottom:4px;}
+.answer{color:#4E4E4E}
+
+h1.title {
+    color: #77A13F;
+    margin-bottom: 1em;
+    font-size:16px;
+    line-height:35px;
+    margin-left:40px;
+    border-bottom:2px #77A13F dotted; width:900px;
+}
+#block-system-main .panel-pane {
+     float: right;
+     width: 850px;
+}
+
+#block-system-main .pane-node-content {
+     margin-top: 20px;
+}
+
+.node-zuowen .content {
+     margin-top: 30px;
+}
+
+.node-zuowen .node-inner span.submitted {
+     padding: 0px;
+}
+
+#block-system-main .pane-user-picture {
+     float: left;
+     width: 70px;
+}
+
+#block-system-main .pane-user-picture img {
+     width: 50px;
+}

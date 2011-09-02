@@ -3,7 +3,5 @@
     <?php print $content; ?>
 	<a href="/qu"><img src="/sites/zuowen.2u4u.com.cn/themes/custom/zuowen/images/worksshow.gif" alt="" /></a>
 	<a href="/node/add/zuowen"><img src="/sites/zuowen.2u4u.com.cn/themes/custom/zuowen/images/submitworks.gif" alt="" /></a>
-</script>
-
   </div>
 </div>

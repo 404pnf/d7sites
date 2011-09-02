@@ -3,6 +3,7 @@
 #content-area{margin:0 40px;}
 /* 二级列表页*/
 h1.blocktitle{height:31px;background: url("../images/infolist20110823_03.gif") no-repeat 0 0;}
+.page-jiazuoxuandu h1.blocktitle{height:31px;background: url("../images/bestworks.gif") no-repeat 0 0;}
 a.more{ float: right;padding: 17px 16px;}
 .textlist{ overflow: auto;}
 .textlist ul{ margin:20px; overflow: auto;font-size:12px;}
@@ -26,6 +27,18 @@ a.more{ float: right;padding: 17px 16px;}
 .gray{ padding:20px 20px 10px; background:#F5F5F5; border:1px solid #EBEBEB; margin:20px -20px}
 .fcenter input{ margin:0 5px;}
 .submit,.reset{ background:#FF6A03; border:1px solid #F30; padding:4px 4px 3px; color:#FFF; font-weight:700;}
+
+
+
+#user-register-form{ margin:0 30px; font-size:12px;line-height:2em;}
+#user-register-form h2{ height:42px;color:#DB0249;text-align:center;margin-bottom:2em;background: url("../images/regist.gif") no-repeat 0 0;}
+#user-register-form form{ margin:0 40px;}
+#user-register-form input,select{ margin-left:20px;}
+#user-register-form form b{ font-weight:700; color:#59AB25}
+#user-register-form .gray{ padding:20px 20px 10px; background:#F5F5F5; border:1px solid #EBEBEB; margin:20px -20px}
+#user-register-form .fcenter input{ margin:0 5px;}
+#user-register-form .submit,.reset{ background:#FF6A03; border:1px solid #F30; padding:4px 4px 3px; color:#FFF; font-weight:700;}
+
 
 /*search */
 .searchbar,.fitemlist{ border-color:#CC9; font-size:13px; margin:0 20px; background:#E4F1C6; padding:6px 10px;border-width: 1px;border-style: solid;-moz-border-radius: 11px;-khtml-border-radius: 11px;-webkit-border-radius: 11px;border-radius: 4px;}
