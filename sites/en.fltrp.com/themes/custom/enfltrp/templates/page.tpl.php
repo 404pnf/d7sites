@@ -1,9 +1,18 @@
 <?php
 
-if(!empty($node) && $node->type == 'book'){
+/*if(!empty($node) && $node->type == 'book'){
   include('my.overwrite/page--book.tpl.php');
    return;
 }
+
+if(!empty($node) && $node->type == 'page'){
+    $custom_style_file ='/css/enfltrp.css';
+    if(!empty($custom_style_file)){
+    $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','fltrp').$custom_style_file.'");</style>';
+    print   $custom_style_uri ;
+  }
+} */
+
 
 ?>
 
@@ -66,7 +75,8 @@ if(!empty($node) && $node->type == 'book'){
             <?php endif; ?>
 
             <?php if ($title): ?>
-              <h1 class="title"><?php print $title; ?></h1>
+              <h3 class="title"><?php print $node->field_ebname['und'][0]['value']; ?></h3> 
+              <h3 class="title"><?php print $title; ?></h3>
             <?php endif; ?>
 
             <?php print $messages; ?>

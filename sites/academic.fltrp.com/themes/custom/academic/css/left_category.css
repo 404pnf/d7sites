@@ -1,0 +1,14 @@
+
+#products-category h3 {
+    background: url("../images/zysiderbarbg20110726.gif") repeat-x scroll 0 0 transparent;
+    border: 1px solid #BCBCBC;
+    height: 32px;
+    line-height: 32px;
+    margin: 8px 0 0 0;
+    text-indent: 2em;
+}
+#products-category h3 a{color: #404040;font-weight:400;}
+#products-category ul.outul{display:none;overflow: auto}
+#products-category ul.outul a{color: #000000;}
+#products-category ul.outul a.active{ background:#DD0108; color: #FFF; padding:3px 6px 1px;}
+#products-category ul.outul li{margin: 10px 10px 0; line-height:1.8em;}

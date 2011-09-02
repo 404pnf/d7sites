@@ -1,3 +1,4 @@
+<link href="/static/css/editor_recommended_books.css" media="all" rel="stylesheet" type="text/css">
 <?php
 /**
  * @file views-view.tpl.php
@@ -26,11 +27,7 @@
  * @ingroup views_templates
  */
 ?>
-<SCRIPT type="text/javascript" src="/static/js/left_category.js"></SCRIPT>
-<?php global $base_path;?>
-<link href="<?php print $base_path.$directory?>/css/left_category.css" media="all" rel="stylesheet" type="text/css">
-
-<div id="products-category" class="<?php print $classes; ?>">
+<div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
     <?php print $title; ?>
@@ -41,6 +38,8 @@
       <?php print $header; ?>
     </div>
   <?php endif; ?>
+
+
 
   <?php if ($exposed): ?>
     <div class="view-filters">
@@ -54,15 +53,36 @@
     </div>
   <?php endif; ?>
 
+
   <?php if ($rows): ?>
-    <div class="view-content">
-      <?php print $rows; ?>
-    </div>
+<div id="recommendation" class="recommendation">  
+<div id="bestgroup-content">
+	<!-- wrapper for navigator elements -->
+	<div class="navi"></div>
+	
+	<!-- "previous page" action -->
+	<a class="prev browse left disabled"></a>
+	
+	<!-- root element for scrollable -->
+	<div class="scrollable" id="scroll">    
+	   <!-- root element for the items -->
+	   <div id="bestgroup-items" class="items">
+		  <?php print $rows; ?>
+	  </div>
+	</div>
+	
+    <a class="next browse right"></a>
+    
+</div>   
+</div>
   <?php elseif ($empty): ?>
     <div class="view-empty">
       <?php print $empty; ?>
     </div>
+ 
   <?php endif; ?>
+  
+  
 
   <?php if ($pager): ?>
     <?php print $pager; ?>
@@ -91,10 +111,25 @@
   <?php endif; ?>
 
 </div> <?php /* class view */ ?>
+<SCRIPT type="text/javascript" src="/static/js/jquery.js"></SCRIPT>
 <script>
-$j = jQuery.noConflict();
-$j(function(){
+/**/
+var $c=jQuery.noConflict();  //将变量$的控制权让渡给prototype.js
+$c(function(){ 
+	//alert('123');
+	// initialize scrollable together with the navigator plugin
+	$c("#scroll").scrollable({
+		size: 4,
+		vertical:false,
+		clickable:false,
+		navi:'.navi',
+		items:'#bestgroup-items',
+		prevPage:'.prev',//跳转到上一页
+		nextPage:'.next',//跳转到下一页
+		hoverClass: 'hover',
+		easing:'linear' 
 	
-	$j('#products-category').left_category();
+	}); 
+
 });
 </script>

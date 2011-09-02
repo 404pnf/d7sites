@@ -91,86 +91,13 @@
         <?php endif; ?>
 
         <div id="content-area">		
-				<!-- 	编辑推荐 开始	 -->		
-				
-						<?php
-								 $views_name = 'products';
-								  $display_id = 'recommended_books';
-								   print views_embed_view($views_name, $display_id);
-							 ?>
-	
-
-   			<!-- 	//编辑推荐  结束	 -->		
-
-  <!--产品列表 排序-->
-   <?php
-
-			$output ="";
-			$url = "products";
-			$category = arg(1);
-
-
-			$sort_by="";
-			$sort_order="";
-
-			if(isset( $_GET["sort_by"]))
-   			    $sort_by = $_GET["sort_by"];
-			
-			if(isset( $_GET["sort_order"]))
-				$sort_order = $_GET["sort_order"];
-
-
-			if($sort_order=="ASC")
-					$sort_order="DESC";
-			else
-					$sort_order="ASC";
-
-
-			$output.='<a href="/'.$url.'/'.$category;
-
-   ?>
-							<div class="tab">
-							<ul>
-								<li >排序</li>
-								<li >
-								<?php
-									$orderoutput = "";
-              						$orderoutput=$output.'?sort_by=field_publish_date_value&sort_order='.$sort_order.'"';	
-									if($sort_by=="field_publish_date_value")										
-									    $orderoutput.='  class="a" ';		
-									$orderoutput.='  >出版日期</a>';
-									print  $orderoutput;
-								?>
-								</li>
-								<li>
-								<?php
-   								    $orderoutput = "";
-              						$orderoutput.=$output.'?sort_by=title&sort_order='.$sort_order.'"';	
-									if($sort_by=="title")										
-									    $orderoutput.='  class="a" ';		
-									$orderoutput.='  >书名</a>';
-									print  $orderoutput;
-								?>								
-								</li>
-								<li>
-								<?php
- 								    $orderoutput = "";
-              						$orderoutput.=$output.'?sort_by=field_price_value&sort_order='.$sort_order.'"';	
-									if($sort_by=="price")										
-									    $orderoutput.='  class="a" ';		
-									$orderoutput.='  >定价</a>';
-									print  $orderoutput;
-								?>
-								</li>
-							</ul>
-						</div>
-	  <!--/产品列表排序 -->		
+						
 				        
 		<!-- 	产品列表 开始	 -->			
 				<?php
-   				        $category = arg(1);
+   				         $category = arg(1);
 			             $views_name = 'products';
-                        $display_id = 'home';
+                         $display_id = 'home';
                          print views_embed_view($views_name, $display_id,$category);
                ?>
 	   			<!-- 	//产品列表 结束	 -->		
@@ -189,11 +116,10 @@
       </div>
     <?php endif; ?>
 
-    <?php  if ($page['sidebar_first']): ?>
+    <?php if ($page['sidebar_first']): ?>
       <div id="sidebar-first" class="column sidebar first">
         <div id="sidebar-first-inner" class="inner">
           <?php print render($page['sidebar_first']); ?>
-		  
         </div>
       </div>
     <?php  endif; ?> <!-- /sidebar-first -->

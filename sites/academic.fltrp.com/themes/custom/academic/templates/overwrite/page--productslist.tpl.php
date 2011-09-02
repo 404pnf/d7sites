@@ -1,4 +1,4 @@
-﻿<div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
+<div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <!-- ______________________ TOP NAVIGATION_______________________ -->
     <?php if ($page['topnav']): ?>
       	<div class="topnav">				
@@ -90,29 +90,90 @@
           </div> <!-- /#content-header -->
         <?php endif; ?>
 
-        <div id="content-area">
-		<!-- 	       资讯开始 		 -->
-	        		<div class="textlist">
-	        			<h1 class="blocktitle"><a href="" class="more">更多>></a></h1>
-	        			<?php
-			             $views_name = 'academic_news';
-                        $display_id = 'news_index';
-                         print views_embed_view($views_name, $display_id);
-				   ?>
-	        		</div>
-	        		<!-- 	       资讯结束		 -->
-					
-		<!-- 	    新书推荐开始   		 -->
-	        		<div class="imglist">
-	        			<h1 class="blocktitle"><a href="products" class="more">更多>></a></h1>
+        <div id="content-area">		
+		<!-- 	编辑推荐 开始	 -->		
+				
 						<?php
+								 $views_name = 'products';
+								  $display_id = 'recommended_books';
+								   print views_embed_view($views_name, $display_id);
+							 ?>
+	
+
+   			<!-- 	//编辑推荐  结束	 -->		
+
+  <!--产品列表 排序-->
+   <?php
+
+			$output ="";
+			$url = "products";
+			$category = arg(1);
+
+
+			$sort_by="";
+			$sort_order="";
+
+			if(isset( $_GET["sort_by"]))
+   			    $sort_by = $_GET["sort_by"];
+			
+			if(isset( $_GET["sort_order"]))
+				$sort_order = $_GET["sort_order"];
+
+
+			if($sort_order=="ASC")
+					$sort_order="DESC";
+			else
+					$sort_order="ASC";
+
+
+			$output.='<a href="/'.$url.'/'.$category;
+
+   ?>
+							<div class="tab">
+							<ul>
+								<li >排序</li>
+								<li >
+								<?php
+									$orderoutput = "";
+              						$orderoutput=$output.'?sort_by=field_publish_date_value&sort_order='.$sort_order.'"';	
+									if($sort_by=="field_publish_date_value")										
+									    $orderoutput.='  class="a" ';		
+									$orderoutput.='  >出版日期</a>';
+									print  $orderoutput;
+								?>
+								</li>
+								<li>
+								<?php
+   								    $orderoutput = "";
+              						$orderoutput.=$output.'?sort_by=title&sort_order='.$sort_order.'"';	
+									if($sort_by=="title")										
+									    $orderoutput.='  class="a" ';		
+									$orderoutput.='  >书名</a>';
+									print  $orderoutput;
+								?>								
+								</li>
+								<li>
+								<?php
+ 								    $orderoutput = "";
+              						$orderoutput.=$output.'?sort_by=field_price_value&sort_order='.$sort_order.'"';	
+									if($sort_by=="price")										
+									    $orderoutput.='  class="a" ';		
+									$orderoutput.='  >定价</a>';
+									print  $orderoutput;
+								?>
+								</li>
+							</ul>
+						</div>
+	  <!--/产品列表排序 -->				
+				        
+		<!-- 	产品列表 开始	 -->			
+				<?php
+   				         $category = arg(1);
 			             $views_name = 'products';
-                        $display_id = 'home_new';
-                         print views_embed_view($views_name, $display_id);
-					 ?>
-	        		</div>
-	        		<!-- 	    新书推荐结束  		 -->
-		
+                         $display_id = 'productslist';
+                         print views_embed_view($views_name, $display_id,$category);
+               ?>
+	   			<!-- 	//产品列表 结束	 -->		
           <?php print render($page['content']) ?>
         </div>
 
@@ -131,40 +192,18 @@
     <?php if ($page['sidebar_first']): ?>
       <div id="sidebar-first" class="column sidebar first">
         <div id="sidebar-first-inner" class="inner">
-				
           <?php print render($page['sidebar_first']); ?>
         </div>
       </div>
-    <?php endif; ?> <!-- /sidebar-first -->
+    <?php  endif; ?> <!-- /sidebar-first -->
 
-    <?php // if ($page['sidebar_second']): ?>
+    <?php if ($page['sidebar_second']): ?>
       <div id="sidebar-second" class="column sidebar second">
         <div id="sidebar-second-inner" class="inner">
-		<!-- 辞典知识开始 -->
-				<div class="textlist">
-					<h3><a href="" class="more">more</a></h3>
-					<?php
-			             $views_name = 'academic_news';
-                        $display_id = 'dict_index';
-                         print views_embed_view($views_name, $display_id);
-					 ?>
-				</div>
-				<!-- 辞典知识结束 -->
-		<!-- 资源下载开始 -->
-				<div class="textlist resouredownload">
-					<h3><a href="" class="more">more</a></h3>
-					<p>
-					<?php
-			             $views_name = 'resources';
-                        $display_id = 'home';
-                         print views_embed_view($views_name, $display_id);
-					 ?>
-				</div>
-				<!-- 资源下载结束 -->
           <?php print render($page['sidebar_second']); ?>
         </div>
-	  </div>
-    <?php //endif; ?> <!-- /sidebar-second -->
+      </div>
+    <?php endif; ?> <!-- /sidebar-second -->
 
 
   <?php if ($page['content_bottom']): ?>

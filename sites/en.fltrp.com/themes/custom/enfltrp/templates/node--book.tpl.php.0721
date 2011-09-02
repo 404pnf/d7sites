@@ -89,7 +89,7 @@
                 <div class="largerpic"><a href="#">See Larger Image</a></div>
               </div>
               <div class="bookinfo">
-                <strong>图书:<?php print $node->field_title['und'][0]['value']; ?></strong><br>
+                <strong>图书:<?php print "11111"; ?></strong><br>
                 <strong>ISBN: </strong><?php print $node->field_isbn['und'][0]['value'];?><br>
                 <strong>CP No:</strong><?php ?><?php print $node->field_materielno['und'][0]['value'];?><br>
                 <strong>作者:</strong><?php print $node->field_author['und'][0]['value'];?><br>
