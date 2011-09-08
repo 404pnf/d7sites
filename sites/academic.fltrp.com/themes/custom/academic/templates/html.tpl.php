@@ -47,8 +47,11 @@
 	case "download":
           $custom_style_file ='/css/information.css';
 		 break;
+	 
+	case "cidian":
+          $custom_style_file ='/css/cidian.css';
+		 break;
 	 }
-
 
  if(stristr($current_path,'newsdetails/'))
 			   $custom_style_file ='/css/information.css';

@@ -1,0 +1,33 @@
+/*首页 内容 */
+/* 每个区块儿 */
+#sidebar-first{margin-right:-284px;width: 284px;}
+#sidebar-first-inner{ border:1px solid #ddd; margin-left:2px}
+.newslist{ font-size:12px;line-height:1.6em;_zoom:1}
+.newslist h3{ margin:10px; background:#B18C5F; height:30px;line-height:30px; color:#fff;text-indent:1em;}
+.newslist h3 img{ float:right; margin:10px;}
+.newslist ul,.newslist p,.newslist span,.newslist b{ margin:0 14px; display:block}
+.newslist li{ background:url(../images/10092505.gif) no-repeat 0 15px;text-indent:1.3em;line-height:2em; padding:6px 0; border-bottom:1px dashed #ddd}
+.newslist a{ font-size:12px}
+.newslist p{line-height:2em;text-indent:2em;}
+.newslist b{ font-size:13px;color:#ca3c16; margin:6px 10px;clear:left}
+.newslist span{ color:#ca3c16; text-align:right;height:16px; margin-bottom:10px;}
+.newslist .friendlinks{ overflow:auto; margin:0}
+.newslist .friendlinks li{ float:left; background:none; color:#B18C5F; font-size:14px; border:none;white-space: nowrap}
+
+#content-inner{margin-left:286px;}
+.imglist h3{ margin:0}
+.imglist h3.ts{ padding-left:10px}
+.listcontent{ background:#FFF; overflow:auto; margin:0 10px 10px 10px;_zoom:1}
+.imglist{ width:714px; background:#EFEDED; height:auto; overflow:auto; margin-bottom:12px;}
+.listcontent span{ display:block; border-bottom:1px solid #CCC; font-size:14px; padding:4px 0; color:#8d3302; font-weight:700;}
+.listcontent p a{ font-size:12px; line-height:1.8em;}
+.listleft{ width:446px; float:left}
+.listcontent .listleft li{ height:auto; background:#FCF6E6; overflow:auto; margin:10px;_zoom:1}
+.listcontent .listright li{ background:#FCF6E6; padding-bottom:20px}
+.listcontent img{ float:left; margin:10px 20px 20px 10px}
+.listcontent .listleft h3,.listcontent .listright h3{ color:#8D3302; margin:15px 10px 5px 0;}
+.listcontent  p{line-height:2em; font-size:12px; color:#4B4B4A; margin-right:10px;}
+.listcontent h3 img{ margin:2px 6px 0 0}
+.listright h3,.listright p{ margin:10px}
+.listright{ float:left; width:230px; margin-left:8px}
+.listcontent .listright h3{ margin:10px 14px}

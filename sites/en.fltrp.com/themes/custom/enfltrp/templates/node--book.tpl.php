@@ -17,6 +17,7 @@
 					  </div>
 					  <div class="bookinfo">
 						<strong>Book name:<?php print $node->field_ebname['und'][0]['value']; ?></strong><br>
+                                                <strong>Price: </strong>¥<?php print $node->field_price['und'][0]['value']; ?><br>
 						<strong>ISBN: </strong><?php print $node->field_isbn['und'][0]['value'];?><br>
 						<strong>CP No:</strong><?php ?><?php print $node->field_materielno['und'][0]['value'];?><br>
 						<strong>Author:</strong><?php print $node->field_english_author['und'][0]['value'];?><br>
@@ -89,6 +90,7 @@
 					  </div>
 					  <div class="bookinfo">
 						<strong>图书:<?php print $node->title; ?></strong><br>
+                                                <strong>价格: </strong>¥<?php print $node->field_price['und'][0]['value']; ?><br>
 						<strong>ISBN: </strong><?php print $node->field_isbn['und'][0]['value'];?><br>
 						<strong>CP No:</strong><?php ?><?php print $node->field_materielno['und'][0]['value'];?><br>
 						<strong>作者:</strong><?php print $node->field_author['und'][0]['value'];?><br>

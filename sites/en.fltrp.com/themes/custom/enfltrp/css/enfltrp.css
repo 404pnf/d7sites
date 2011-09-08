@@ -132,7 +132,15 @@
 	#sidebar-first{ width: 234px; margin-right: -234px;}
 	#main{ margin-top: 23px; width: 980px;}
 	#content-inner{ margin-left: 240px;}
-	#sidebar-first h3,#sidebar-first .apple_apps{width: 224px; height: 26px; line-height: 26px; color: #d62937; font-size: 13px; border: 1px solid #ddd; margin: 18px 0 0 10px;text-indent:1em;}
+	#sidebar-first h3,#sidebar-first .apple_apps,#sidebar-first .tb{width: 224px; height: 26px; line-height: 26px; color: #d62937; font-size: 13px; border: 1px solid #ddd; margin: 18px 0 0 10px;text-indent:1em;font-weight:700;}
+	#sidebar-first .textbooks h3{ margin: 0; color: #000; border: none; margin-left: 6px;}
+	#sidebar-first .textbooks ul{ margin-top: 0}
+	#sidebar-first .textbooks ul li{text-indent:.4em;}
+	#sidebar-first .textbooks ul li a{font-weight:400;}
+	#sidebar-first .el,
+	#sidebar-first .ml{ margin-left:18px; margin-top: 4px;}
+	#sidebar-first .el a,
+	#sidebar-first .ml a{ color:#000; font-weight:700;}
 	#sidebar-first h3 a,#sidebar-first .apple_apps a{color: #d62937; font-weight:700;}	
 	#sidebar-first ul{list-style:none; margin-left: 18px; padding-left: 0; margin-top:10px;}
 	#sidebar-first ul a{line-height:26px; color: #333;font-weight:700;}
