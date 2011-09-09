@@ -84,7 +84,7 @@ function _custom_user_login_form_validate($form, &$form_state){
         $account = user_save(new stdClass(), $new);
         $account = user_load($account->uid);
       } else {
-          //更新此用户信息
+         //更新此用户信息
           $user_id = @user_authenticate($values['name'],trim($values['pass']));
           if(empty($user_id)){
             $edit = array(
@@ -123,11 +123,7 @@ function _custom_user_register_final_validate($form, &$form_state){
     $status   = $values['status'] ? $values['status'] : 1;
     $pass     = isset($values['pass']) ? $values['pass'] : '';
     if($user->uid){
-       if(isset($_SESSION['userticket'])){
-         $ServiceTicket = $_SESSION['userticket'];
-       }else{
-         $ServiceTicket = md5($user->name.$user->init);
-       }
+       $ServiceTicket = $_SESSION['userticket'];
     } else {
       $ServiceTicket = '';
     }
@@ -249,11 +245,7 @@ function _custom_user_cancel_confirm_form_validate($form, &$form_state){
   //获得删除方式
   $flag_method = $form_state['values']['user_cancel_method'];
   $user_cancel_notify = $form_state['values']['user_cancel_notify'];
-  if(isset($_SESSION['userticket'])){
-    $ServiceTicket = $_SESSION['userticket'];
-  } else {
-    $ServiceTicket = md5($user->name.$user->init);
-  }
+  $ServiceTicket = $_SESSION['userticket'];
   //传送给服务器端xml文件信息
   $client = new SoapClient(TYUSER_SERVICES_URL,array('encoding'=>'UTF-8'));
   $params1 = '<?xml version="1.0" encoding="UTF-8" ?>
@@ -295,11 +287,7 @@ function _custom_user_multiple_cancel_confirm_validate($form, &$form_state){
   //获得删除方式
   $flag_method = $form_state['values']['user_cancel_method'];
   $user_cancel_notify = $form_state['values']['user_cancel_notify'];
-  if(isset($_SESSION['userticket'])){
-    $ServiceTicket = $_SESSION['userticket'];
-  } else {
-    $ServiceTicket = md5($user->name.$user->init);
-  }
+  $ServiceTicket = $_SESSION['userticket'];
   //传送给服务器端xml文件信息
   $client = new SoapClient(TYUSER_SERVICES_URL,array('encoding'=>'UTF-8'));
   $params1 = '<?xml version="1.0" encoding="UTF-8" ?>
@@ -347,11 +335,7 @@ function _custom_user_admin_account_update_validate($form, &$form_state){
   if($operation == 'block' || $operation == 'unblock'){
     $form_state['values']['accounts'] = array_filter($form_state['values']['accounts']);
     $accounts = user_load_multiple(array_keys($form_state['values']['accounts']));
-    if(isset($_SESSION['userticket'])){
-      $ServiceTicket = $_SESSION['userticket'];
-    } else {
-      $ServiceTicket = md5($user->name.$user->init);
-    }
+    $ServiceTicket = $_SESSION['userticket'];
     if( $operation == 'block'){
       $states = 0;
     } else {
