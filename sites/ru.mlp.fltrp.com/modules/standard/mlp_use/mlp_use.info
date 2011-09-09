@@ -1,0 +1,8 @@
+core = "7.x"
+dependencies[] = "feeds"
+description = "给MLP网站使用"
+features[ctools][] = "feeds:feeds_importer_default:1"
+features[feeds_importer][] = "product_import"
+features[feeds_importer][] = "term_import"
+name = "mlp_use"
+package = "Features"
