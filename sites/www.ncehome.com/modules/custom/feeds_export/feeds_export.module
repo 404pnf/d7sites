@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the feeds-export feature.
+ */
+
+include_once('feeds_export.features.inc');

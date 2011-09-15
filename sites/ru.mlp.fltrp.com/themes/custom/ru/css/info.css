@@ -1,0 +1,7 @@
+@charset "utf-8";
+/* content */
+#content-top{ height:20px; padding:0; margin:0}
+.infolist h2{ margin:0 20px;}
+.infolist ul{ margin:30px 80px;}
+.infolist ul li{line-height:2.6em; background:url(../images/blackpoint.gif) no-repeat 0 16px;text-indent:1em;}
+.infolist ul li a{ font-size:14px;}

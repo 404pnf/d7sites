@@ -1,0 +1,10 @@
+@charset "utf-8";
+/* content */
+#content-top{ margin:0; padding:0; height:20px;}
+.breadcrumb a{ display:block; height:57px; background:url(../images/artictitle.gif) no-repeat; float:left; font-size:16px; line-height:57px; color:#184854; font-weight:700;text-indent:6em;*text-indent:8em;}
+.bone{ width:230px;}
+.btwo{ width:686px;}
+.artics{ border:1px solid #DDD; padding:30px 40px;}
+.artics h1{text-align:center;font-size:24px; color:#323232;}
+.ronline{ display:block; margin:20px 0 30px}
+.ptext{line-height:2.6em; font-size:13px; color:#404040;}

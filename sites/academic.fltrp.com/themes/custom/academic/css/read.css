@@ -1,0 +1,19 @@
+/*重置页面宽度*/
+#header{ width: 1000px;}
+#main{ width: 1000px;}
+#footer{ width: 1000px;}
+.focus{ padding: 0}
+/* 每个区块儿 */
+#content-area{ margin:0 14px;}
+.ebox{ width:471px; float:left;  margin-left:10px; margin-bottom:10px;}
+.econt{ border:1px solid #F3F3F3; border-top:none; padding:16px 0; color:#666;height:370px; overflow:hidden;}
+.ebox h3{ margin:0}
+.ebox a{ font-size:12px;}
+.ebox p{ font-size:12px;line-height:2.4em; margin:0 12px;}
+.ebox b{font-weight:700;}
+.ebox p.q{ color:#CC3300}
+.econleft{ float:left;width:186px; }
+.econright{border-left:1px dashed #CCC; float:left; width:282px;}
+.ebox span a{ display:block; text-align:center; padding-top:18px; clear:left}
+
+

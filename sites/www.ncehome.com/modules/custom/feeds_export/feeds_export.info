@@ -1,0 +1,7 @@
+core = "7.x"
+dependencies[] = "feeds"
+description = "feeds导出"
+features[ctools][] = "feeds:feeds_importer_default:1"
+features[feeds_importer][] = "basic"
+name = "feeds-export"
+package = "Features"

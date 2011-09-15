@@ -1,0 +1,13 @@
+@charset "utf-8";
+/* content */
+
+.breadcrumb a{ display:block; height:57px; background:url(../images/artictitle.gif) no-repeat; float:left; font-size:16px; line-height:57px; color:#184854; font-weight:700;text-indent:6em;*text-indent:8em;}
+.bone{ width:230px;}
+.btwo{ width:686px;}
+.artics{ border:1px solid #DDD; padding:30px 40px;}
+.artics h1 a{ color:#356BC5; font-size:26px;}
+.imgcontent{ float:left; width:300px;}
+.imgcontent ul{ overflow:auto}
+.imgcontent ul li{ float:left; margin:10px 30px 20px 0;}
+.ronline{ display:block; margin:20px 0 30px}
+.ptext{line-height:2.6em; font-size:13px; color:#404040;}
