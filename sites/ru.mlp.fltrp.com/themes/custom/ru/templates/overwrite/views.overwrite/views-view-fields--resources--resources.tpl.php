@@ -27,21 +27,42 @@
 
 
 <?php
+    global $base_url;
 	$resources_title=$fields['title']->raw;
+	$resources_body=$fields['body']->content;
 	$resources_id=$fields['nid']->content;
 	$resources_url=$fields['field_url']->content;
 	$resources_term=$fields['term_node_tid']->content;
 	$resources_real_url="";
+	$resources_attachments=$fields['field_resource_attachments']->content;
+
+	if (!empty($resources_body)){	
+			 $resources_base_url ='/resource/';
+			 $resources_real_url = $resources_base_url.$resources_id; 
+	}else{
 	
-	if (!empty($resources_url)){	
-		$resources_real_url=$resources_url;
-	}
-	else
-	{
-		 $resources_base_url ='resource/';
-		 $resources_real_url = $resources_base_url.$resources_id; 
-	}
+		if (!empty($resources_url)){	
+			$resources_real_url=$resources_url;
+		}
+		else
+		{
+		     if(is_array(explode($resources_attachments,','))){
+				 $resources_base_url ='/resource/';
+				 $resources_real_url = $resources_base_url.$resources_id; 
+			 }else
+			{
+				$resources_real_url=$resources_attachments;
+			 }
 		
-    print $resources_term;
+		}
+	}
+
+
+		
+   print $resources_real_url;
+  $dlimage = '<a href="'.$resources_real_url.'" class="dlimg"><img src="'.$base_url.'/'.drupal_get_path('theme',variable_get('theme_default')).'/images/dl.gif" /></a>' ;
+ 
+
+     print $dlimage;
 	print  l($resources_title,$resources_real_url);
 ?>

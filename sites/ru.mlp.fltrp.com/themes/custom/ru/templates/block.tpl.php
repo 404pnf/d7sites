@@ -1,4 +1,4 @@
-<div id="block-<?php print $block->module .'-'. $block->delta ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
+<div id="block-<?php print $block->module .'-'. $block->delta ?>" class="<?php print $classes; ?> "<?php print $attributes; ?>>
   <div class="block-inner">
 
       <?php print render($title_prefix); ?>

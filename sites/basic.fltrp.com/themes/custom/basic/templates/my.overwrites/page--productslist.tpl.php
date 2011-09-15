@@ -55,6 +55,7 @@
 
   <?php if ($page['content_top']): ?>
       <div id="content-top">
+        <?php print $breadcrumb; ?>
         <?php print render($page['content_top']); ?>
       </div>
     <?php endif; ?><!-- /content_top -->
@@ -66,7 +67,7 @@
         <?php if ($breadcrumb || $title|| $messages || $tabs || $action_links): ?>
           <div id="content-header">
 
-            <?php print $breadcrumb; ?>
+            <!--commented <?php print $breadcrumb; ?> 屏蔽默认page.tpl.php的面包屑-->
 
             <?php if ($page['highlight']): ?>
               <div id="highlight"><?php print render($page['highlight']) ?></div>
@@ -119,7 +120,22 @@
 			$output.='<a href="/'.$url.'/'.$category;
 
    ?>
-							<div class="tab_title">
+                              <!--    编辑推荐 开始    -->
+                                           <?php
+                                                   $views_name = 'products';
+                                                   $display_id = 'recommended_books';
+                                                   print views_embed_view($views_name, $display_id);
+                                           ?>
+                              <!-- 获得当前分类显示分类名字 -->
+                                           <?php
+                                                   $views_name = 'category';
+                                                   $display_id = 'current';
+                                                   print views_embed_view($views_name, $display_id);
+                                            ?>
+
+
+         
+							<div class="tab">
 							<ul>
 								<li >排序</li>
 								<li >
@@ -175,17 +191,13 @@
       </div>
     </div> <!-- /content-inner /content -->
 
-    <?php if ($main_menu || $secondary_menu): ?>
-      <div id="navigation" class="menu <?php if (!empty($main_menu)) {print "with-primary";} if (!empty($secondary_menu)) {print " with-secondary";} ?>">
-        <?php print theme('links', array('links' => $main_menu, 'attributes' => array('id' => 'primary', 'class' => array('links', 'clearfix', 'main-menu')))); ?>
-        <?php print theme('links', array('links' => $secondary_menu, 'attributes' => array('id' => 'secondary', 'class' => array('links', 'clearfix', 'sub-menu')))); ?>
-      </div>
-    <?php endif; ?>
 
     <?php if ($page['sidebar_first']): ?>
       <div id="sidebar-first" class="column sidebar first">
         <div id="sidebar-first-inner" class="inner">
-          <?php print render($page['sidebar_first']); ?>
+          <div class="wrapul">     
+                  <?php print render($page['sidebar_first']); ?>
+          </div>
         </div>
       </div>
     <?php endif; ?> <!-- /sidebar-first -->
@@ -193,7 +205,7 @@
     <?php if ($page['sidebar_second']): ?>
       <div id="sidebar-second" class="column sidebar second">
         <div id="sidebar-second-inner" class="inner">
-          <?php print render($page['sidebar_second']); ?>
+             <?php print render($page['sidebar_second']); ?>
         </div>
       </div>
     <?php endif; ?> <!-- /sidebar-second -->

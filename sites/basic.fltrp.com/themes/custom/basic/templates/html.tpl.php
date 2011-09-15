@@ -7,6 +7,47 @@
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
   <?php print $styles; ?>
+
+<!---   added by zhanglin  //-->
+<?php
+        global $base_url;
+         $current_path   = drupal_get_path_alias();
+
+         switch($current_path){
+         case "fp":
+          $custom_style_file ='/css/index.css';
+                 break;
+         case "products":
+          $custom_style_file ='/css/product.css';
+                 break;
+         case "list":
+          $custom_style_file ='/css/product.css';
+                 break;
+         case "book":
+          $custom_style_file ='/css/product.css';
+                 break;
+         case "searcher":
+          $custom_style_file ='/css/searcher.css';
+                 break;
+         case "training":
+          $custom_style_file ='/css/information.css';
+                 break;
+         }
+// if(stristr($current_path,'news/'))
+//                           $custom_style_file ='/css/information.css';
+
+ if(stristr($current_path,'list/')||stristr($current_path,'book/')||stristr($current_path,'products/')||stristr($current_path,'training/'))
+                           $custom_style_file ='/css/product.css';
+
+if(!empty($custom_style_file)){
+    $custom_style_uri = '<style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','basic').$custom_style_file.'");</style>';
+    print   $custom_style_uri ;
+}
+
+
+?>
+<!---   added by zhanglin//  -->
+                                                                                
   <?php print $scripts; ?>
 </head>
 <body class="<?php print $classes; ?>" <?php print $attributes;?>>

@@ -55,6 +55,7 @@
 
   <?php if ($page['content_top']): ?>
       <div id="content-top">
+        <?php print $breadcrumb; ?>
         <?php print render($page['content_top']); ?>
       </div>
     <?php endif; ?><!-- /content_top -->
@@ -65,8 +66,9 @@
 
         <?php if ($breadcrumb || $title|| $messages || $tabs || $action_links): ?>
           <div id="content-header">
+      
+            <!--commented <?php print $breadcrumb; ?> 靠靠page.tpl.php靠靠-->
 
-            <?php print $breadcrumb; ?>
 
             <?php if ($page['highlight']): ?>
               <div id="highlight"><?php print render($page['highlight']) ?></div>
@@ -91,21 +93,9 @@
         <?php endif; ?>
 
         <div id="content-area">
-			<div class="imglist">
 						
 						
 
-				<!-- 	精品推荐 开始	 -->			
-				<?php
-                                     $language= arg(1);
-		     	             $views_name = 'products';
-                                     $display_id = 'recommended_books';
-                                     print views_embed_view($views_name, $display_id,$language);
-                                ?>
-	   			<!-- 	//精品推荐 结束	 -->		
-
-
-					</div>
 
 
 
@@ -131,17 +121,13 @@
       </div>
     </div> <!-- /content-inner /content -->
 
-    <?php if ($main_menu || $secondary_menu): ?>
-      <div id="navigation" class="menu <?php if (!empty($main_menu)) {print "with-primary";} if (!empty($secondary_menu)) {print " with-secondary";} ?>">
-        <?php print theme('links', array('links' => $main_menu, 'attributes' => array('id' => 'primary', 'class' => array('links', 'clearfix', 'main-menu')))); ?>
-        <?php print theme('links', array('links' => $secondary_menu, 'attributes' => array('id' => 'secondary', 'class' => array('links', 'clearfix', 'sub-menu')))); ?>
-      </div>
-    <?php endif; ?>
 
     <?php if ($page['sidebar_first']): ?>
       <div id="sidebar-first" class="column sidebar first">
         <div id="sidebar-first-inner" class="inner">
-          <?php print render($page['sidebar_first']); ?>
+          <div class="wrapul">
+             <?php print render($page['sidebar_first']); ?>
+          </div>
         </div>
       </div>
     <?php endif; ?> <!-- /sidebar-first -->

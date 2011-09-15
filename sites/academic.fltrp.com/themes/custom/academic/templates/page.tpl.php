@@ -2,12 +2,11 @@
   <!-- ______________________ TOP NAVIGATION_______________________ -->
     <?php if ($page['topnav']): ?>
       	<div class="topnav">				
-			<div class="topnavcontent">
-	        <?php print render($page['topnav']); ?>
-		  </div>
-	   </div>
+         	<div class="topnavcontent">
+	             <?php print render($page['topnav']); ?>
+	        </div>
+        </div>
     <?php endif; ?>
-
 
   <!-- ______________________ HEADER _______________________ -->
 

@@ -1,3 +1,16 @@
+    <?php 
+		global $base_url;
+//内容类型为page时增加相应css；
+if(!empty($node) && $node->type == 'page'){
+    $custom_style_file ='/css/information.css';
+    if(!empty($custom_style_file)){
+    $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','iculture').$custom_style_file.'");</style>';
+    print   $custom_style_uri ;
+  }
+}
+ ?>
+
+
 <div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <!-- ______________________ TOP NAVIGATION_______________________ -->
     <?php if ($page['topnav']): ?>

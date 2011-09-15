@@ -18,9 +18,7 @@
         hide($content['links']);
         //print render($content);
 
-         // print "<pre>";
-		 // print_r($node);
-		//   print "</pre>";
+   //   debug($content,null,TRUE);
 
 
 		$title = $node->title;        //新闻标题
@@ -33,6 +31,11 @@
 		$newsimages=array();
 		if(isset( $node->field_news_image['zh-hans']))
 		     $newsimages=$node->field_news_image['zh-hans'];
+
+		if(isset( $node-> field_resource_attachments['zh-hans']))
+		     $resources=$node->field_resource_attachments;
+
+			
        ?>
   	</div>
   	
@@ -71,6 +74,9 @@
 				?>
 			</center>
 			<?php print render($content['body']);?>
+
+			<?php print render($content['field_resource_attachments']);?>
+
 		</div>							
 	</div>
 	<!--  文章内容 结束-->

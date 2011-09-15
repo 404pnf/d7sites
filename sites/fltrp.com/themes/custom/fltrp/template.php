@@ -163,6 +163,155 @@ if($current_path =='training'){
 		return $output;
 	}
 
+if($current_path =='server'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		 $breadcrumbs[] = '<a href="'.url('server').'">'.t('读者服务').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+if($current_path =='sls'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		 $breadcrumbs[] = '<a href="'.url('sls').'">'.t('学校和图书馆服务').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+if($current_path =='sales'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		 $breadcrumbs[] = '<a href="'.url('sales').'">'.t('经销商服务').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+if($current_path =='author'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		 $breadcrumbs[] = '<a href="'.url('author').'">'.t('作者服务').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+
+if($current_path =='copyright'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		 $breadcrumbs[] = '<a href="'.url('copyright').'">'.t('版权业务').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+
+if($current_path =='sites'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		 $breadcrumbs[] = '<a href="'.url('sites').'">'.t('外研社网群').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+if($current_path =='map'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		 $breadcrumbs[] = '<a href="'.url('map').'">'.t('到达外研社').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+if($current_path =='links'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		 $breadcrumbs[] = '<a href="'.url('links').'">'.t('友情链接').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+
+if($current_path =='jubao'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		 $breadcrumbs[] = '<a href="'.url('jubao').'">'.t('盗版举报').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+if($current_path =='contact'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		 $breadcrumbs[] = '<a href="'.url('contact').'">'.t('联系我们').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+if($current_path =='aboutus1'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		 $breadcrumbs[] = t('关于我们');
+		  $breadcrumbs[] = '<a href="'.url('aboutus1').'">'.t('社长致辞').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+if($current_path =='aboutus2'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		 $breadcrumbs[] = t('关于我们');
+		  $breadcrumbs[] = '<a href="'.url('aboutus2').'">'.t('本社简介').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
+if($current_path =='aboutus3'){
+	  $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		 $breadcrumbs[] = t('关于我们');
+		  $breadcrumbs[] = '<a href="'.url('aboutus3').'">'.t('机构概览').'</a>';
+
+	  $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	}
+
 
   if(arg(0)=='node' && arg(1)>0){
 	  $nid = arg(1);

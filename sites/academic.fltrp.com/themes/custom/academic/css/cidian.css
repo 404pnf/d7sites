@@ -1,25 +1,30 @@
 /*首页 内容 */
+/*重置页面宽度*/
+#header{ width: 1000px;}
+#main{ width: 1000px;}
+#footer{ width: 1000px;}
+.focus{ padding: 0}
 /* 每个区块儿 */
 #sidebar-first{margin-right:-284px;width: 284px;}
-#sidebar-first-inner{ border:1px solid #ddd; margin-left:2px}
-.newslist{ font-size:12px;line-height:1.6em;_zoom:1}
-.newslist h3{ margin:10px; background:#B18C5F; height:30px;line-height:30px; color:#fff;text-indent:1em;}
-.newslist h3 img{ float:right; margin:10px;}
-.newslist ul,.newslist p,.newslist span,.newslist b{ margin:0 14px; display:block}
-.newslist li{ background:url(../images/10092505.gif) no-repeat 0 15px;text-indent:1.3em;line-height:2em; padding:6px 0; border-bottom:1px dashed #ddd}
-.newslist a{ font-size:12px}
-.newslist p{line-height:2em;text-indent:2em;}
-.newslist b{ font-size:13px;color:#ca3c16; margin:6px 10px;clear:left}
-.newslist span{ color:#ca3c16; text-align:right;height:16px; margin-bottom:10px;}
-.newslist .friendlinks{ overflow:auto; margin:0}
-.newslist .friendlinks li{ float:left; background:none; color:#B18C5F; font-size:14px; border:none;white-space: nowrap}
+#sidebar-first-inner{ border:1px solid #ddd; margin-left:2px; width: auto;}
+#sidebar-first-inner .newslist{ font-size:12px;line-height:1.6em;_zoom:1}
+#sidebar-first-inner .newslist h3{ margin:10px; background:#B18C5F; height:30px;line-height:30px; color:#fff;text-indent:1em;}
+#sidebar-first-inner .newslist h3 img{ float:right; margin:10px;}
+#sidebar-first-inner .newslist ul,.newslist p,.newslist span,.newslist b{ margin:0 14px; display:block}
+#sidebar-first-inner .newslist li{ background:url(../images/10092505.gif) no-repeat 0 15px;text-indent:1.3em;line-height:2em; padding:6px 0; border-bottom:1px dashed #ddd}
+#sidebar-first-inner .newslist a{ font-size:12px}
+#sidebar-first-inner .newslist p{line-height:2em;text-indent:2em;}
+#sidebar-first-inner .newslist b{ font-size:13px;color:#ca3c16; margin:6px 10px;clear:left}
+#sidebar-first-inner .newslist span{ color:#ca3c16; text-align:right;height:16px; margin-bottom:10px;}
+#sidebar-first-inner .newslist .friendlinks{ overflow:auto; margin:0}
+#sidebar-first-inner .newslist .friendlinks li{ float:left; background:none; color:#B18C5F; font-size:14px; border:none;white-space: nowrap}
 
 #content-inner{margin-left:286px;}
 .imglist h3{ margin:0}
 .imglist h3.ts{ padding-left:10px}
 .listcontent{ background:#FFF; overflow:auto; margin:0 10px 10px 10px;_zoom:1}
 .imglist{ width:714px; background:#EFEDED; height:auto; overflow:auto; margin-bottom:12px;}
-.listcontent span{ display:block; border-bottom:1px solid #CCC; font-size:14px; padding:4px 0; color:#8d3302; font-weight:700;}
+.listcontent span a{ display:block; border-bottom:1px solid #CCC; font-size:14px; padding:4px 0; color:#8d3302; font-weight:700;}
 .listcontent p a{ font-size:12px; line-height:1.8em;}
 .listleft{ width:446px; float:left}
 .listcontent .listleft li{ height:auto; background:#FCF6E6; overflow:auto; margin:10px;_zoom:1}

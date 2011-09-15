@@ -205,19 +205,23 @@
 				</div>
 				<div class="newslist">
 					<h3>发布新闻<img src="/sites/academic.fltrp.com/themes/custom/academic/images/cidian/10092503.gif" alt="" /></h3>
+					<ul>
 					<?php
 			            $views_name = 'zhuanti';
                         $display_id = 'news';
                          print views_embed_view($views_name, $display_id);
 				   ?>
+					</ul>
 				</div>
 				<div class="newslist">
 					<h3>专家点评<img src="/sites/academic.fltrp.com/themes/custom/academic/images/cidian/10092503.gif" alt="" /></h3>
+					<ul>
 					<?php
 			            $views_name = 'zhuanti';
                         $display_id = 'zhuanjia';
                          print views_embed_view($views_name, $display_id);
 				   ?>
+				   </ul>
 				</div>
 				<div class="newslist">
 					<h3>发布稿件媒体</h3>

@@ -230,3 +230,8 @@
 .search-result .title a{color:#AE1E1E; font-size:15px;}
 #content-area .search-result{ border-bottom: 1px dashed #EEE; padding-bottom: 10px; margin-bottom: 10px; padding-left: 0!important}
 .search-results{ padding-left: 0}
+
+
+/*------右边栏书目下载-----------*/
+.shumu { margin:18px 0 0 10px;      
+}

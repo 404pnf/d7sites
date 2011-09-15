@@ -7,7 +7,6 @@
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
   <?php print $styles; ?>
-
 <!---   added by zhanglin  //-->
 <?
 	global $base_url;
@@ -26,7 +25,7 @@
 	 case "productsdetails":
           $custom_style_file ='/css/product.css';
 		 break;
-	case "news":
+ 	case "news":
           $custom_style_file ='/css/information.css';
 		 break;	
 	case "newsmore":
@@ -41,15 +40,17 @@
 	case "searcher":
           $custom_style_file ='/css/searcher.css';
 		 break;
-    case "academic":
+        case "academic":
           $custom_style_file ='/css/xscenter.css';
 		 break;
 	case "download":
           $custom_style_file ='/css/information.css';
-		 break;
-	 
+		 break; 
 	case "cidian":
           $custom_style_file ='/css/cidian.css';
+		 break;
+	case "langdang":
+          $custom_style_file ='/css/read.css';
 		 break;
 	 }
 
@@ -69,19 +70,16 @@ if(!empty($custom_style_file)){
    //print $base_url.'/'.drupal_get_path('theme','academic').$custom_style_file;
 	print   $custom_style_uri ;
 }
-
-
 ?>
 <!---   added by zhanglin//  -->
-
   <?php print $scripts; ?>
 </head>
 <body class="<?php print $classes; ?>" <?php print $attributes;?>>
   <div id="skip">
     <a href="#main-menu"><?php print t('Jump to Navigation'); ?></a>
   </div>
-  <?php print $page_top; ?>
-  <?php print $page; ?>
-  <?php print $page_bottom; ?>
+  <?php print $page_top;?> 
+   <?php print $page;?>
+  <?php print $page_bottom;?>
 </body>
 </html>
