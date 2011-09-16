@@ -81,7 +81,39 @@ function children_breadcrumb($variables) {
 		return $output;
 		
 	  }
-	  
+
+          if($current_path =='qinzi'){
+                $breadcrumbs = array();
+                $breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+                if($current_path =='qinzi'){
+                  $breadcrumbs[] = '<a href="'.url('qinzi').'">'.t(' 亲子坞').'</a>';
+                }else{
+                }
+                $output .= '<div class="breadcrumb">';
+                $output .=implode( $breadcrumb_separator , $breadcrumbs);
+                $output .= '</div>';
+                return $output;
+
+          }
+         
+          if($current_path =='resources'){
+                $breadcrumbs = array();
+                $breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+                if($current_path =='resources'){
+                  $breadcrumbs[] = '<a href="'.url('resources').'">'.t(' 资源下载').'</a>';
+                }else{
+                }
+                $output .= '<div class="breadcrumb">';
+                $output .=implode( $breadcrumb_separator , $breadcrumbs);
+                $output .= '</div>';
+                return $output;
+
+          }
+
+	 
+
+
+ 
 	  if($current_path =='products'){
 	        $breadcrumbs = array();
 		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';

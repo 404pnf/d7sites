@@ -1,0 +1,16 @@
+SELECT count( * ) 
+FROM book2type b
+LEFT JOIN bookotype bt ON b.cid = bt.id
+WHERE b.flag <1
+AND bt.isseries =1
+AND b.bsno <500
+
+
+SELECT  b.bsno, b.cid  
+FROM book2type b
+LEFT JOIN bookotype bt ON b.cid = bt.id
+WHERE b.flag <1
+AND bt.isseries =1
+AND b.bsno <500
+
+update `book2type` set `flag` = 0

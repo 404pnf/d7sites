@@ -40,9 +40,12 @@
 		$price = $node->field_price['und'][0]['value'];        //价格
 	    $img = $node->field_img['und'][0]['uri'];        //封面
 		$img =file_create_url($img );        //封面
-		$body = $node->body['und'][0]['safe_value'];        //简介    
-		$directory = $node->field_directory['und'][0]['safe_value'];        //目录    
-     	$read_online = $node->field_read_online['und'][0]['value'];        //在线阅读地址
+		if(isset($node->body['und']))
+		   $body = $node->body['und'][0]['safe_value'];        //简介    
+		if(isset($node->field_directory['und']))
+		     $directory = $node->field_directory['und'][0]['safe_value'];        //目录    
+     	if(isset($node->field_read_online['und']))
+			$read_online = $node->field_read_online['und'][0]['value'];        //在线阅读地址
 
 		$educations = $node->field_education['und'];   
 		$education_tids = '';

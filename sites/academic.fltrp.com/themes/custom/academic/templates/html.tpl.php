@@ -78,7 +78,7 @@ if(!empty($custom_style_file)){
   <div id="skip">
     <a href="#main-menu"><?php print t('Jump to Navigation'); ?></a>
   </div>
-  <?php print $page_top;?> 
+   <?php print $page_top;?>
    <?php print $page;?>
   <?php print $page_bottom;?>
 </body>

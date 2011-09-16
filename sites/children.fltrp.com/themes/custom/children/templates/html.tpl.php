@@ -29,6 +29,9 @@
 	case "news":
           $custom_style_file ='/css/information.css';
 		 break;	
+        case "qinzi":
+          $custom_style_file = '/css/information.css';
+                 break;
 	case "newsmore":
           $custom_style_file ='/css/information.css';
 	      break;

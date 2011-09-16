@@ -1,0 +1,21 @@
+<?php
+
+/* 自定义搜索；
+ * 
+ */
+
+function custom_search_menu() {
+	
+	$items ['searchpage'] = array ('title' => '搜索', 'description' => t ( '搜索' ), 'page callback' => 'custom_search_show_result', 'access callback' => true );
+	
+	return $items;
+
+}
+
+function custom_search_show_result() {
+	$keywords = $_POST['keywords'];
+	//$keywords = str_replace(' ',chr(43),$keywords);
+	drupal_goto('searcher',array('query'=>array('introduction'=>$keywords,'title' =>$keywords)));
+	
+}
+

@@ -1,4 +1,4 @@
-﻿<div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
+<div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <!-- ______________________ TOP NAVIGATION_______________________ -->
     <?php if ($page['topnav']): ?>
       	<div class="topnav">				

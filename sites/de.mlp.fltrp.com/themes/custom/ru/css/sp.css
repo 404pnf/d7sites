@@ -1,0 +1,14 @@
+@charset "utf-8";
+/* content */
+#content-top{ margin:0; padding:0; height:20px;}
+#content-inner{ margin-left:250px; float:left; width:700px;}
+#content-area{ margin:0}
+#sidebar-first { width:207px; margin-right:-207px; margin-left:26px;}
+#sidebar-first h2{ background:#DADADA; height:40px;line-height:40px;text-indent:1.2em; margin-bottom:10px;}
+#sidebar-first h3{border: 1px solid #BCBCBC;margin:5px 0;text-align:center;background:url(../images/sidebarbg.gif) repeat-x;}
+#sidebar-first h3 a{ display:block; height: 32px;line-height: 32px;font-weight:400; font-size:14px;}
+#sidebar-first h3 a.t{ background:url(../images/tdesk.gif) no-repeat;font-weight:700;}
+#sidebar-first h3 a.s{ background:url(../images/sbook.gif) no-repeat;font-weight:700;}
+.dllist li{line-height:2.8em; border-bottom:1px dashed #CCC; margin:6px 40px 6px 10px; padding-left:2em;overflow:hidden;background:url(../images/blackpoint.gif) no-repeat 10px 15px;}
+.dllist li .dlimg{ float:right; padding-top:6px;}
+.dllist li a{ font-size:12px;}

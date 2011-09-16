@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the sites_integration_features_all feature.
+ */
+
+include_once('sites_integration_features_all.features.inc');

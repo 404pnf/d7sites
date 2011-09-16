@@ -21,3 +21,4 @@
 .articledate{ display: block; margin: 10px 20px 30px; text-align: right; color: #999; font-size: 12px; border-bottom: 1px dashed #ddd; padding-bottom: 14px}                                                                                                                            
 .articlecontent{ margin: 20px 40px;}                                                                                                        
 .articlecontent p{ text-indent:2em; line-height:2em;}    
+.content .textlist .title1 {background: url("../images/booktitle1.jpg") no-repeat scroll 0 0 transparent;} 
