@@ -92,29 +92,13 @@
         <?php endif; ?>
 
         <div id="content-area">
-			<div class="download">
-				<div class="tab">
-  				 <img src="/sites/mlp.fltrp.com/themes/custom/mlp/images/zydownload_03.jpg" alt=""/>
-				<!-- 	分类切换 开始	 -->			
-				<?php
-			             $views_name = 'resources_category';
-                        $display_id = 'resources';
-                         print views_embed_view($views_name, $display_id);
-               ?>
-	   			<!-- 	//分类切换 结束	 -->		
-				</div>
-
-
-		
 				<!-- 	资源下载 开始	 -->			
-				<div class="tabcontent">
 					<?php
    				        $language = arg(1);
 		                        $views_name = 'resources';
                                         $display_id = 'resources';
                                         print views_embed_view($views_name, $display_id,$language);
 				   ?>
-		        </div>
 	   			<!-- 	//资源下载  结束	 -->		
 	   
 

@@ -52,6 +52,9 @@
 	case "langdang":
           $custom_style_file ='/css/read.css';
 		 break;
+	case "banlan":
+          $custom_style_file ='/css/baike.css';
+		 break;
 	 }
 
  if(stristr($current_path,'newsdetails/'))

@@ -1,0 +1,17 @@
+/*首页 内容 */
+/* 每个区块儿 */
+.forue{ overflow:auto}
+.forue img{ display:block; float:left; margin:0}
+.piccontent{ overflow:auto}
+.piccontent .fleft{ margin:0}
+.piccontent .fright{ margin:0}
+.listcontent{ margin:0 30px;overflow:auto}
+.listtitle{ height:30px; line-height:30px; background:#ECC26A; margin:20px 30px 0;}
+.listtitle .span{ display:block; width:25%; float:left; font-size:12px; font-weight:700; text-indent:1em; *width:234px;}
+.listcontent .column4{padding:20px 26px 20px 10px;border-left:1px dashed #ECC26A;margin:0;line-height:1.6em;}
+.listcontent .column4 li{margin-bottom:10px}
+.listcontent .last{border-right:1px dashed #ECC26A;}
+.dd{background:#E1F9FF;line-height:50px; padding:0 20px;margin:0 30px; _width:100%; _height:30px; _padding-top:20px;}
+#main{float:none;width:100%;}
+#colee{ margin:20px auto 0}
+#colee img{ margin:0 8px;}

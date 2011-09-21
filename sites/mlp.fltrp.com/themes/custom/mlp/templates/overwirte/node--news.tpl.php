@@ -30,7 +30,12 @@
 			$author = $node->field_news_author['und'][0]['value'];        //作者名
 		if(isset( $node->field_news_from['und']))
 			$from = $node->field_news_from['und'][0]['value'];        //来源
+
+		if(isset( $node->field_news_publish_date['und']))
+			$publishdate = $node->field_news_publish_date['und'][0]['value'];   
 		$publish_date= date ('Y-m-d',$node->created);        //发布日期
+		if(isset($publishdate))
+			$publish_date=$publishdate;
 		$body = $node->body['zh-hans'][0]['value'];        //内容    
 		$newsimages=array();
 		if(isset( $node->field_news_image['zh-hans']))

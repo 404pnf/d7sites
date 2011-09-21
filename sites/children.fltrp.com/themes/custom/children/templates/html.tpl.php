@@ -32,6 +32,11 @@
         case "qinzi":
           $custom_style_file = '/css/information.css';
                  break;
+        case "resources":
+          $custom_style_file = '/css/information.css';
+                 break;
+
+
 	case "newsmore":
           $custom_style_file ='/css/information.css';
 	      break;
@@ -47,7 +52,7 @@
 	 }
 
 
- if(stristr($current_path,'newsdetails/')||stristr($current_path,'qinzi/'))
+ if(stristr($current_path,'newsdetails/')||stristr($current_path,'qinzi/')||stristr($current_path,'resources/'))
 			   $custom_style_file ='/css/information.css';
 
  if(stristr($current_path,'productslist/')||stristr($current_path,'product/')||stristr($current_path,'products/'))

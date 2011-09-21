@@ -177,9 +177,9 @@
 				<!-- 	产品列表 开始	 -->			
 				<?php
    				        $category = arg(1);
-			             $views_name = 'products';
-                        $display_id = 'productslist';
-                         print views_embed_view($views_name, $display_id,$category);
+                                        $views_name = 'products';
+                                        $display_id = 'productslist';
+                                        print views_embed_view($views_name, $display_id,$category);
                ?>
 	   			<!-- 	//产品列表 结束	 -->		
 

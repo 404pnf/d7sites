@@ -47,24 +47,25 @@
     <?php endif; ?>
 
   </div> <!-- /header -->
-	<?php 
 	
-	//输出广告
-	$block10 = block_load('block',10);
-	$renderable_block10 =  _block_get_renderable_array(_block_render_blocks(array($block10)));
-	print render($renderable_block10);
-?>
   <!-- ______________________ MAIN _______________________ -->
 
   <div id="main"  class="srow">
 	
 	<!------content  top----->
 	
-      <div id="content-top">
+      <div id="content-top" class="products-special">
         <?php print $breadcrumb; ?>
 				<?php if ($page['content_top']): ?>
         <?php print render($page['content_top']); ?>
 				 <?php endif; ?>
+<?php 
+	
+	//输出广告
+	$block12 = block_load('block',12);
+	$renderable_block12 =  _block_get_renderable_array(_block_render_blocks(array($block12)));
+	print render($renderable_block12);
+?>
       </div>
    
   <!------content  top----->
