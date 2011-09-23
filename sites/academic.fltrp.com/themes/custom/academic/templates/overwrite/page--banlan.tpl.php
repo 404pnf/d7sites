@@ -152,6 +152,43 @@ colee_left.onmouseout=function() {MyMar3=setInterval(Marquee3,speed)}
 		<img width="258" height="435" src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_11.jpg" class="fright">
 		<img width="483" height="216" src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_12.jpg" class="fleft">						
 	</div>
+	<div class="listtitle">
+							<div class="span">历史系列</div>
+							<div class="span">艺术文化系列</div>
+							<div class="span">自然科学与心理学系列</div>
+							<div class="span">政治、哲学与宗教系列</div>
+					</div>
+					<div class="listcontent">
+						<div class="column4">
+					<?php
+			            $views_name = 'zhuanti';
+                        $display_id = 'banlan_lishi';
+                         print views_embed_view($views_name, $display_id);
+					?>
+						</div>
+						<div class="column4">
+					<?php
+			            $views_name = 'zhuanti';
+                        $display_id = 'banlan_yishu';
+                         print views_embed_view($views_name, $display_id);
+					?>
+						</div>
+						<div class="column4">
+					<?php
+			            $views_name = 'zhuanti';
+                        $display_id = 'banlan_ziran';
+                         print views_embed_view($views_name, $display_id);
+					?>
+						</div>
+						<div class="column4 last">
+					<?php
+			            $views_name = 'zhuanti';
+                        $display_id = 'banlan_zhengzhi';
+                         print views_embed_view($views_name, $display_id);
+					?>
+						</div>
+					</div>
+	
           <?php print render($page['content']) ?>
         </div>
 

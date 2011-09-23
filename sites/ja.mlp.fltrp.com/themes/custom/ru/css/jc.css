@@ -1,13 +1,26 @@
 @charset "utf-8";
 /* content */
-#content-top p{ display:none;}
+#content-top #block-block-6 p{display:none;}
+.artics .imgcontent p{text-indent:0;}
 .breadcrumb a{ display:block; height:57px; background:url(../images/artictitle.gif) no-repeat; float:left; font-size:16px; line-height:57px; color:#184854; font-weight:700;text-indent:6em;*text-indent:8em;}
-.bone{ width:230px;}
-.btwo{ width:686px;}
-.artics{ border:1px solid #DDD; padding:30px 40px;}
-.artics h1 a{ color:#356BC5; font-size:26px;}
+.btwo{ width:518px;_width:517px;}
+a.this{color:#7E8E35;}
+.artics{ border:1px solid #DDD; padding:30px 40px;_zoom:1}
+.artics p{line-height:2.6em; font-size:13px; color:#303030;text-indent:2em;margin-bottom:0;}
+.artics h1 { color:#356BC3; font-size:26px;}
+.artics  b{font-weight:700;}
+h1.bookname{font-size:16px}
 .imgcontent{ float:left; width:300px;}
 .imgcontent ul{ overflow:auto}
 .imgcontent ul li{ float:left; margin:10px 30px 20px 0;}
-.ronline{ display:block; margin:20px 0 30px}
-.ptext{line-height:2.6em; font-size:13px; color:#404040;}
+.ronline{ display:block; margin:20px 0 40px}
+.artics .ptext p{text-indent:0}
+.bl1{border-bottom:1px dashed #bbb;padding-bottom:30px;margin-bottom:30px;overflow:auto;}
+.top{text-align:right; display:block;margin-top:10px;clear:both;}
+.anchorpoint a{font-size:16px;font-weight:700;padding:0px 24px;background:url("../images/at.gif") no-repeat;}
+.imgbl{overflow:auto;margin-top:30px;_zoom:1}
+.imgbl .imgcontent{width:50%;text-align:center;}
+.imgbl .imgcontent li{float:none;}
+.imgbl .imgcontent .ronline{margin-bottom:0;}
+#content{_clear:both}
+/*.ptext{float:left; width:520px;margin-left:5px;}*/

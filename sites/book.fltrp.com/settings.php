@@ -206,6 +206,17 @@ $databases['drupal6']['default'] = array(
 );
 
 
+$databases['data1']['default'] = array(
+        'driver' => 'mysql',
+        'database' => 'data1',
+        'username' => 'py',
+        'password' => 'pengyou',
+        'host' => '129.0.0.223',
+        'prefix' => '',
+);
+
+
+
 /**
  * Access control for update.php script.
  *

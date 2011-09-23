@@ -15,3 +15,4 @@
 .dllist{ margin:0 20px;border:1px solid #CCC;}
 .dllist li{border-bottom:1px solid #CCC;line-height:40px; padding:0 0 0 30px; }
 .dllist li .dlimg{ float:right; display:block; width:100px; border-left:1px solid #CCC;text-align:center;*padding:12px 0 }
+.item-list {margin: 30px;}

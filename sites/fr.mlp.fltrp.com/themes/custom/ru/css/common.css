@@ -1,5 +1,5 @@
 /* 公用样式 */
-body{ background:url("../images/body_bg.gif") repeat scroll 0 0 transparent; font-size:12px;}
+body{ background:url("../images/body_bg.jpg") repeat scroll 0 0 transparent; font-size:12px;}
 a{ color:#000; font-size:12px;}
 a:hover{ color:#39C}
 #page{ width:960px; background:#FFF;}
@@ -14,7 +14,7 @@ a:hover{ color:#39C}
 .logoNavcontent{ width:678px; height:40px; background:url(../images/navbg_black.gif) no-repeat; float:left; margin-left:22px; display:inline;}
 .logoNavcontent ul{ overflow:auto; margin-left:60px; _width:620px; overflow:hidden}
 .logoNavcontent ul li{ padding:0 30px;}
-.userNav{ width:225px;height:40px; background:url(../images/navbg_blue.gif) no-repeat; float:right; margin-right:22px;display:inline;}
+.userNav{ width:226px;height:40px; background:url(../images/navbg_blue.gif) no-repeat; float:right; margin-right:22px;display:inline;}
 .userNav ul{ overflow:auto; margin-left:4px; overflow:hidden; _width:220px;}
 .userNav ul li{ padding:0 20px }
 /* main */

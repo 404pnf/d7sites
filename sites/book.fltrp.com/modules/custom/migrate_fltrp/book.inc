@@ -56,8 +56,8 @@ class FltrpBookNodeMigration extends BasicFltrpMigration {
       ),
       MigrateDestinationNode::getKeySchema()
     );
-		Database::getConnection('default', 'data')->query('set names latin1');
-    $query = Database::getConnection('default', 'data')
+		Database::getConnection('default', 'data1')->query('set names latin1');
+    $query = Database::getConnection('default', 'data1')
 		//$query = Database::getConnection('default', 'data');
 	//	$query->query('set names latin1');
 		->select('qrybooks', 'q')
@@ -162,8 +162,10 @@ class FltrpBookNodeMigration extends BasicFltrpMigration {
 		
 		
 		//$this->addFieldMapping('img', 'bsno');
-		$arguments = MigrateFileFieldHandler::arguments(drupal_get_path('module', 'migrate_fltrp').'/bookimages', 'file_copy', FILE_EXISTS_RENAME);
-    $this->addFieldMapping('field_img', 'img')
+		//$arguments = MigrateFileFieldHandler::arguments(drupal_get_path('module', 'migrate_fltrp').'/bookimages', 'file_copy', FILE_EXISTS_RENAME);
+    $arguments = MigrateFileFieldHandler::arguments('http://www.fltrp.com/bookimages/big', 'file_copy', FILE_EXISTS_RENAME);
+    
+		$this->addFieldMapping('field_img', 'img')
          ->arguments($arguments);
 
 
@@ -214,18 +216,19 @@ class FltrpBookNodeMigration extends BasicFltrpMigration {
 		
 		//$encode = mb_detect_encoding($row->bname, array("ASCII","GB2312","GBK","UTF-8","BIG5"));
     //$encode = mb_detect_encoding($row->bname);		
-		$row->bname = iconv('',"UTF-8//IGNORE",$row->bname) ; //iconv转换
-		$row->ebname = iconv('',"UTF-8//IGNORE",$row->ebname) ; //iconv转换
-		$row->writer = iconv('',"UTF-8//IGNORE",$row->writer); //iconv转换
-    $row->bianshi = iconv('',"UTF-8//IGNORE",$row->bianshi); //iconv转换
-		$row->dzdx = iconv('',"UTF-8//IGNORE",$row->dzdx); //iconv转换
-		$row->kb = iconv('',"UTF-8//IGNORE",$row->kb); //iconv转换
-		$row->zdfs = iconv('',"UTF-8//IGNORE",$row->zdfs); //iconv转换
+		//$row->bname = iconv('',"UTF-8//IGNORE",$row->bname) ; //iconv转换
+		$row->bname = iconv('EUC-CN',"UTF-8//IGNORE",$row->bname) ; //iconv转换
+		$row->ebname = iconv('EUC-CN',"UTF-8//IGNORE",$row->ebname) ; //iconv转换
+		$row->writer = iconv('EUC-CN',"UTF-8//IGNORE",$row->writer); //iconv转换
+    $row->bianshi = iconv('EUC-CN',"UTF-8//IGNORE",$row->bianshi); //iconv转换
+		$row->dzdx = iconv('EUC-CN',"UTF-8//IGNORE",$row->dzdx); //iconv转换
+		$row->kb = iconv('EUC-CN',"UTF-8//IGNORE",$row->kb); //iconv转换
+		$row->zdfs = iconv('EUC-CN',"UTF-8//IGNORE",$row->zdfs); //iconv转换
 		
-		$row->features = iconv('',"UTF-8//IGNORE",$row->features); //iconv转换
-		$row->relativeinfo = iconv('',"UTF-8//IGNORE",$row->relativeinfo); //iconv转换
-		$row->authorizationdetails = iconv('',"UTF-8//IGNORE",$row->authorizationdetails); //iconv转换
-		$row->accessories = iconv('',"UTF-8//IGNORE",$row->accessories); //iconv转换
+		$row->features = iconv('EUC-CN',"UTF-8//IGNORE",$row->features); //iconv转换
+		$row->relativeinfo = iconv('EUC-CN',"UTF-8//IGNORE",$row->relativeinfo); //iconv转换
+		$row->authorizationdetails = iconv('EUC-CN',"UTF-8//IGNORE",$row->authorizationdetails); //iconv转换
+		$row->accessories = iconv('EUC-CN',"UTF-8//IGNORE",$row->accessories); //iconv转换
 		
 		$row->isimportant = empty($row->isimportant) ? 0 : 1;
 		$row->isrecommended = empty($row->isrecommended) ? 0 : 1;
@@ -236,8 +239,9 @@ class FltrpBookNodeMigration extends BasicFltrpMigration {
 		
 		$row->inputdate = $row->inputdate; //iconv转换
 		 
-		$path=drupal_get_path('module', 'migrate_fltrp');
-	  $path=$path.'/bookext/'.$row->bsno;
+		//$path=drupal_get_path('module', 'migrate_fltrp');
+	  //$path=$path.'/bookext/'.$row->bsno;
+		$path='http://www.fltrp.com/bookext/'.$row->bsno;
     $row->type = getTidByName($row->type,10);
 		$row->zdfs = getTidByName($row->zdfs,11);
 		$row->bianshi = getTidByName($row->bianshi,6);
@@ -272,6 +276,7 @@ class FltrpBookNodeMigration extends BasicFltrpMigration {
     );
   }
 }
+/*
 class FltrpBookTermMigration extends BasicFltrpMigration {
   public function __construct() {
     parent::__construct();
@@ -310,7 +315,7 @@ class FltrpBookTermMigration extends BasicFltrpMigration {
 						 
              // This sort assures that parents are saved before children.
            //  ->orderBy('td.tid', 'ASC');
-						
+				*/		
 						 /*
 		 $query = db_select('term_data', 'td')
              ->fields('td', array('name', 'description', 'weight', 'tid', 'vid'))
@@ -322,11 +327,13 @@ class FltrpBookTermMigration extends BasicFltrpMigration {
              // This sort assures that parents are saved before children.
              ->orderBy('td.tid', 'ASC');
 						  */
+							/*
 		$query->leftJoin('term_hierarchy', 'th', 'td.tid = th.tid');
 		$query->leftJoin('term_data', 'tdp', 'th.parent = tdp.tid');
 		$query->addField('tdp', 'name', 'parent_name');
 		$query->condition('td.vid', 8, '=');
 		$query->orderBy('td.tid', 'ASC');
+		*/
 	/*					 
 		$sql = "select td.tid, td.name, td.description, td.weight, tdp.name as parent_name
 FROM term_data td 
@@ -344,6 +351,7 @@ WHERE td.vid = :vid";
 		 
 		 $count_query->addExpression('COUNT(tid)', 'cnt');
 			*/			 
+			/*
     // Create a MigrateSource object, which manages retrieving the input data.
    // $this->source = new MigrateSourceSQL($query);
 		$this->source = new MigrateSourceSQL($query, array(), NULL, array('map_joinable' => FALSE));
@@ -405,7 +413,7 @@ WHERE td.vid = :vid";
     $this->addFieldMapping('parent')
          ->issueGroup(t('DNM'));
   }
-}
+}*/
 /*
 class FltrpBookTypeTermMigration extends BasicFltrpMigration {
   public function __construct() {
@@ -518,7 +526,7 @@ function getTextByPath($path) {
 	  $data = file_get_contents($path) ;
 	  //$encode = mb_detect_encoding($data, array("ASCII","latin1","GB2312","GBK","UTF-8","BIG5"));
 		//$encode = mb_detect_encoding($data);
-		$data = iconv('',"UTF-8//IGNORE",$data) ; //iconv转换
+		$data = iconv('EUC-CN',"UTF-8//IGNORE",$data) ; //iconv转换
 	}else{
 		$data = "";
 	}

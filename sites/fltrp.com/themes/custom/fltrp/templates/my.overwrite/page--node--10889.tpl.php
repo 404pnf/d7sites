@@ -137,7 +137,7 @@ commented by zhanglin-->
 							<h2 class="<?php print $h2class ?>">外研社新闻</h2>
 						<?php
 			             $views_name = 'news';
-                        $display_id = 'block_1';
+                        $display_id = 'block_4';
 						$views_arg1=$cid;
                          print views_embed_view($views_name, $display_id,$views_arg1);
 						 ?>

@@ -9,9 +9,11 @@
 .listtitle{ height:30px; line-height:30px; background:#ECC26A; margin:20px 30px 0;}
 .listtitle .span{ display:block; width:25%; float:left; font-size:12px; font-weight:700; text-indent:1em; *width:234px;}
 .listcontent .column4{padding:20px 26px 20px 10px;border-left:1px dashed #ECC26A;margin:0;line-height:1.6em;}
-.listcontent .column4 li{margin-bottom:10px}
+.listcontent .column4 .views-row{margin-bottom:10px}
+.listcontent .column4 .views-row a{color: #0E3989;font-size: 14px;text-decoration: underline;}
 .listcontent .last{border-right:1px dashed #ECC26A;}
 .dd{background:#E1F9FF;line-height:50px; padding:0 20px;margin:0 30px; _width:100%; _height:30px; _padding-top:20px;}
-#main{float:none;width:100%;}
+#main{float:none;width:1000px;}
+#header,#footer{width:1000px}
 #colee{ margin:20px auto 0}
 #colee img{ margin:0 8px;}

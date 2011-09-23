@@ -2,17 +2,20 @@
 /* content */
 .focus{ width:544px; height:309px;overflow:hidden;}
 .info{ width:346px;}
-.info h4{ font-size:14px; background:url("../images/readot.gif") no-repeat scroll 15px 14px transparent;line-height:41px;text-indent:3em; margin:4px 0 4px;}
+.info h4{ font-size:14px; background:url("../images/readot.gif") no-repeat scroll 15px 12px transparent;line-height:36px;text-indent:3em; margin:4px 0 4px;}
 .info h4 img{float:right; margin-left:10px;}
-.info p{ margin:0 0 0 15px;line-height:1.8em;}
-.info a.more{ float:right; color:#F03; padding:0 10px 0;}
+.info p{ margin:0 0 0 15px;line-height:1.8em;color:#2B2B2B;text-indent:2em;line-height:2.2em;}
+.info a.more{  color:#F03; padding:0 10px 0;}
+.gengduo{width:340px;overflow: auto;}
+.anchorpoint{margin:0 20px;}
+.anchorpoint a{background:url(../images/rr.gif) no-repeat;padding:0 15px;line-height:2em;}
 
 /* 教学、精品、资源部分样式 */
 #content{ _float:none; clear:both}
-.conleft{ width:356px;}
+.conleft{ width:358px;}
 .conright{ width:519px;}
-.commontitle{ height:33px; background:url(../images/tetitle.gif) no-repeat;}
-.more{ float:right;padding:9px 20px;}
+.commontitle{ height:36px; background:url(../images/tetitle.gif) no-repeat;}
+.more{ float:right;padding:7px 20px;}
 .textlist ul{ overflow:auto; margin:16px 10px 30px}
 .textlist li{line-height:2.2em; background:url(../images/blackpoint.gif) no-repeat 0 10px;text-indent:.8em;}
 .recenter .commontitle{ height:33px; background:url(../images/restitle.gif) no-repeat;}
@@ -23,6 +26,6 @@
 .bbox li a{ color:#555}
 .imgcontent .commontitle{ background:url(../images/jptitle.gif) no-repeat;}
 .imglist ul{ overflow:auto; margin-top:10px}
-.imglist li{ float:left; width:118px; margin:0 0 0 10px; display:inline;}
+.imglist li{ float:left; width:118px; margin:0 0 0 10px; display:inline;height:194px;overflow:hidden;}
 .imglist li a{ display:block; color:#0F65B8; margin:10px}
 #block-block-3{ position: static;}

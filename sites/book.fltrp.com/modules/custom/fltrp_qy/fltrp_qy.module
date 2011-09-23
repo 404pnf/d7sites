@@ -85,7 +85,7 @@ function fltrp_qy_menu() {
 function fltrp_qy_form(){
 	
 	$form['submit'] = array(
-		//'#type' =>'submit',
+		'#type' =>'submit',
 		'#value' => t('迁移'),
 	);
 	/*
@@ -117,7 +117,7 @@ function fltrp_qy_bianma_process(&$context){
   $fenshe_array =array('BMJC', 'BMZJ', 'BMGY', 'BMZY', 'BMXS', 'BMSK', 'BMEL', 'BMSM', 'BMWL', 'BMPG','BMEF');
 	if(!isset($context['sandbox']['progress'])){
 		$context['sandbox']['progress'] = 0;
-		$context['sandbox']['max'] = Database::getConnection('default', 'data')
+		$context['sandbox']['max'] = Database::getConnection('default', 'data1')
 			->select('book2type', 'b')
 			->condition('b.cid', $fenshe_array, 'IN')
 			->condition('b.flag', 1, '<')
@@ -127,7 +127,7 @@ function fltrp_qy_bianma_process(&$context){
 			->fetchField();
 	}
 	
-	$query = Database::getConnection('default', 'data')
+	$query = Database::getConnection('default', 'data1')
 	  ->select('book2type', 'b')
 		->fields('b', array('bsno', 'cid'))
 		->condition('b.cid', $fenshe_array, 'IN')
@@ -200,20 +200,23 @@ function fltrp_qy_bianma_process(&$context){
 			$nid = $nid_result['entity_id'];
 				
 			$node = node_load($nid); 
-			$node->field_department = array(
-				'und' => array(
-					0 => array(
-						'tid' => $tid,
+			//if($node->changed > time()-1*24*60*60){
+			if($node->nid > 10777){
+				$node->field_department = array(
+					'und' => array(
+						0 => array(
+							'tid' => $tid,
+						)
 					)
-				)
-			);
-		
-			node_save($node);
+				);
+			
+				node_save($node);
+			}
 		
 			
 		}
 		
-	  Database::getConnection('default', 'data')
+	  Database::getConnection('default', 'data1')
 		  ->update('book2type')
 			->fields(
 			   array(    
@@ -252,7 +255,7 @@ function fltrp_qy_bianma_finished($success, $results, $operations){
 }
 function fltrp_qy_bianshi_form(){
 	$form['submit'] = array(
-		//'#type' =>'submit',
+		'#type' =>'submit',
 		'#value' => t('转换编室'),
 	);
 	return $form;
@@ -284,6 +287,7 @@ function fltrp_qy_bianshi_process(&$context){
       db_select('node', 'n')
 			->condition('n.type', 'book')
 			//->condition('n.nid', 10, '<')
+			->condition('n.nid', 10777, '>')
 			->countQuery()
 			->execute()
 			->fetchField();
@@ -296,6 +300,7 @@ function fltrp_qy_bianshi_process(&$context){
 		->fields('n', array('nid', 'vid'))
 		->condition('n.nid', $context['sandbox']['last_nid'], '>')
 		->condition('n.type', 'book')
+		->condition('n.nid', 10777, '>')
 		//->condition('n.nid', 10, '<')
 		->range(0, $size);
 		
@@ -304,6 +309,8 @@ function fltrp_qy_bianshi_process(&$context){
 	foreach ($result as $record) { 
 	  $nid = $record->nid;
 		$node = node_load($nid);
+		//if($node->changed > time()-1*24*60*60){
+		if($node->nid > 10777){
 		//drupal_set_message('nid:'. $nid);
 		//drupal_set_message("node->field_bianshi['und'][0]['value']". $node->field_bianshi['und'][0]['value']);
 		//ebug($record);
@@ -350,7 +357,7 @@ function fltrp_qy_bianshi_process(&$context){
 			node_save($node);
 		}
 	
-	
+    }	
 	  $context['sandbox']['progress']++;
 	  $context['sandbox']['last_nid'] = $record->nid;
 	}
@@ -414,7 +421,7 @@ function fltrp_qy_str_contain($first, $second){
 	  $flag = TRUE;
 	}
 	
-	return TRUE;
+	return $flag;
 }
 
 function fltrp_qy_xilie_form(){
@@ -445,7 +452,7 @@ function fltrp_qy_xilie_process(&$context){
 	//$types_str = "'".implode("','", $types)."'";
 	if(!isset($context['sandbox']['progress'])){
 		$context['sandbox']['progress'] = 0;
-		$context['sandbox']['max'] = Database::getConnection('default', 'data')
+		$context['sandbox']['max'] = Database::getConnection('default', 'data1')
 			->select('bookotype', 'b')
 			->condition('b.isseries', 1, '=')
 			->countQuery()
@@ -463,8 +470,8 @@ function fltrp_qy_xilie_process(&$context){
 	//$sql = "SELECT nid,vid,field_clc_value,field_clc1_value FROM {content_type_book} WHERE field_clc_value is not NULL AND field_clc1_value is NULL";
 	//$result = db_query_range($sql,0,$size);
 	
-	Database::getConnection('default', 'data')->query('set names latin1');
-	$query = Database::getConnection('default', 'data')
+	Database::getConnection('default', 'data1')->query('set names latin1');
+	$query = Database::getConnection('default', 'data1')
 	  ->select('bookotype', 'b')
 		->fields('b', array('id', 'name', 'brief', 'isseries'))
 		->condition('b.isseries', 1, '=')
@@ -511,7 +518,7 @@ function fltrp_qy_xilie_process(&$context){
 		);
 	  $status = taxonomy_term_save($term);
 		
-	  Database::getConnection('default', 'data')
+	  Database::getConnection('default', 'data1')
 		  ->update('bookotype')
 			->fields(
 			   array(    
@@ -542,12 +549,12 @@ function fltrp_qy_xilie_finished($success, $results, $operations){
 		$error_operation = reset($operations);
 		$message = '在导入系列分类时出现一个错误'. $error_operation[0] .' 其参数为 :'. print_r($error_operation[0], TRUE);
 	}
-	drupal_set_message($message);
+	drupal_set_msage($message);
 }
 
 function fltrp_qy_xltb_form(){
 	$form['submit'] = array(
-		'#type' =>'submit',
+		//'#type' =>'submit',
 		'#value' => t('系列信息同步'),
 	);
 	return $form;
@@ -578,17 +585,17 @@ function fltrp_qy_xltb_process(&$context){
 	         from book2type b 
 					 LEFT JOIN bookotype bt ON b.cid = bt.id 
 					 WHERE b.flag < 1 AND bt.isseries = :isseries AND b.bsno < 100000";
-    $result = Database::getConnection('default', 'data')->query($max_sql, array(':isseries' => 1));
+    $result = Database::getConnection('default', 'data1')->query($max_sql, array(':isseries' => 1));
 	  $context['sandbox']['max'] = $result->fetchField();
 	}
 	
-	Database::getConnection('default', 'data')->query('set names latin1');
+	Database::getConnection('default', 'data1')->query('set names latin1');
 	$query_sql = "select b.bsno, b.cid 
 	 from book2type b 
 	 LEFT JOIN bookotype bt ON b.cid = bt.id 
 	 WHERE b.flag < 1 AND bt.isseries = :isseries AND b.bsno < 100000 LIMIT 0 , 10";
 	 
-	$result = Database::getConnection('default', 'data')->query($query_sql, array(':isseries' => 1));
+	$result = Database::getConnection('default', 'data1')->query($query_sql, array(':isseries' => 1));
 	/*
 	$query = Database::getConnection('default', 'data')
 	  ->select('book2type', 'b')
@@ -609,34 +616,35 @@ function fltrp_qy_xltb_process(&$context){
 			
 		$nid_result = $nid_query->execute()->fetchAssoc();
 		$nid = $nid_result['entity_id'];
+		//if($nid > )
 		//得到节点
     $node = node_load($nid);
-		
-		//drupal_set_message("123:".$record->bsno.";456:".$nid);
-		
-		//根据cid得到tid
-		$tid_query = db_select('field_data_field_oid', 'f')
-			->fields('f', array('entity_id'))
-			->condition('f.field_oid_value', $record->cid, '=')
-			->condition('f.entity_type', 'taxonomy_term', '=');
+		if($node->changed > time()-1*24*60*60){
+			//drupal_set_message("123:".$record->bsno.";456:".$nid);
 			
-		$tid_result = $tid_query->execute()->fetchAssoc();
-		$tid = $tid_result['entity_id'];
-		
-		//
-		if(!empty($tid)){
-		  $node->field_series = array(
-				'und' => array(
-					0 => array(
-						'tid' => $tid,
+			//根据cid得到tid
+			$tid_query = db_select('field_data_field_oid', 'f')
+				->fields('f', array('entity_id'))
+				->condition('f.field_oid_value', $record->cid, '=')
+				->condition('f.entity_type', 'taxonomy_term', '=');
+				
+			$tid_result = $tid_query->execute()->fetchAssoc();
+			$tid = $tid_result['entity_id'];
+			
+			//
+			if(!empty($tid)){
+				$node->field_series = array(
+					'und' => array(
+						0 => array(
+							'tid' => $tid,
+						)
 					)
-				)
-			);
-			node_save($node);
-			//drupal_set_message("123456");
+				);
+				node_save($node);
+				//drupal_set_message("123456");
+			}
 		}
-		
-		Database::getConnection('default', 'data')
+		Database::getConnection('default', 'data1')
 		  ->update('book2type')
 			->fields(
 			   array(    
@@ -669,14 +677,14 @@ function fltrp_qy_xltb_finished($success, $results, $operations){
 		$error_operation = reset($operations);
 		$message = '在系列信息同步时出现一个错误'. $error_operation[0] .' 其参数为 :'. print_r($error_operation[0], TRUE);
 	}
-	drupal_set_message($message);
+	drupupal_set_message($message);
 }
 
 
 
 function fltrp_qy_longtext_form(){
 	$form['submit'] = array(
-		'#type' =>'submit',
+		//'#type' =>'submit',
 		'#value' => t('长文本信息信息同步'),
 	);
 	return $form;
@@ -703,9 +711,9 @@ function fltrp_qy_longtext_process(&$context){
 	//$types_str = "'".implode("','", $types)."'";
 	if(!isset($context['sandbox']['progress'])){
 		$context['sandbox']['progress'] = 0;
-	  $context['sandbox']['max'] = Database::getConnection('default', 'data')
+	  $context['sandbox']['max'] = Database::getConnection('default', 'data1')
 			->select('books', 'b')
-			->condition('b.bsno', 1000, '<')
+			//->condition('b.bsno', 100000, '<')
 			->countQuery()
 			->execute()
 			->fetchField();
@@ -713,11 +721,11 @@ function fltrp_qy_longtext_process(&$context){
 		$context['sandbox']['last_bsno'] = 0;
 	}
 	
-	Database::getConnection('default', 'data')->query('set names latin1');
-	$query = Database::getConnection('default', 'data')
+	Database::getConnection('default', 'data1')->query('set names latin1');
+	$query = Database::getConnection('default', 'data1')
 	  ->select('books', 'b')
 		->fields('b', array('bsno', 'zjml', 'sp', 'nrty', 'jcpd', 'zzjj', 'features', 'authorizationdetails', 'relativeinfo'))
-		->condition('b.bsno', 1000, '<')
+		//->condition('b.bsno', 100000, '<')
 		->condition('b.bsno', $context['sandbox']['last_bsno'], '>')
 		->orderBy('b.bsno', 'ASC')
 		->range(0, 10);
@@ -876,7 +884,7 @@ function fltrp_qy_longtext_finished($success, $results, $operations){
 
 function fltrp_qy_fenlei_form(){
 	$form['submit'] = array(
-		'#type' =>'submit',
+		//'#type' =>'submit',
 		'#value' => t('分类信息同步'),
 	);
 	return $form;

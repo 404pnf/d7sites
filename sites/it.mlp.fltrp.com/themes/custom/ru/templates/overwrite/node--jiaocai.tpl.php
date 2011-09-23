@@ -37,7 +37,7 @@
   	</div>
 
 <div class="artics">
-						<h1><a href="#"><?php print $title?></a></h1>
+						
 						<div class="artcontent">
 							<?php print render($content['body']);?>
 						</div>
