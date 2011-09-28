@@ -1,0 +1,129 @@
+<?php
+
+/**
+ * @file
+ * 统计报告信息
+ */
+
+/**
+ * 实现钩子hook_block_info().
+ */
+function tongji_block_info(){
+  $blocks['topics'] = array(
+    'info' => t('本站用户和文章统计报告'),
+    // 默认使用DRUPAL_CACHE_PER_ROLE.
+  );
+	
+	return $blocks;
+}
+
+
+/**
+ * 实现钩子hook_block_view().
+ */
+function tongji_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'topics':
+      $block['subject'] = t('本站用户和文章统计报告');
+      $block['content'] = tongji_get_report();
+      break;
+  }
+  return $block;
+}
+
+/**
+ * 区块内容的回调函数.
+ */
+function tongji_get_report(){
+  $output = "";
+	//$seven_nodes = 0;
+	//$seven_users = 0;
+	$total_bookreviews = 0;
+	$total_users = 0;
+	
+	/*
+	$query = new EntityFieldQuery();
+	
+  $seven_nodes = $query
+	  ->entityCondition('entity_type', 'node')
+    ->propertyCondition('created',time()-7*24*60*60,'>')
+    ->count()
+    ->execute();
+		
+	$query = new EntityFieldQuery();
+	$seven_users = $query
+	  ->entityCondition('entity_type', 'user')
+    ->propertyCondition('created',time()-7*24*60*60,'>')
+    ->count()
+    ->execute();
+		*/
+	$query = new EntityFieldQuery();	
+  $total_bookreviews = $query
+	  ->entityCondition('entity_type', 'node')
+		->entityCondition('bundle', 'bookreview')
+   // ->propertyCondition('created',time()-7*24*60*60,'>')
+    ->count()
+    ->execute();
+	$query = new EntityFieldQuery();		
+	/*
+	$total_users = $query
+	  ->entityCondition('entity_type', 'user')
+   // ->propertyCondition('created',time()-7*24*60*60,'>')
+    ->count()
+    ->execute();
+		*/
+		
+	//$total_users = db_select('node','n')->fields('n',array('uid'))->count() ->execute();
+	$total_users = db_select('node','n')->fields('n',array('uid'))->distinct() ->countQuery() ->execute()->fetchField();
+	//->fields('n',array('uid'))
+  //->condition('n.type', 'bookreview')
+	//->distinct()
+	//->count()
+	//->execute();
+		
+	//$total_users = $total_users -1; //排除匿名用户
+
+	/*
+	$output .= "<h4>".t("最近7天")."</h4>";
+	$output .= "<ul class='seven-tongji'>";
+	$output .= '<li>'.t('文章: ').$seven_nodes.'</li>';
+	$output .= '<li>'.t('用户: ').$seven_users.'</li>';
+	$output .= "</ul>";
+	*/
+	$output .= "<h2>".t("统计结果")."</h2>";
+	$output .= "<ul class='total-tongji'>";
+	$output .= '<li>'.t('到目前为止参加人数: ').$total_users.'</li>';
+	$output .= '<li>'.t('到目前为止发表文章数: ').$total_bookreviews.'</li>';
+	$output .= "</ul>";
+	return $output;
+}
+
+/**
+ * 实现钩子hook_menu().
+ */
+function tongji_menu() {
+  $items = array();
+	//统计报告菜单项
+  $items['admin/reports/tongji'] = array(
+		//'tilte' => '统计报告123123',
+		'title' => '本站用户和文章数统计报告',
+		'description' => '查看有多少用户参加了读后干比赛和一共发了多少篇文章告。',
+		'page callback' => 'tongji_callback_page',
+		//'type'     => MENU_CALLBACK,
+		//'access callback' =>TRUE,
+		'access arguments' => array('access site reports'),
+		//'file' => 'contactus.pages.inc',
+  );
+  return $items;
+}  
+
+/**
+ * 实现钩子hook_menu().
+ */
+function tongji_callback_page(){
+  $render_array = array();
+  $render_array['#markup'] = tongji_get_report();
+  return $render_array;
+}
