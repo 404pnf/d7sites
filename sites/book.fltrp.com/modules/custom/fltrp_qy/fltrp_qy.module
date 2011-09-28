@@ -85,7 +85,7 @@ function fltrp_qy_menu() {
 function fltrp_qy_form(){
 	
 	$form['submit'] = array(
-		'#type' =>'submit',
+		//'#type' =>'submit',
 		'#value' => t('迁移'),
 	);
 	/*
@@ -255,7 +255,7 @@ function fltrp_qy_bianma_finished($success, $results, $operations){
 }
 function fltrp_qy_bianshi_form(){
 	$form['submit'] = array(
-		'#type' =>'submit',
+		//'#type' =>'submit',
 		'#value' => t('转换编室'),
 	);
 	return $form;
