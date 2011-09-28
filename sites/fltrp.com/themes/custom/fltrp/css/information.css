@@ -33,6 +33,7 @@
 .articlecontent{ margin: 20px 40px; font-size: 14px;}
 .articlecontent p{ text-indent:2em; line-height:2em;}
 .articlecontent img{ margin-bottom: 1.5em;}
+.articlecontent .field-news-attachment img{margin:0;}
 #share{margin: 20px 20px; text-align: right; padding:20px 30px; border-bottom: 1px dashed #ddd; font-weight:700;width:640px;}
 #share span{}
 .shareto_toolbox {float: right; text-align: right; display: inline;}

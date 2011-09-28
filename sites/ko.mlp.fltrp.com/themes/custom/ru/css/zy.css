@@ -1,6 +1,7 @@
 @charset "utf-8";
 /* content */
 #content-top{ margin:0; padding:0; height:20px;}
+#content-top p{ display:none;}
 #content-inner{ margin-left:250px; float:left; width:700px;}
 #content-area{ margin:0}
 #sidebar-first { width:207px; margin-right:-207px; margin-left:26px;}
@@ -11,9 +12,8 @@
 #sidebar-first h3 a.s{ background:url(../images/sbook.gif) no-repeat;font-weight:700;}
 .video{border:1px solid #CCC; padding:40px 20px 50px ;text-align:center;}
 .video h1{ margin-bottom:30px;}
+.video .mov{width:504px;margin:0 auto}
 .dllist{ margin:0 20px;border:1px solid #CCC;}
 .dllist li{border-bottom:1px solid #CCC;line-height:40px; padding:0 0 0 30px; }
-.dllist li .dlimg{ float:right; display:block; width:100px; border-left:1px solid #CCC;text-align:center; padding:12px 0}
-.item-list {
-    margin: 30px;
-}
+.dllist li .dlimg{ float:right; display:block; width:100px; border-left:1px solid #CCC;text-align:center;*padding:12px 0 }
+.item-list {margin: 30px;}

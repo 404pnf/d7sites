@@ -67,6 +67,7 @@
 				?>
 			</center>
 			<?php print render($content['body']);?>
+			<?php print render($content['field_news_attachment']);?>
 		</div>							
 	</div>
 	<!--  文章内容 结束-->
