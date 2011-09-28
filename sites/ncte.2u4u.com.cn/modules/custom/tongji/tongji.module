@@ -1,0 +1,294 @@
+<?php
+
+/**
+ * @file
+ * 统计报告信息
+ */
+
+/**
+ * 实现钩子hook_block_info().
+ */
+function tongji_block_info(){
+  $blocks['diqu'] = array(
+    'info' => t('地区统计'),
+    // 默认使用DRUPAL_CACHE_PER_ROLE.
+  );
+	
+  $blocks['kaodian'] = array(
+    'info' => t('考点统计'),
+    // 默认使用DRUPAL_CACHE_PER_ROLE.
+  );	
+	return $blocks;
+}
+
+
+/**
+ * 实现钩子hook_block_view().
+ */
+function tongji_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'diqu':
+      $block['subject'] = t('统计报告');
+      $block['content'] = tongji_diqu_report();
+      break;
+			
+		case 'kaodian':
+      $block['subject'] = t('考点统计');
+      $block['content'] = tongji_kaodian_report();
+      break;
+  }
+  return $block;
+}
+
+/**
+ * 区块内容的回调函数.
+ */
+function tongji_diqu_report(){
+  $output = "";
+
+	global $user;
+	$diqu = 0;
+	$diqu = $user->field_shengfen_chengshi['und'][0]['tid'];
+	
+	if(arg(0) =='city' && arg(1) >0){
+	  $uid = arg(1);
+	}
+	
+
+	$info = tongji_get_kaosheng_info_by_diqu($diqu);
+
+
+	$output .= "<h4>".t("统计")."</h4>";
+	$output .= "<ul class='total-tongji'>";
+	$output .= '<li>'.t('共有多少人参加: ').$total_users.'</li>';
+	$output .= '<li>'.t('共发多少文章: ').$total_bookreviews.'</li>';
+	$output .= "</ul>";
+	$output .= "<table>";
+  $output .= "<tr>";
+  $output .= "<td>".t('总计')."</td>";
+  $output .= "<td>".t('一级')."</td>";
+  $output .= "<td>".t('二级')."</td>";
+	$output .= "<td>".t('三级')."</td>";
+  $output .= "<td>".t('四级')."</td>";
+  $output .= "</tr>";
+  $output .= "<tr>";
+  $output .= "<td>".$info['total']."</td>";
+  $output .= "<td>".$info['total_1']."</td>";
+  $output .= "<td>".$info['total_2']."</td>";
+  $output .= "<td>".$info['total_3']."</td>";
+	$output .= "<td>".$info['total_4']."</td>";
+  $output .= "</tr>";
+  $output .= "</table>";
+	return $output;
+}
+
+/**
+ * 区块内容的回调函数.
+ */
+function tongji_kaodian_report(){
+  $output = "";
+  $uid = 1;
+	global $user;
+	$uid = $user->uid;
+	
+	if(arg(0) =='kaodian' && arg(1) >0){
+	  $uid = arg(1);
+	}
+
+	$info = tongji_get_kaosheng_info_by_uid($uid);
+
+	$output .= "<h4>".t("统计")."</h4>";
+	$output .= "<ul class='total-tongji'>";
+	$output .= '<li>'.t('共有多少人参加: ').$total_users.'</li>';
+	$output .= '<li>'.t('共发多少文章: ').$total_bookreviews.'</li>';
+	$output .= "</ul>";
+	$output .= "<table>";
+  $output .= "<tr>";
+  $output .= "<td>".t('总计')."</td>";
+  $output .= "<td>".t('一级')."</td>";
+  $output .= "<td>".t('二级')."</td>";
+	$output .= "<td>".t('三级')."</td>";
+  $output .= "<td>".t('四级')."</td>";
+  $output .= "</tr>";
+  $output .= "<tr>";
+  $output .= "<td>".$info['total']."</td>";
+  $output .= "<td>".$info['total_1']."</td>";
+  $output .= "<td>".$info['total_2']."</td>";
+  $output .= "<td>".$info['total_3']."</td>";
+	$output .= "<td>".$info['total_4']."</td>";
+  $output .= "</tr>";
+  $output .= "</table>";
+	return $output;
+}
+/**
+ * 实现钩子hook_menu().
+ */
+function tongji_menu() {
+  $items = array();
+	//统计报告菜单项
+  $items['admin/reports/tongji'] = array(
+		//'tilte' => '统计报告123123',
+		'title' => '统计报告',
+		'description' => '统计报告.',
+		'page callback' => 'tongji_callback_page',
+		//'type'     => MENU_CALLBACK,
+		//'access callback' =>TRUE,
+		'access arguments' => array('access site reports'),
+		//'file' => 'contactus.pages.inc',
+  );
+  return $items;
+}  
+
+/**
+ * 实现钩子hook_menu().
+ */
+function tongji_callback_page(){
+  $render_array = array();
+  $render_array['#markup'] = tongji_diqu_report();
+  return $render_array;
+}
+
+/**
+ * API function.
+ */
+function tongji_get_kaosheng_info_by_uid($uid){
+	$total = 0;
+	$total_1 = 0;
+	$total_2 = 0;
+	$total_3 = 0;
+	$total_4 = 0;
+	
+  $query = new EntityFieldQuery();	
+  $total = $query
+	  ->entityCondition('entity_type', 'node')
+		->entityCondition('bundle', 'kaosheng_baoming')
+		->propertyCondition('uid',$uid)
+		//->fieldCondition('field_baokao_jibie','value',1)
+    ->count()
+    ->execute();
+		
+	$query = new EntityFieldQuery();	
+  $total_1 = $query
+	  ->entityCondition('entity_type', 'node')
+		->entityCondition('bundle', 'kaosheng_baoming')
+		->fieldCondition('field_baokao_jibie','value',1)
+		->propertyCondition('uid',$uid)
+   // ->propertyCondition('created',time()-7*24*60*60,'>')
+    ->count()
+    ->execute();
+		
+	$query = new EntityFieldQuery();		
+  $total_2 = $query
+	  ->entityCondition('entity_type', 'node')
+		->entityCondition('bundle', 'kaosheng_baoming')
+		->fieldCondition('field_baokao_jibie','value',2)
+		->propertyCondition('uid',$uid)
+    ->count()
+    ->execute();
+	$query = new EntityFieldQuery();	
+		
+  $total_3 = $query
+	  ->entityCondition('entity_type', 'node')
+		->entityCondition('bundle', 'kaosheng_baoming')
+		->fieldCondition('field_baokao_jibie','value',3)
+		->propertyCondition('uid',$uid)
+    ->count()
+    ->execute();
+		
+	$query = new EntityFieldQuery();			
+  $total_4 = $query
+	  ->entityCondition('entity_type', 'node')
+		->entityCondition('bundle', 'kaosheng_baoming')
+		->fieldCondition('field_baokao_jibie','value',4)
+		->propertyCondition('uid',$uid)
+    ->count()
+    ->execute();
+		
+	$info = array(
+	  'total' => $total,
+		'total_1' => $total_1,
+		'total_2' => $total_2,
+		'total_3' => $total_3,
+		'total_4' => $total_4,
+	)
+  return $info;
+}
+
+/**
+ * API function.
+ */
+function tongji_get_kaosheng_info_by_diqu($diqu){
+	$total = 0;
+	$total_1 = 0;
+	$total_2 = 0;
+	$total_3 = 0;
+	$total_4 = 0;
+	$uid_array = array();
+	$query = new EntityFieldQuery();	
+  $result = $query
+	  ->entityCondition('entity_type', 'user')
+		->fieldCondition('field_shengfen_chengshi','tid',$diqu)
+    ->execute();
+	foreach ($result as $entity_type => $entities) {
+	  foreach ($entities as $entity_id => $entity) {
+		  $uid_array[] = $entity_id;
+		}
+	}
+	
+  $query = new EntityFieldQuery();	
+  $total = $query
+	  ->entityCondition('entity_type', 'node')
+		->entityCondition('bundle', 'kaosheng_baoming')
+		->propertyCondition('uid',$uid_array,'IN')
+		//->fieldCondition('field_baokao_jibie','value',1)
+    ->count()
+    ->execute();
+		
+	$query = new EntityFieldQuery();	
+  $total_1 = $query
+	  ->entityCondition('entity_type', 'node')
+		->entityCondition('bundle', 'kaosheng_baoming')
+		->fieldCondition('field_baokao_jibie','value',1)
+		->propertyCondition('uid',$uid_array,'IN')
+   // ->propertyCondition('created',time()-7*24*60*60,'>')
+    ->count()
+    ->execute();
+		
+	$query = new EntityFieldQuery();		
+  $total_2 = $query
+	  ->entityCondition('entity_type', 'node')
+		->entityCondition('bundle', 'kaosheng_baoming')
+		->fieldCondition('field_baokao_jibie','value',2)
+		->propertyCondition('uid',$uid_array,'IN')
+    ->count()
+    ->execute();
+	$query = new EntityFieldQuery();	
+		
+  $total_3 = $query
+	  ->entityCondition('entity_type', 'node')
+		->entityCondition('bundle', 'kaosheng_baoming')
+		->fieldCondition('field_baokao_jibie','value',3)
+		->propertyCondition('uid',$uid_array,'IN')
+    ->count()
+    ->execute();
+		
+	$query = new EntityFieldQuery();			
+  $total_4 = $query
+	  ->entityCondition('entity_type', 'node')
+		->entityCondition('bundle', 'kaosheng_baoming')
+		->fieldCondition('field_baokao_jibie','value',4)
+		->propertyCondition('uid',$uid_array,'IN')
+    ->count()
+    ->execute();
+		
+	$info = array(
+	  'total' => $total,
+		'total_1' => $total_1,
+		'total_2' => $total_2,
+		'total_3' => $total_3,
+		'total_4' => $total_4,
+	)
+  return $info;
+}
