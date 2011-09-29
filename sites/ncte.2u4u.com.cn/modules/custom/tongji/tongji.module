@@ -50,21 +50,21 @@ function tongji_diqu_report(){
 
 	global $user;
 	$diqu = 0;
-	$diqu = $user->field_shengfen_chengshi['und'][0]['tid'];
+	$user = user_load($user->uid);
+	if(isset($user->field_shengfen_chengshi)){
+	  $diqu = $user->field_shengfen_chengshi['und'][0]['tid'];
+	}
+	//$diqu = $user->field_shengfen_chengshi['und'][0]['tid'];
 	
 	if(arg(0) =='city' && arg(1) >0){
-	  $uid = arg(1);
+	  $diqu = arg(1);
 	}
 	
 
 	$info = tongji_get_kaosheng_info_by_diqu($diqu);
 
 
-	$output .= "<h4>".t("统计")."</h4>";
-	$output .= "<ul class='total-tongji'>";
-	$output .= '<li>'.t('共有多少人参加: ').$total_users.'</li>';
-	$output .= '<li>'.t('共发多少文章: ').$total_bookreviews.'</li>';
-	$output .= "</ul>";
+
 	$output .= "<table>";
   $output .= "<tr>";
   $output .= "<td>".t('总计')."</td>";
@@ -99,11 +99,7 @@ function tongji_kaodian_report(){
 
 	$info = tongji_get_kaosheng_info_by_uid($uid);
 
-	$output .= "<h4>".t("统计")."</h4>";
-	$output .= "<ul class='total-tongji'>";
-	$output .= '<li>'.t('共有多少人参加: ').$total_users.'</li>';
-	$output .= '<li>'.t('共发多少文章: ').$total_bookreviews.'</li>';
-	$output .= "</ul>";
+
 	$output .= "<table>";
   $output .= "<tr>";
   $output .= "<td>".t('总计')."</td>";
@@ -153,6 +149,7 @@ function tongji_callback_page(){
 /**
  * API function.
  */
+
 function tongji_get_kaosheng_info_by_uid($uid){
 	$total = 0;
 	$total_1 = 0;
@@ -212,7 +209,7 @@ function tongji_get_kaosheng_info_by_uid($uid){
 		'total_2' => $total_2,
 		'total_3' => $total_3,
 		'total_4' => $total_4,
-	)
+	);
   return $info;
 }
 
@@ -225,6 +222,7 @@ function tongji_get_kaosheng_info_by_diqu($diqu){
 	$total_2 = 0;
 	$total_3 = 0;
 	$total_4 = 0;
+	//$diqu =6;
 	$uid_array = array();
 	$query = new EntityFieldQuery();	
   $result = $query
@@ -233,10 +231,11 @@ function tongji_get_kaosheng_info_by_diqu($diqu){
     ->execute();
 	foreach ($result as $entity_type => $entities) {
 	  foreach ($entities as $entity_id => $entity) {
-		  $uid_array[] = $entity_id;
+		  $uid_array[$entity_id] = $entity_id;
 		}
 	}
-	
+	//debug($uid_array);
+	drupal_set_message('diqu:'.$diqu);
   $query = new EntityFieldQuery();	
   $total = $query
 	  ->entityCondition('entity_type', 'node')
@@ -245,7 +244,7 @@ function tongji_get_kaosheng_info_by_diqu($diqu){
 		//->fieldCondition('field_baokao_jibie','value',1)
     ->count()
     ->execute();
-		
+	
 	$query = new EntityFieldQuery();	
   $total_1 = $query
 	  ->entityCondition('entity_type', 'node')
@@ -289,6 +288,6 @@ function tongji_get_kaosheng_info_by_diqu($diqu){
 		'total_2' => $total_2,
 		'total_3' => $total_3,
 		'total_4' => $total_4,
-	)
+	);
   return $info;
 }

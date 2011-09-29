@@ -1,0 +1,24 @@
+
+body { font-family:Verdana; font-size:14px; margin:0; background:#f0efee;}
+
+#container {margin:0 auto; width:960px;}
+#header { height:364px;  }
+#menu { height:30px;ÉùÄä¼£}
+#mainContent { height:480px; }
+#sidebar { float:left; width:271px; height:480px; background:#f0efee;margin:0; padding-left:25px;}
+#sidebar2 { float:right; width:333px; height:480px; background:#f0efee;margin:0; padding-right:25px;}
+#content { margin:0 343 0 281px; !important; margin:0 343 0 281px; height:480px; background:#f0efee; padding-left:20px;}
+#con1 { padding-left:25px; padding-right:25px; width:960px;margin-bottom: 10px}
+#con2 { padding-left:780px; font-size:16px; font-weight:bold;}
+#con3 { padding-left:5px; padding-right:5px; width:960px;margin-bottom: 10px}
+#footer { height:60px;  background:#f0efee; font-size:12px;padding-top:18px; }
+#mainContent2{display:none}
+
+.imglist ul{ overflow: auto; margin-bottom: 10px}
+.imglist ul li{ float: left;width:120px; margin:10px 10px 0; font-size: 12px;line-height: 1.2em; display: inline; color:#666; height:150px}
+.imglist ul li img{ margin: 0 8px 0 0 }
+.imglist ul li a{ display: block;margin:0 0 8px 0; color:#FF5500;text-decoration: none;}
+.imglist .blocktitle a{ color:#FF5500;line-height: 41px; padding-right: 12px;}
+.imglist ul li a:hover{ color: #FF5500}
+.imglist ul li a img{ margin-bottom: 14px; }
+.imglist h1.blocktitle{background: url("../images/xinshukuaidi.gif") no-repeat;height:45px;}
