@@ -37,7 +37,7 @@
 		$publish_date= $node->field_publish_date['und'][0]['value'];        //发布日期
 		$price = $node->field_price['und'][0]['value'];        //价格
 	        $img = $node->field_img['und'][0]['uri'];        //封面
-		$img =file_create_url($img );        //封面
+		//$img =file_create_url($img );        //封面
 		$body = $node->body['und'][0]['safe_value'];        //简介    
 		if(!empty($node->field_directory['und']))
 			$directory = $node->field_directory['und'][0]['safe_value'];        //目录    
@@ -46,6 +46,17 @@
 
 		$educations = $node->field_education['und'];   
 		$education_tids = '';
+		$img_style = $node->field_img_style['und'][0]['value'];
+		
+		$style_name="turn1";
+	        $style_name2="turn2";
+		if ($img_style == 1){
+			$img = image_style_url($style_name, $img);
+		}elseif($img_style == 0 ){
+			$img = image_style_url($style_name2, $img);
+		}else {
+			$img =file_create_url($img);
+		};
 		$i=1;
 		//print_r($educations);
 		foreach($educations as $education)
@@ -62,7 +73,8 @@
   
 	 <div id="bookinfo">
 							<h1><?php print $title?></h1>
-							<div class="bookimg"><img src="<?php print $img?>" width="164" height="230" alt=""/></div>
+							<div class="bookimg"><img src="<?php print $img?>"></div>
+							
 							<?php if(!empty($series)){?>
 							<p class="pfrist">系列名：<?php print $series?> </p>
 							<?php }?>	

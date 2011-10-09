@@ -113,7 +113,7 @@
 
 							<!-- 首页内容左侧资源分类-- 教师资源 -- 开始 -->
 							<div class="column2">
-								<span>老师</span>
+								<span>教师</span>
 								  <?php
 										  $views_name = 'resources_category';
 										   $display_id = 'home_teacher';
@@ -144,7 +144,7 @@
 	<!--精品推荐  开始 -->
 			<div class="conright fright">
 						<div class="imgcontent">
-							<div class="commontitle"><a href="products" class="more"><img src="/sites/fr.mlp.fltrp.com/themes/custom/fr/images/more.gif" alt="" /></a></div>
+							<div class="commontitle"><a href="products" class="more"><img src="/sites/fr.mlp.fltrp.com/themes/custom/ru/images/more.gif" alt="" /></a></div>
 									<?php
 										  $views_name = 'products';
 										   $display_id = 'home_competitive';

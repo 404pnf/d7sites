@@ -148,7 +148,8 @@ function auto_kaosheng_generate_relation_process(&$context){
 
 		
 	  $context['sandbox']['progress']++;
-	  $context['sandbox']['last_nid'] = $record->nid;
+	  //$context['sandbox']['last_nid'] = $record->nid;
+		$context['sandbox']['last_nid'] =$kaochang->nid;
 	}
 
 	if($context['sandbox']['progress'] == $context['sandbox']['max']){

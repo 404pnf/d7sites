@@ -113,7 +113,7 @@
 
 							<!-- 首页内容左侧资源分类-- 教师资源 -- 开始 -->
 							<div class="column2">
-								<span>老师</span>
+								<span>教师</span>
 								  <?php
 										  $views_name = 'resources_category';
 										   $display_id = 'home_teacher';
