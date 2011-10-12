@@ -23,7 +23,8 @@
 		//print_r($node);
 	//	print ("</pre>");
 
-       $nid = $node->nid;     
+  $productlistUrl ='products/';   //此处修改系列图书链接
+		 $nid = $node->nid;     
 		$title = $node->title;        //图书名称
 		if(!empty($node->field_series['und'])){
      		      $series = $node->field_series['und'][0]['taxonomy_term']->name;        //图书系列名称
@@ -47,16 +48,22 @@
 		$educations = $node->field_education['und'];   
 		$education_tids = '';
 		$img_style = $node->field_img_style['und'][0]['value'];
-		
+     
+
 		$style_name="turn1";
 	        $style_name2="turn2";
-		if ($img_style == 1){
-			$img = image_style_url($style_name, $img);
-		}elseif($img_style == 0 ){
-			$img = image_style_url($style_name2, $img);
-		}else {
+		
+		if(isset($img_style)){
+	           if ($img_style == 1 ){
+					$img = image_style_url($style_name, $img);
+			   }elseif($img_style == 0){
+				 
+				    $img = image_style_url($style_name2, $img);
+				}	
+		}else{
 			$img =file_create_url($img);
-		};
+		}
+		
 		$i=1;
 		//print_r($educations);
 		foreach($educations as $education)
@@ -74,9 +81,9 @@
 	 <div id="bookinfo">
 							<h1><?php print $title?></h1>
 							<div class="bookimg"><img src="<?php print $img?>"></div>
-							
+										
 							<?php if(!empty($series)){?>
-							<p class="pfrist">系列名：<?php print $series?> </p>
+							<p class="pfrist">系列名：<?php print l($series,$productlistUrl.$seriestid)?> </p>
 							<?php }?>	
 							<p>ISBN：<?php print $isbn?> </p>
 							<p>著译者：<?php print $author?>  </p>

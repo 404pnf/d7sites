@@ -45,7 +45,7 @@ function dhg_pingfen_rate_form($form_state, $args) {
 	'#prefix' => "<div id='score_id'>",
 	 '#suffix' => "</div>",
     '#options' => $score,
-		'#default_value' => $node->field_rate['zh-hans'][0]['value'],
+		'#default_value' => isset($node->field_rate['zh-hans'][0]['value'])?$node->field_rate['zh-hans'][0]['value']:'',
 	 '#required'=> TRUE,
   );
     $form[$set]['nid'] = array(

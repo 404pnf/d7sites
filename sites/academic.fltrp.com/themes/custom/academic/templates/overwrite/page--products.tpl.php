@@ -55,6 +55,7 @@
 
   <?php if ($page['content_top']): ?>
       <div id="content-top">
+        <?php print $breadcrumb; ?>
         <?php print render($page['content_top']); ?>
       </div>
     <?php endif; ?><!-- /content_top -->
@@ -66,7 +67,7 @@
         <?php if ($breadcrumb || $title|| $messages || $tabs || $action_links): ?>
           <div id="content-header">
 
-            <?php print $breadcrumb; ?>
+          <!--  <?php print $breadcrumb; ?> -->
 
             <?php if ($page['highlight']): ?>
               <div id="highlight"><?php print render($page['highlight']) ?></div>

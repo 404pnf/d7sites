@@ -47,10 +47,10 @@
  </li>
  
  <li>
-     <span>数字出版</span>
+     <span><a href="http://www.chineseplus.com/">数字出版</a></span>
  </li>
  <li>
-     <span>网络学习</span>
+     <span><a href="http://www.chineseplus.com/">网络学习</a></span>
 
  </li>
  <li>

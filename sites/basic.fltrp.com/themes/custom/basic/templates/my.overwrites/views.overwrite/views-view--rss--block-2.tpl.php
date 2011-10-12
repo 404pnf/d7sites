@@ -30,7 +30,7 @@
 ?>
 
 <div class="textlist resouredownload">
-      <h3><a class="more" href="">more</a></h3>
+      <h3><a class="more" href="http://www.nse.cn/newnse/teachingResList.htm?typeid=2">more</a></h3>
 
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>

@@ -4,8 +4,12 @@
  * 实现钩子hook_perm().
  */
  
-function dhg_pingfen_perm(){
-	return array('dhg pingfen');
+function dhg_pingfen_permission(){
+	return array(
+	  'dhg pingfen' => array(
+      'title' => t('Dhg pingfen'),
+		),
+	);
 }
 
 /**

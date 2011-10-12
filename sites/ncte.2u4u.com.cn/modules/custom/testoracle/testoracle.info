@@ -1,0 +1,4 @@
+name = Test Oracle
+description = "Test Oracle"
+core = 7.x
+files[] = testoracle.module

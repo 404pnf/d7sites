@@ -1,0 +1,26 @@
+/*----------ebook 列表页--------*/
+.mobile .view-digital .views-row {
+	border-top:1px solid #f2f2f1;
+    border-bottom: 1px solid #bfbfbd;
+    padding:10px;
+    background-image:-webkit-gradient(linear,0% 0%, 0% 100%, from(#F1F1F1), to(#D7D7D7), color-stop(0.5,#e4e4e4));
+    clear : both;
+    overflow : hidden;
+}
+
+.mobile .view-digital .views-row .price{
+	float:right;
+	margin-top: -22px;
+}
+
+.mobile .view-digital .views-row .description{
+	margin-right:60px;
+	text-align:justify;
+
+}
+
+@media only screen and (max-device-width: 480px){
+
+}
+
+

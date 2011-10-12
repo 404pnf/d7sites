@@ -3,6 +3,10 @@
 .expert_part2 p{line-height:2em;}
 #content-area{ float: none; margin: 20px 50px;}
 .jichu_title,.gaodeng_title,.guoji_title,.wenhua_title,.xueshu_title{ width: 880px; height: 21px; overflow: hidden; text-indent:-99em; background: url("../images/exp_title.gif") no-repeat}
+#content-area .gaodeng_title{background: url("../images/exp_title.gif") no-repeat 0 -21px }
+#content-area .guoji_title{background: url("../images/exp_title.gif") no-repeat 0 -42px }
+#content-area .wenhua_title{background: url("../images/exp_title.gif") no-repeat 0 -63px }
+#content-area .xueshu_title{background: url("../images/exp_title.gif") no-repeat 0 -84px }
 .expert{ width: 100%; overflow: auto; margin-top: 30px; margin-bottom: 30px;}
 .expert li{ float: left; margin: 0 22px;}
 .expert li h2{ font-weight:400; text-align: center; padding-top: 4px;}

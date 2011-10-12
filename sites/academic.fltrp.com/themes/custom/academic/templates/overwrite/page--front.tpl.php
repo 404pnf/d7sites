@@ -91,12 +91,12 @@
         <div id="content-area">
           <!-- 	       辞典知识开始 		 -->
 	        		<div class="textlist">
-	        			<h1 class="blocktitle"><a href="" class="more">更多>></a></h1>
+	        			<h1 class="blocktitle"><a href="http://academic.fltrp.com/news" class="more">更多>></a></h1>
 	        			<?php
-			             $views_name = 'academic_news';
-                        $display_id = 'news_index';
-                         print views_embed_view($views_name, $display_id);
-				   ?>
+			                  $views_name = 'academic_news';
+                                          $display_id = 'news_index';
+                                          print views_embed_view($views_name, $display_id);
+				         ?>
 	        		</div>
 	        		<!-- 	       辞典知识结束		 -->
 					

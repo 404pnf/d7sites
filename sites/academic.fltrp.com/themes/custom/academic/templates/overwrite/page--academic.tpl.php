@@ -62,7 +62,7 @@
             <?php endif; ?>
 
             <?php if ($title): ?>
-              <h1 class="title"><?php print $title; ?></h1>
+              <h1 class="title"><?php print $title; ?>1234</h1>
             <?php endif; ?>
 
             <?php print $messages; ?>
@@ -90,15 +90,17 @@
 			print views_embed_view($views_name, $display_id,$academic);
 		  ?>
 		  </div>
-		  <div class="">
+		  <div class="academic-list">
 		  <?php
 		     if(arg(2)!="") {
 			   $academic = arg(2);
+			   $display_id = 'center_body';
 			 }else{
 				$academic = arg(1);			 
-			}	
+				 $display_id = 'center_title';
+			}	 
 			$views_name = 'center_product';
-			$display_id = 'center_body';
+			//$display_id = 'center_title';
 			print views_embed_view($views_name, $display_id,$academic);
 		  ?>
             </div>

@@ -29,7 +29,7 @@
  */
 ?>
 <div class="textlist">
-	<h3><a class="more" href="">more</a></h3>
+	<h3><a class="more" href="http://www.nse.cn/newnse/training.htm?typeid=8">more</a></h3>
 
 
   <?php print render($title_prefix); ?>

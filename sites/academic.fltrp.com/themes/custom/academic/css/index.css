@@ -2,9 +2,9 @@
 h1.blocktitle{text-indent:1em; font-size:14px; height:27px;background: url("../images/zxzhongxin.gif") no-repeat; line-height: 27px;font-weight:700;}
 a.more{ float: right;font-size:12px; color:#E27A27;font-weight:400; padding-right: 10px}
 .textlist{ overflow: auto;*margin-top:14px}
-.textlist ul{ margin:20px; overflow: auto;font-size:12px;}
-.textlist ul li{background: url("/fltrp/images/blackpoint.gif") no-repeat 0 12px;text-indent:.5em;}
-.textlist ul li a{ color:#4F4D50; line-height: 2.2em;  }
+.textlist ul{ margin:10px; overflow: auto;font-size:12px;}
+.textlist ul li{background: url("../images/blackpoint.gif") no-repeat 0 12px;text-indent:1em;}
+.textlist ul li a{ color:#4F4D50; line-height: 2.6em;  }
 .textlist h3{background: url("../images/toptitle20110805.gif") no-repeat; width:239px; height:33px; margin-top:10px;}
 .textlist h3 .more{ padding:10px 30px}
 .resouredownload h3 a.more{ padding:20px 30px  0 0}
@@ -14,7 +14,7 @@ a.more{ float: right;font-size:12px; color:#E27A27;font-weight:400; padding-righ
 .resouredownload ul{ margin:10px}
 .resouredownload ul li a{line-height: 2.2em;  }
 .resouredownload ul li{background: url("/fltrp/images/blackpoint.gif") no-repeat 0 12px;text-indent:.8em;}
-.resouredownload a.more{float:none; height:30px; text-align: right; display: block; padding-right: 20px}
+.resouredownload a.more{float:none; text-align: right; display: block; padding-right: 30px}
 .imglist ul{ overflow: auto; margin-bottom: 30px}
 .imglist ul li{ float: left;width:100px; margin:10px 10px 0; font-size: 12px;line-height: 1.4em; display: inline; color:#666; height:240px}
 .imglist ul li img{ margin: 0 8px 0 0 }
@@ -23,4 +23,11 @@ a.more{ float: right;font-size:12px; color:#E27A27;font-weight:400; padding-righ
 .imglist ul li a:hover{ color: #FF5500}
 .imglist ul li a img{ margin-bottom: 14px; }
 .imglist h1.blocktitle{background: url("../images/xinshukuaidi.gif") no-repeat;height:45px;}
+
+
 #sidebar-second .ad{ margin-top:6px;}
+#sidebar-first,#sidebar-second{margin-top:10px;}
+#content{margin-top:20px;}
+.item-list ul li {margin:0}
+.view-header .textlist h3{margin:0}
+.attachment-before .textlist li a{color:#2294B9}

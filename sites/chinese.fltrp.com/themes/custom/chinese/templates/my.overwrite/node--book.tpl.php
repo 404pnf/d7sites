@@ -23,7 +23,7 @@
 		//print ("<pre>");
 		//print_r($node);
 	//	print ("</pre>");
-
+                $seriesurl='http://chinese.fltrp.com/list?category=';
                 $nid = $node->nid;     
 		$title = $node->title;        //图书名称
 		if(!empty($node->field_series['und'])){
@@ -61,7 +61,9 @@
 	 <div id="bookinfo">
 							<div class="bookimg"><img src="<?php print $img?>" width="164" height="230" alt=""/></div>
 							<?php if(!empty($series)){?>
-							<p class="pfrist">系列名：<?php print $series?> </p>
+							   <p class="pfrist">系列名：<a href="<?php print $seriesurl.$seriestid ?>">
+                                                                      <?php print $series ?> </a>
+                                                           </p>
 							<?php }?>	
 							<p>ISBN：<?php print $isbn?> </p>
 							<p>著译者：<?php print $author?>  </p>

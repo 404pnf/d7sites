@@ -13,6 +13,13 @@ function auto_kaosheng_menu() {
     'access arguments' => array('administer site configuration'),
     'weight'           => 1,   
   );
+	$items['admin/config/development/zkzh'] = array(
+    'title'            => '自动生成准考证号',
+    'page callback'    => 'drupal_get_form',
+	  'page arguments'    =>  array('auto_kaosheng_generate_zkzh_form'),
+    'access arguments' => array('administer site configuration'),
+    'weight'           => 1,   
+  );
 	return $items;
 }
 
@@ -45,7 +52,7 @@ function auto_kaosheng_generate_relation_form_submit($form,&$form_state){
 }
 function auto_kaosheng_generate_relation_process(&$context){
 	$size =1;
-	//$jb = 1;
+	$jb = 1;
 
 	//$types_str ='story,page';
 	//$types_str = "'".implode("','", $types)."'";
@@ -83,14 +90,6 @@ function auto_kaosheng_generate_relation_process(&$context){
 		$tid = $user->field_shengfen_chengshi['und'][0]['tid'];
 		//获取考场容纳的考生数量
 		$zuowei_total = $node_kaochang->field_kaochang_renshu['zh-hans'][0]['value'];
-	//	drupal_set_message('zuowei_total:'.$zuowei_total);
-	//	drupal_set_message(print_r($node_kaochang));
-	//	drupal_set_message('zuowei_total nid:'.$node_kaochang->nid);
-		//debug($node_kaochang);
-		$jb = 0;
-		while( $jb < 4){
-		$jb++;
-		
 		$i = 1;
 		//对于每个座位号循环
 		while( $i<= $zuowei_total){
@@ -108,7 +107,6 @@ function auto_kaosheng_generate_relation_process(&$context){
 			$result_zuowei = $query_zuowei->countQuery()
 			->execute()
 			->fetchField();
-			//drupal_set_message('result_zuowei:'.$result_zuowei);
 			if($result_zuowei){
 			
 			}else{
@@ -120,23 +118,18 @@ function auto_kaosheng_generate_relation_process(&$context){
 				$query_kaosheng->leftJoin('field_data_field_kaochang','kc','n.nid = kc.entity_id');
 				$query_kaosheng->isNull('kc.field_kaochang_nid');
 				
-				$query_kaosheng->leftJoin('field_data_field_baokao_jibie', 'jb', 'jb.entity_id  = n.nid ');
-		    $query_kaosheng->condition('jb.field_baokao_jibie_value', $jb);
-				
 				//$query->leftJoin('users','u','n.uid = u.uid');
 				//$query->isNull('kc.field_kaochang_nid');
 				
-				$query_kaosheng->leftJoin('field_data_field_shengfen_chengshi','cs',' cs.entity_id = n.uid ');
+				$query_kaosheng->leftJoin('field_data_field_shengfen_chengshi','cs'," cs.entity_id = n.uid AND cs.entity_type = 'user' ");
 				$query_kaosheng->condition('cs.field_shengfen_chengshi_tid',$tid);
 				
 				
 				$query_kaosheng->range(0, 1);
 				$result_kaosheng = $query_kaosheng->execute()->fetchObject();
-				//drupal_set_message('result_kaosheng:'.$result_kaosheng->nid);
 				if(!empty($result_kaosheng)){
-				 // drupal_set_message('result_kaosheng:'.'45678');
 				  $kaosheng = node_load($result_kaosheng->nid);
-					$kaosheng->field_kaochang['zh-hans'][0]['nid'] = $kaochang->nid;
+					$kaosheng->field_kaochang['zh-hans'][0]['value'] = $kaochang->nid;
 					$kaosheng->field_zuowei['zh-hans'][0]['value'] = $i;
 					node_save($kaosheng);
 				}
@@ -144,12 +137,10 @@ function auto_kaosheng_generate_relation_process(&$context){
 		  $i++;
 			
 		}
-		}
 
 		
 	  $context['sandbox']['progress']++;
-	  //$context['sandbox']['last_nid'] = $record->nid;
-		$context['sandbox']['last_nid'] =$kaochang->nid;
+	  $context['sandbox']['last_nid'] = $kaochang->nid;
 	}
 
 	if($context['sandbox']['progress'] == $context['sandbox']['max']){
@@ -169,6 +160,161 @@ function auto_kaosheng_generate_relation_finished($success, $results, $operation
 		// $operations contains the operations that remained unprocessed.
 		$error_operation = reset($operations);
 		$message = '在考生考场关联时出现一个错误'. $error_operation[0] .' 其参数为 :'. print_r($error_operation[0], TRUE);
+	}
+	drupal_set_message($message);
+}
+
+function auto_kaosheng_generate_zkzh_form(){
+  $form['submit'] = array(
+		'#type' =>'submit',
+		'#value' => t('开始生成考生的准考证号'),
+	);
+	/*
+	$form['test'] = array(
+		'#value' => t('迁移'),
+	);
+	*/
+	return $form;
+}
+
+function auto_kaosheng_generate_zkzh_form_submit($form,&$form_state){
+	//$types = array_filter($form_state['values']['types']);
+	$batch =array(
+		'operations' => array(
+		  array('auto_kaosheng_generate_zkzh_process',array()),
+		  ),
+		'finished' => 'auto_kaosheng_generate_zkzh_finished',
+		'title' => t('生成考生的准考证号'),
+		'init_message' => t('开始生成考生的准考证号.'),
+		//'progress_message' => t('Reindexed @current out of @total.'),
+		'error_message' => t('批量生成考生的准考证号遇到错误.'),
+	);
+	batch_set($batch);
+}
+function auto_kaosheng_generate_zkzh_process(&$context){
+	$size =20;
+	//$jb = 1;
+
+	//$types_str ='story,page';
+	//$types_str = "'".implode("','", $types)."'";
+	if(!isset($context['sandbox']['progress'])){
+		$context['sandbox']['progress'] = 0;
+		$context['sandbox']['last_nid'] = 0;
+		//$context['sandbox']['uid'] = 0;
+		//$context['sandbox']['s'] = 0;
+		$context['sandbox']['max'] =
+      db_select('node', 'n')
+			->condition('n.type', 'kaosheng_baoming')
+			->condition('n.nid', 30, '<')
+			//->condition('n.nid', 5884, '<')
+			->countQuery()
+			->execute()
+			->fetchField();
+			
+		
+	}
+	drupal_set_message('max:'.$context['sandbox']['max']);
+	//读取考场信息
+	$query = db_select('node', 'n')
+		->fields('n', array('nid', 'vid'))
+		->condition('n.nid', $context['sandbox']['last_nid'], '>')
+		->condition('n.nid', 30, '<')
+		->condition('n.type', 'kaosheng_baoming')
+		//->condition('n.nid', 5884, '<')
+		//->orderBy('n.uid', 'ASC')
+		->orderBy('n.nid', 'ASC')
+		->range(0, $size);
+		
+	$result = $query->execute();
+	
+	//循环
+	//drupal_set_message('tname:12233455');
+	foreach ($result as $kaosheng) { 
+	  $nid = $kaosheng->nid;
+		drupal_set_message('nid:'.$nid);
+		$node_kaosheng = node_load($nid);
+		if(empty($node_kaosheng->field_zkzh['zh-hans'][0]['value'])){
+		  //drupal_set_message('12');
+		  //（2位数，考试届次）
+		  $jieci = '01';  //
+			
+			//（6位数，考点编码）
+			$uid = $node_kaosheng->uid;
+			$user = user_load($uid);
+			$kaodianbianma = $user->field_kaodian_bianma['und'][0]['value'];
+			
+			//（1位数，级别）
+			$jibie = $node_kaosheng->field_baokao_jibie['zh-hans'][0]['value'];
+			
+			
+			$s = db_select('node', 'n')
+		    ->fields('n', array('nid', 'vid'))
+		    ->condition('n.nid', $nid, '<')
+		    ->condition('n.type', 'kaosheng_baoming')
+				->condition('n.uid', $uid)
+		    //->condition('n.nid', 5884, '<')
+		    //->orderBy('n.uid', 'ASC')
+		    ->countQuery()
+			  ->execute()
+			  ->fetchField();
+			$s = $s+1;
+			
+			//补位
+			if(strlen($s) == 1){
+			  $s = '000'.$s;
+			}elseif(strlen($s) == 2){
+			  $s = '00'.$s;
+			}elseif(strlen($s) == 3){
+			  $s = '0'.$s;
+			}elseif(strlen($s) > 4){
+			  $s = substr($s,-4,4);
+				drupal_set_message(t('考点的考生数量超过了万人'));
+			}
+			
+			$xuhao = $s;
+			
+			$zkzh = $jieci . $kaodianbianma . $jibie . $xuhao;
+			//drupal_set_message('zkzh:'.$zkzh);
+			//if($nid ==1089 ){
+			//  drupal_set_message('zkzh:'.$zkzh);
+				//debug($node_kaosheng);
+			//}
+			$node_kaosheng = node_load($nid);
+			$node_kaosheng->field_zkzh['zh-hans'][0]['value'] = $zkzh;
+			
+			//node_save($node_kaosheng);
+			node_save($node_kaosheng);
+			drupal_set_message('type:'.$node_kaosheng->type);
+			drupal_set_message('nodenid:'.$node_kaosheng->nid);
+			//debug($node_kaosheng);
+			//drupal_set_message('<pre>'.print_r($node_kaosheng).'</pre>');
+			//if($nid ==1089 ){
+			  drupal_set_message('zkzh1:'.$node_kaosheng->field_zkzh['zh-hans'][0]['value']);
+				//debug($node_kaosheng);
+			//}
+		}
+		
+	  $context['sandbox']['progress']++;
+	  $context['sandbox']['last_nid'] = $kaosheng->nid;
+	}
+
+	if($context['sandbox']['progress'] == $context['sandbox']['max']){
+		$context['finished'] = 1;
+	}else{
+		$context['finished'] = $context['sandbox']['progress']/$context['sandbox']['max'];
+	}
+}
+function auto_kaosheng_generate_zkzh_finished($success, $results, $operations){
+	if ($success) {
+		// Here we do something meaningful with the results.
+		$message = t('生成考生的准考证号完成');
+		
+	}
+	else {
+		// An error occurred.
+		// $operations contains the operations that remained unprocessed.
+		$error_operation = reset($operations);
+		$message = '在生成考生的准考证号时出现一个错误'. $error_operation[0] .' 其参数为 :'. print_r($error_operation[0], TRUE);
 	}
 	drupal_set_message($message);
 }

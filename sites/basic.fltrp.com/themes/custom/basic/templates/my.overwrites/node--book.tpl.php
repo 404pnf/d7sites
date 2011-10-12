@@ -22,7 +22,7 @@
 		//print ("<pre>");
 		//print_r($node);
 	//	print ("</pre>");
-
+       $productlistUrl ='productslist/';   //此处修改系列图书链接
        $nid = $node->nid;     
 		$title = $node->title;        //图书名称
 		if(!empty($node->field_series['und'])){
@@ -64,7 +64,7 @@
 							<!--<h1><?php print $title?></h1> -->
 							<div class="bookimg"><img src="<?php print $img?>" width="164" height="230" alt=""/></div>
 							<?php if(!empty($series)){?>
-							<p class="pfrist">系列名：<?php print $series?> </p>
+							<p class="pfrist">系列名：<?php print l($series,$productlistUrl.$seriestid)?> </p>
 							<?php }?>	
 							<p>ISBN：<?php print $isbn?> </p>
 							<p>著译者：<?php print $author?>  </p>

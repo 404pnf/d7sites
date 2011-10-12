@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function testoracle_menu() {
+  $items = array();
+	$items['testoracle'] = array(
+    'title' => 'Test oracle',
+    'description' => 'Test oracle.',
+    'page callback' => 'testoracle_test_page',
+    'access callback' => TRUE,
+  );
+	return $items;
+}
+function testoracle_test_page(){
+$output ="1234";
+ // $url = "http://www.fltrp.com/data/2011/6/219882.txt";
+	//$body = file_get_contents($url);
+	//$body = iconv('',"UTF-8//IGNORE",$body) ; //iconv转换
+	$nid =1089;
+	$node = node_load($nid);
+	$node->field_zkzh = array(
+	  'zh-hans' => array(
+		  0 => array(
+			  'value' => '123456'
+			),
+		),
+	);
+	//[][0]['value'] = '123456';
+	node_save($node);
+	debug($node->field_baokao_jibie);
+	$jibie = isset($node->field_baokao_jibie['zh-hans'][0]['value'])?$node->field_baokao_jibie['zh-hans'][0]['value']:'0';
+	$uid = $node->uid;
+			$user = user_load($uid);
+			$kaodianbianma = $user->field_kaodian_bianma['und'][0]['value'];
+			//debug($user);
+			drupal_set_message('bianma:'.$jibie);
+	
+
+	return  $output;
+			
+}
