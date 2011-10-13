@@ -21,6 +21,7 @@ function auto_kaosheng_menu() {
     'weight'           => 1,   
   );
 	return $items;
+	return $items;
 }
 
 function auto_kaosheng_generate_relation_form(){
@@ -52,7 +53,7 @@ function auto_kaosheng_generate_relation_form_submit($form,&$form_state){
 }
 function auto_kaosheng_generate_relation_process(&$context){
 	$size =1;
-	$jb = 1;
+	//$jb = 1;
 
 	//$types_str ='story,page';
 	//$types_str = "'".implode("','", $types)."'";
@@ -90,6 +91,14 @@ function auto_kaosheng_generate_relation_process(&$context){
 		$tid = $user->field_shengfen_chengshi['und'][0]['tid'];
 		//获取考场容纳的考生数量
 		$zuowei_total = $node_kaochang->field_kaochang_renshu['zh-hans'][0]['value'];
+	//	drupal_set_message('zuowei_total:'.$zuowei_total);
+	//	drupal_set_message(print_r($node_kaochang));
+	//	drupal_set_message('zuowei_total nid:'.$node_kaochang->nid);
+		//debug($node_kaochang);
+		$jb = 0;
+		while( $jb < 4){
+		$jb++;
+		
 		$i = 1;
 		//对于每个座位号循环
 		while( $i<= $zuowei_total){
@@ -107,6 +116,7 @@ function auto_kaosheng_generate_relation_process(&$context){
 			$result_zuowei = $query_zuowei->countQuery()
 			->execute()
 			->fetchField();
+			//drupal_set_message('result_zuowei:'.$result_zuowei);
 			if($result_zuowei){
 			
 			}else{
@@ -118,24 +128,32 @@ function auto_kaosheng_generate_relation_process(&$context){
 				$query_kaosheng->leftJoin('field_data_field_kaochang','kc','n.nid = kc.entity_id');
 				$query_kaosheng->isNull('kc.field_kaochang_nid');
 				
+				$query_kaosheng->leftJoin('field_data_field_baokao_jibie', 'jb', 'jb.entity_id  = n.nid ');
+		    $query_kaosheng->condition('jb.field_baokao_jibie_value', $jb);
+				
 				//$query->leftJoin('users','u','n.uid = u.uid');
 				//$query->isNull('kc.field_kaochang_nid');
 				
-				$query_kaosheng->leftJoin('field_data_field_shengfen_chengshi','cs'," cs.entity_id = n.uid AND cs.entity_type = 'user' ");
+				$query_kaosheng->leftJoin('field_data_field_shengfen_chengshi','cs',' cs.entity_id = n.uid ');
 				$query_kaosheng->condition('cs.field_shengfen_chengshi_tid',$tid);
 				
 				
 				$query_kaosheng->range(0, 1);
 				$result_kaosheng = $query_kaosheng->execute()->fetchObject();
+				//drupal_set_message('result_kaosheng:'.$result_kaosheng->nid);
 				if(!empty($result_kaosheng)){
+				 // drupal_set_message('result_kaosheng:'.'45678');
 				  $kaosheng = node_load($result_kaosheng->nid);
-					$kaosheng->field_kaochang['zh-hans'][0]['value'] = $kaochang->nid;
+					$kaosheng->field_kaochang['zh-hans'][0]['nid'] = $kaochang->nid;
+					$kaosheng->field_kaochang['und'][0]['nid'] = $kaochang->nid;
 					$kaosheng->field_zuowei['zh-hans'][0]['value'] = $i;
+					$kaosheng->field_zuowei['und'][0]['value'] = $i;
 					node_save($kaosheng);
 				}
 			}
 		  $i++;
 			
+		}
 		}
 
 		
@@ -281,11 +299,13 @@ function auto_kaosheng_generate_zkzh_process(&$context){
 			//}
 			$node_kaosheng = node_load($nid);
 			$node_kaosheng->field_zkzh['zh-hans'][0]['value'] = $zkzh;
-			
+			$baoming = node_load($nid);
+			$baoming->field_zkzh['zh-hans'][0]['value'] = $zkzh;
+			$baoming->field_zkzh['und'][0]['value'] = $zkzh;
 			//node_save($node_kaosheng);
-			node_save($node_kaosheng);
-			drupal_set_message('type:'.$node_kaosheng->type);
-			drupal_set_message('nodenid:'.$node_kaosheng->nid);
+			node_save($baoming);
+			//drupal_set_message('type:'.$node_kaosheng->type);
+			//drupal_set_message('nodenid:'.$node_kaosheng->nid);
 			//debug($node_kaosheng);
 			//drupal_set_message('<pre>'.print_r($node_kaosheng).'</pre>');
 			//if($nid ==1089 ){
@@ -295,7 +315,7 @@ function auto_kaosheng_generate_zkzh_process(&$context){
 		}
 		
 	  $context['sandbox']['progress']++;
-	  $context['sandbox']['last_nid'] = $kaosheng->nid;
+	  $context['sandbox']['last_nid'] = $node_kaosheng->nid;
 	}
 
 	if($context['sandbox']['progress'] == $context['sandbox']['max']){
@@ -317,4 +337,59 @@ function auto_kaosheng_generate_zkzh_finished($success, $results, $operations){
 		$message = '在生成考生的准考证号时出现一个错误'. $error_operation[0] .' 其参数为 :'. print_r($error_operation[0], TRUE);
 	}
 	drupal_set_message($message);
+}
+
+function auto_kaosheng_generate_zkzh($node){
+$jieci = '01';  //
+			
+			//（6位数，考点编码）
+			$uid = $node->uid;
+			$user = user_load($uid);
+			$kaodianbianma = $user->field_kaodian_bianma['und'][0]['value'];
+			
+			//（1位数，级别）
+			$jibie = $node->field_baokao_jibie['zh-hans'][0]['value'];
+			
+			
+			  $query = new EntityFieldQuery();
+  $s = $query
+	  ->entityCondition('entity_type', 'node')
+		->entityCondition('bundle', 'kaosheng_baoming')
+		->propertyCondition('uid',$node->uid)
+    ->fieldCondition('field_baokao_jibie','value',$jibie)
+		->fieldCondition('field_zkzh','value',NULL,'!=')
+    //->range(0, 1)
+    ->count()
+    ->execute();
+		/*
+			$s = db_select('node', 'n')
+		    ->fields('n', array('nid', 'vid'))
+		    ->condition('n.nid', $nid, '<')
+		    ->condition('n.type', 'kaosheng_baoming')
+				->condition('n.uid', $uid)
+		    //->condition('n.nid', 5884, '<')
+		    //->orderBy('n.uid', 'ASC')
+		    ->countQuery()
+			  ->execute()
+			  ->fetchField();
+				*/
+			$s = $s+1;
+			
+			//补位
+			if(strlen($s) == 1){
+			  $s = '000'.$s;
+			}elseif(strlen($s) == 2){
+			  $s = '00'.$s;
+			}elseif(strlen($s) == 3){
+			  $s = '0'.$s;
+			}elseif(strlen($s) > 4){
+			  $s = substr($s,-4,4);
+				drupal_set_message(t('考点的考生数量超过了万人'));
+			}
+			
+			$xuhao = $s;
+			
+			$zkzh = $jieci . $kaodianbianma . $jibie . $xuhao;
+			
+			return $zkzh;
 }

@@ -20,7 +20,7 @@ body {
 #toolbar,
 #footer-wrapper,
 .tabs,
-.add-or-remove-shortcuts,#skip-link {
+.add-or-remove-shortcuts {
   display: none;
 }
 .one-sidebar #content,
@@ -44,4 +44,3 @@ body {
 .comment_forbidden {
   display: none;
 }
-
