@@ -84,6 +84,8 @@
  * @see bartik_process_page()
  */
 ?>
+<style type="text/css" media="all">@import url("http://ncte.2u4u.com.cn/sites/ncte.2u4u.com.cn/themes/custom/ncte/css/zkz.css");</style>
+
  <?php print render($page['content']); ?>
 
 

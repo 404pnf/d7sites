@@ -11,8 +11,8 @@ $kaoshi_time ="9:00--9:50";
 $kaoshi_date ="2011年10月29日";
 $kaoshi_time ="10:30--11:30";
 }elseif($fields['field_baokao_jibie']->content =='三级'){
-$kaoshi_date ="14:00--15:40";
-$kaoshi_time ="下午2:00---5:003";
+$kaoshi_date ="2011年10月29日";
+$kaoshi_time ="14:00--15:40";
 }elseif($fields['field_baokao_jibie']->content =='四级'){
 $kaoshi_date ="2012年10月29日";
 $kaoshi_time ="9:00--9:50";
