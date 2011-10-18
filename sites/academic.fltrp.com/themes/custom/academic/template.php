@@ -90,23 +90,131 @@ function academic_breadcrumb($variables) {
     if($current_path =='products'){
 	        $breadcrumbs = array();
 		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
-		$breadcrumbs[] = '<a href="'.url('list').'">'.t('产品中心').'</a>';
-		$category = $_GET["category"];
-		$tid = $category;
-		$parents = taxonomy_get_parents_all($tid);
-                
+		if($current_path =='products'){
+		  $breadcrumbs[] = '<a href="'.url('products').'">'.t(' 产品中心').'</a>';
+		}else{
+	        }                              
+                $output .= '<div class="breadcrumb">';
+                $output .=implode( $breadcrumb_separator , $breadcrumbs);                
+		$output .= '</div>';
+		return $output;
+		
+	  }
+    if(arg(0)=='productslist' && arg(1)>0){
+                $tid = arg(1);
+                $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		$breadcrumbs[] = '<a href="'.url('productslist').'">'.t('产品中心').'</a>';	
+		$parents = taxonomy_get_parents_all($tid);             
 		$parents = array_reverse($parents);
 		foreach($parents as $parent){
-			$breadcrumbs[] = '<a href="'.$current_path.'?category='.$parent->tid.'">'.$parent->name.'</a>';
+			$breadcrumbs[] = ' >> <a href="'.base_path().'productslist/'.$parent->tid.'">'.$parent->name.'</a>';
 		}
 	        $output = '<div class="breadcrumb">';
 		$output .=implode( $breadcrumb_separator , $breadcrumbs);
 		$output .= '</div>';
 		return $output;
+	     }
+	
+	if(arg(0)=='node' && arg(1)>0){
+             $nid = arg(1);
+             $node = node_load($nid);
+             if($node->type == 'book'){
+                  $breadcrumbs = array();
+                  $breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+                  $breadcrumbs[] = '<a href="'.url('products').'">'.t(' 产品中心').'</a> ';
+                  $tid = $node->field_category['und'][0]['tid'];   //获得产品分类
+                  $parents = taxonomy_get_parents_all($tid);
+                   $parents = array_reverse($parents);
+                  foreach($parents as $parent){
+                        $breadcrumbs[] = '>> <a href="'.base_path().'products/'.$parent->tid.'">'.$parent->name.'</a> ';
+                  }
+                  $output = '<div class="breadcrumb">';
+                  $output .=implode($breadcrumb_separator, $breadcrumbs);
+                  $output .= '</div>';
+                  return $output;
+
+             }
+          }
+	
+	if($current_path =='academic'){
+	        $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		if($current_path =='academic'){
+		  $breadcrumbs[] = '<a href="'.url('academic').'">'.t(' 学术中心').'</a>';
+		}else{
+	        }                              
+                $output .= '<div class="breadcrumb">';
+                $output .=implode( $breadcrumb_separator , $breadcrumbs);                
+		$output .= '</div>';
+		return $output;
+		
 	}
   
+  if(arg(0)=='academic' && arg(1)>0){
+                $tid = arg(1);
+                $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		$breadcrumbs[] = '<a href="'.url('academic').'">'.t('学术中心').'</a>';	
+		$parents = taxonomy_get_parents_all($tid);             
+		$parents = array_reverse($parents);
+		foreach($parents as $parent){
+			$breadcrumbs[] = ' >> <a href="'.base_path().'academic/'.$parent->tid.'">'.$parent->name.'</a>';
+		}
+	        $output = '<div class="breadcrumb">';
+		$output .=implode( $breadcrumb_separator , $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	     }
   
+  if(arg(0)=='node' && arg(1)>0){
+             $nid = arg(1);
+             $node = node_load($nid);
+             if($node->type == 'academic'){
+                  $breadcrumbs = array();
+                  $breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+                  $breadcrumbs[] = '<a href="'.url('academic').'">'.t(' 学术中心').'</a> ';
+                  $tid = $node->field_category['und'][0]['tid'];   //获得学术分类
+                  $parents = taxonomy_get_parents_all($tid);
+                   $parents = array_reverse($parents);
+                  foreach($parents as $parent){
+                        $breadcrumbs[] = '>> <a href="'.base_path().'academic/'.$parent->tid.'">'.$parent->name.'</a> ';
+                  }
+                  $output = '<div class="breadcrumb">';
+                  $output .=implode($breadcrumb_separator, $breadcrumbs);
+                  $output .= '</div>';
+                  return $output;
+
+             }
+          }
   
+	if($current_path =='download'){
+                $breadcrumbs = array();
+                $breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+                if($current_path =='download'){
+                  $breadcrumbs[] = '<a href="'.url('download').'">'.t(' 资源下载').'</a>';
+                }else{
+                }
+                $output .= '<div class="breadcrumb">';
+                $output .=implode( $breadcrumb_separator , $breadcrumbs);
+                $output .= '</div>';
+                return $output;
+
+    }
+  
+    if(arg(0)=='node' && arg(1)>0){
+             $nid = arg(1);
+	     $node = node_load($nid);
+             if($node->type =='news'){
+	        $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a> >>';
+		$breadcrumbs[] = '<a href="'.url('news').'">'.t(' 资讯中心').'</a>';
+	        $output = '<div class="breadcrumb">';
+		$output .=implode($breadcrumb_separator, $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	     } 
+         }
   
   $breadcrumb = $variables['breadcrumb'];
   // Determine if we are to display the breadcrumb.

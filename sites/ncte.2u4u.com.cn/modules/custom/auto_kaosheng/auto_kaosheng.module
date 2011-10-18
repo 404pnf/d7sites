@@ -13,15 +13,17 @@ function auto_kaosheng_menu() {
     'access arguments' => array('administer site configuration'),
     'weight'           => 1,   
   );
+	/*
 	$items['admin/config/development/zkzh'] = array(
     'title'            => '自动生成准考证号',
     'page callback'    => 'drupal_get_form',
 	  'page arguments'    =>  array('auto_kaosheng_generate_zkzh_form'),
     'access arguments' => array('administer site configuration'),
     'weight'           => 1,   
-  );
+  );*/
+	
 	return $items;
-	return $items;
+	//return $items;
 }
 
 function auto_kaosheng_generate_relation_form(){
@@ -144,6 +146,9 @@ function auto_kaosheng_generate_relation_process(&$context){
 				if(!empty($result_kaosheng)){
 				 // drupal_set_message('result_kaosheng:'.'45678');
 				  $kaosheng = node_load($result_kaosheng->nid);
+					$zkzh = auto_kaosheng_generate_zkzh($kaosheng);
+					$kaosheng->field_zkzh['und'][0]['value'] = $zkzh;
+					$kaosheng->field_zkzh['zh-hans'][0]['value'] = $zkzh;
 					$kaosheng->field_kaochang['zh-hans'][0]['nid'] = $kaochang->nid;
 					$kaosheng->field_kaochang['und'][0]['nid'] = $kaochang->nid;
 					$kaosheng->field_zuowei['zh-hans'][0]['value'] = $i;
@@ -350,7 +355,7 @@ $jieci = '01';  //
 			//（1位数，级别）
 			$jibie = $node->field_baokao_jibie['zh-hans'][0]['value'];
 			
-			
+	/*		
 			  $query = new EntityFieldQuery();
   $s = $query
 	  ->entityCondition('entity_type', 'node')
@@ -361,6 +366,24 @@ $jieci = '01';  //
     //->range(0, 1)
     ->count()
     ->execute();
+		
+		*/
+				$query_zuowei = db_select('node', 'n')
+			->condition('n.type', 'kaosheng_baoming')
+			->condition('n.uid', $uid);
+			//drupal_set_message('jibie:'.$jibie);
+			
+				
+			$query_zuowei->leftJoin('field_data_field_baokao_jibie', 'jb', ' jb.entity_id  = n.nid ');
+		  $query_zuowei->condition('jb.field_baokao_jibie_value', $jibie);
+			
+			//检查该座位号上面是否已经分配了考生
+			$query_zuowei->leftJoin('field_data_field_zkzh', 'zk', ' zk.entity_id  = n.nid ');
+		  $query_zuowei->isNotNull('zk.field_zkzh_value');
+			
+			$s = $query_zuowei->countQuery()
+			->execute()
+			->fetchField();
 		/*
 			$s = db_select('node', 'n')
 		    ->fields('n', array('nid', 'vid'))

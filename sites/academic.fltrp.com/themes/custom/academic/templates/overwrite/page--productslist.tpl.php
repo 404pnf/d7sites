@@ -55,6 +55,7 @@
 
   <?php if ($page['content_top']): ?>
       <div id="content-top">
+	  <?php print $breadcrumb; ?>
         <?php print render($page['content_top']); ?>
       </div>
     <?php endif; ?><!-- /content_top -->
@@ -66,7 +67,7 @@
         <?php if ($breadcrumb || $title|| $messages || $tabs || $action_links): ?>
           <div id="content-header">
 
-            <?php print $breadcrumb; ?>
+            
 
             <?php if ($page['highlight']): ?>
               <div id="highlight"><?php print render($page['highlight']) ?></div>
@@ -170,7 +171,7 @@
 				<?php
    				         $category = arg(1);
 		                         $views_name = 'products';
-                                         $display_id = 'productslist_academic';
+                                         $display_id = 'productslist';
                          print views_embed_view($views_name, $display_id,$category);
                ?>
 	   			<!-- 	//产品列表 结束	 -->		

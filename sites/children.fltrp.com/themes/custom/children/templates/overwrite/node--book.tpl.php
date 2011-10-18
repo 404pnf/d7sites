@@ -1,5 +1,6 @@
-<link href="/static/css/bookinfoswitch.css" media="all" rel="stylesheet" type="text/css">
+<link href="/static/css/bookinfoswitch.css" media="all" rel="stylesheet" type="text/css"> 
 <link href="/static/css/shareto.css" media="all" rel="stylesheet" type="text/css">
+
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
@@ -40,8 +41,8 @@
 	        $img = $node->field_img['und'][0]['uri'];        //封面
 		//$img =file_create_url($img );        //封面
 		$body = $node->body['und'][0]['safe_value'];        //简介    
-		if(!empty($node->field_directory['und']))
-			$directory = $node->field_directory['und'][0]['safe_value'];        //目录    
+		if(!empty($node->field_directory['und']));
+             	  $directory = $node->field_directory['und'][0]['safe_value'];        //目录    
 		if(!empty($node->field_read_online['und']))
          	$read_online = $node->field_read_online['und'][0]['value'];        //在线阅读地址
 
@@ -49,7 +50,6 @@
 		$education_tids = '';
 		$img_style = $node->field_img_style['und'][0]['value'];
      
-
 		$style_name="turn1";
 	        $style_name2="turn2";
 		
@@ -103,17 +103,26 @@
 								<div id="share">
 									<span>分享到:</span>
 
-<!-- ShareTo Button BEGIN -->
-<div class="shareto_toolbox">
-<a class="shareto_button_tsina"></a>
-<a class="shareto_button_renren"></a>
-<a class="shareto_button_douban"></a>
-<a class="shareto_button_kaixin001"></a>
-<a class="shareto_button_tqq"></a>
+<!-- JiaThis Button BEGIN -->
+<div id="ckepop">
+     <a class="jiathis_button_tsina"></a>
+     <a class="jiathis_button_renren"></a>
+     <a class="jiathis_button_douban"></a>
+     <a class="jiathis_button_kaixin001"></a>
+     <a class="jiathis_button_tqq"></a>
+     <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+     <a class="jiathis_counter_style"></a>
 </div>
+<script type="text/javascript" >
+var jiathis_config={
+	hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v2.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
 
-<script type="text/javascript" src="http://s.shareto.com.cn/js/shareto_button.js" charset="utf-8"></script>
-<!-- ShareTo Button END -->
+
+
 
 								</div>
 							</div>
@@ -128,7 +137,7 @@
 							</div>
 
 							<div class="bookdirectory">
-								<?php print $directory?>
+							   <?php print $directory; ?>
 
 							</div>
 							

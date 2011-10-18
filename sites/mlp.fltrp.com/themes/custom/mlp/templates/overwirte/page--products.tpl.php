@@ -126,9 +126,10 @@
 				<!-- 	产品首页列表 开始	 -->			
 				<?php
    				        $language = arg(1);
+						$title = arg(2);
 			             $views_name = 'products';
                         $display_id = 'home';
-                         print views_embed_view($views_name, $display_id,$language);
+                         print views_embed_view($views_name, $display_id,$language,$title);
                ?>
 	   			<!-- 	//产品首页列表 结束	 -->		
 

@@ -1,13 +1,13 @@
 function getreturn(){
 	username = document.getElementById('edit-name').value;
 	userpass = document.getElementById('edit-pass').value;
-	document.getElementById('edit-userpass').value = f23.s52e(username+'@'+userpass);      
+	document.getElementById('edit-userpass').value = f23.s52e(username+'(!@#$%&*)'+userpass);      
 }
 
 function register_getreturn(){
 	username = document.getElementById('edit-name').value;
 	userpass = document.getElementById('edit-pass-pass1').value;
-	document.getElementById('edit-userpass').value = f23.s52e(username+'@'+userpass);
+	document.getElementById('edit-userpass').value = f23.s52e(username+'(!@#$%&*)'+userpass);
 }
 
 f23={}

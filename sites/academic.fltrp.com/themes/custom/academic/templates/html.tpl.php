@@ -58,6 +58,9 @@
 	case "academicdetails":
           $custom_style_file ='/css/information.css';
 	      break;
+    case "aboutus":
+          $custom_style_file ='/css/information.css';
+	      break;
 	 }
 
  if(stristr($current_path,'newsdetails/')||stristr($current_path,'academicdetails/'))
