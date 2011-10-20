@@ -226,11 +226,11 @@
 				<?php
    				         $category = arg(1);
 		              		 $arg2=arg(2);
-					 if($arg2==null)
-					    $arg2='all';
+					 if($arg2=='all')
+					    $arg2=null;
 					 $arg3=arg(3);
-			          	 if($arg3==null)
-				            $arg3='all';
+			          	 if($arg3=='all')
+				            $arg3=null;
 		                         $views_name = 'products';
                                          $display_id = 'productslist';
                                          print views_embed_view($views_name, $display_id,$category,$arg2,$arg3);
