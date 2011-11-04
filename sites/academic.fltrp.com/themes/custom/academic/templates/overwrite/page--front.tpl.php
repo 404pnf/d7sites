@@ -131,6 +131,8 @@
           <?php print render($page['sidebar_first']); ?>
         </div>
       </div>
+	  <p></p>
+	  <p></p>
     <?php endif; ?> <!-- /sidebar-first -->
 
     <?php if ($page['sidebar_second']): ?>

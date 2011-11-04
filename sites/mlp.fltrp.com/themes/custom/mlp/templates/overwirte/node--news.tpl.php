@@ -1,5 +1,8 @@
 <link href="/static/js/coin-slider/coin-slider-styles.css" media="all" rel="stylesheet" type="text/css">
 <link href="/static/css/shareto.css" media="all" rel="stylesheet" type="text/css">
+	
+<indexAreaStart><!--  索引内容 开始 --></indexAreaStart>
+	
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
@@ -85,6 +88,7 @@
 	<!--  文章内容 结束-->
 
 
+<indexAreaEnd><!--  索引内容 结束 --></indexAreaEnd>
 
 
     <?php if (!empty($content['links']['terms'])): ?>

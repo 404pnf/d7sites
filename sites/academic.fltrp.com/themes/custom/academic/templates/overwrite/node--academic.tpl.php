@@ -1,4 +1,4 @@
-
+<indexAreaStart></indexAreaStart>
                                                                                                                                          
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">                                                                 
         <div class="node-inner">                                                                                                            
@@ -37,5 +37,5 @@
                                                                                                                                             
         </div> <!-- /node-inner -->                                                                                                         
 </div> <!-- /node-->                                                                                                                        
-                                                                                                                                            
+<indexAreaEnd></indexAreaEnd>                                                                                                                                            
 <?php print render($content['comments']); ?> 

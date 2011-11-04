@@ -2,7 +2,9 @@
 #content-inner{ width:730px; margin-left: 240px}
 .productlist{ overflow: auto}
 .productlist li{ border-bottom: 1px dashed #999; padding: 25px 0; overflow: auto; font-size: 12px;_zoom:1;height:164px;line-height:1.8em;color:#666}
-.productlist li a{ display: block; color: #FF6602; padding: 8px 2em 14px}
+.productlist li a{ color: #FF6602;}
+.productlist li span{display:block;}
+.productlist li span span{display:inline;}
 .productlist li p{color: #999;line-height:1.4em; margin: 0;}
 .productlist li img{ float: left; margin-right: 15px;}
 .productlist li.column{ width: 98%;}
@@ -47,9 +49,15 @@
 .productlist b{ color: #848484; padding:15px 0; display:block }
 .productlist li .buy a{ float: left; display: block;height: 26px; margin: 0 10px 0 0;line-height: 26px; padding:0;display: inline; color:#404040; }
 .b{background: url("../images/buy_20110623.gif");text-indent:2em;width: 103px;}
-.r{background: url("../images/buy_20110623.gif") -103px 0;text-indent:2.2em;width: 81px;}
+.r{background: url("../images/buy_20110623.gif") -103px 0;text-indent:2.2em;width: 81px;display:block;float:right;height:26px;margin-top:20px;margin-right:20px;}
 .item-list .pager{margin-top:20px;}
 
+
+.view-id-academic_filter{margin:6px 0;}
+.view-id-academic_filter ul{overflow:auto;border-bottom:1px dashed #ddd;padding:6px 0;margin:0 10px;}
+.view-id-academic_filter li{float:left;}
+.view-id-academic_filter li a{font-size:12px;padding:2px}
+.view-id-academic_filter li a.active{background:red;color:#FFF;}
 
 /* 产品内容页面  bookinfo*/
 .bookimg{padding:15px; border: 1px solid #ddd; float: left; margin: 10px 40px 10px 10px;display: inline;}

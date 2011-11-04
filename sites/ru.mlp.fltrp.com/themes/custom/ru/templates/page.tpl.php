@@ -74,6 +74,7 @@ if(!empty($node) && $node->type == 'page'){
 
 
     <div id="content">
+
       <div id="content-inner" class="inner column center">
 
         <?php if ($breadcrumb || $title|| $messages || $tabs || $action_links): ?>
@@ -111,6 +112,7 @@ if(!empty($node) && $node->type == 'page'){
 
       </div>
     </div> <!-- /content-inner /content -->
+    
 
     <?php if ($main_menu || $secondary_menu): ?>
       <div id="navigation" class="menu <?php if (!empty($main_menu)) {print "with-primary";} if (!empty($secondary_menu)) {print " with-secondary";} ?>">

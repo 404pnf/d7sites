@@ -1,3 +1,5 @@
+<indexAreaStart><!--  索引内容 开始 --></indexAreaStart>
+	
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
@@ -39,7 +41,7 @@
        ?>
   	</div>
   	
-
+	
 	<!--  文章内容 开始 -->
 		<div class="article">
 			<h1 class="articletitle"><?php print $title?></h1>
@@ -80,9 +82,8 @@
 		</div>							
 	</div>
 	<!--  文章内容 结束-->
-
 	
-
+<indexAreaEnd><!--  索引内容 结束 --></indexAreaEnd>
 
     <?php if (!empty($content['links']['terms'])): ?>
       <div class="terms"><?php print render($content['links']['terms']); ?></div>
@@ -94,5 +95,6 @@
         
 	</div> <!-- /node-inner -->
 </div> <!-- /node-->
+		
 
 <?php print render($content['comments']); ?>

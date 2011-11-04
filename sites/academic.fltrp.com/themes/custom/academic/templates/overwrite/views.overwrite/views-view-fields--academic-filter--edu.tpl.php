@@ -27,17 +27,20 @@
  */
 ?>
 
-<?php 
+<?php
+  $term_name = $row->taxonomy_term_data_name; 
   $current_id1 = arg(1);
   $current_id2 = arg(2);
-  $id=$row->tid;
+  $id=$row->tid; 
   $path = 'http://academic.fltrp.com/productslist/'.$current_id1.'/'. $current_id2.'/'.$id;
-?>
+  if ($id == arg(3))
+        $class = 'active';
+  else
+        $class = ' '; 
 
 
-<?php
-  $content = "<a class='active' href='$path'>".$row->taxonomy_term_data_name."</a>";
-  print $content;
 ?>
+
+<a class="<?php print $class; ?>" href="<?php print $path;?>"><?php print $term_name ?></a>
 
 

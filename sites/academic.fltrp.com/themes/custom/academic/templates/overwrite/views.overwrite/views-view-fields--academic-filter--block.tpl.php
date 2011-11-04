@@ -25,15 +25,17 @@
  * @ingroup views_templates
  */
 ?>
+
 <?php 
+    $term_name = $row->taxonomy_term_data_name;    
     $category = arg(1);
     $current_id3 = arg(3);
     $id=$row->tid;
     $path = 'http://academic.fltrp.com/productslist/'.$category.'/'.$id.'/'.$current_id3;
+    if ($id == arg(2))
+        $class = 'active';
+    else
+        $class = ' '; 
 ?>
 
-<?php 
-  $content = "<a class='active' href='$path'>".$row->taxonomy_term_data_name."</a>";
-  print $content;
-    
-?>
+<a class="<?php print $class; ?>" href="<?php print $path;?>"><?php print $term_name ?></a>

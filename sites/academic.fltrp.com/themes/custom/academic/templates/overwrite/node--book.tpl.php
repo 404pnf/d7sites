@@ -1,6 +1,7 @@
 <link href="/static/css/bookinfoswitch.css" media="all" rel="stylesheet" type="text/css">
 <link href="/static/css/shareto.css" media="all" rel="stylesheet" type="text/css">
-<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
+<indexAreaStart></indexAreaStart>
+	<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
     <?php if (!$page): ?>
@@ -23,6 +24,7 @@
 		//print_r($node);
 	//	print ("</pre>");
 
+       $productlistUrl ='productslist/';   //此处修改系列图书链接	
        $nid = $node->nid;     
 		$title = $node->title;        //图书名称
 		if(!empty($node->field_series['und'])){
@@ -44,6 +46,12 @@
 		if(!empty($node->field_read_online['und']))
          	$read_online = $node->field_read_online['und'][0]['value'];        //在线阅读地址
 
+	if(!empty($node->field_category['und'])){
+     		$categoryname = $node->field_category['und'][0]['taxonomy_term']->name;        //图书系列名称
+	    	$categorytid = $node->field_category['und'][0]['taxonomy_term']->tid;   
+		}
+		
+      //print $categorytid;
 		$educations = $node->field_education['und'];   
 		$education_tids = '';
 		$i=1;
@@ -57,6 +65,7 @@
             $i++;
 		}
 
+
        ?>
   	</div>
   
@@ -64,7 +73,7 @@
 							<h1><?php print $title?></h1>
 							<div class="bookimg"><img src="<?php print $img?>" width="164" height="230" alt=""/></div>
 							<?php if(!empty($series)){?>
-							<p class="pfrist">系列名：<?php print $series?> </p>
+							<p class="pfrist">系列名：<?php print l($series,$productlistUrl.$seriestid)?> </p>
 							<?php }?>	
 							<p>ISBN：<?php print $isbn?> </p>
 							<p>著译者：<?php print $author?>  </p>
@@ -118,7 +127,7 @@ var jiathis_config={
 								<?php print $directory?>
 
 							</div>
-							
+							<indexAreaEnd></indexAreaEnd>
 							<!--最佳组合开始-->
 							<div id="bestgroup">
 								<!--
@@ -141,7 +150,7 @@ var jiathis_config={
 						}
 
 						
-						print views_embed_view($views_name, $display_id,$views_parameter1,$views_parameter2);
+						print views_embed_view($views_name, $display_id,$views_parameter1,$views_parameter2,$categorytid);
 						 ?>
 								</div>
 							</div>

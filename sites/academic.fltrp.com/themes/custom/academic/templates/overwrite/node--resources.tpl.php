@@ -1,6 +1,7 @@
 <link href="/static/js/coin-slider/coin-slider-styles.css" media="all" rel="stylesheet" type="text/css">
 <link href="/static/css/shareto.css" media="all" rel="stylesheet" type="text/css">
-<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
+<indexAreaStart></indexAreaStart>
+	<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
     <?php if (!$page): ?>
@@ -21,8 +22,8 @@
         //print render($content);
 
        //  print "<pre>";
-	//	 print_r($node);
-		//   print "</pre>";
+	///	 print_r($node);
+		 //  print "</pre>";
 
 
 		$title = $node->title;        //新闻标题
@@ -35,6 +36,11 @@
 		$newsimages=array();
 		if(isset( $node->field_news_image['zh-hans']))
 		     $newsimages=$node->field_news_image['zh-hans'];
+			
+		if(isset( $node->field_resource_attachments['zh-hans']))
+			 $attachments=$node->field_resource_attachments;
+			
+
        ?>
   	</div>
   	
@@ -75,10 +81,11 @@
 				?>
 			</center>
 			<?php print render($content['body']);?>
+			<?php print render($content['field_resource_attachments']);?>
 		</div>							
 	</div>
 	<!--  文章内容 结束-->
-
+	<indexAreaEnd></indexAreaEnd>
 
 
 

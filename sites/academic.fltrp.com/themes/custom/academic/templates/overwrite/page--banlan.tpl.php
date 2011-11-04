@@ -98,27 +98,11 @@
 <tr><td id="colee_left1" valign="top" align="center">
 	<table cellpadding="2" cellspacing="0" border="0">
 		<tr align="center">
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
-			<td><p><img src="/sites/academic.fltrp.com/themes/custom/academic/images/banlan/read_02.jpg" width="120" height="170"></p></td>
+			<?php
+			    $views_name = 'zhuanti';
+                $display_id = 'banlan_img';
+                     print views_embed_view($views_name, $display_id);
+			?>
 		</tr>
 	</table>
 </td>
