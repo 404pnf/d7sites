@@ -1,0 +1,107 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function testoracle_menu() {
+  $items = array();
+	$items['testoracle'] = array(
+    'title' => 'Test oracle',
+    'description' => 'Test oracle.',
+    'page callback' => 'testoracle_test_page',
+    'access callback' => TRUE,
+  );
+	return $items;
+}
+function testoracle_test_page(){
+$output ="1234";
+
+  $query = db_select('node', 'n')
+		->fields('n', array('nid', 'vid'))
+		//->condition('n.nid', $context['sandbox']['last_nid'], '>')
+		->condition('n.type', 'book')
+		->condition('n.nid', 1129, '<')
+		//->condition('n.nid', 10, '<')
+		->range(0, 5);
+		
+	$result = $query->execute();
+	foreach ($result as $record) { 
+	
+		$nid = $record->nid;
+		$node = node_load($nid);
+	//$record->cid ='BMJC';
+
+	  //获取book的bsno
+	  $bsno = $node->field_bsno['und'][0]['value'];
+		
+		//drupal_set_message('bsno:'.$bsno);
+		
+		//根据bsno获取关联的relativenews
+		$relativenews = array();
+		
+		//$relativenews = Database::getConnection('default', 'data')
+		$result1 = Database::getConnection('default', 'data')
+	  ->select('bookrelnews', 'b')
+		->fields('b', array('relativenews'))
+		->condition('b.bsno', $bsno)->execute();
+		//->fetchCol();
+		
+		foreach($result1 as $record1){
+		  $relativenews[$record1->relativenews] = $record1->relativenews;
+		}
+		
+		//	$relativenews  = $myquery->fetchAll();
+		
+		
+		//获取节点上已有的nids
+		$exist_nids =array();
+		foreach($node->field_resource['und'] as $delta => $item){
+		  $exist_nids[$item['nid']] = $item['nid'];
+		}
+		//$exist_nids = array();
+		
+		//根据$relativenews获取对应的资源的nids
+		$nids =array();
+		foreach($relativenews as $relativenew){
+		 // drupal_set_message('relativenew:'.$relativenew);
+		  $query = new EntityFieldQuery();
+			$query->entityCondition('entity_type', 'node');
+			$query->entityCondition('bundle', 'resources');
+			$query->fieldCondition('field_cntno','value',$relativenew);
+			foreach ($query->execute() as $entity_type => $entities) {
+			  foreach ($entities as $entity_id => $entity) {
+				  //如果这个资源的nid，在节点的资源中不存在，我们加进来
+				  if(!in_array($entity_id,$exist_nids)){
+				    $nids[] = $entity_id;
+					}
+				}
+			}
+		  
+		}
+		
+		
+		//起始的$delta。
+		$start = count($node->field_resource['und']);
+		
+		//把新的nids追加进来
+		foreach($nids as $nid){
+		  $node->field_resource['und'][$start] = array(
+			  'nid' => $nid,
+			);
+			$start = $start + 1;
+			drupal_set_message('start:'.$start);
+		  drupal_set_message('nid:'.$nid);
+		}
+   
+	//debug($node);
+		//node_save($node);
+	
+			
+	  //$context['sandbox']['progress']++;
+		//$context['sandbox']['last_nid'] = $record->nid;
+		
+	}
+
+return $output;
+}
+

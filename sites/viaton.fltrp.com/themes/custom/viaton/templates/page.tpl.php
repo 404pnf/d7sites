@@ -49,17 +49,17 @@
 
   </div> <!-- /header -->
 
+  <!-- ______________________ MAIN TOP _______________________ -->
+    <?php if ($page['main_top']): ?>
+      <div id="main-top">
+        <?php print render($page['main_top']); ?>
+      </div>
+    <?php endif; ?><!-- /main_top -->
+
   <!-- ______________________ MAIN _______________________ -->
 
   <div id="main" class="clearfix">
-
-  <?php if ($page['content_top']): ?>
-      <div id="content-top">
-        <?php print render($page['content_top']); ?>
-      </div>
-    <?php endif; ?><!-- /content_top -->
-
-
+    <indexAreaStart></indexAreaStart>
     <div id="content">
       <div id="content-inner" class="inner column center">
 
@@ -98,6 +98,8 @@
 
       </div>
     </div> <!-- /content-inner /content -->
+<indexAreaEnd></indexAreaEnd>
+
 
     <?php if ($main_menu || $secondary_menu): ?>
       <div id="navigation" class="menu <?php if (!empty($main_menu)) {print "with-primary";} if (!empty($secondary_menu)) {print " with-secondary";} ?>">
@@ -122,14 +124,15 @@
       </div>
     <?php endif; ?> <!-- /sidebar-second -->
 
-
-  <?php if ($page['content_bottom']): ?>
-      <div id="content-bottom">
-        <?php print render($page['content_bottom']); ?>
-      </div>
-    <?php endif; ?><!-- /content_bottom -->
-
   </div> <!-- /main -->
+
+  <!-- ______________________ MAIN BOTTOM _______________________ -->
+  <?php if ($page['main_bottom']): ?>
+      <div id="main-bottom">
+        <?php print render($page['main_bottom']); ?>
+      </div>
+    <?php endif; ?><!-- /main_bottom -->
+
 
   <!-- ______________________ FOOTER _______________________ -->
 

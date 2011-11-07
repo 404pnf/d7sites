@@ -1,0 +1,6 @@
+; $Id$
+name = ref_resource
+description = ref_resource
+core = 7.x
+php = 5.2
+files[] = ref_resource.module

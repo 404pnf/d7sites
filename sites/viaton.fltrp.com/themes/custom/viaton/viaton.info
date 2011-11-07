@@ -9,9 +9,9 @@ regions[page_top] = Page top
 regions[header] = Header
 regions[highlight] = Highlight
 regions[help] = Help
-regions[content_top] = Content top   //增强区域Content top 
+regions[main_top] = main top   //增强区域maintop 
 regions[content] = Content
-regions[content_bottom] = Content bottom   //增强区域Content bottom
+regions[main_bottom] = main bottom   //增强区域main bottom
 regions[topnav] = top navigation   //增强区域top navigation 
 regions[sidebar_first] = First sidebar
 regions[sidebar_second] = Second sidebar
@@ -28,9 +28,9 @@ features[] = favicon
 features[] = main_menu
 features[] = secondary_menu
 
+stylesheets[all][] = css/global.css
 stylesheets[all][] = css/default.css
-stylesheets[all][] = css/layout.css
-stylesheets[all][] = css/style.css
+stylesheets[all][] = css/common.css
 stylesheets[print][] = css/print.css
 
 settings[basic_tabs] = 1

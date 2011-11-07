@@ -192,6 +192,17 @@ $databases['default']['default'] = array(
 //    			'authmap'   => 'ncec.',
   			),
  );
+
+$databases['data']['default'] = array(
+        'driver' => 'mysql',
+        'database' => 'data',
+        'username' => 'py',
+        'password' => 'pengyou',
+        'host' => '129.0.0.223',
+ );
+
+
+
 // set db connection to d6 sites. '2u4u' is the db name zhanglin called in his moudle
  $databases['2u4u']['default'] = array(
  	'driver' => 'mysql',

@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+/*——————————————————下面是四种页面布局的CSS，使用时取消注释即可——————————————————*/
+/*该CSS是使三列、俩列等高的布局样式，不需要时最好注释掉！以防止他影响其他的结构
+#main .column{position: relative;padding-bottom: 32767px !important;margin-bottom: -32767px !important; }*/
+
+/* 页面三列左中右布局 
+#content{float: left;width:600px;left:200px;position:relative;}
+#sidebar-first{float:left;width: 200px;left:-600px;background:#fc2010;}
+#sidebar-second{float: right;width: 160px;background:#fc2010;margin-left:-160px;}*/
+
+/* 页面二列左边栏布局 
+#content{float: left;background-color: #e5e5e5;width: 760px;left: 200px;position:relative;}
+#sidebar-first{float: left;background-color: #7bd;width: 200px;left: -760px;}
+#sidebar-second{float: right;background-color: #f63; width:0;}*/
+
+/* 页面二列右边栏布局 
+#content{float: left;background-color: #e5e5e5;width:800px;left:0;position:relative;}
+#sidebar-first{float: left;background-color: #7bd;}
+#sidebar-second{float: right;background-color: #f63; width:160px;margin-left:-160px;}*/
+
+/* 一列布局 */
+#content{width:960px;left:0;position:relative;}
+
+/*—————————————————— 这里开始每个页面具体的 css 样式 ——————————————————*/

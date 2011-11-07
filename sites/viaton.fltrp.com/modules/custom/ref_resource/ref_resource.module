@@ -1,0 +1,178 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * 实现publisher字段的迁移.
+ */
+ 
+ /**
+ * 实现钩子hook_menu().
+ */
+function ref_resource_menu() {
+
+  $items['admin/config/development/ref_resource'] = array(
+    'title'            => '资源引用',
+    'page callback'    => 'drupal_get_form',
+	  'page arguments'    =>  array('ref_resource_referece_form'),
+    'access arguments' => array('administer site configuration'),
+    'weight'           => 1,
+    'type'             => MENU_NORMAL_ITEM,
+   
+  );
+
+  return $items;
+}
+function ref_resource_referece_form(){
+	
+	$form['submit'] = array(
+		//'#type' =>'submit',
+		'#value' => t('资源引用'),
+	);
+	/*
+	$form['test'] = array(
+		'#value' => t('迁移'),
+	);
+	*/
+	return $form;
+}
+
+function ref_resource_referece_form_submit($form,&$form_state){
+	//$types = array_filter($form_state['values']['types']);
+	$batch =array(
+		'operations' => array(
+		  array('ref_resource_referece_process',array()),
+		  ),
+		'finished' => 'ref_resource_referece_finished',
+		'title' => t('资源引用'),
+		'init_message' => t('开始资源引用.'),
+		//'progress_message' => t('Reindexed @current out of @total.'),
+		'error_message' => t('资源引用遇到错误.'),
+	);
+	batch_set($batch);
+}
+
+function ref_resource_referece_process(&$context){
+	
+	$size =5;
+  //$fenshe_array =array('BMJC', 'BMZJ', 'BMGY', 'BMZY', 'BMXS', 'BMSK', 'BMEL', 'BMSM', 'BMWL', 'BMPG','BMEF');
+	if(!isset($context['sandbox']['progress'])){
+		$context['sandbox']['progress'] = 0;
+		$context['sandbox']['last_nid'] = 0;
+		$context['sandbox']['max'] =  db_select('node', 'n')
+			->condition('n.type', 'book')
+			//->condition('n.nid', 1130, '<')
+			->countQuery()
+			->execute()
+			->fetchField();
+	}
+	
+	//逐步遍历book	
+	$query = db_select('node', 'n')
+		->fields('n', array('nid', 'vid'))
+		->condition('n.nid', $context['sandbox']['last_nid'], '>')
+		->condition('n.type', 'book')
+		//->condition('n.nid', 1130, '<')
+		//->condition('n.nid', 10, '<')
+		->range(0, $size);
+		
+	$result = $query->execute();
+	foreach ($result as $record) { 
+	
+		$nid = $record->nid;
+		$node = node_load($nid);
+	//$record->cid ='BMJC';
+
+	  //获取book的bsno
+	  $bsno = $node->field_bsno['und'][0]['value'];
+		
+		//drupal_set_message('bsno:'.$bsno);
+		
+		//根据bsno获取关联的relativenews
+		$relativenews = array();
+		
+		//$relativenews = Database::getConnection('default', 'data')
+		$result1 = Database::getConnection('default', 'data')
+	  ->select('bookrelnews', 'b')
+		->fields('b', array('relativenews'))
+		->condition('b.bsno', $bsno)->execute();
+		//->fetchCol();
+		
+		foreach($result1 as $record1){
+		  $relativenews[$record1->relativenews] = $record1->relativenews;
+		}
+		
+		//	$relativenews  = $myquery->fetchAll();
+		
+		
+		//获取节点上已有的nids
+		$exist_nids =array();
+		foreach($node->field_resource['und'] as $delta => $item){
+		  //$exist_nids[$item->nid] = $item->nid;
+			$exist_nids[$item['nid']] = $item['nid'];
+		}
+		
+		//根据$relativenews获取对应的资源的nids
+		$nids =array();
+		foreach($relativenews as $relativenew){
+		 // drupal_set_message('relativenew:'.$relativenew);
+		  $query = new EntityFieldQuery();
+			$query->entityCondition('entity_type', 'node');
+			$query->entityCondition('bundle', 'resources');
+			$query->fieldCondition('field_cntno','value',$relativenew);
+			foreach ($query->execute() as $entity_type => $entities) {
+			  foreach ($entities as $entity_id => $entity) {
+				  //如果这个资源的nid，在节点的资源中不存在，我们加进来
+				  if(!in_array($entity_id,$exist_nids)){
+				    $nids[] = $entity_id;
+					}
+				}
+			}
+		  
+		}
+		
+		
+		//起始的$delta。
+		$start = count($node->field_resource['und']);
+		
+		//把新的nids追加进来
+		foreach($nids as $nid){
+		  $node->field_resource['und'][$start] = array(
+			  'nid' => $nid,
+			);
+			$start = $start + 1;
+			//drupal_set_message('start:'.$start);
+		  //drupal_set_message('nid:'.$nid);
+		}
+   
+	//debug($node);
+		node_save($node);
+	
+			/* */
+	  $context['sandbox']['progress']++;
+		$context['sandbox']['last_nid'] = $record->nid;
+		
+	}
+	
+	if($context['sandbox']['progress'] ==$context['sandbox']['max']){
+		$context['finished'] = 1;
+	}else{
+		$context['finished'] = $context['sandbox']['progress']/$context['sandbox']['max'];
+	}
+		
+}
+
+function ref_resource_referece_finished($success, $results, $operations){
+	if ($success) {
+		// Here we do something meaningful with the results.
+		$message = t('资源引用完成');
+		
+	}
+	else {
+		// An error occurred.
+		// $operations contains the operations that remained unprocessed.
+		$error_operation = reset($operations);
+		$message = '在资源引用时出现一个错误'. $error_operation[0] .' 其参数为 :'. print_r($error_operation[0], TRUE);
+	}
+	drupal_set_message($message);
+}

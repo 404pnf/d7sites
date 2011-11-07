@@ -1,0 +1,11 @@
+@charset "utf-8";
+
+/* 这个是当前整个站点公共的样式表 */
+/*包括全站布局样式、超链接、页头、页脚以及一些可共用的列表*/
+
+#header,#footer{width: 960px;margin: 0 auto;overflow:auto;background:red;}
+#footer{clear:both;}
+#main{position: relative;width: 960px;margin: 0 auto;overflow: hidden;background:blue;}
+#main .column{position: relative;}
+#main-top,#main-bottom{width:100%;clear:both;background:yellow;}
+.topnav{overflow:auto;background:green;}
