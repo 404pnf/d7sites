@@ -7,6 +7,35 @@
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
   <?php  print $styles; ?>
+
+
+<!---   added by zhanglin  //-->
+<?
+        global $base_url;
+         $current_path   = drupal_get_path_alias();
+
+         switch($current_path){
+         case "newsdetails":
+          $custom_style_file ='/css/information.css';
+                 break;
+         }
+
+if(stristr($current_path,'newsdetails/'))
+                           $custom_style_file ='/css/information.css';
+
+
+if(!empty($custom_style_file)){
+    $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','enfltrp').$custom_style_file.'");</style>';
+    print   $custom_style_uri ;
+}
+
+
+?>
+
+<!---   added by zhanglin//  -->
+
+
+
   <?php print $scripts; ?>
 </head>
 <body class="<?php print $classes; ?>" <?php print $attributes;?>>

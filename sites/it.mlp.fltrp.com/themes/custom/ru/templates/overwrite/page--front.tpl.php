@@ -98,7 +98,7 @@
 			<div class="conleft fleft">
 						<!-- 教学资讯 -->
 						<div class="textlist">
-							<div class="commontitle"><a href="news" class="more"><img src="/sites/it.mlp.fltrp.com/themes/custom/ru/images/more.gif" alt="" /></a></div>
+							<div class="commontitle"><a href="news" class="more"><img src="/sites/ko.mlp.fltrp.com/themes/custom/ru/images/more.gif" alt="" /></a></div>
 					  <?php
 			             $views_name = 'news';
                         $display_id = 'home';
@@ -109,7 +109,7 @@
 					
 					<!-- 首页内容左侧资源分类  开始 -->
 					<div class="recenter">
-							<div class="commontitle"><a href="resources" class="more"><img src="/sites/it.mlp.fltrp.com/themes/custom/ru/images/more.gif" alt="" /></a></div>
+							<div class="commontitle"><a href="resources" class="more"><img src="/sites/ko.mlp.fltrp.com/themes/custom/ru/images/more.gif" alt="" /></a></div>
 
 							<!-- 首页内容左侧资源分类-- 教师资源 -- 开始 -->
 							<div class="column2">
@@ -144,7 +144,7 @@
 	<!--精品推荐  开始 -->
 			<div class="conright fright">
 						<div class="imgcontent">
-							<div class="commontitle"><a href="products" class="more"><img src="/sites/it.mlp.fltrp.com/themes/custom/ru/images/more.gif" alt="" /></a></div>
+							<div class="commontitle"><a href="products" class="more"><img src="/sites/ko.mlp.fltrp.com/themes/custom/ru/images/more.gif" alt="" /></a></div>
 									<?php
 										  $views_name = 'products';
 										   $display_id = 'home_competitive';

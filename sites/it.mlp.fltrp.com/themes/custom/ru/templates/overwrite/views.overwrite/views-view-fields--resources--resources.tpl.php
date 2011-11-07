@@ -35,7 +35,6 @@
 	$resources_term=$fields['term_node_tid']->content;
 	$resources_real_url="";
 	$resources_attachments=$fields['field_resource_attachments']->content;
-   $resources_video=$fields['field_resource_video']->content;
 
 	if (!empty($resources_body)){	
 			 $resources_base_url ='resource/';
@@ -57,13 +56,6 @@
 		
 		}
 	}
-
- 	if (!empty($resources_video)){	
-			 $resources_base_url ='resource/';
-			 $resources_real_url = $resources_base_url.$resources_id; 
-	}
-
-
 
   $dlimage = '<a href="'.$resources_real_url.'" class="dlimg"><img src="'.$base_url.'/'.drupal_get_path('theme',variable_get('theme_default')).'/images/dl.gif" /></a>' ;
  

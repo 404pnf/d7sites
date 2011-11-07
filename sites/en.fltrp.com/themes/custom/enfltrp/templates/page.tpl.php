@@ -75,8 +75,8 @@ if(!empty($node) && $node->type == 'page'){
             <?php endif; ?>
 
             <?php if ($title): ?>
-              <h3 class="title"><?php print $node->field_ebname['und'][0]['value']; ?></h3> 
-              <h3 class="title"><?php print $title; ?></h3>
+              <!-- <h3 class="title"><?php print $node->field_ebname['und'][0]['value']; ?></h3> -->
+              <!-- <h3 class="title"><?php print $title; ?></h3> -->
             <?php endif; ?>
 
             <?php print $messages; ?>

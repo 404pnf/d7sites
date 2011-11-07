@@ -64,6 +64,8 @@ if(!empty($node) && $node->type == 'page'){
 
   <!-- ______________________ MAIN _______________________ -->
 
+  
+  
   <div id="main" class="clearfix">
 
   <?php if ($page['content_top']): ?>
@@ -107,6 +109,7 @@ if(!empty($node) && $node->type == 'page'){
           <?php print render($page['content']) ?>
         </div>
 
+
         <?php print $feed_icons; ?>
 
       </div>
@@ -144,6 +147,7 @@ if(!empty($node) && $node->type == 'page'){
 
   </div> <!-- /main -->
 
+  
   <!-- ______________________ FOOTER _______________________ -->
 
   <?php if ($page['footer']): ?>

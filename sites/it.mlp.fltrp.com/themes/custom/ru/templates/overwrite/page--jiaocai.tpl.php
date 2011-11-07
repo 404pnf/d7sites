@@ -72,6 +72,7 @@ if(!empty($node) && $node->type == 'page'){
       </div>
     <?php endif; ?><!-- /content_top -->
 
+
     <div id="content">
       <div id="content-inner" class="inner column center">
 
@@ -84,9 +85,6 @@ if(!empty($node) && $node->type == 'page'){
               <div id="highlight"><?php print render($page['highlight']) ?></div>
             <?php endif; ?>
 
-            <?php if ($title): ?>
-              <h1 class="title"><?php //print $title; ?></h1>
-            <?php endif; ?>
 
             <?php print $messages; ?>
             <?php print render($page['help']); ?>

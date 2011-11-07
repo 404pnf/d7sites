@@ -1,3 +1,4 @@
+<indexAreaStart></indexAreaStart>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
@@ -19,7 +20,7 @@
         print render($content);
        ?>
   	</div>
-  	
+    <indexAreaEnd></indexAreaEnd>
     <?php if (!empty($content['links']['terms'])): ?>
       <div class="terms"><?php print render($content['links']['terms']); ?></div>
     <?php endif;?>

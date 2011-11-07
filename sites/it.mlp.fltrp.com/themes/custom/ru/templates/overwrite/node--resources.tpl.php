@@ -1,3 +1,4 @@
+<indexAreaStart></indexAreaStart>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
@@ -49,11 +50,10 @@
 						<div class="mov">
 								<?php print render($content['body']);?>
 								<?php print render($content['field_resource_attachments']);?>
-								<?php print render($content['field_resource_video']);?>
 						</div>
 					</div>
 	<!--  文章内容 结束-->
-
+<indexAreaEnd></indexAreaEnd>
 	
 
 

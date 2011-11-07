@@ -1,6 +1,6 @@
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
-
+	<indexAreaStart><!--  索引内容 开始 --></indexAreaStart>
     <?php if (!$page): ?>
       <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
     <?php endif; ?>
@@ -131,6 +131,7 @@
 								  <div class="engliash_none"><?php print "none"; ?></div>
 							<?php endif; ?>
 					 </div>
+				 <indexAreaEnd><!--  索引内容 结束 --></indexAreaEnd>
 				 <div class="enlish_consider">
 							<div class="english_consider_title">相关图书:</div>
 							<?php    
@@ -157,7 +158,7 @@
 
        </div>
      
-
+	
     <?php if (!empty($content['links']['terms'])): ?>
       <div class="terms"><?php print render($content['links']['terms']); ?></div>
     <?php endif;?>

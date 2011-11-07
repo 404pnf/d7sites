@@ -72,7 +72,6 @@ if(!empty($node) && $node->type == 'page'){
       </div>
     <?php endif; ?><!-- /content_top -->
 
-
     <div id="content">
       <div id="content-inner" class="inner column center">
 
@@ -110,6 +109,7 @@ if(!empty($node) && $node->type == 'page'){
         <?php print $feed_icons; ?>
 
       </div>
+
     </div> <!-- /content-inner /content -->
 
     <?php if ($main_menu || $secondary_menu): ?>
@@ -144,6 +144,8 @@ if(!empty($node) && $node->type == 'page'){
 
   </div> <!-- /main -->
 
+  
+  
   <!-- ______________________ FOOTER _______________________ -->
 
   <?php if ($page['footer']): ?>

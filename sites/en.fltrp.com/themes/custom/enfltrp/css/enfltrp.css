@@ -116,6 +116,10 @@
 #search-block-form .form-item-search-block-form{ margin-left: 720px;}
 #block-fancy_login-fancy_login_login_block{ position: absolute; top:186px;left:640px; }
 #block-fancy_login-fancy_login_login_block a{ display:block;width:60px; height:12px; overflow:hidden;text-indent:-9em;background: url("/sites/en.fltrp.com/files/fatupian/enlogin20110628.gif") no-repeat }
+#block-block-14{height: 28px; background: #DEE9EE; padding-top: 4px}
+#block-block-14 #search-form{margin-left: 720px;}
+#block-block-14 #search-form .form-text{border:1px solid #aaa;padding:2px;color:#999;}
+#block-block-14 #search-form .form-submit{margin-left:10px;}
 /* 英文网站首页*/
 /*	修正样式 */
 .page-fp #main{margin:0; width: 100%;}

@@ -1,3 +1,5 @@
+<indexAreaStart><!--  索引内容 开始 --></indexAreaStart>
+
 <link href="/static/css/bookinfoswitch.css" media="all" rel="stylesheet" type="text/css">
 <link href="/static/css/shareto.css" media="all" rel="stylesheet" type="text/css">
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
@@ -119,7 +121,7 @@ var jiathis_config={
 								<?php print $directory?>
 
 							</div>
-							
+							<indexAreaEnd><!--  索引内容 结束 --></indexAreaEnd>
 							<!--最佳组合开始-->
 							<div id="bestgroup">
 								<!--

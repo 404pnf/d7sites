@@ -1,5 +1,6 @@
 <link href="/static/js/coin-slider/coin-slider-styles.css" media="all" rel="stylesheet" type="text/css">
 <link href="/static/css/shareto.css" media="all" rel="stylesheet" type="text/css">
+<indexAreaStart></indexAreaStart>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
@@ -42,7 +43,7 @@
 
 	<!--  文章内容 开始 -->
 		<div class="article">
-		      <!--commented <h1 class="articletitle"><?php print $title?></h1> -->
+		        <h1 class="articletitle"><?php print $title?></h1> 
 			<span class="articledate"><?php print $publish_date?></span>
 			<div class="articlecontent">
 				<center>
@@ -79,7 +80,7 @@
 		</div>							
 	</div>
 	<!--  文章内容 结束-->
-
+<indexAreaEnd></indexAreaEnd>
 
 
 

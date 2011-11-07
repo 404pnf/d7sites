@@ -1,104 +1,104 @@
+<indexAreaStart></indexAreaStart>
 <link href="/static/js/coin-slider/coin-slider-styles.css" media="all" rel="stylesheet" type="text/css">
 <link href="/static/css/shareto.css" media="all" rel="stylesheet" type="text/css">
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
-	<div class="node-inner">
+  <div class="node-inner">
     
     <?php if (!$page): ?>
       <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
     <?php endif; ?>
 
     <?php print $user_picture; ?>
-		    
+        
     <?php if ($display_submitted): ?>
       <span class="submitted"><?php print $date; ?> — <?php print $name; ?></span>
     <?php endif; ?>
 
-  	<div class="content">
-  	  <?php 
-  	    // We hide the comments and links now so that we can render them later.
+    <div class="content">
+      <?php 
+        // We hide the comments and links now so that we can render them later.
         hide($content['comments']);
         hide($content['links']);
         //print render($content);
 
        //  print "<pre>";
-	//	 print_r($node);
-		//   print "</pre>";
+  //   print_r($node);
+    //   print "</pre>";
 
 
-		$title = $node->title;        //新闻标题
-		if(isset( $node->field_news_author['und']))
-			$author = $node->field_news_author['und'][0]['value'];        //作者名
-		if(isset( $node->field_news_from['und']))
-			$from = $node->field_news_from['und'][0]['value'];        //来源
-		$publish_date= date ('Y-m-d',$node->created);        //发布日期
-		$body = $node->body['zh-hans'][0]['value'];        //内容    
-		$newsimages=array();
-		if(isset( $node->field_news_image['zh-hans']))
-		     $newsimages=$node->field_news_image['zh-hans'];
+    $title = $node->title;        //新闻标题
+    if(isset( $node->field_news_author['und']))
+      $author = $node->field_news_author['und'][0]['value'];        //作者名
+    if(isset( $node->field_news_from['und']))
+      $from = $node->field_news_from['und'][0]['value'];        //来源
+    $publish_date= date ('Y-m-d',$node->created);        //发布日期
+    $body = $node->body['zh-hans'][0]['value'];        //内容    
+    $newsimages=array();
+    if(isset( $node->field_news_image['zh-hans']))
+         $newsimages=$node->field_news_image['zh-hans'];
        ?>
-  	</div>
-  	
+    </div>
+    
 
-	<!--  文章内容 开始 -->
-		<div class="artics">
-			<h1 ><?php print $title?></h1>
-			<div class="ptext">
-				<center>
-					<?php // print str_replace('taxonomy/term/','newsmore?cid=',render($content));?>
-					<?php // print str_replace('taxonomy/term/','newsmore?cid=',render($content));?>
-					<?php 
-					if(count($newsimages)>0)
-					{
-						$newsimages_output = '';
-						$newsimages_output .='<div class="coin_slider_container">';
-						$newsimages_output .='<div id="coin_slider">';
-						$news_image_style="news";
-						foreach ($newsimages as $newsimage)
-						{
-								$newsimage_title = $newsimage["title"];
-								//$newsimage_url= file_create_url($newsimage["uri"]);
-								$newsimage_url = image_style_url($news_image_style, $newsimage["uri"]);
-								$newsimage_pic = '<img src="'.$newsimage_url.'"/>';
-								
-								$newsimages_output .='<a href="javascript:void(0);return false;">';
-								$newsimages_output .=$newsimage_pic;
-								$newsimages_output .='<span>'.$newsimage_title.'</span>';
-								$newsimages_output .='</a>';
-		
-						} 
-						$newsimages_output .='</div>';
-						$newsimages_output .='</div>';
-						print  $newsimages_output;
-				
-				}
-				?>
-			</center>
-			<?php print render($content['body']);?>
-		</div>							
-	</div>
-	<!--  文章内容 结束-->
+  <!--  文章内容 开始 -->
+    <div class="artics">
+      <h1 ><?php print $title?></h1>
+      <div class="ptext">
+        <center>
+          <?php // print str_replace('taxonomy/term/','newsmore?cid=',render($content));?>
+          <?php // print str_replace('taxonomy/term/','newsmore?cid=',render($content));?>
+          <?php 
+          if(count($newsimages)>0)
+          {
+            $newsimages_output = '';
+            $newsimages_output .='<div class="coin_slider_container">';
+            $newsimages_output .='<div id="coin_slider">';
+            $news_image_style="news";
+            foreach ($newsimages as $newsimage)
+            {
+                $newsimage_title = $newsimage["title"];
+                //$newsimage_url= file_create_url($newsimage["uri"]);
+                $newsimage_url = image_style_url($news_image_style, $newsimage["uri"]);
+                $newsimage_pic = '<img src="'.$newsimage_url.'"/>';
+                
+                $newsimages_output .='<a href="javascript:void(0);return false;">';
+                $newsimages_output .=$newsimage_pic;
+                $newsimages_output .='<span>'.$newsimage_title.'</span>';
+                $newsimages_output .='</a>';
+    
+            } 
+            $newsimages_output .='</div>';
+            $newsimages_output .='</div>';
+            print  $newsimages_output;
+        
+        }
+        ?>
+      </center>
+      <?php print render($content['body']);?>
+    </div>              
+  </div>
+  <!--  文章内容 结束-->
 
-
-
+<indexAreaEnd></indexAreaEnd>
 
     <?php if (!empty($content['links']['terms'])): ?>
       <div class="terms"><?php print render($content['links']['terms']); ?></div>
     <?php endif;?>
-  	
+    
     <?php if (!empty($content['links'])): ?>
-	    <div class="links"><?php print render($content['links']); ?></div>
-	  <?php endif; ?>
+      <div class="links"><?php print render($content['links']); ?></div>
+    <?php endif; ?>
         
-	</div> <!-- /node-inner -->
+  </div> <!-- /node-inner -->
 </div> <!-- /node-->
 
 <?php print render($content['comments']); ?>
 
 <SCRIPT type="text/javascript" src="/static/js/coin-slider/coin-slider.min.js"></SCRIPT>
 <script>
-	var $j=jQuery.noConflict();  //将变量$的控制权让渡给prototype.js
-	$j(function(){
-		 $j('#coin_slider').coinslider({
+  var $j=jQuery.noConflict();  //将变量$的控制权让渡给prototype.js
+  $j(function(){
+     $j('#coin_slider').coinslider({
             width: 400,//设置的宽度等于容器的宽度
             height: 268,//设置的高度等于容器的高度
             delay: 3000,//图片切换延迟
@@ -108,5 +108,5 @@
         });
         
         $j('#coin-slider-coin_slider').width($j('#coin_slider').width());
-	});
+  });
 </script>

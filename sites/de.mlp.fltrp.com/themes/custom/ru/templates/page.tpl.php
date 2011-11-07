@@ -72,7 +72,8 @@ if(!empty($node) && $node->type == 'page'){
       </div>
     <?php endif; ?><!-- /content_top -->
 
-
+   
+	
     <div id="content">
       <div id="content-inner" class="inner column center">
 
@@ -112,6 +113,9 @@ if(!empty($node) && $node->type == 'page'){
       </div>
     </div> <!-- /content-inner /content -->
 
+	
+	
+	
     <?php if ($main_menu || $secondary_menu): ?>
       <div id="navigation" class="menu <?php if (!empty($main_menu)) {print "with-primary";} if (!empty($secondary_menu)) {print " with-secondary";} ?>">
         <?php print theme('links', array('links' => $main_menu, 'attributes' => array('id' => 'primary', 'class' => array('links', 'clearfix', 'main-menu')))); ?>

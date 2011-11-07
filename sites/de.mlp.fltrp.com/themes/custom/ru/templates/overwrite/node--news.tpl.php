@@ -1,5 +1,6 @@
 <link href="/static/js/coin-slider/coin-slider-styles.css" media="all" rel="stylesheet" type="text/css">
 <link href="/static/css/shareto.css" media="all" rel="stylesheet" type="text/css">
+<indexAreaStart></indexAreaStart>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
@@ -12,7 +13,6 @@
     <?php if ($display_submitted): ?>
       <span class="submitted"><?php print $date; ?> — <?php print $name; ?></span>
     <?php endif; ?>
-
   	<div class="content">
   	  <?php 
   	    // We hide the comments and links now so that we can render them later.
@@ -77,8 +77,7 @@
 		</div>							
 	</div>
 	<!--  文章内容 结束-->
-
-
+<indexAreaEnd></indexAreaEnd>
 
 
     <?php if (!empty($content['links']['terms'])): ?>

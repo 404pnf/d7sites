@@ -72,7 +72,6 @@ if(!empty($node) && $node->type == 'page'){
       </div>
     <?php endif; ?><!-- /content_top -->
 
-
     <div id="content">
       <div id="content-inner" class="inner column center">
 

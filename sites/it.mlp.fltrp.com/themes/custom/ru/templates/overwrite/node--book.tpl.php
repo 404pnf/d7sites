@@ -1,3 +1,4 @@
+<indexAreaStart></indexAreaStart>
 <link href="/static/css/bookinfoswitch.css" media="all" rel="stylesheet" type="text/css">
 <link href="/static/css/shareto.css" media="all" rel="stylesheet" type="text/css">
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
@@ -84,24 +85,17 @@
 								<div id="share">
 									<span>分享到:</span>
 
-<!-- JiaThis Button BEGIN -->
-<div id="ckepop">
-     <a class="jiathis_button_tsina"></a>
-     <a class="jiathis_button_renren"></a>
-     <a class="jiathis_button_douban"></a>
-     <a class="jiathis_button_kaixin001"></a>
-     <a class="jiathis_button_tqq"></a>
-     <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
-     <a class="jiathis_counter_style"></a>
+<!-- ShareTo Button BEGIN -->
+<div class="shareto_toolbox">
+<a class="shareto_button_tsina"></a>
+<a class="shareto_button_renren"></a>
+<a class="shareto_button_douban"></a>
+<a class="shareto_button_kaixin001"></a>
+<a class="shareto_button_tqq"></a>
 </div>
-<script type="text/javascript" >
-var jiathis_config={
-        hideMore:false
-}
-</script>
-<script type="text/javascript" src="http://v2.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
-<!-- JiaThis Button END -->
 
+<script type="text/javascript" src="http://s.shareto.com.cn/js/shareto_button.js" charset="utf-8"></script>
+<!-- ShareTo Button END -->
 
 								</div>
 							</div>
@@ -119,7 +113,7 @@ var jiathis_config={
 								<?php print $directory?>
 
 							</div>
-							
+					<indexAreaEnd></indexAreaEnd>		
 							<!--最佳组合开始-->
 							<div id="bestgroup">
 								<!--

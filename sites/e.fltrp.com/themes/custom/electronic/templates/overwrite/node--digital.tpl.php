@@ -13,38 +13,20 @@
     <?php endif; ?>
 
   	<div class="content">
-  <?php 
+           <h1><?php print $node->title; ?></h1>
+
+           <div class="click"><a href = "<?php print $node->field_digital_url['und'][0]['value']; ?>">点击此处了解更多</a></div> 
+  	  <?php 
   	    // We hide the comments and links now so that we can render them later.
         hide($content['comments']);
         hide($content['links']);
-        //print render($content);
-
-       //  print "<pre>";
-	//	 print_r($node);
-		//   print "</pre>";
-
-
-		$title = $node->title;        //新闻标题
-		if(isset( $node->field_news_author['und']))
-			$author = $node->field_news_author['und'][0]['value'];        //作者名
-		if(isset( $node->field_news_from['und']))
-			$from = $node->field_news_from['und'][0]['value'];        //来源
-		$publish_date= date ('Y-m-d',$node->created);        //发布日期
-		$body = $node->body['zh-hans'][0]['value'];        //内容    
-		$newsimages=array();
-		if(isset( $node->field_news_image['zh-hans']))
-		     $newsimages=$node->field_news_image['zh-hans'];
+        print render($content);
+            
        ?>
-  	</div>
-<indexAreaEnd></indexAreaEnd>
-<div class="artics">
-						<div class="artcontent">
-							<?php print render($content['body']);?>
-						</div>
-					</div>
+
 
   	</div>
-  	
+    <indexAreaEnd></indexAreaEnd>
     <?php if (!empty($content['links']['terms'])): ?>
       <div class="terms"><?php print render($content['links']['terms']); ?></div>
     <?php endif;?>

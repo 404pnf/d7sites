@@ -78,7 +78,7 @@
             <?php endif; ?>
 
             <?php if ($title): ?>
-              <h1 class="title"><?php print $title; ?></h1>
+              <!-- <h1 class="title"><?php print $title; ?></h1> -->
             <?php endif; ?>
 
             <?php print $messages; ?>

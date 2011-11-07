@@ -64,6 +64,8 @@ if(!empty($node) && $node->type == 'page'){
 
   <!-- ______________________ MAIN _______________________ -->
 
+  
+  
   <div id="main" class="clearfix">
 
   <?php if ($page['content_top']): ?>
@@ -143,7 +145,8 @@ if(!empty($node) && $node->type == 'page'){
     <?php endif; ?><!-- /content_bottom -->
 
   </div> <!-- /main -->
-
+  
+  
   <!-- ______________________ FOOTER _______________________ -->
 
   <?php if ($page['footer']): ?>
