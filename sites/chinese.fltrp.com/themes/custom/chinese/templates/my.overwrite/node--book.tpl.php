@@ -3,7 +3,7 @@
 <link href="/static/css/shareto.css" media="all" rel="stylesheet" type="text/css">
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
-    
+    <indexAreaStart><!--  索引内容 开始 --></indexAreaStart>
     <?php if (!$page): ?>
       <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
     <?php endif; ?>
@@ -59,6 +59,8 @@
   	</div>
   
 	 <div id="bookinfo">
+                                                        <h1><?php print $title?></h1>
+
 							<div class="bookimg"><img src="<?php print $img?>" width="164" height="230" alt=""/></div>
 							<?php if(!empty($series)){?>
 							   <p class="pfrist">系列名：<a href="<?php print $seriesurl.$seriestid ?>">
@@ -118,7 +120,7 @@ var jiathis_config={
 								<?php print $directory?>
 
 							</div>
-							
+							<indexAreaEnd><!--  索引内容 结束 --></indexAreaEnd>
 							<!--最佳组合开始-->
 							<div id="bestgroup">
 								<!--

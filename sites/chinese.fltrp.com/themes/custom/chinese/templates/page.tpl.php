@@ -17,7 +17,7 @@ if(!empty($node) && $node->type == 'other'){
 if(!empty($node) && $node->type == 'page'){
     $custom_style_file ='/css/extra.css';
     if(!empty($custom_style_file)){
-    $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','fltrp').$custom_style_file.'");</style>';
+    $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','chinese').$custom_style_file.'");</style>';
     print   $custom_style_uri ;
   }
 }
@@ -103,7 +103,7 @@ if(!empty($node) && $node->type == 'page'){
             <?php endif; ?>
             
             <?php if ($title): ?>
-              <h1 class="title"><?php print $title; ?></h1>
+              <!--<h1 class="title"><?php print $title; ?></h1>-->
             <?php endif; ?>
             
             <?php print $messages; ?>

@@ -42,11 +42,9 @@
         }
         else
         {
-                 $resources_base_url ='edu/';
-                 $resources_real_url = $resources_base_url.$resources_id;
+                 $resources_real_url = 'edu/'.$resources_id;
         }
-
     print $resources_term;
-        print  l($resources_title,$resources_real_url);
+    print  l($resources_title,$resources_real_url);
 ?>
 

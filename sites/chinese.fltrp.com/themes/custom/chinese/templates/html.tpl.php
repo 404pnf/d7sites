@@ -44,10 +44,17 @@
 	 case "searcher":
           $custom_style_file ='/css/searcher.css';
 		 break;
+         case "node/652":
+          $custom_style_file = '/css/training.css';
+                 break;
 	 }
 
  if(stristr($current_path,'news/'))
 			   $custom_style_file ='/css/information.css';
+
+ if(stristr($current_path,'node/652'))
+                           $custom_style_file ='/css/training.css';
+
 
  if(stristr($current_path,'edu/'))
                            $custom_style_file ='/css/resource.css';

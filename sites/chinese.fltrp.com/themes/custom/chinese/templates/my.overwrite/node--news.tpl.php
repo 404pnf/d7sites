@@ -3,7 +3,7 @@
 ?>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
-    
+    <indexAreaStart><!--  索引内容 开始 --></indexAreaStart>
     <?php if (!$page): ?>
       <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
     <?php endif; ?>
@@ -33,6 +33,7 @@
        ?>
 	<!--  文章内容 开始 -->
 		<div class="article">
+                        <h1 class="articletitle"><?php print $title?></h1>  
 			<span class="articledate"><?php print $publish_date?></span>
 			<div class="articlecontent">
 				<center>
@@ -97,6 +98,7 @@ span.stico_tqq{
 						<!--  分享结束  -->
                  </div>
   	  <!--  文章内容 结束-->
+  	  <indexAreaEnd><!--  索引内容 结束 --></indexAreaEnd>
     <?php if (!empty($content['links']['terms'])): ?>
       <div class="terms"><?php print render($content['links']['terms']); ?></div>
     <?php endif;?>
