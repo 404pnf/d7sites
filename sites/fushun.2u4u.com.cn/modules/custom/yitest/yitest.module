@@ -1,0 +1,46 @@
+<?php
+function nutch_search_form($form, &$form_state){
+  $form['nutch_search_content'] = array(
+      '#title' => t('Search'), 
+      '#type' => 'textfield', 
+      '#default_value' => '', 
+      '#size' => 20,
+      '#required' => false,
+  );
+  $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('search')
+      );
+  return $form;
+}
+
+function nutch_search_form_submit($form, &$form_state){
+  $url = 'http://129.0.0.48:9080/search.jsp?query='.urlencode($form_state['values']['nutch_search_content']);
+  drupal_goto($url);
+}
+
+/**
+ * hook_block_info()
+ */
+function yitest_block_info() {
+  //公司关注区块
+  $blocks['yitest_search'] = array(
+      'info' => t('yitest search'),
+      'cache' => DRUPAL_NO_CACHE,
+  );
+  return $blocks;
+}
+
+/**
+ * hook_block_view()
+ */
+function yitest_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+   case 'yitest_search':
+//       $block['subject'] = t('company focus');
+        $block['content'] = drupal_get_form('nutch_search_form');
+      break;
+  }
+  return $block;
+}

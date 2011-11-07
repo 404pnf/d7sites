@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * Implements hook_menu()
+ */
+function crawl_sites_menu(){
+  $items = array();
+  $items['admin/config/system/crawl-url-config'] = array(
+    'title' => 'crawl url config',
+    'description' => t('为了nutch抓取的时效性,你可以在这里添加你想要抓取特定页面的路径'),
+    'page arguments' => array('crawl_config_url_settings'),
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('administer crawl config'),
+  );
+  $items['crawl/url'] = array(
+    'title' => 'CRAWL URL',
+    'page callback' => 'get_crawl_url_site',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission()
+ */
+function crawl_sites_permission() {
+  return array(
+    'administer crawl config' => array(
+      'title' => 'Administer crawl config',
+    ),
+  );
+}
+
+function crawl_config_url_settings($form, &$form_state){
+  $form = array(
+    '#submit' => array('crawl_config_url_settings_submit'),
+  );
+  $form['crawl_urls'] = array(
+    '#type' => 'textarea',
+    '#title' => t('crawl url'),
+    '#default_value' =>implode("\n", variable_get('crawl_urls', array())),
+    '#description' => t('Please add your crawl url. Enter one site per line, in the form "http://sub.example.com/"')
+  );
+   return system_settings_form($form, FALSE);
+}
+
+function crawl_config_url_settings_submit($form, &$form_state){
+ if ($form_state['values']['crawl_urls']) {
+    // Transform the text string into an array.
+    $form_state['values']['crawl_urls'] = explode("\n", trim(str_replace("\r", '', $form_state['values']['crawl_urls'])));
+    // For each entry, remove the trailing slash (if present) and concatenate with a new trailing slash.
+    foreach ($form_state['values']['crawl_urls'] as &$crawl_urls) {
+      $crawl_urls = trim($crawl_urls, '/') .'/';
+    }
+  }
+  else {
+    $form_state['values']['crawl_urls'] = array();
+  }
+}
+
+function get_crawl_url_site(){
+   $crawl_urls = variable_get('crawl_urls', array());
+   $page_url = '';
+    foreach ($crawl_urls as $crawl_url) {
+      $page_url .= l(t($crawl_url),$crawl_url).'<br>';
+    } 
+    return $page_url;
+}
+
+/**
+ * Implements hook_cron()
+ */
+function crawl_sites_cron(){
+  $crawl_urls = variable_get('crawl_urls', array());
+  foreach ($crawl_urls as $crawl_url) {
+      $options = array(
+        'headers' => array('Content-Type' => 'application/x-www-form-urlencoded; charset=utf-8'),
+        'method' => 'POST',
+      );
+      $result = drupal_http_request($crawl_url, $options);
+      if ($result->code != 200) {
+        watchdog('crawl_sites', 'Error '.$result->code .' '. $result->error.' for site at '.$crawl_url.' at time '.date('Y-m-d H:i:s',time()));
+      }
+    } 
+}

@@ -1,0 +1,6 @@
+; $Id: $
+name = yitest
+description = yitest
+core = 7.x
+package = decoxy develope module
+version = "7.x"
