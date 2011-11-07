@@ -67,7 +67,7 @@
 							<p class="pfrist">系列名：<?php print $series?> </p>
 							<?php }?>	
 							<p>ISBN：<?php print $isbn?> </p>
-							<p>著译者：<?php print $author?>  </p>
+							<p>作者：<?php print $author?>  </p>
 							<p>开本：<?php print $format?> 页数：<?php print $pages?> 页  </p>
 							<p>出版日期：<?php print $publish_date?></p>
 							<p>定价：<?php print $price?></p>
@@ -84,24 +84,17 @@
 								<div id="share">
 									<span>分享到:</span>
 
-<!-- JiaThis Button BEGIN -->
-<div id="ckepop">
-     <a class="jiathis_button_tsina"></a>
-     <a class="jiathis_button_renren"></a>
-     <a class="jiathis_button_douban"></a>
-     <a class="jiathis_button_kaixin001"></a>
-     <a class="jiathis_button_tqq"></a>
-     <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
-     <a class="jiathis_counter_style"></a>
+<!-- ShareTo Button BEGIN -->
+<div class="shareto_toolbox">
+<a class="shareto_button_tsina"></a>
+<a class="shareto_button_renren"></a>
+<a class="shareto_button_douban"></a>
+<a class="shareto_button_kaixin001"></a>
+<a class="shareto_button_tqq"></a>
 </div>
-<script type="text/javascript" >
-var jiathis_config={
-        hideMore:false
-}
-</script>
-<script type="text/javascript" src="http://v2.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
-<!-- JiaThis Button END -->
 
+<script type="text/javascript" src="http://s.shareto.com.cn/js/shareto_button.js" charset="utf-8"></script>
+<!-- ShareTo Button END -->
 
 								</div>
 							</div>

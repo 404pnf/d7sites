@@ -1,6 +1,8 @@
 <?php
 // 资讯详细页模版
 ?>
+<indexAreaStart><!--  索引内容 开始 --></indexAreaStart>
+	
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
@@ -99,6 +101,9 @@ span.stico_tqq{
 <!--分享到----结束--->	
 						<!--  分享结束  -->
                  </div>
+                 					
+<indexAreaEnd><!--  索引内容 结束 --></indexAreaEnd>                 					
+
   	  <!--  文章内容 结束-->
     <?php if (!empty($content['links']['terms'])): ?>
       <div class="terms"><?php print render($content['links']['terms']); ?></div>

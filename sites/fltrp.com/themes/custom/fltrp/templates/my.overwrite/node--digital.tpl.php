@@ -3,7 +3,7 @@
 ?>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
-    
+<indexAreaStart></indexAreaStart>    
     <?php if (!$page): ?>
       <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
     <?php endif; ?>
@@ -93,7 +93,7 @@ span.stico_tqq{
 							
 						</div>
   	</div>
-  	
+  	<indexAreaEnd></indexAreaEnd>
     <?php if (!empty($content['links']['terms'])): ?>
       <div class="terms"><?php print render($content['links']['terms']); ?></div>
     <?php endif;?>
@@ -104,5 +104,4 @@ span.stico_tqq{
         
 	</div> <!-- /node-inner -->
 </div> <!-- /node-->
-
 <?php print render($content['comments']); ?>

@@ -1,6 +1,6 @@
 <link href="/static/css/bookinfoswitch.css" media="all" rel="stylesheet" type="text/css"> 
 <link href="/static/css/shareto.css" media="all" rel="stylesheet" type="text/css">
-
+<indexAreaStart></indexAreaStart>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
@@ -140,7 +140,7 @@ var jiathis_config={
 							   <?php print $directory; ?>
 
 							</div>
-							
+							<indexAreaEnd></indexAreaEnd>
 							<!--最佳组合开始-->
 							<div id="bestgroup">
 								<!--

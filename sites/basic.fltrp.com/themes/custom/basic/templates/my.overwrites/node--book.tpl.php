@@ -1,6 +1,7 @@
 <link href="/static/css/bookinfoswitch.css" media="all" rel="stylesheet" type="text/css">
 <link href="/static/css/shareto.css" media="all" rel="stylesheet" type="text/css">
-<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
+<indexAreaStart></indexAreaStart>
+	<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
     <?php if (!$page): ?>
@@ -61,7 +62,7 @@
   	</div>
   
 	 <div id="bookinfo">
-							<!--<h1><?php print $title?></h1> -->
+							<h1><?php print $title?></h1> 
 							<div class="bookimg"><img src="<?php print $img?>" width="164" height="230" alt=""/></div>
 							<?php if(!empty($series)){?>
 							<p class="pfrist">系列名：<?php print l($series,$productlistUrl.$seriestid)?> </p>
@@ -119,7 +120,7 @@ var jiathis_config={
 								<?php print $directory?>
 
 							</div>
-							
+							<indexAreaEnd></indexAreaEnd>
 							<!--最佳组合开始-->
 							<div id="bestgroup">
 								<!--

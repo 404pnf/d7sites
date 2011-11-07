@@ -3,6 +3,9 @@
 <?php
 // 图书产品详细页模版
 ?>
+
+<indexAreaStart><!--  索引内容 开始 --></indexAreaStart>
+
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
@@ -122,6 +125,7 @@ var jiathis_config={
 								<?php print $directory?>
 
 							</div>
+<indexAreaEnd><!--  索引内容 结束 --></indexAreaEnd>  
 							
 							<!--最佳组合开始-->
 							<div id="bestgroup">
@@ -151,6 +155,7 @@ var jiathis_config={
 							
 						</div>
   	</div>
+  														
   	
     <?php if (!empty($content['links']['terms'])): ?>
       <div class="terms"><?php print render($content['links']['terms']); ?></div>

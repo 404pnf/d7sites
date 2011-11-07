@@ -25,10 +25,10 @@
  
         $famous_style ='';
 		$title = $node->title;        //标题
-		if(isset( $node->field_famous_works['zh-hans']))
-			$famous_works = $node->field_famous_works['zh-hans'][0]['value'];        //主要作品
-		if(isset( $node->field_famous_pingjia['zh-hans']))
-			$famous_pingjia = $node->field_famous_pingjia['zh-hans'][0]['value'];        //学术文化成就
+		//if(isset( $node->field_famous_works['zh-hans']))
+		//	$famous_works = $node->field_famous_works['zh-hans'][0]['value'];        //主要作品
+	//	if(isset( $node->field_famous_pingjia['zh-hans']))
+	//		$famous_pingjia = $node->field_famous_pingjia['zh-hans'][0]['value'];        //学术文化成就
 		$publish_date= date ('Y-m-d',$node->created);        //发布日期
 		$body = $node->body['zh-hans'][0]['value'];        //内容    
 		$newsimages=array();
@@ -54,14 +54,15 @@
 							<p><?php print render($content['body']);?>
 							</p>
 						</div>
-						<div class="infolist">
+						
+						<!--<div class="infolist">
 							<h3>主要作品</h3>
 							<p><?php print $famous_works?></p>
 						</div>
 						<div class="infolist">
 							<h3>学术文化成就</h3>
 							<p><p><?php print $famous_pingjia?></p></p>
-						</div>
+						</div>-->
 			</div>
 	<!--  名人沙龙 结束-->
 

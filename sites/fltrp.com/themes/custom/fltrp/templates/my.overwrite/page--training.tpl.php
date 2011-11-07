@@ -84,11 +84,9 @@
             
           </div> <!-- /#content-header -->
         <?php endif; ?>
-
         <div id="content-area">
           <?php print render($page['content']) ?>
         </div>
-
         <?php print $feed_icons; ?>
 
       </div>

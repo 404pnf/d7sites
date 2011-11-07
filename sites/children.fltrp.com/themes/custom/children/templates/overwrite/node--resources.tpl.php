@@ -1,4 +1,5 @@
-<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
+<indexAreaStart></indexAreaStart>
+	<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
     <?php if (!$page): ?>
@@ -52,7 +53,7 @@
 						</div>
 					</div>
 	<!--  文章内容 结束-->
-
+	<indexAreaEnd></indexAreaEnd>
 	
 
 
