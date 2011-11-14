@@ -14,9 +14,6 @@
   <?php if (!empty($title)) : ?>
     <h3><?php print $title; ?></h3>
   <?php endif; ?>
- <ul>
-  <li><a href="http://www.ncehome.com/nce">体系图</a></li>
- </ul>
   <?php print $list_type_prefix; ?>
     <?php foreach ($rows as $id => $row): ?>
       <li><?php print $row; ?></li>

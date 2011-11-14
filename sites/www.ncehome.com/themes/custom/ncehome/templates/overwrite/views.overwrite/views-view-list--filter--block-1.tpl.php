@@ -1,5 +1,6 @@
 
 
+
 <?php
 /**
  * @file views-view-list.tpl.php
@@ -20,4 +21,3 @@
     <?php endforeach; ?>
   <?php print $list_type_suffix; ?>
 <?php print $wrapper_suffix; ?>
-
