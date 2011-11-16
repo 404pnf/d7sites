@@ -1,0 +1,6 @@
+/* 隐藏届次提交 */
+.page-node-add-baoming .form-item-field-jieci-und {display:none;}
+/* 隐藏年级提交 */
+.page-node-add-baoming .form-item-field-grade-und {display:none;}
+/* 隐藏身份提交 */
+.page-node-add-baoming #edit-field-status {display:none;}
