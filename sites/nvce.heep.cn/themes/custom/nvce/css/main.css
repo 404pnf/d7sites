@@ -1,0 +1,38 @@
+.container{width:880px;overflow:auto;margin:0 auto;font-family:"\5FAE\8F6F\96C5\9ED1";}
+.header{margin-top:40px;overflow:auto; background:#999}
+#logo{overflow:auto;border-bottom:4px solid #fc2102;width:321px;float:left;}
+.opt{text-align:right;}
+.opt img{margin-top:6px;}
+.navsub{margin-top:33px;}
+.navsub ul{overflow:auto;text-align:center;background:url("../images/navbg.jpg") no-repeat;width:559px;height:35px;}
+.navsub ul li{float:left;line-height:34px!important;margin: 0 9px 0 8px;display:inline;}
+.navsub ul li.first{margin-left:15px;display:inline;}
+.navsub ul li.last{padding-right:0;padding-left:8px;}
+.navsub ul li a{color:#FFF;font-size:15px}
+.navsub ul li a:hover{color:#fc2012;}
+.navsub ul li a.active{color:#000;}
+
+.main{margin-top:20px;overflow:auto;}
+.article_content{background:#F7F7F7;border:1px solid #ddd;padding:30px;zoom:1}
+.tab,.tab ul{overflow:auto;_height:27px}
+.tab ul li{height:25px;float:left;background:#4E4443;border:1px solid #000;margin-right:10px;color:#FFF;line-height:25px;text-align:center;position: relative;z-index:0;padding:0 10px;cursor:pointer;font-size:14px;}
+.tab ul li.active{background:#fc2012;border:1px solid #fc2012;font-weight:700;}
+.artics  a{font-style:italic;color:#fc2012;font-weight:400;text-decoration:underline;}
+.artics{line-height:2em;font-size:13px;overflow:auto;}
+.artics p.datename{text-align:right;font-size:14px;font-weight:700;}
+.artics p{margin:5px 0;text-indent:2em;}
+.artics h2{margin-top:2em;color:#fc2012;font-size:14px;}
+.artics h3{margin:10px 0;font-size:14px}
+.artics h4{font-size:13px;font-weight:400;margin:0;font-size:13px;}
+.artics h5{margin-top:1em;color:#EE6401;font-size:14px;}
+.artics h6{margin-top:1em;margin-bottom:1em;color:#0097C6;font-size:14px;}
+.artics ul li{text-indent:1em;background:url("../images/blackpoint.gif") no-repeat 4px 12px;}
+.artics table{border:1px solid #999}
+.artics table td,.artics table th{padding:5px 20px;text-align:center;font-size:13px}
+.artics table th{font-weight:700;color:#fc2012}
+.artics .tbwrap{margin:20px;}
+.artics .tbwrap td{text-align:left;padding:5px 50px 5px 20px;}
+.clear{clear:both}
+.footer{text-align:center;font-size:12px;padding:20px 0 20px;}
+#content{margin-top:20px;}
+#content-area{_margin-top:-30px;}
