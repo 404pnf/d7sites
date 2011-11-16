@@ -1,0 +1,57 @@
+@charset "utf-8";
+
+/*——————————————————下面是四种页面布局的CSS，使用时取消注释即可——————————————————*/
+/*该CSS是使三列、俩列等高的布局样式，不需要时最好注释掉！以防止他影响其他的结构
+#main .column{position: relative;padding-bottom: 32767px !important;margin-bottom: -32767px !important; }*/
+
+/* 页面三列左中右布局 
+#content{float: left;width:600px;left:200px;position:relative;}
+#sidebar-first{float:left;width: 200px;left:-600px;background:#fc2010;}
+#sidebar-second{float: right;width: 160px;background:#fc2010;margin-left:-160px;}*/
+
+/* 页面二列左边栏布局 */
+#content{float: left;width: 765px;left: 220px;position:relative;}
+#sidebar-first{float: left;width: 220px;margin-left:-765px;}
+#sidebar-second{float: right;background-color: #f63; width:0;}
+
+/* 页面二列右边栏布局 
+#content{float: left;background-color: #e5e5e5;width:800px;left:0;position:relative;}
+#sidebar-first{float: left;background-color: #7bd;}
+#sidebar-second{float: right;background-color: #f63; width:160px;margin-left:-160px;}*/
+
+/* 一列布局 
+#content{width:985px;left:0;position:relative;}*/
+#page{background: url("../images/sec_02.jpg") repeat-x scroll center top transparent;}
+
+/*—————————————————— 这里开始每个页面具体的 css 样式 ——————————————————*/
+#main-top{width:985px;margin:0 auto;}
+.sidebartop{background-image: url("../images/left_bar_top.jpg");color: #FFFFFF;line-height: 36px;height:46px;margin:20px 0 0 0;text-indent:2em;}
+.sidebarmid{overflow:auto;}
+.sidebarmid li{background-image: url("../images/left_bar_mid.jpg");font-size: 12px;height: 33px;padding-left: 40px;line-height:33px;}
+.sidebarbot{font-size:0}
+.newstitle{background: url("../images/newstitle.jpg") no-repeat;color: #005AAE;font-size: 14px;line-height: 48px;padding-left: 68px;}
+.newslist{overflow:auto;font-size:12px;line-height:2.5em;}
+.newslist ul{overflow:auto;margin:0 60px 30px 60px;}
+.newslist ul li{background: url("../images/blackpoint.gif") no-repeat 12px 15px;text-indent:1.8em;padding:2px 0; margin:0 10px}
+.newslist ul li.first a{color:#fc2012}
+.article{overflow:auto;margin:20px 40px 0;}
+.article_title{text-align:center;}
+.article_content{font-size:12px;line-height:1.8em}
+
+
+.products{margin:0;}
+.products ul{overflow:auto;margin:0 10px 20px;}
+.products li{border-bottom:1px dotted #CCCCCC;overflow:auto;font-size:12px;line-height:2em;padding:15px 0;}
+.products li h4{margin:0;float:left}
+.products li p{margin:0;}
+.products li p img{margin:0 2px;}
+/* 配套产品 */
+.products ul{margin:0;}
+.products .pt{margin:20px 20px 0;}
+.pendetails li{width:353px;border:0;margin:0 2px 0 0;padding:2px 0;}
+.pendetails li .bmid{background: url("../images/bmid.jpg") repeat-y;height:190px;}
+.pendetails li .bmid img{margin:0 16px;}
+.pendetails li .bmid h3{padding:10px 0;margin-bottom:0;}
+.pendetails li .bmid p{margin-right:10px;}
+.title_img{margin-bottom:10px;}
+.pendetails li .bmid .more{float:right;padding-top:20px;}

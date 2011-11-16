@@ -1,0 +1,60 @@
+@charset "utf-8";
+
+/*——————————————————下面是四种页面布局的CSS，使用时取消注释即可——————————————————*/
+/*该CSS是使三列、俩列等高的布局样式，不需要时最好注释掉！以防止他影响其他的结构
+#main .column{position: relative;padding-bottom: 32767px !important;margin-bottom: -32767px !important; }*/
+
+/* 页面三列左中右布局 
+#content{float: left;width:600px;left:200px;position:relative;}
+#sidebar-first{float:left;width: 200px;left:-600px;background:#fc2010;}
+#sidebar-second{float: right;width: 160px;background:#fc2010;margin-left:-160px;}*/
+
+/* 页面二列左边栏布局 */
+#content{float: left;width: 765px;left: 220px;position:relative;}
+#sidebar-first{float: left;width: 220px;margin-left:-765px;}
+#sidebar-second{float: right;background-color: #f63; width:0;}
+
+/* 页面二列右边栏布局 
+#content{float: left;background-color: #e5e5e5;width:800px;left:0;position:relative;}
+#sidebar-first{float: left;background-color: #7bd;}
+#sidebar-second{float: right;background-color: #f63; width:160px;margin-left:-160px;}*/
+
+/* 一列布局 
+#content{width:985px;left:0;position:relative;}*/
+#page{background: url("../images/sec_02.jpg") repeat-x scroll center top transparent;}
+
+/*—————————————————— 这里开始每个页面具体的 css 样式 ——————————————————*/
+/****频道公用***/
+#main-top{width:985px;margin:0 auto;}
+.sidebartop{background-image: url("../images/left_bar_top.jpg");color: #FFFFFF;line-height: 36px;height:46px;margin:20px 0 0 0;text-indent:2em;}
+.sidebarmid{overflow:auto;}
+.sidebarmid li{background-image: url("../images/left_bar_mid.jpg");font-size: 12px;height: 33px;padding-left: 40px;line-height:33px;}
+.sidebarmid  h4{margin-bottom:0;}
+.sidebarbot{font-size:0}
+/****电子图书产品列表***/
+.sort{background: #F3F3F3;border:1px solid #999;color: #000;width:680px;padding:10px 0;font-size:12px;margin:10px auto;text-align:center;}
+.products ul{width:680px;margin:0 auto 20px;overflow:auto;}
+.products li{border-bottom:1px dotted #CCCCCC;overflow:auto;font-size:12px;padding:15px 0;overflow:auto;_height:205px}
+.products li img{margin:0 30px 20px 0;}
+.products li h4{margin:5px 0;}
+.products li p{margin:0;padding:5px 0;}
+.products li p img{margin:0 2px;}
+.dmark{width:680px;margin:20px auto;}
+
+/****电子图书产品详细***/
+.tips{font-size:12px;margin:20px 30px 10px;background:#E7E7E7;padding:10px;}
+.bookinfo{overflow:auto;font-size:12px;padding:15px 0;margin:0 30px;overflow:auto;}
+.bookinfo p,.bookinfo h4{margin:0;padding:5px 0;}
+.bookinfo img{margin:0 30px 40px 10px;}
+.products p img{margin:0;}
+.products p.fright{width:156px;}
+.related{padding:10px;border-top:1px dotted #ccc;margin:0 20px;font-size:12px;line-height:2em;}
+.related p{margin:0 10px 20px;width:556px;}
+.newstitle{background: url("../images/newstitle.jpg") no-repeat;color: #005AAE;font-size: 14px;line-height: 48px;padding-left: 68px;}
+.newslist{overflow:auto;font-size:12px;line-height:2.5em;}
+.newslist ul{overflow:auto;margin:0 0 30px 20px;}
+.newslist ul li{background: url("../images/blackpoint.gif") no-repeat 12px 15px;text-indent:1.8em;padding:2px 0; margin:0 10px;border:none;height:auto;}
+.newslist ul li.first a{color:#fc2012}
+.products li.col4{border:none;display:inline;_height:240px;_margin:0 12px;}
+.products li.col4 img {margin:0 0 20px 0;}
+.products li.col4 a{display:block;text-align:center;}

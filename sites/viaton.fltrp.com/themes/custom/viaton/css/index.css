@@ -20,6 +20,18 @@
 #sidebar-second{float: right;background-color: #f63; width:160px;margin-left:-160px;}*/
 
 /* 一列布局 */
-#content{width:960px;left:0;position:relative;}
+#content{width:985px;left:0;position:relative;}
+#page{background: url("../images/bodybg.jpg") no-repeat scroll center top transparent;}
 
 /*—————————————————— 这里开始每个页面具体的 css 样式 ——————————————————*/
+#content-area .fleft,#content-area .fright{ margin:0}
+.mainsecond .col3{margin:0;}
+.mainsecond .fir{ width:320px; font-size:12px;} 
+.mainsecond .thr{ width:208px;margin-top: 14px;} 
+.mainsecond .sec{ width:418px;margin-top: 34px;} 
+.mainsecond .newslist{overflow:auto;line-height:1.8em;font-size:12px}
+.mainsecond .newslist .title{font-weight:700; position:relative}
+.mainsecond .newslist ul{overflow:auto;}
+.mainsecond .newslist ul li{background: url("../images/blackpoint.gif") no-repeat 12px 12px;text-indent:1.8em;padding:2px 0; margin:0 10px}
+.mainsecond .newslist ul li.first a{color:#fc2012}
+.more{padding:10px; position:absolute; font-size:12px;font-weight:400;right:20px;}

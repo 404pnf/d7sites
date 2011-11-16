@@ -1,11 +1,142 @@
 @charset "utf-8";
-
 /* 这个是当前整个站点公共的样式表 */
 /*包括全站布局样式、超链接、页头、页脚以及一些可共用的列表*/
 
-#header,#footer{width: 960px;margin: 0 auto;overflow:auto;background:red;}
-#footer{clear:both;}
-#main{position: relative;width: 960px;margin: 0 auto;overflow: hidden;background:blue;}
-#main .column{position: relative;}
-#main-top,#main-bottom{width:100%;clear:both;background:yellow;}
-.topnav{overflow:auto;background:green;}
+#header, #footer {
+	width: 985px;
+	margin: 0 auto;
+	overflow:auto;
+}
+#footer {
+	clear:both;
+}
+#main {
+	position: relative;
+	width: 985px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+#main .column {
+	position: relative;
+}
+#main-top, #main-bottom {
+	width:100%;
+	clear:both;
+}
+.topnav {
+	overflow:auto;
+}
+#logo {
+	float:left;
+	display:block;
+}
+/**全站导航**/
+.menu {
+	height: 58px;
+	margin: 0 auto;
+	width:850px
+}
+#nav .mainlevel {
+	background: url("images/686.jpg") repeat-x scroll 0 0 #EC7710;
+	display: block;
+	float: left;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: center;
+}
+#nav .mainlevel a {
+	color: #000000;
+	display: block;
+	font-size: 12px;
+	font-weight: bold;
+	height: 34px;
+	line-height: 34px;
+	padding: 0 20px;
+	text-align: center;
+	text-decoration: none;
+	width: 65px;
+}
+#nav {
+	display: block;
+}
+#nav .mainlevel a:hover {
+	background: url("images/slide-pannel_14.png") repeat-x scroll 0 0 #EC7710;
+	color: #281300;
+	font-size: 12px;
+	font-weight: bold;
+	text-decoration: none;
+}
+#nav .mainlevel ul {
+	display: none;
+	font-size: 12px;
+	font-weight: bold;
+	position: absolute;
+}
+#nav .mainlevel li {
+	background: none repeat scroll 0 0 #F3A45F;
+	float: left;
+	font-size: 12px;
+	font-weight: bold;
+}
+#nav .mainlevel li a {
+	display: block;
+	font-size: 12px;
+	font-weight: bold;
+	height: 24px;
+	line-height: 24px;
+	padding: 0 8px;
+}
+#nav .mainlevel li a:hover {
+	background: url("images/slide-pannel_14.png") repeat-x scroll 0 0 #678900;
+	color: #281300;
+	font-size: 12px;
+	font-weight: bold;
+	text-decoration: none;
+}
+#nav li a em {
+	font-size: 12px;
+	font-weight: bold;
+	padding: 0 3px;
+}
+#footer {
+	margin-top:20px;
+}
+/**服务友情链接**/
+#header-region table td{ text-align:right; vertical-align:middle;font-size:12px}
+#header-region .fright{margin-top:5px;margin-bottom:0;}
+/**新闻分页**/
+.pagenum{text-align:center;}
+.pagenum a{font-size:12px;padding-right:4px;font-size:13px;color:#333;text-decoration:underline;}
+.pagenum a.active{color:#fc2012}
+.pagenum span{font-size:12px;padding:0 20px 0;}
+/**选项卡**/
+#con {
+	FONT-SIZE: 12px; MARGIN: 0px auto; WIDTH: 700px; height:100%;
+}
+#tags {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px 0px 0px 10px; WIDTH: 550px; PADDING-TOP: 0px; HEIGHT: 24px;overflow:hidden;
+}
+#tags LI {
+	BACKGROUND: url(../images/tagleft.gif) no-repeat left bottom; FLOAT: left; MARGIN-RIGHT: 1px; LIST-STYLE-TYPE: none; HEIGHT: 23px;padding:0;border:none;
+}
+#tags LI A {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; BACKGROUND: url(../images/tagright.gif) no-repeat right bottom; FLOAT: left; PADDING-BOTTOM: 0px; COLOR: #999; LINE-HEIGHT: 23px; PADDING-TOP: 0px; HEIGHT: 23px; TEXT-DECORATION: none
+}
+#tags LI.emptyTag {
+	BACKGROUND: none transparent scroll repeat 0% 0%; WIDTH: 4px
+}
+#tags LI.selectTag {
+	BACKGROUND-POSITION: left top; MARGIN-BOTTOM: -2px; POSITION: relative; HEIGHT: 25px;_POSITION: auto;
+}
+#tags LI.selectTag A {
+	BACKGROUND-POSITION: right top; COLOR: #000; LINE-HEIGHT: 25px; HEIGHT: 25px
+}
+#tagContent {
+	BORDER-RIGHT: #d8bf76 0px solid; PADDING-RIGHT: 1px; BORDER-TOP: #d8bf76 1px solid; PADDING-LEFT: 1px; PADDING-BOTTOM: 1px; BORDER-LEFT: #d8bf76 0px solid; PADDING-TOP: 1px; BORDER-BOTTOM: #d8bf76 0px solid; BACKGROUND-COLOR: #fff;line-height:24px;
+}
+.tagContent {
+	PADDING-RIGHT: 10px; DISPLAY: none; PADDING-LEFT: 10px; PADDING-BOTTOM: 10px; WIDTH: 556px; COLOR: #474747; PADDING-TOP: 20px; 
+}
+#tagContent DIV.selectTag {
+	DISPLAY: block
+}
