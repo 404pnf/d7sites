@@ -1,6 +1,8 @@
 <?php
 // 资讯详细页模版
 ?>
+<indexAreaStart><!--  索引内容 开始 --></indexAreaStart>
+	
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
 	<div class="node-inner">
     
@@ -82,30 +84,26 @@ span.stico_tqq{
 }
 </style>
 
-<!-- JiaThis Button BEGIN -->
-<div id="ckepop">
-     <a class="jiathis_button_tsina"></a>
-     <a class="jiathis_button_renren"></a>
-     <a class="jiathis_button_douban"></a>
-     <a class="jiathis_button_kaixin001"></a>
-     <a class="jiathis_button_tqq"></a>
-     <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
-     <a class="jiathis_counter_style"></a>
+<!-- ShareTo Button BEGIN -->
+<div class="shareto_toolbox">
+<a class="shareto_button_tsina"></a>
+<a class="shareto_button_renren"></a>
+<a class="shareto_button_douban"></a>
+<a class="shareto_button_kaixin001"></a>
+<a class="shareto_button_tqq"></a>
 </div>
-<script type="text/javascript" >
-var jiathis_config={
-        hideMore:false
-}
-</script>
-<script type="text/javascript" src="http://v2.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
-<!-- JiaThis Button END -->
 
+<script type="text/javascript" src="http://s.shareto.com.cn/js/shareto_button.js" charset="utf-8"></script>
+<!-- ShareTo Button END -->
 
 								</div>
 							</div>
 <!--分享到----结束--->	
 						<!--  分享结束  -->
                  </div>
+                 					
+<indexAreaEnd><!--  索引内容 结束 --></indexAreaEnd>                 					
+
   	  <!--  文章内容 结束-->
     <?php if (!empty($content['links']['terms'])): ?>
       <div class="terms"><?php print render($content['links']['terms']); ?></div>
