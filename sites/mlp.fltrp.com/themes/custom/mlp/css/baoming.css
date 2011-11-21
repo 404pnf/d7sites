@@ -4,3 +4,19 @@
 .page-node-add-baoming .form-item-field-grade-und {display:none;}
 /* 隐藏身份提交 */
 .page-node-add-baoming #edit-field-status {display:none;}
+/* /viewall 页面让table撑满 */
+.page-viewall .inner {width:99%;}
+.page-viewall .inner table {width:99%;}
+/* 在这里问一下weixuan，为什么 layout.css 中 .inner 的地应删除了 width 100%; ? */
+
+#block-block-9{margin:0 50px;line-height:2em;padding:10px 0;border-bottom:1px solid #aaa;}
+#content-area{margin-left:50px;line-height:2em;}
+#sidebar-second {
+    margin-left: -481px;
+    width: 461px;
+	margin-top:20px;
+}
+#sidebar-second-inner{width:90%;}
+#block-block-10{line-height:2em;}
+#block-block-10 img{margin-top:20px;}
+#block-block-10 p{background:#EEE;padding:30px;border:1px solid #CCC;margin-right:20px;}
