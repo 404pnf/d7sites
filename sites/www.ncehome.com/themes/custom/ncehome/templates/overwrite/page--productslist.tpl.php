@@ -93,40 +93,21 @@
 
         <div id="content-area">
 
-  <!--产品列表 排序-->
-   <?php
 
-			$output ="";
-			$url = "productslist";
-			$category = arg(1);
-
-
-			$sort_by="";
-			$sort_order="";
-
-			if(isset( $_GET["sort_by"]))
-   			    $sort_by = $_GET["sort_by"];
-			
-			if(isset( $_GET["sort_order"]))
-				$sort_order = $_GET["sort_order"];
-
-
-			if($sort_order=="ASC")
-					$sort_order="DESC";
-			else
-					$sort_order="ASC";
-
-
-			$output.='<a href="/'.$url.'/'.$category;
-
-   ?>
-                              
-                                <!-- 获得当前分类介绍 -->
+                                <!-- 获得当前分类下的系列 -->
                                            <?php
+                                                   $category = arg(1);
                                                    $views_name = 'category';
-                                                   $display_id = 'intro';
-                                                   print views_embed_view($views_name, $display_id);
+                                                   $display_id = 'series';
+                                                   print views_embed_view($views_name, $display_id,$category);
                                             ?>
+
+
+
+
+
+                              
+                              
 
 
 
@@ -141,9 +122,12 @@
 				<!-- 	产品列表 开始	 -->			
 				<?php
    				        $category = arg(1);
+                                        $arg2=arg(2);
+                                         if($arg2==null)
+                                            $arg2='all';
                                         $views_name = 'products';
                                         $display_id = 'productslist';
-                                        print views_embed_view($views_name, $display_id,$category);
+                                        print views_embed_view($views_name, $display_id,$category,$arg2);
                ?>
 	   			<!-- 	//产品列表 结束	 -->		
 

@@ -42,7 +42,7 @@
 .products{margin:0;}
 .products ul{overflow:auto;margin:0 10px 20px;}
 .products li{border-bottom:1px dotted #CCCCCC;overflow:auto;font-size:12px;line-height:2em;padding:15px 0;}
-.products li h4{margin:0;float:left}
+.products li h4{margin:0;}
 .products li p{margin:0;}
 .products li p img{margin:0 2px;}
 /* 配套产品 */

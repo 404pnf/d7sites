@@ -28,31 +28,34 @@
           $custom_style_file ='/css/product.css';
 		 break;
 	case "news":
-          $custom_style_file ='/css/information.css';
+          $custom_style_file ='/css/news.css';
 		 break;	
 	case "newsmore":
           $custom_style_file ='/css/information.css';
 	      break;
-	case "famous":
-          $custom_style_file ='/css/salon.css';
-			break;
+
 	case "newsdetails":
           $custom_style_file ='/css/information.css';
 	      break;
 	case "searcher":
           $custom_style_file ='/css/searcher.css';
 		 break;
+	case "digital-pen":
+          $custom_style_file ='/css/penproducts.css';
+		 break;
 	 }
 
+ if(stristr($current_path,'digital-pen/'))
+			   $custom_style_file ='/css/penproducts.css';
 
- if(stristr($current_path,'newsdetails/'))
-			   $custom_style_file ='/css/information.css';
+
+ if(stristr($current_path,'newsdetails/')||stristr($current_path,'news/')||stristr($current_path,'research/'))
+			   $custom_style_file ='/css/news.css';
 
  if(stristr($current_path,'productslist/')||stristr($current_path,'product/')||stristr($current_path,'products/'))
 			   $custom_style_file ='/css/product.css';
 
- if(stristr($current_path,'famousdetails/'))
-			   $custom_style_file ='/css/salon.css';
+
 
 if(!empty($custom_style_file)){
     $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.path_to_theme().$custom_style_file.'");</style>';

@@ -6,7 +6,10 @@
 
 function custom_search_menu() {
 	
-	$items ['searchpage'] = array ('title' => '搜索', 'description' => t ( '搜索' ), 'page callback' => 'custom_search_show_result', 'access callback' => true );
+	$items ['searchpage'] = array ('title' => '搜索', 
+                                       'description' => t ( '搜索' ), 
+                                       'page callback' => 'custom_search_show_result', 
+                                       'access callback' => true );
 	
 	return $items;
 
