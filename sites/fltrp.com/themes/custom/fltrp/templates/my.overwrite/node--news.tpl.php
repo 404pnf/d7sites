@@ -34,6 +34,7 @@
 	<!--  文章内容 开始 -->
 		<div class="article">
 			<h1 class="articletitle"><?php print $title?></h1>
+			<h2 class="subtitle"><?php print render($content['field_news_fubiaoti']);?></h2>
 			<span class="articledate"><?php print $publish_date?></span>
 			<div class="articlecontent">
 				<center>
@@ -67,6 +68,9 @@
 				?>
 			</center>
 			<?php print render($content['body']);?>
+
+		 <?php print render($content['field_news_video']);?>
+
 			<?php print render($content['field_news_attachment']);?>
 		</div>							
 	</div>
