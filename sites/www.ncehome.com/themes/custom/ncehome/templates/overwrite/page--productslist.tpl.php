@@ -125,7 +125,7 @@
                                         $arg2=arg(2);
                                          if($arg2==null)
                                             $arg2='all';
-                                        $views_name = 'products';
+                                        $views_name = 'series_list_books';
                                         $display_id = 'productslist';
                                         print views_embed_view($views_name, $display_id,$category,$arg2);
                ?>

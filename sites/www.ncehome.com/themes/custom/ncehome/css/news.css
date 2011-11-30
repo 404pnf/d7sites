@@ -1,0 +1,15 @@
+
+#content-inner{ margin-left: 228px;}
+/* 咨询列表*/
+.newslist {overflow:auto;}
+.newslist h2{ color:#A00407;padding-bottom:10px; border-bottom:1px dashed #CCC; }
+.newslist li{ line-height: 36px; background:url("/fltrp/images/blackpoint.gif") no-repeat .6em 50% ; text-indent:1.8em;font-size:12px}
+.newslist li a{ color: #272727; margin-right: 12px;}
+.newslist li span{ color: #a9a9a9; font-size: 12px;}
+
+/* 资讯文章页*/
+.redborder{ border: 1px solid #EFD9DB;margin-left: 5px!important; width: 740px!important; padding-bottom: 40px}
+.articletitle{ text-align: center; font-size: 26px;padding-top:36px;}
+.articledate{ display: block; margin: 10px 20px 30px; text-align: right; color: #999; font-size: 12px; border-bottom: 1px dashed #ddd; padding-bottom: 14px}
+.articlecontent{ margin: 20px 40px;}
+.articlecontent p{ text-indent:2em; line-height:2em;}

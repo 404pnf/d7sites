@@ -1,5 +1,6 @@
 
 
+
 <?php
 /**
  * @file views-view-list.tpl.php
@@ -10,10 +11,12 @@
  * @ingroup views_templates
  */
 ?>
+
 <?php print $wrapper_prefix; ?>
+<h2 class="secondtitle"><a class="more" href="">更多&gt;&gt;</a>重点教材</h2>
+
   <?php if (!empty($title)) : ?>
-   <?php //print $title; ?>
-   <a class="menu m1" href="#">教材<br>体系</a>
+    <h3><?php print $title; ?></h3>
   <?php endif; ?>
   <?php print $list_type_prefix; ?>
     <?php foreach ($rows as $id => $row): ?>

@@ -1,5 +1,7 @@
 
 
+
+
 <?php
 /**
  * @file views-view-list.tpl.php
@@ -12,12 +14,11 @@
 ?>
 <?php print $wrapper_prefix; ?>
   <?php if (!empty($title)) : ?>
-   <?php //print $title; ?>
-   <a class="menu m1" href="#">教材<br>体系</a>
+    <h3><?php print $title; ?></h3>
   <?php endif; ?>
   <?php print $list_type_prefix; ?>
     <?php foreach ($rows as $id => $row): ?>
-      <li><?php print $row; ?></li>
+      <li class="column"><?php print $row; ?></li>
     <?php endforeach; ?>
   <?php print $list_type_suffix; ?>
 <?php print $wrapper_suffix; ?>

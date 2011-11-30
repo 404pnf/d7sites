@@ -1,0 +1,68 @@
+/* 新概念*/
+#content-inner{ margin-left: 222px;}
+/* 超级情景背诵图*/
+.newtabs{height:100px;}
+.newtabs li{background:#FCF2F1;border:1px solid #CE9898;width:178px;margin:0 9px 7px 0;color:#000;display:inline;float:left;line-height:40px;text-align:center;}
+.newtabs li.active{background:#880320;color:#FFF;}
+.artics{font-size:12px;line-height:2em;}
+.artics p{margin-bottom:8px;}
+.artics img{margin-bottom:10px;}
+.artics li{color:#B58604;}
+.artics1{text-align:center;}
+.artics2{font-size:13px}
+.artics2 ul li{font-size:13px}
+.artics2 p{text-indent:2em;}
+.artics2 img{margin-top:5px;}
+.artics2 .fleft{margin:10px 30px 20px 10px;}
+.hezuo{margin-left:10px;margin-top:10px;}
+.hezuo-mid{background: url("../images/zwqwmid.gif") repeat-y;}
+.hezuo-bot{font-size:0;}
+.hezuo img{margin-bottom:0;}img
+.experlist{height:110px;font-size:12px;margin:0 20px;border-bottom:1px dashed #DDD;margin-top:0px;padding-top:10px;overflow:hidden;width:680px;}
+.experlist h3{margin:0}
+.artics3{font-size:14px;width:750px;}
+.artics3 p{text-indent:2em;margin-left:10px;margin-right:10px;}
+.artics3 .com1{border-bottom:1px dashed #aaa;padding-bottom:10px;margin-bottom:20px;font-size:12px;margin-top:10px;}
+.artics4 p{font-size:14px;text-indent:2em;line-height:2.3em;}
+.artics4 img.btn{margin:20px 0;}
+.artics4 img.fcenter{margin:20px 0;}
+.artics4 .f12{font-size:12px;text-indent:0em;}
+.artics4  ul li{color:#000}
+.artics4  ul li span{color:#b68606;}
+.artics5{line-height:2.4em;}
+.artics5 .com1{overflow:auto;}
+.artics5 .othertab-content ul li{color:#000;line-height:3.4em;}
+.artics5 .othertab-content a{color:#000;}
+.artics5 ul li span{color:#D58709;}
+.artics6  p{text-indent:2em;}
+.artics6 li{color:#000;line-height:2.4em;padding-left:1em;}
+.artics6 a{color:#000;}
+.artics6 img{margin:20px 0;}
+.com2 p{font-size:12px}
+.com2 .name p{line-height:1.4em;}
+.othertab{height:30px;}
+.othertab li{float:left;width:90px;height:30px;margin-right:0;background: url("../images/tabnavbg.gif") no-repeat -90px 0;text-align:center;line-height:34px;font-size:12px;color:#000;margin-right:1px;overflow:hidden;}
+.othertab li.active{background: url("../images/tabnavbg.gif") no-repeat -0 0;font-weight:700;color:#FFF;}
+.othertab-content{border:1px solid #CCC;border-top-width:2px;border-top-color:#4C4C4C;padding:20px;width:700px;overflow:hidden;background:#F8F8F8;}
+.othertab-content .oc1 p{margin-bottom:1.3em;font-size:12px;margin-top:1em;}
+.othertab-content .oc1 p.fcenter{text-indent:0;}
+.oc2 p{font-size:12px}
+.othertab-content .oc2 h3{font-size:14px}
+.othertab-content .oc2 p.fcenter{text-indent:0;padding-top:2em;margin-left:0;}
+.oc3 p,.oc4 p{font-size:12px}
+.othertab-content h3{color:#AE0202;margin-bottom:2px;margin-left:1em; font-size:12px}
+.othertab-content span{color:#AE0202;font-weight:700;}
+.oc4 p,.oc5 p{font-size:12px;margin-bottom:20px;}
+.oc4 p.fcenter,.oc5 p.fcenter{text-indent:0;}
+.oc6 p{text-indent:1em;}
+/* 新概念图书列表*/
+.productlist{ overflow: auto;border:1px solid #CCC;margin-top:20px;}
+.product-title{line-height:32px;background: url("../images/product-title-bg.gif") repeat-x;height:32px;text-indent:1em;border-bottom:1px solid #ccc;font-size:14px;color:#8E0001;font-weight:700;}
+.productlist li{ border-bottom: 1px dashed #999; padding: 15px 0 10px 0; overflow: auto; font-size: 12px;_zoom:1;*+height:164px}
+.productlist li a{ color:#1D1D1D;}
+.productlist li p{color: #999;line-height:1.4em;}
+.productlist li img{ float: left; margin-right: 15px;}
+.productlist li.column{margin:0 20px;}
+.productlist .imgbg{background:url("../images/imgbg.gif") no-repeat 0 0; width: 115px; height: 156px; float: left; margin-right:20px}
+.productlist .imgbg img{padding:3px;float:none;text-align:center;}
+.productlist .r img {float:none;display:block;margin-top:10px;}

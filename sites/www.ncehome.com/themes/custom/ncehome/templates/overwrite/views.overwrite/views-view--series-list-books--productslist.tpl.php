@@ -29,8 +29,6 @@
  * @ingroup views_templates
  */
 ?>
-
-<div class="logoNav">
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
     <?php print $title; ?>
@@ -40,10 +38,20 @@
       <?php print $header; ?>
   <?php endif; ?>
 
-
+  <?php if ($exposed): ?>
+      <?php print $exposed; ?>
+  <?php endif; ?>
+  
   <?php if ($rows): ?>
       <?php print $rows; ?>
   <?php elseif ($empty): ?>
       <?php print $empty; ?>
   <?php endif; ?>
-</div>
+
+  <?php if ($pager): ?>
+    <?php print $pager; ?>
+  <?php endif; ?>
+
+
+
+

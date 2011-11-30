@@ -1,0 +1,35 @@
+/* 新概念*/
+#content-inner{ margin-left: 222px;}
+/* 超级情景背诵图*/
+.newtabs{height:46px;margin-top:20px;}
+.newtabs li{background:#FCF2F1;border:1px solid #CE9898;padding:10px 40px;margin:0 9px 0 0;color:#000;display:inline;float:left;}
+.newtabs li a{color:#000;}
+.newtabs li.active{background:#880320;color:#FFF;}
+.newtabs li:hover{background:#880320;color:#FFF;}
+.newtabs li:hover a{color:#FFF}
+/* 新概念图书列表*/
+.tab{height:32px; border: 1px solid #DFDFDF;background: url("../images/product-title-bg.gif") repeat-x;}
+.tab li{ float: left; padding: 9px 30px; border-right:1px solid #ccc; font-size: 12px; position: relative;}
+.tab li.strong{ font-weight: 700; font-size: 13px;overflow: hidden;padding: 8px 30px;}
+.tab li.active{color: #FFF; font-weight: 700;height:14px;background:#C8261D;}
+.tab li{ float: left; padding: 9px 30px; border-right:1px solid #ccc; font-size: 12px; position: relative;}
+.pro-name{color:#9A0B03;margin-bottom:6px;}
+.productlist{ overflow: auto;}
+.productlist h3{margin-top:10px;}
+.productlist li{ border-bottom: 1px dashed #999; padding:20px 0 20px 0; overflow: auto; font-size: 12px;_zoom:1;*+height:178px}
+.productlist li a{ color:#1D1D1D;}
+.productlist li p{color: #999;line-height:1.4em;}
+.productlist li img{ float: left; margin-right: 15px;}
+.productlist .imgbg{background:url("../images/pro-listbg.jpg") no-repeat 0 0; width: 131px; height: 177px; float: left;margin:0 20px 0 2px;}
+.productlist .imgbg img{padding:3px;float:none;text-align:center;}
+.productlist .r img {display:block;margin-top:20px;margin-right:6px;}
+/*编辑推荐  recommendation*/
+.recommendation{overflow:hidden; width:750px;height:110px;border: 1px solid #fee9b9; margin:0 0 16px; background-image:url("../images/tuijian20110623.gif"); background-color:#FFFEF7; background-repeat: no-repeat; position: relative;}
+.recommendation .fleft{background:url("../images/lrb_03.jpg") 0 -22px; width:23px; height: 23px; position: absolute; top:44px;left:60px;}
+.recommendation .fright{background:url("../images/lrb_03.jpg"); width:23px; height: 23px; position: absolute;top:44px;left:680px; }
+.srlist{ width: 760px;}
+.srlist ul{ overflow: auto;margin: 0 30px 0 80px;}
+.srlist ul li.column3{ float: left; margin: 0;width: 31%;} 
+.srlist ul li a{ display: block; font-size: 12px ;color: #666;}
+.srlist ul li p{padding-top: 20px;}
+.srlist ul li a img{ float: left; margin: 10px;}

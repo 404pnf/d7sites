@@ -1,0 +1,69 @@
+/* 综合英语分社公用样式*/
+body{ background:#fff;}
+
+/* Logo 和菜单*/
+#header{width: 980px; margin: 0 auto;overflow: auto;background:none;}
+#header-region{ overflow: auto;}
+#main{width:980px; margin: 0 auto; background: #fff}
+#logo{position:absolute;margin:0;}
+.login{ margin-top: 45px;overflow:auto;}
+.login input{width:auto;padding: 4px 2px 4px 10px;}
+.login .submit{width:51px;height:25px;background: url("../images/login.gif") no-repeat;border:0;padding-left:4px;color:#7D6501;font-size:12px;font-weight:700;}
+.logoNav{background: url("../images/navbg.jpg") no-repeat;width:979px;height:79px;margin-top:80px;}
+.menu{display:block;float:left;color:#ebdddd;font-weight:700;_display:inline}
+.menu a{font-weight:700;color:#ebdddd;}
+.m1{margin:22px 0 0 24px;line-height:1.2em;}
+.m2{margin:5px 0 0 15px;width:320px;overflow:hidden;}
+.m2 li{float:left;border-left:1px solid #f0CCCD;margin-left:-1px;margin-top:12px;padding:0 10px;white-space:nowrap;}
+.m3{margin:22px 0 0 17px;line-height:1.2em;}
+.m4{margin:5px 0 0 15px;width:320px;overflow:hidden;}
+.m4 li{float:left;border-left:1px solid #f0CCCD;margin-left:-1px;margin-top:12px;padding:0 10px;}
+.m5{line-height:9.5em;height:6em;overflow:hidden;margin-left:28px;font-size:13px}
+.m6{line-height:9.5em;height:6em;overflow:hidden;margin-left:28px;font-size:13px}
+
+/* sidebar-first 左侧导航*/
+#sidebar-first{ width: 226px; margin-right: -226px;}
+#sidebar-first-inner{margin: 0; width: 201px;}
+#sidebar-first-inner .outul li{line-height:2.3em;overflow: auto;*zoom:1; margin:0 10px;border-bottom:1px dashed #bbc;text-align:center;}
+#sidebar-first-inner .outul li a{ font-size: 12px; color: #131313;;}
+#sidebar-first-inner h3{background: url("../images/sidebarnav_e.jpg") no-repeat;height: 36px;line-height:36px;margin:0;text-indent: 1em;color:#660000}
+#sidebar-first-inner h3.open{background: url("../images/sidebarnav_o.jpg") no-repeat;height: 36px;line-height:37px;margin:0;text-indent: 1em;}
+#sidebar-first-inner .top{margin:10px 0 0 0;}
+#sidebar-first-inner .mid{background:#F4F4F4;border:1px solid #D3D3D3;border-top:0}
+#sidebar-first-inner .wrapul{margin:10px 0 0 0;}
+#sidebar-second{ width: 240px; margin-left: -240px}
+#sidebar-second-inner{margin:0;width: 239px;}
+.ad{ margin-top: 10px;}
+
+/* footer */
+#footer{ background: #FFF; width: 980px; margin: 0 auto; padding: 30px 0 50px}
+#footer .fcenter{ border-top: 2px solid #980100; padding: 4px 0}
+#footer .footernav{background:#EFF4F3; height: 30px; width: 100%; margin-bottom: 20px}
+#footer ul{ line-height: 30px; margin:0 40px; width: auto; height: auto;margin-bottom: 20px;overflow: hidden;}
+#footer ul li{border-left: 1px solid #094A71; margin: 8px 0 0 -1px; float: left;line-height: 14px;margin-left: -1px;padding: 0 10px;}
+#footer ul li a{ color:#094A71; font-size: 12px;}
+#footer p {color: #666666;font-size: 12px;margin: 10px 0 0;text-align: center;}
+
+/* 分页*/
+.item-list .pager li {margin: 0;}
+
+/* 焦点大图和搜索*/
+.flash{border:1px solid #DDD;overflow:auto;*margin-top:12px}
+
+/* 面包屑*/
+.breadcrumb{margin-top:10px;}
+.breadcrumb a{font-size:12px;color:#000;}
+
+
+.topnav {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: #8C0101;
+    background-image: none;
+    background-origin: padding-box;
+    background-position: 0 0;
+    background-repeat: repeat;
+    background-size: auto auto;
+    height: 34px;
+    min-width: 980px;
+}

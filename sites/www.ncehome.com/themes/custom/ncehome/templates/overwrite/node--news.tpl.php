@@ -77,14 +77,23 @@
                         <div id="share">
                           <span>分享到:</span>
                           <!-- ShareTo Button BEGIN -->
-                          <div class="shareto_toolbox">
-                           <a class="shareto_button_tsina"></a>
-                           <a class="shareto_button_renren"></a>
-                           <a class="shareto_button_douban"></a>
-                           <a class="shareto_button_kaixin001"></a>
-                           <a class="shareto_button_tqq"></a>
-                          </div>
-                       <script type="text/javascript" src="http://s.shareto.com.cn/js/shareto_button.js" charset="utf-8"></script>
+                          <style>
+                           span.stico_tqq{
+                                      background-position:0 -592px;
+                                      }
+                          </style>
+
+                          <!-- ShareTo Button BEGIN -->
+                             <div class="shareto_toolbox">
+                              <a class="shareto_button_tsina"></a>
+                              <a class="shareto_button_renren"></a>
+                              <a class="shareto_button_douban"></a>
+                              <a class="shareto_button_kaixin001"></a>
+                              <a class="shareto_button_tqq"></a>
+                             </div>
+
+                         <script type="text/javascript" src="http://s.shareto.com.cn/js/shareto_button.js" charset="utf-8"></script>
+
                        <!-- ShareTo Button END -->
 
                                                                 </div>

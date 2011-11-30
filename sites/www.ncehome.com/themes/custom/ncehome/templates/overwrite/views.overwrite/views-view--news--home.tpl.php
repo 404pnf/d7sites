@@ -1,6 +1,5 @@
 
 
-
 <?php
 /**
  * @file views-view.tpl.php
@@ -29,8 +28,7 @@
  * @ingroup views_templates
  */
 ?>
-
-<div class="logoNav">
+<div class="textlist">
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
     <?php print $title; ?>
@@ -40,10 +38,11 @@
       <?php print $header; ?>
   <?php endif; ?>
 
-
   <?php if ($rows): ?>
       <?php print $rows; ?>
   <?php elseif ($empty): ?>
       <?php print $empty; ?>
   <?php endif; ?>
-</div>
+
+</div> 
+
