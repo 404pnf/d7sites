@@ -52,8 +52,8 @@
  if(stristr($current_path,'newsdetails/')||stristr($current_path,'news/')||stristr($current_path,'research/'))
 			   $custom_style_file ='/css/news.css';
 
- if(stristr($current_path,'productslist/')||stristr($current_path,'product/')||stristr($current_path,'products/'))
-			   $custom_style_file ='/css/product.css';
+ if(stristr($current_path,'productslist/')||stristr($current_path,'product/')||stristr($current_path,'products/')||stristr($current_path,'digital/'))
+			   $custom_style_file ='/css/bookproducts.css';
 
 
 
