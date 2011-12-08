@@ -63,3 +63,7 @@ h1.title {
 	font-size:14px;
 	line-height: 28px;
 }
+
+/* 让评分页面的作文题目明显一些，路径是 /pingfen 只有编辑和管理员可以查看 */
+
+.view-pingfen h1 {font-size: 3em;}
