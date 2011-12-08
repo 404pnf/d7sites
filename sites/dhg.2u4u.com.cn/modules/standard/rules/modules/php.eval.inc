@@ -1,5 +1,4 @@
 <?php
-// $Id: php.eval.inc,v 1.1.2.1 2010/12/16 09:30:43 fago Exp $
 
 /**
  * @file
@@ -73,7 +72,7 @@ class RulesPHPDataProcessor extends RulesDataProcessor {
       '#title' => t('PHP evaluation'),
       '#collapsible' => TRUE,
       '#collapsed' => empty($settings['code']),
-      '#description' => t('Enter PHP code to proccess the selected argument value.'),
+      '#description' => t('Enter PHP code to process the selected argument value.'),
     );
     $form['code'] = array(
       '#type' => 'textarea',

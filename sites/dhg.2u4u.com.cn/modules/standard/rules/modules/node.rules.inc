@@ -1,5 +1,4 @@
 <?php
-// $Id: node.rules.inc,v 1.1.2.2 2011/01/04 13:08:35 fago Exp $
 
 /**
  * @file rules integration for the node module
@@ -47,6 +46,8 @@ function rules_node_event_info() {
           'type' => 'text',
           'label' => t('view mode'),
           'options list' => 'rules_get_entity_view_modes',
+          // Add the entity-type for the options list callback.
+          'options list entity type' => 'node',
         ),
       ),
       'access callback' => 'rules_node_integration_access',

@@ -1,5 +1,4 @@
 <?php
-// $Id: rules_test.rules_defaults.inc,v 1.1.2.4 2011/01/13 18:06:48 fago Exp $
 
 /**
  * @file Includes any rules integration provided by the module.
@@ -27,6 +26,45 @@ function rules_test_default_rules_configuration() {
   // Test providing a rule using an export.
   $configs['rules_export_test'] = rules_import(_rules_export_get_test_export());
 
+  // An action set used to test merging term parents.
+  $configs['rules_retrieve_term_parents'] = rules_import('{ "rules_retrieve_term_parents" : {
+    "LABEL" : "Retrieve term parents",
+    "PLUGIN" : "action set",
+    "REQUIRES" : [ "rules" ],
+    "USES VARIABLES" : {
+      "terms" : { "label" : "Terms", "type" : "list\u003ctaxonomy_term\u003e" },
+      "term_parents" : {
+        "label" : "Term parents",
+        "type" : "list\u003ctaxonomy_term\u003e",
+        "parameter" : false
+      }
+    },
+    "ACTION SET" : [
+      { "LOOP" : {
+          "USING" : { "list" : [ "terms" ] },
+          "ITEM" : { "current_term" : "Current term" },
+          "DO" : [
+            { "LOOP" : {
+                "USING" : { "list" : [ "current-term:parent" ] },
+                "ITEM" : { "current_parent" : "Current parent" },
+                "DO" : [
+                  { "list_add" : {
+                      "list" : [ "term-parents" ],
+                      "item" : [ "current-parent" ],
+                      "unique" : 1
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "PROVIDES VARIABLES" : [ "term_parents" ]
+  }
+}');
+
   return $configs;
 }
 
@@ -39,6 +77,7 @@ function _rules_export_get_test_export() {
     "PLUGIN" : "reaction rule",
     "WEIGHT" : "-1",
     "ACTIVE" : false,
+    "TAGS" : [ "bar", "baz", "foo" ],
     "REQUIRES" : [ "rules", "comment" ],
     "ON" : [ "comment_insert" ],
     "IF" : [
@@ -48,7 +87,8 @@ function _rules_export_get_test_export() {
               "node" : [ "comment:node" ],
               "type" : { "value" : { "page" : "page" } }
             }
-          }
+          },
+          { "NOT AND" : [ { "OR" : [] } ] }
         ]
       }
     ],
@@ -67,6 +107,12 @@ function _rules_export_get_test_export() {
       { "drupal_message" : {
           "message" : "fein, [comment:node:title] has been made sticky!",
           "type" : [ "level" ]
+        }
+      },
+      { "LOOP" : {
+          "USING" : { "list" : [ "site:current-user:roles" ] },
+          "ITEM" : { "current_role" : "Current role" },
+          "DO" : [ { "drupal_message" : { "message" : [ "current-role" ] } } ]
         }
       }
     ]

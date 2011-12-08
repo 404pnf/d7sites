@@ -1,5 +1,4 @@
 <?php
-// $Id: system.rules.inc,v 1.1.2.2 2011/02/09 17:38:18 fago Exp $
 
 /**
  * @file rules integration for the system module
@@ -266,7 +265,7 @@ function rules_system_evaluator_info() {
   return array(
     'token' => array(
       'class' => 'RulesTokenEvaluator',
-      'type' => array('text', 'uri', 'token'),
+      'type' => array('text', 'uri', 'list<text>', 'list<uri>'),
       'weight' => 0,
      ),
   );

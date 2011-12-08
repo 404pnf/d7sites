@@ -1,5 +1,4 @@
 <?php
-// $Id: rules.api.php,v 1.1.2.8 2011/02/16 17:22:34 fago Exp $
 
 /**
  * @file
@@ -69,8 +68,8 @@
  *     action. All types declared in hook_rules_data_info() may be specified, as
  *     well as an array of possible types. Also lists and lists of a given type
  *     can be specified by using the notating list<integer> as introduced by
- *     the entity metadata module. The special keyword '*' can be used when all
- *     types should be allowed. Required.
+ *     the entity metadata module, see hook_entity_property_info(). The special
+ *     keyword '*' can be used when all types should be allowed. Required.
  *   - bundles: (optional) An array of bundle names. When the specified type is
  *     set to a single entity type, this may be used to restrict the allowed
  *     bundles.
@@ -243,15 +242,23 @@ function hook_rules_condition_info() {
  *     described by a sub-array with the possible attributes:
  *     - label: The label of the variable. Start capitalized. Required.
  *     - type: The rules data type of the variable. All types declared in
- *       hook_rules_data_info() may be specified. Types may be parametrized e.g.
- *       the types node<page> or list<integer> are valid.
- *     - 'skip save': If the variable is saved after the event has occured
+ *       hook_rules_data_info() or supported by hook_entity_property_info() may
+ *       be specified.
+ *     - bundle: (optional) If the type is an entity type, the bundle of the
+ *       entity.
+ *     - description: (optional) A description for the variable.
+ *     - 'options list': (optional) A callback that returns an array of possible
+ *       values for this variable as specified for entity properties at
+ *       hook_entity_property_info().
+ *     - 'skip save': If the variable is saved after the event has occurred
  *       anyway, set this to TRUE. So rules won't save the variable a second
  *       time. Optional, defaults to FALSE.
  *     - handler: A handler to load the actual variable value. This is useful
  *       for lazy loading variables. The handler gets all so far available
  *       variables passed in the order as defined. Optional. Also see
- *       http://drupal.org/node/298554.
+ *       http://drupal.org/node/884554.
+ *       Note that for lazy-loading entities just the entity id may be passed
+ *       as variable value, so a handler is not necessary in that case.
  *
  *  @see rules_invoke_event()
  */
@@ -276,7 +283,7 @@ function hook_rules_event_info() {
       'label' => t('Content is going to be viewed'),
       'group' => t('Node'),
       'variables' => rules_events_node_variables(t('viewed content')) + array(
-        'build_mode' => array('type' => 'string', 'label' => t('view mode')),
+        'view_mode' => array('type' => 'text', 'label' => t('view mode')),
       ),
     ),
     'node_delete' => array(
@@ -818,6 +825,74 @@ function hook_rules_component_alter($plugin, RulesPlugin $component) {
  * @see rules_invoke_event()
  */
 function hook_rules_event_set_alter($event_name, RulesEventSet $event_set) {
+
+}
+
+/**
+ * D6 to D7 upgrade procedure hook for mapping action or condition names.
+ *
+ * If for a module the action or condition name changed since Drupal 6, this
+ * "hook" can be implemented in order to map to the new name of the action or
+ * condition.
+ *
+ * This is no real hook, but a callback that is invoked for each Drupal 6
+ * action or condition that is to be upgraded to Drupal 7. E.g. the function
+ * name called for the action "rules_action_set_node_title" would be
+ * "rules_action_set_node_title_upgrade_map_name".
+ *
+ * @param $element
+ *   The element array of a configured condition or action which is to be
+ *   upgraded.
+ * @return
+ *   The name of the action or condition which should be used.
+ */
+function hook_rules_action_base_upgrade_map_name($element) {
+  return 'data_set';
+}
+
+/**
+ * D6 to D7 upgrade procedure hook for mapping action or condition configuration.
+ *
+ * During upgrading Drupal 6 rule configurations to Drupal 7 Rules is taking
+ * care of upgrading the configuration of all known parameters, which only works
+ * if the parameter name has not changed.
+ * If something changed, this callback can be used to properly apply the
+ * configruation of the Drupal 6 action ($element) to the Drupal 7 version
+ * ($target).
+ *
+ * This is no real hook, but a callback that is invoked for each Drupal 6
+ * action or condition that is to be upgraded to Drupal 7. E.g. the function
+ * name called for the action "rules_action_set_node_title" would be
+ * "rules_action_set_node_title_upgrade".
+ *
+ * @param $element
+ *   The element array of a configured condition or action which is to be
+ *   upgraded.
+ * @param $target
+ *   The Drupal 7 version of the configured element.
+ *
+ * @see hook_rules_element_upgrade_alter()
+ */
+function hook_rules_action_base_upgrade($element, RulesPlugin $target) {
+  $target->settings['data:select'] = $element['#settings']['#argument map']['node'] . ':title';
+  $target->settings['value'] = $element['#settings']['title'];
+}
+
+/**
+ * D6 to D7 upgrade procedure hook for mapping action or condition configuration.
+ *
+ * A alter hook that is called after the action/condition specific callback for
+ * each element of a configuration that is upgraded.
+ *
+ * @param $element
+ *   The element array of a configured condition or action which is to be
+ *   upgraded.
+ * @param $target
+ *   The Drupal 7 version of the configured element.
+ *
+ * @see hook_rules_action_base_upgrade()
+ */
+function hook_rules_element_upgrade_alter($element, $target) {
 
 }
 

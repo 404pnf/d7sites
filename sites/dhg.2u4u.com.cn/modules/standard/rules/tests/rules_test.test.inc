@@ -1,5 +1,4 @@
 <?php
-// $Id: rules_test.test.inc,v 1.1.2.3 2011/02/16 17:22:34 fago Exp $
 
 /**
  * @file Include file for testing file inclusion.
@@ -9,7 +8,7 @@
  * Extender for the node data type.
  */
 function rules_test_custom_node_save($object) {
-  throw new RulesException('Custom save method invoked.');
+  throw new RulesEvaluationException('Custom save method invoked.');
 }
 
 

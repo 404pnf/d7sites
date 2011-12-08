@@ -1,5 +1,4 @@
 <?php
-// $Id: php.rules.inc,v 1.1.2.1 2010/12/16 09:30:43 fago Exp $
 
 /**
  * @file rules integration for the php module
@@ -22,7 +21,7 @@ function rules_php_evaluator_info() {
   return array(
     'php' => array(
       'class' => 'RulesPHPEvaluator',
-      'type' => array('text', 'token', 'uri'),
+      'type' => array('text', 'uri'),
       'weight' => -10,
       'module' => 'php',
     ),
@@ -56,12 +55,23 @@ function rules_php_action_info() {
           'restriction' => 'input',
           'type' => 'text',
           'label' => t('PHP code'),
+          'description' => t('Enter PHP code without &lt;?php ?&gt; delimiters.'),
         ),
       ),
       'base' => 'rules_execute_php_eval',
       'access callback' => 'rules_php_integration_access',
     ),
   );
+}
+
+/**
+ * Alter the form for improved UX.
+ */
+function rules_execute_php_eval_form_alter(&$form, &$form_state) {
+  // Remove the PHP evaluation help to avoid confusion whether <?php tags should
+  // be used. But keep the help about available variables.
+  $form['parameter']['code']['settings']['help']['php']['#type'] = 'container';
+  $form['parameter']['code']['settings']['help']['php']['top']['#markup'] = t('The following variables are available and may be used by your PHP code:');
 }
 
 /**
@@ -98,6 +108,7 @@ function rules_php_condition_info() {
           'restriction' => 'input',
           'type' => 'text',
           'label' => t('PHP code'),
+          'description' => t('Enter PHP code without &lt;?php ?&gt; delimiters that returns a boolean value; e.g. <code>@code</code>.', array('@code' => "return arg(0) == 'node';")),
         ),
       ),
       'base' => 'rules_execute_php_eval',
