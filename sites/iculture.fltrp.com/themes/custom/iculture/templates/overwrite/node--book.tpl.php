@@ -32,8 +32,9 @@
 		$isbn = $node->field_isbn['und'][0]['value'];        //ISBN
 		$author = $node->field_author['und'][0]['value'];        //作者名
 		$format = $node->field_format['und'][0]['taxonomy_term']->name;        //开本
-		$pages = $node->field_pages['und'][0]['value'];        //页数
-		$zdfs = $node->field_zdfs['und'][0]['taxonomy_term']->name;;        //装订方式
+		if(!empty($node->field_pages['und']))
+			$pages = $node->field_pages['und'][0]['value'];        //页数
+		//$zdfs = $node->field_zdfs['und'][0]['taxonomy_term']->name;;        //装订方式
 		$publish_date= $node->field_publish_date['und'][0]['value'];        //发布日期
 		$price = $node->field_price['und'][0]['value'];        //价格
 	    $img = $node->field_img['und'][0]['uri'];        //封面
@@ -84,21 +85,28 @@
 								<div id="share">
 									<span>分享到:</span>
 
-<!-- ShareTo Button BEGIN -->
-<div class="shareto_toolbox">
-<a class="shareto_button_tsina"></a>
-<a class="shareto_button_renren"></a>
-<a class="shareto_button_douban"></a>
-<a class="shareto_button_kaixin001"></a>
-<a class="shareto_button_tqq"></a>
+<!-- JiaThis Button BEGIN -->
+<div id="ckepop">
+     <a class="jiathis_button_tsina"></a>
+     <a class="jiathis_button_renren"></a>
+     <a class="jiathis_button_douban"></a>
+     <a class="jiathis_button_kaixin001"></a>
+     <a class="jiathis_button_tqq"></a>
+     <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+     <a class="jiathis_counter_style"></a>
 </div>
+<script type="text/javascript" >
+var jiathis_config={
+        hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v2.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
 
-<script type="text/javascript" src="http://s.shareto.com.cn/js/shareto_button.js" charset="utf-8"></script>
-<!-- ShareTo Button END -->
 
 								</div>
 							</div>
-<!--分享到----结束--->							
+<!--分享到----结束--->						
 							<p class="sel">
 							<span>内容简介</span>
 								<span>章节目录</span>

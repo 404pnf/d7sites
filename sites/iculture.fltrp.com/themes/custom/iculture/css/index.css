@@ -30,7 +30,7 @@ a.more{ float: right;font-size:12px; color:#E27A27;font-weight:400; padding-righ
 #sidebar-first-inner .slong h3{ height:29px; background:url(../images/leftsidebartitle.gif) no-repeat; margin:0}
 .slong{ margin:0 8px 0 8px; font-size:12px;color:#fff; padding:10px 0 0}
 .slong li{ border-bottom:1px dashed #6A5540; padding-bottom:20px; margin-top:22px}
-.author{ height:72px; background:#6A5540; color:#fff; display:block; padding:0; margin-bottom:20px;}
+.author{ height:85px; background:#6A5540; color:#fff; display:block; padding:0; margin-bottom:20px;}
 .author:hover{ text-decoration:none;}
 .author img{ float:left; margin-right:10px;}
 .slong .author p{text-indent:0; padding-top:6px;line-height:1.2em}

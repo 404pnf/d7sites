@@ -57,11 +57,11 @@
 						
 						<!--<div class="infolist">
 							<h3>主要作品</h3>
-							<p><?php print $famous_works?></p>
+							<p><?php   //print $famous_works?></p>
 						</div>
 						<div class="infolist">
 							<h3>学术文化成就</h3>
-							<p><p><?php print $famous_pingjia?></p></p>
+							<p><p><?php //print $famous_pingjia?></p></p>
 						</div>-->
 			</div>
 	<!--  名人沙龙 结束-->
