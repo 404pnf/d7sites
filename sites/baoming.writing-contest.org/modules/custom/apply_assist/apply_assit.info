@@ -1,7 +1,7 @@
 ; $Id$
 name = apply assit
-description = ccec报名助手，生成准考证，默认下个报名继承上个报名的级别信息；
-package = ccec.2u4u.com.cn
+description = 写作大赛报名助手，用来限制某个组别报名数；
+package = writing-contest.org
 
 
 project = 2u4u

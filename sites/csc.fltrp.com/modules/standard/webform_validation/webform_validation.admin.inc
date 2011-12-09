@@ -1,5 +1,4 @@
 <?php
-// $Id: webform_validation.admin.inc,v 1.7.4.3 2010/12/31 12:46:01 xeniox Exp $
 
 /**
  * @file
@@ -45,7 +44,7 @@ function theme_webform_validation_manage_overview($variables) {
       $component_info = webform_validation_rule_components_basic($rule['components']);
       $row = array();
       $row[] = array(
-        'data' => $rule['rulename'],
+        'data' => check_plain($rule['rulename']),
       );
       $row[] = array(
         'data' => $validators[$rule['validator']],
@@ -133,12 +132,13 @@ function webform_validation_manage_rule($form, $form_state, $node, $action = 'ad
     '#default_value' => (isset($rule['components'])) ? array_keys($rule['components']) : array(),
   );
 
-  if (is_array($rule_validator['custom_data'])) {
+  if (isset($rule_validator['custom_data']) && is_array($rule_validator['custom_data'])) {
+    $required = isset($rule_validator['custom_data']['required']) ? $rule_validator['custom_data']['required'] : TRUE;
     $form['rule']['data'] = array(
       '#type' => 'textfield',
       '#title' => $rule_validator['custom_data']['label'],
       '#description' => $rule_validator['custom_data']['description'],
-      '#required' => TRUE,
+      '#required' => ($required !== FALSE) ? TRUE : FALSE,
       '#size' => 60,
       '#maxlength' => 255,
       '#default_value' => $rule['data'],
@@ -146,7 +146,7 @@ function webform_validation_manage_rule($form, $form_state, $node, $action = 'ad
     );
   }
 
-  if (isset($rule_validator['custom_error']) && $rule_validator['custom_error']) {
+  if (isset($rule_validator['custom_error'])) {
     $form['rule']['error_message'] = array(
       '#type' => 'textfield',
       '#title' => t('Custom error message'),

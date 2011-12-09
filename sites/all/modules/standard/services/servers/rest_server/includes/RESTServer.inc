@@ -21,35 +21,31 @@ class RESTServer {
 
     // Determine the request method
     $method = $_SERVER['REQUEST_METHOD'];
-    if ($method=='POST' && isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])) {
+    if ($method == 'POST' && isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])) {
       $method = $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
     }
-    if ($method=='POST' && (isset($_GET['_method']) && $_GET['_method'])) {
+    if ($method == 'POST' && (isset($_GET['_method']) && $_GET['_method'])) {
       $method = $_GET['_method'];
     }
-    $path = explode('/', $canonical_path);
-    $leaf = array_pop($path);
-    $resource_name = array_shift($path);
-    // Extract response format info from the path
-    $matches=array();
-    if ($leaf && preg_match('/^(.+)\.([^\.]+)$/', $leaf, $matches)) {
-      $leaf = $matches[1];
+    if (isset($_GET['_method'])) {
+      unset($_GET['_method']);
+    }
+    // Extract response format info from the canonical path.
+    $matches = array();
+    $response_format = '';
+    if (preg_match('/^(.+)\.([^\.^\/]+)$/', $canonical_path, $matches)) {
+      $canonical_path = $matches[1];
       $response_format = $matches[2];
     }
+
+    // Prepare $path array and $resource_name.
+    $path = explode('/', $canonical_path);
+    $resource_name = array_shift($path);
+
     // Response will vary with accept headers
     // if no format was supplied as path suffix
     if (empty($response_format)) {
       drupal_add_http_header('Vary', 'Accept');
-    }
-
-    // Return the leaf to the path array if it's not the resource name
-    if (isset($leaf)) {
-      if (!$resource_name) {
-        $resource_name = $leaf;
-      }
-      else {
-        array_push($path, $leaf);
-      }
     }
 
     $endpoint = services_get_server_info('endpoint', '');
@@ -70,18 +66,21 @@ class RESTServer {
       $controller = $this->resolveController($resource, $method, $path);
     }
     else {
-      throw new ServicesException(t('Could not find resource @name', array(
-          '@name' => $resource_name,
-        )), 404);
+      //This will stop the 404 from happening when you request just the endpoint.
+      if ($endpoint_definition->path == $resource_name) {
+        $response = t('Services Endpoint "@name" has been setup successfully.', array('@name' => $endpoint));
+        drupal_alter('services_endpoint_response', $response);
+        return $response;
+      }
+      return services_error(t('Could not find resource @name.', array('@name' => $resource_name)), 404);
     }
 
     if (!$controller) {
-      throw new ServicesException('Could not find the controller', 404);
+      return services_error(t('Could not find the controller.'), 404);
     }
 
     // Parse the request data
-    $data = array();
-    $arguments = $this->getControllerArguments($controller, $path, $method, $data);
+    $arguments = $this->getControllerArguments($controller, $path, $method);
 
     $formats = $this->responseFormatters();
 
@@ -101,21 +100,16 @@ class RESTServer {
       }
 
       // Get the best matching format, default to json
+      $response_format = 'json';
       if (isset($_SERVER['HTTP_ACCEPT'])) {
         $mime = $this->mimeParse();
         $mime_type = $mime->best_match($mime_candidates, $_SERVER['HTTP_ACCEPT']);
-      }
-
-      if (isset($mime_type) && $mime_type) {
         $response_format = $mime_map[$mime_type];
-      }
-      else {
-        $response_format = 'json';
       }
     }
 
     // Check if we support the response format and determine the mime type
-    if (empty($mime_type) && !empty($response_format) && isset($formats[$response_format])) {
+    if (empty($mime_type) && isset($formats[$response_format])) {
       $formatter = $formats[$response_format];
       if (!isset($formatter['model']) || $this->supportedControllerModel($controller, $formatter)) {
         $mime_type = $formatter['mime types'][0];
@@ -123,7 +117,7 @@ class RESTServer {
     }
 
     if (empty($response_format) || empty($mime_type)) {
-      throw new ServicesException('Unknown or unsupported response format', 406);
+      return services_error(t('Unknown or unsupported response format.'), 406);
     }
 
     // Give the model (if any) a opportunity to alter the arguments.
@@ -153,7 +147,8 @@ class RESTServer {
 
     try {
       $result = services_controller_execute($controller, $arguments);
-    } catch (ServicesException $e) {
+    }
+    catch (ServicesException $e) {
       $errors = $this->handleException($e);
       drupal_alter('rest_server_execute_errors', $errors, $controller, $arguments);
       $result = $errors;
@@ -184,33 +179,25 @@ class RESTServer {
    *
    * @param array $controller
    *  The controller definition
-   * @param string $path
+   * @param array $path
    * @param string $method
    *  The method used to make the request
-   * @param array $sources
-   *  An array of the sources used for getting the arguments for the call
    * @return void
    */
-  private function getControllerArguments($controller, $path, $method, &$sources=array()) {
-    // Get argument sources
-    $parameters = $_GET;
-    if (isset($parameters['_method'])) {
-      unset($parameters['_method']);
-    }
-
+  private function getControllerArguments($controller, $path, $method) {
     $data = $this->parseRequest($method, $controller);
     drupal_alter('rest_server_request_parsed', $data, $controller);
 
-    $defaults = array(
+    $headers = $this->parseRequestHeaders();
+    drupal_alter('rest_server_headers_parsed', $headers);
+
+    $sources = array(
       'path' => $path,
-      'param' => $parameters,
+      'param' => $_GET,
       'data' => $data,
+      'headers' => $headers,
     );
-    foreach ($defaults as $key => $data) {
-      if (!isset($sources[$key])) {
-        $sources[$key] = $data;
-      }
-    }
+
     // Map source data to arguments.
     $arguments = array();
     if (isset($controller['args'])) {
@@ -237,21 +224,23 @@ class RESTServer {
         // When argument isn't set, insert default value if provided or
         // throw a exception if the argument isn't optional.
         if (!isset($arguments[$i])) {
-          if (isset($info['default value'])) {
-            $arguments[$i] = $info['default value'];
+          if (!isset($info['optional']) || !$info['optional']) {
+            return services_error(t('Missing required argument @arg', array('@arg' => $info['name'])), 401);
           }
-          elseif (!isset($info['optional']) || !$info['optional']) {
-            return services_error(t('Missing required argument @arg', array(
-              '@arg' => $info['name'],
-            )), 401);
-          }
-          else {
-            $arguments[$i] = NULL;
-          }
+          // Set default value or NULL if default value is not set.
+         $arguments[$i] = isset($info['default value']) ? $info['default value'] : NULL;
         }
       }
     }
     return $arguments;
+  }
+
+  private function parseRequestHeaders() {
+    $headers = array();
+    if (!empty($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+      $headers['IF_MODIFIED_SINCE'] = strtotime(preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']));
+    }
+    return $headers;
   }
 
   private function parseRequest($method, $controller) {
@@ -271,22 +260,26 @@ class RESTServer {
         // Get the parser for the mime type
         $parser = $this->requestParser($mime, $controller);
         if (!$parser) {
-          throw new ServicesException(t('Unsupported request content type !mime', array(
-              '!mime' => $mime,
-            )), 406);
+          return services_error(t('Unsupported request content type @mime', array('@mime' => $mime)), 406);
         }
-
-        // Read the raw input stream
-        if (module_exists('inputstream')) {
-          $handle = fopen('drupal://input', 'r');
+        // php://input is not available with enctype="multipart/form-data".
+        // see http://php.net/manual/en/wrappers.php.php
+        if ($mime == 'multipart/form-data') {
+          $data = call_user_func($parser);
         }
         else {
-          $handle = fopen('php://input', 'r');
-        }
+          // Read the raw input stream
+          if (module_exists('inputstream')) {
+            $handle = fopen('drupal://input', 'r');
+          }
+          else {
+            $handle = fopen('php://input', 'r');
+          }
 
-        if ($handle) {
-          $data = call_user_func($parser, $handle);
-          fclose($handle);
+          if ($handle) {
+            $data = call_user_func($parser, $handle);
+            fclose($handle);
+          }
         }
         return $data;
 
@@ -329,7 +322,7 @@ class RESTServer {
     return $content;
   }
 
-  public static function fileRecieve($handle, $validators=array()) {
+  public static function fileRecieve($handle, $validators = array()) {
     $validators['file_validate_name_length'] = array();
 
     $type = RESTServer::parseContentHeader($_SERVER['CONTENT_TYPE']);
@@ -362,7 +355,7 @@ class RESTServer {
       $errors = array_merge($errors, call_user_func_array($function, $args));
     }
     if (!empty($errors)) {
-      throw new ServicesException(t('Errors while validating the file'), 406, $errors);
+      return services_error(t('Errors while validating the file - @errors', array('@errors' => implode(" ", $errors))), 406);
     }
 
     drupal_write_record('files', $file);
@@ -403,28 +396,28 @@ class RESTServer {
     return $view->render();
   }
 
-  private function requestParser($mime = NULL, $controller = NULL) {
+  /**
+   * Get best match parser for $controller based on $mime type.
+   */
+  private function requestParser($mime, $controller = NULL) {
     // Check if the controller has declared support for parsing the mime type.
-    if ($mime && $controller && !empty($controller['rest request parsers'])) {
-      $parser = $this->matchParser($mime, $controller['rest request parsers'], TRUE);
+    if ($controller && !empty($controller['rest request parsers'])) {
+      $parser = $this->matchParser($mime, $controller['rest request parsers']);
       if ($parser) {
         return $parser;
       }
     }
 
-    if ($mime) {
-      $parsers = rest_server_request_parsers();
+    $parsers = rest_server_request_parsers();
 
-      // Remove parsers that have been disabled for this endpoint.
-      foreach (array_keys($parsers) as $key) {
-        if (!$this->settings['parsers'][$key]) {
-          unset($parsers[$key]);
-        }
+    // Remove parsers that have been disabled for this endpoint.
+    foreach (array_keys($parsers) as $key) {
+      if (!$this->settings['parsers'][$key]) {
+        unset($parsers[$key]);
       }
-
-      return $this->matchParser($mime, $parsers);
     }
-    return FALSE;
+
+    return $this->matchParser($mime, $parsers);
   }
 
   /**
@@ -448,12 +441,10 @@ class RESTServer {
    *  The mime-type of the request.
    * @param array $parsers
    *  An associative array of parser callbacks keyed by mime-type.
-   * @param bool $allow_all_parsers
-   *  Pass TRUE to bypass the settings for allowed parsers.
    * @return mixed
    *  Returns a parser callback or FALSE if no match was found.
    */
-  private function matchParser($mime, $parsers, $allow_all_parsers = FALSE) {
+  private function matchParser($mime, $parsers) {
     $mimeparse = $this->mimeParse();
     $mime_type = $mimeparse->best_match(array_keys($parsers), $mime);
 
@@ -473,12 +464,20 @@ class RESTServer {
     return json_decode(self::contentFromStream($handle), TRUE);
   }
 
+  public static function parseFile($handle) {
+    return self::contentFromStream($handle);
+  }
+
+  public static function parseMultipart() {
+    return $_POST;
+  }
+
   public static function parseYAML($handle) {
     module_load_include('php', 'rest_server', 'lib/spyc');
     return Spyc::YAMLLoadString(self::contentFromStream($handle));
   }
 
-  private function responseFormatters($format=NULL) {
+  private function responseFormatters($format = NULL) {
     $formatters = rest_server_response_formatters();
 
     // Remove formatters that have been disabled for this endpoint.
@@ -493,10 +492,6 @@ class RESTServer {
     }
 
     return $formatters;
-  }
-
-  private function loadInclude($file) {
-    module_load_include($file['file'], $file['module'], isset($file['name'])?$file['name']:NULL);
   }
 
   private function supportedControllerModel($controller, $format) {
@@ -518,9 +513,7 @@ class RESTServer {
       return isset($resource['index']) ? $resource['index'] : NULL;
     }
     // Detect the standard crud operations
-    elseif (
-        ($pc==1 && ($method=='GET' || $method=='PUT' || $method=='DELETE')) ||
-        ($pc==0 && $method='POST')) {
+    elseif (($pc == 1 && ($method == 'GET' || $method == 'PUT' || $method == 'DELETE')) || ($pc == 0 && $method == 'POST')) {
       $action_mapping = array(
         'GET' => 'retrieve',
         'POST' => 'create',
@@ -555,15 +548,21 @@ class RESTServer {
   function handleException($exception){
     $code = $exception->getCode();
     switch ($code) {
+      case 204:
+        drupal_add_http_header('HTTP/1.0 204 No Content', $exception->getMessage());
+        break;
+      case 304:
+        drupal_add_http_header('HTTP/1.0 304 Not Modified', $exception->getMessage());
+        break;
       case 401:
         drupal_add_http_header('HTTP/1.0 401 Unauthorized', $exception->getMessage());
-      break;
+        break;
       case 404:
         drupal_add_http_header('HTTP/1.0 404 Not found', $exception->getMessage());
-      break;
+        break;
       case 406:
         drupal_add_http_header('HTTP/1.0 406 Not Acceptable', $exception->getMessage());
-      break;
+        break;
       default:
         if ($code >= 400 && $code < 600) {
           drupal_add_http_header('HTTP/1.0 ' . $code, $exception->getMessage());
@@ -571,7 +570,7 @@ class RESTServer {
         else {
           drupal_add_http_header('HTTP/1.0 500 An error occurred: (' . $code . ')',  $exception->getMessage());
         }
-      break;
+        break;
     }
     if(method_exists($exception,'getData')){
       return $exception->getData();

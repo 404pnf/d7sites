@@ -39,16 +39,60 @@ class ServicesWebTestCase extends DrupalWebTestCase {
                    '<hr />Raw response: ' . $content);
     return array('header' => $header, 'status' => $status, 'code' => $code, 'body' => $body);
   }
-
-  protected function servicesPost($url, $data = array(), $headers = array()) {
+  protected function servicesPostFile($url, $filepath, $headers = array()) {
     $options = array();
     // Add .php to get serialized response.
     $url = $this->getAbsoluteUrl($url) . '.php';
 
     // Otherwise Services will reject arguments.
-    $headers = array("Content-type: application/x-www-form-urlencoded");
+    $headers[] = "Content-type: multipart/form-data";
     // Prepare arguments.
-    $post = drupal_http_build_query($data, '', '&');
+    $filepath = variable_get('file_public_path', '') . '/' . file_uri_target($filepath);
+    $post = array('files[file_contents]'=>'@'.$filepath);
+
+    $content = $this->curlExec(array(
+      CURLOPT_URL => $url,
+      CURLOPT_POST => TRUE,
+      CURLOPT_POSTFIELDS => $post,
+      CURLOPT_HTTPHEADER => $headers,
+      CURLOPT_HEADER => TRUE,
+      CURLOPT_RETURNTRANSFER => TRUE,
+      CURLOPT_FOLLOWLOCATION => TRUE,
+      CURLOPT_VERBOSE => TRUE,
+    ));
+
+    // Parse response.
+    list($info, $header, $status, $code, $body) = $this->parseHeader($content);
+
+    $this->verbose('POST request to: ' . $url .
+                   '<hr />File Name: ' . highlight_string('<?php . ' . var_export($filepath, TRUE), TRUE) .
+                   '<hr />Response: ' . highlight_string('<?php ' . var_export($body, TRUE), TRUE) .
+                   '<hr />Curl info: ' . highlight_string('<?php ' . var_export($info, TRUE), TRUE) .
+                   '<hr />Raw response: ' . $content);
+    return array('header' => $header, 'status' => $status, 'code' => $code, 'body' => $body);
+  }
+
+  protected function servicesPost($url, $data = array(), $headers = array(), $call_type = 'php') {
+    $options = array();
+
+    switch ($call_type) {
+      case 'php':
+        // Add .php to get serialized response.
+        $url = $this->getAbsoluteUrl($url) . '.php';
+        // Otherwise Services will reject arguments.
+        $headers = array("Content-type: application/x-www-form-urlencoded");
+        // Prepare arguments.
+        $post = drupal_http_build_query($data, '', '&');
+        break;
+      case 'json':
+        // Add .json to get json encoded response.
+        $url = $this->getAbsoluteUrl($url) . '.json';
+        // Set proper headers.
+        $headers = array("Content-type: application/json");
+        // Prepare arguments.
+        $post = json_encode($data);
+        break;
+    }
 
     $content = $this->curlExec(array(
       CURLOPT_URL => $url,
@@ -60,7 +104,7 @@ class ServicesWebTestCase extends DrupalWebTestCase {
     ));
 
     // Parse response.
-    list($info, $header, $status, $code, $body) = $this->parseHeader($content);
+    list($info, $header, $status, $code, $body) = $this->parseHeader($content, $call_type);
 
     $this->verbose('POST request to: ' . $url .
                    '<hr />Arguments: ' . highlight_string('<?php ' . var_export($data, TRUE), TRUE) .
@@ -140,13 +184,22 @@ class ServicesWebTestCase extends DrupalWebTestCase {
    * @param type $content
    * @return type
    */
-  function parseHeader($content) {
+  function parseHeader($content, $call_type = 'php') {
     $info = curl_getinfo($this->curlHandle);
     $header = drupal_substr($content, 0, $info['header_size']);
     $header = str_replace("HTTP/1.1 100 Continue\r\n\r\n", '', $header);
     $status = strtok($header, "\r\n");
     $code = $info['http_code'];
-    $body = unserialize(drupal_substr($content, $info['header_size'], drupal_strlen($content) - $info['header_size']));
+
+    $raw_body = drupal_substr($content, $info['header_size'], drupal_strlen($content) - $info['header_size']);
+    switch ($call_type) {
+      case 'php':
+        $body = unserialize($raw_body);
+        break;
+      case 'json':
+        $body = json_decode($raw_body);
+        break;
+    }
     return array($info, $header, $status, $code, $body);
   }
 
@@ -159,7 +212,6 @@ class ServicesWebTestCase extends DrupalWebTestCase {
   public function populateEndpointFAPI() {
     return array(
       'name'   => 'machinename',
-      'title'  => $this->randomName(20),
       'path'   => $this->randomName(10),
       'server' => 'rest_server',
     );
@@ -171,7 +223,6 @@ class ServicesWebTestCase extends DrupalWebTestCase {
     $endpoint->disabled = FALSE; /* Edit this to true to make a default endpoint disabled initially */
     $endpoint->api_version = 3;
     $endpoint->name = $edit['name'];
-    $endpoint->title = $edit['title'];
     $endpoint->server = $edit['server'];
     $endpoint->path = $edit['path'];
     $endpoint->authentication = array(
@@ -197,6 +248,7 @@ class ServicesWebTestCase extends DrupalWebTestCase {
           'application/plist' => TRUE,
           'application/plist+xml' => TRUE,
           'application/x-www-form-urlencoded' => TRUE,
+          'multipart/form-data' => TRUE,
         ),
       ),
     );
@@ -240,6 +292,11 @@ class ServicesWebTestCase extends DrupalWebTestCase {
             'enabled' => 1,
           ),
           'index' => array(
+            'enabled' => 1,
+          ),
+        ),
+        'actions' => array(
+          'create_raw' => array(
             'enabled' => 1,
           ),
         ),

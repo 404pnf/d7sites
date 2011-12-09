@@ -60,6 +60,11 @@ function services_permission() {
       'title' => t('Set a system variable'),
       'description' => t(''),
     ),
+    // Query-limiting permissions
+    'perform unlimited index queries' => array(
+      'title' => t('Perform unlimited index queries'),
+      'description' => t(''),
+    ),
   );
 }
 
@@ -155,10 +160,10 @@ function services_theme() {
  *  An associative array keyed after module name containing information about
  *  the installed server implementations.
  */
-function services_get_servers() {
-  static $servers;
+function services_get_servers($reset = FALSE) {
+  $servers = &drupal_static(__FUNCTION__);
 
-  if (!$servers) {
+  if (!$servers || $reset) {
     $servers = array();
     foreach (module_implements('server_info') as $module) {
       $servers[$module] = call_user_func($module . '_server_info');
@@ -188,7 +193,7 @@ function services_endpoint_callback($endpoint_name) {
       'endpoint'      => $endpoint_name,
       'endpoint_path' => $endpoint->path,
       'debug'         => $endpoint->debug,
-      'drupal_path'   => getcwd(),
+      'settings'      => $endpoint->server_settings[$server],
     ));
     if ($endpoint->debug) {
       watchdog('services', 'Calling server: %server', array('%server' => $server . '_server'), WATCHDOG_DEBUG);
@@ -231,13 +236,6 @@ function services_endpoint_load($name) {
   if (isset($result[$name])) {
     return $result[$name];
   }
-  else {
-    $result = db_query("SELECT * FROM {services_endpoint} WHERE name = :name", array(':name' => $name));
-    $matches = array();
-    foreach ($result as $endpoint) {
-      return $endpoint;
-    }
-  }
   return FALSE;
 }
 
@@ -249,16 +247,7 @@ function services_endpoint_load($name) {
  */
 function services_endpoint_load_all() {
   ctools_include('export');
-  $matches = ctools_export_load_object('services_endpoint');
-  if (!$matches) {
-    $result =  db_query("SELECT * FROM {services_endpoint}");
-    $matches = array();
-    foreach ($result as $endpoint) {
-      $matches[] = $endpoint;
-    }
-    return $matches;
-  }
-  return $matches;
+  return ctools_export_load_object('services_endpoint');
 }
 
 /**
@@ -270,7 +259,16 @@ function services_endpoint_save($endpoint) {
   if (is_array($endpoint) && isset($endpoint['build_info'])) {
     $endpoint = $endpoint['build_info']['args'][0];
   }
+
+  // Set a default of an array if the value is not present.
+  foreach (array('server_settings', 'resources', 'authentication') as $endpoint_field) {
+    if (empty($endpoint->{$endpoint_field})) {
+      $endpoint->{$endpoint_field} = array();
+    }
+  }
+
   ctools_export_crud_save('services_endpoint', $endpoint);
+  ctools_export_load_object_reset('services_endpoint');
   menu_rebuild();
   cache_clear_all('services:' . $endpoint->name . ':', 'cache', TRUE);
 }
@@ -282,6 +280,7 @@ function services_endpoint_save($endpoint) {
  */
 function services_endpoint_delete($endpoint) {
   ctools_export_crud_delete('services_endpoint', $endpoint);
+  ctools_export_load_object_reset('services_endpoint');
   menu_rebuild();
   cache_clear_all('services:' . $endpoint->name . ':', 'cache', TRUE);
 }
@@ -293,8 +292,7 @@ function services_endpoint_delete($endpoint) {
  */
 function services_endpoint_export($endpoint, $indent = '') {
   ctools_include('export');
-  $output = ctools_export_object('services_endpoint', $endpoint, $indent);
-  return $output;
+  return ctools_export_object('services_endpoint', $endpoint, $indent);
 }
 
 
@@ -328,7 +326,7 @@ function services_get_resources($endpoint_name = '') {
 function services_services_resources() {
   module_load_include('resource_build.inc', 'services');
   // Return resources representing legacy services
-  return array_merge(_services_core_resources(), _services_legacy_services_as_resources());
+  return _services_core_resources();
 }
 
 /**
@@ -365,7 +363,7 @@ function _services_sessions_authenticate_call() {
  */
 function services_controllers_list($endpoint) {
   $controllers = array();
-  $ops = array('actions', 'relationships', 'targeted actions');
+  $ops = array('actions', 'relationships', 'targeted_actions');
   $resources = services_get_resources($endpoint);
   foreach ($resources as $resource_name => $res) {
     // Get all basic operations
@@ -399,7 +397,7 @@ function services_controllers_list($endpoint) {
  */
 function services_controller_get($name, $endpoint) {
   list($resource_name, $method) = explode('.', $name);
-  $ops = array('actions', 'relationships', 'targeted actions');
+  $ops = array('actions', 'relationships', 'targeted_actions');
   $resources = services_get_resources($endpoint);
 
   if (isset($resources[$resource_name])) {
@@ -430,7 +428,7 @@ function services_controller_get($name, $endpoint) {
  */
 function services_resources_as_procedures($resource) {
   static $controllers = array('create', 'retrieve', 'update', 'delete', 'index');
-  static $subcontrollers = array('actions', 'relationships', 'targeted actions');
+  static $subcontrollers = array('actions', 'relationships', 'targeted_actions');
 
   $methods = array();
 
@@ -482,9 +480,16 @@ function _services_resource_controller_as_procedure($resource, $name, $controlle
  *   Array fields to return.
  * @param $parameter
  *   Array parameters to add to the index query.
+ * @param $page_size
+ *   Integer number of items to be returned.
+ * @param $resource
+ *   String name of the resource building the index query
  */
-function services_resource_build_index_query($query, $page, $fields, $parameters = array()) {
-  $page_size = variable_get('services_index_page_size', 20);
+function services_resource_build_index_query($query, $page, $fields, $parameters, $page_size, $resource) {
+  $default_limit = variable_get("services_{$resource}_index_page_size", 20);
+  if (!user_access('perform unlimited index queries') && $page_size > $default_limit) {
+    $page_size = $default_limit;
+  }
   $query->range($page * $page_size, $page_size);
   if ($fields == '*') {
     $query->fields('t');
@@ -492,9 +497,9 @@ function services_resource_build_index_query($query, $page, $fields, $parameters
   else {
     $query->fields('t', explode(',', $fields));
   }
-  if(isset($parameters) && is_array($parameters)) {
+  if (isset($parameters) && is_array($parameters)) {
     foreach ($parameters as $parameter => $parameter_value) {
-      $query->condition($parameter, $parameter_value, '=');
+      $query->condition($parameter, explode(',', $parameter_value), 'IN');
     }
   }
 }
@@ -515,9 +520,38 @@ function services_resource_build_index_list($results, $type, $field) {
   foreach ($results as $result) {
     if ($uri = services_resource_uri(array($type, $result->{$field}))) {
       $result->uri = $uri;
+      if ($type == 'user') {
+        services_remove_user_data($result);
+      }
     }
     $items[] = $result;
   }
 
   return $items;
+}
+
+/**
+ *  Helper function to remove data from the user object.
+ *
+ *  @param $account
+ *    Object user object.
+ */
+function services_remove_user_data(&$account) {
+  // Remove the users password from the account object.
+  unset($account->pass);
+}
+
+/**
+ * Helper function to execute a index query.
+ *
+ * @param $query
+ *   Object dbtng query object.
+ */
+function services_resource_execute_index_query($query) {
+  try {
+    return $query->execute();
+  }
+  catch (Exception $e) {
+    return services_error(t('Invalid query provided, double check that the fields and parameters you defined are correct and exist. ' . $e->message()), 406);
+  }
 }

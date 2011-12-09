@@ -31,7 +31,6 @@ class ServicesParserTests extends ServicesWebTestCase {
     $endpoint->disabled = FALSE;
     $endpoint->api_version = 3;
     $endpoint->name = $edit['name'];
-    $endpoint->title = $edit['title'];
     $endpoint->server = $edit['server'];
     $endpoint->path = $edit['path'];
     $endpoint->authentication = array(
@@ -100,4 +99,23 @@ class ServicesParserTests extends ServicesWebTestCase {
       t('Do not accept application/x-www-form-urlencoded if disabled.'), 'Parser');
   }
 
+  /**
+   * Do JSON call. Ensure it is parsed properly.
+   */
+  public function testJSONCall() {
+    $account = $this->drupalCreateUser();
+
+    // Logout first.
+    $this->drupalLogout();
+
+    // Do JSON call to login.
+    $response = $this->servicesPost($this->endpoint->path . '/user/login', array('username' => $account->name, 'password' => $account->pass_raw), array(), 'json');
+
+    $body = $response['body'];
+
+    $proper_answer = isset($body->sessid)
+                  && isset($body->user)
+                  && $body->user->name == $account->name;
+    $this->assertTrue($proper_answer, t('User successfully logged in via JSON call.'), 'JSON Call: Login');
+  }
 }

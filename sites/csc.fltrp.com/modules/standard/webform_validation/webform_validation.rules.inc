@@ -1,5 +1,4 @@
 <?php
-// $Id: webform_validation.rules.inc,v 1.1.4.3 2010/12/31 12:46:01 xeniox Exp $
 
 /**
  * @file

@@ -11,7 +11,7 @@ Drupal.behaviors.Skinr = {
   attach: function(context, settings) {
     for (var i in settings.skinr['areas']) {
       var $module = settings.skinr['areas'][i]['module'];
-      var $sids = settings.skinr['areas'][i]['sids'];
+      var $elements = settings.skinr['areas'][i]['elements'];
       var $id = settings.skinr['areas'][i]['id'];
 
       var $region = $('.skinr-id-' + $id).once('skinr-region', function() {});
@@ -21,19 +21,19 @@ Drupal.behaviors.Skinr = {
 
       if ($region.length > 0) {
         var $links = '';
-        for (var $j in $sids) {
+        for (var $j in $elements) {
           var $classes = '';
           if ($j == 0) {
             $classes += ' first';
           }
-          if ($j == $sids.length - 1) {
+          if ($j == $elements.length - 1) {
             $classes += ' last';
           }
-          if ($sids.length > 1) {
-            $links += '<li class="skinr-link-' + $j + $classes + '"><a href="' + settings.basePath + Drupal.Skinr.editUrl + '/' + $module + '/' + $sids[$j] + '/' + $sids +'" class="skinr-link ctools-use-dialog">' + Drupal.t('Edit skin') + ' ' + (parseInt($j) + 1) + '</a></li>';
+          if ($elements.length > 1) {
+            $links += '<li class="skinr-link-' + $j + $classes + '"><a href="' + settings.basePath + Drupal.Skinr.editUrl + '/' + $module + '/' + $elements[$j] + '/' + $elements +'" class="skinr-link ctools-use-dialog">' + Drupal.t('Edit skin') + ' ' + (parseInt($j) + 1) + '</a></li>';
           }
           else {
-            $links = '<li class="skinr-link-0 first last"><a href="' + settings.basePath + Drupal.Skinr.editUrl + '/' + $module + '/' + $sids[$j] +'" class="skinr-link ctools-use-dialog">' + Drupal.t('Edit skin') + '</a></li>';
+            $links = '<li class="skinr-link-0 first last"><a href="' + settings.basePath + Drupal.Skinr.editUrl + '/' + $module + '/' + $elements[$j] +'" class="skinr-link ctools-use-dialog">' + Drupal.t('Edit skin') + '</a></li>';
           }
         }
 
@@ -43,7 +43,7 @@ Drupal.behaviors.Skinr = {
         }
 
         $region.prepend('<div class="skinr-links-wrapper' + $wrapper_classes + '"><ul class="skinr-links">' + $links + '</ul></div>');
-        $region.get(0).skinr = { 'module': $module, 'sids': $sids, 'id': $id };
+        $region.get(0).skinr = { 'module': $module, 'elements': $elements, 'id': $id };
 
         Drupal.behaviors.Dialog($region);
       };
@@ -100,40 +100,40 @@ Drupal.behaviors.SkinrLivePreview = {
     $('#skinr-ui-form .skinr-ui-current-theme :input:not(.skinr-live-preview-processed)', context).addClass('skinr-live-preview-processed').change(function () {
       var $tag = $(this).attr('tagName');
       $tag = $tag.toLowerCase();
-      
+
       var $module = $('#skinr-ui-form #edit-module').val();
-      var $sid = $('#skinr-ui-form #edit-sid').val();
-      var $sids = $('#skinr-ui-form #edit-sids').val();
-      if (!$sids) {
-        $sids = $sid;
+      var $element = $('#skinr-ui-form #edit-element').val();
+      var $elements = $('#skinr-ui-form #edit-elements').val();
+      if (!$elements) {
+        $elements = $element;
       }
-  
+
       var $name = $(this).attr('name');
-      $name = $name.replace(/skinr_settings\[.*_group\]\[[^\]]*\]\[widgets\]\[([^\]]*)\]/, '$1');
-  
+      $name = $name.replace(/skinr_settings\[.*_group\]\[[^\]]*\]\[([^\]]*)\]/, '$1');
+
       var $classes = '';
       var $add_classes = $(this).val();
-  
+
       if ($tag == 'select') {
         $(this).find('option').each(function() {
           $classes += ' ' + $(this).attr('value');
         });
       }
       else if ($tag == 'input') {
-        
+
       }
-      
+
       // Use AJAX to grab the CSS and JS filename.
       $.ajax({
         type: 'GET',
         dataType: 'json',
         url: Drupal.settings.basePath + Drupal.Skinr.infoUrl + '/' + $name + '/' + $add_classes,
         success: function($data) {
-  
+
           var $command = {
             command: 'skinrAfterupdate',
             module: $module,
-            sids: $sids,
+            elements: $elements,
             classes: {
               remove: $classes,
               add: $add_classes
@@ -142,7 +142,7 @@ Drupal.behaviors.SkinrLivePreview = {
             js: $data.js,
             nosave: true
           };
-          
+
           Drupal.CTools.AJAX.commands.skinrAfterupdate($command);
         }
       });
@@ -154,7 +154,7 @@ Drupal.behaviors.SkinrLivePreview = {
  * AJAX responder command to dismiss the modal.
  */
 Drupal.CTools.AJAX.commands.skinrAfterupdate = function(command) {
-  if (command.module && command.sids && (command.classes.remove || command.classes.add)) {
+  if (command.module && command.elements && (command.classes.remove || command.classes.add)) {
     if (command.css) {
       for (var j in command.css) {
         $(document.createElement('link')).attr({href: Drupal.settings.basePath + command.css[j].path, media: command.css[j].media, rel: 'stylesheet', type: 'text/css'}).appendTo('head');
@@ -165,9 +165,9 @@ Drupal.CTools.AJAX.commands.skinrAfterupdate = function(command) {
         $.getScript(Drupal.settings.basePath + command.js[j].path);
       }
     }
-    
+
     for (var i in Drupal.settings.skinr['areas']) {
-      if (Drupal.settings.skinr['areas'][i]['module'] == command.module && Drupal.settings.skinr['areas'][i]['sids'] == command.sids) {
+      if (Drupal.settings.skinr['areas'][i]['module'] == command.module && Drupal.settings.skinr['areas'][i]['elements'] == command.elements) {
         $('.skinr-id-' + Drupal.settings.skinr['areas'][i]['id']).removeClass(command.classes.remove).addClass(command.classes.add);
         if (command.nosave == undefined || command.nosave == false) {
           Drupal.settings.skinr['areas'][i]['classes'] = $('.skinr-id-' + Drupal.settings.skinr['areas'][i]['id']).attr('class');

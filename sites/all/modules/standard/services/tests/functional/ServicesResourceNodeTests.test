@@ -6,6 +6,10 @@
  *
  */
 
+define("SERVICES_NODE_TYPE_INCLUDE", 1);
+define("SERVICES_NODE_TYPE_EMPTY", 2);
+define("SERVICES_NODE_TYPE_REMOVED", 3);
+
 /**
  * Run test cases for the endpoint with no authentication turned on.
  *
@@ -48,6 +52,7 @@ class ServicesResourceNodetests extends ServicesWebTestCase {
     // Create and log in our privileged user.
     $this->privilegedUser = $this->drupalCreateUser(array(
       'administer services',
+      'perform unlimited index queries',
     ));
     $this->drupalLogin($this->privilegedUser);
 
@@ -88,6 +93,18 @@ class ServicesResourceNodetests extends ServicesWebTestCase {
     // The n+1 page should be empty.
     $responseArray = $this->servicesGet($this->endpoint->path . '/node', array('page' => $page_count + 1));
     $this->assertEqual(count($responseArray['body']), 0, t('The n+1 page is empty'));
+
+    // Adjust the pager size.
+    $responseArray = $this->servicesGet($this->endpoint->path . '/node', array('fields' => 'nid,title', 'pagesize' => 40));
+    $this->assertTrue(count($responseArray['body']) == 40, t('Correct number of items returned'));
+
+    // Swap to user that can only use the default pager size.
+    $this->lessPrivilegedUser = $this->drupalCreateUser(array(
+      'administer services',
+    ));
+    $this->drupalLogin($this->lessPrivilegedUser);
+    $responseArray = $this->servicesGet($this->endpoint->path . '/node', array('fields' => 'nid,title', 'pagesize' => 40));
+    $this->assertTrue(count($responseArray['body']) == 20, t('Correct number of items returned'));
   }
 
   /**
@@ -252,20 +269,23 @@ class ServicesResourceNodetests extends ServicesWebTestCase {
   }
 
   /**
-  * Testing node_resource Update.
-  */
-  public function testEndpointResourceNodeUpdate() {
-    // Create and log in our privileged user.
-    $this->privilegedUser = $this->drupalCreateUser(array(
-      'administer services',
-      'bypass node access',
-    ));
-    $this->drupalLogin($this->privilegedUser);
+   *  Helper function to perform node updates.
+   *
+   *  @parm $exclude_type
+   *    Integer how should the type value be treated.
+   */
+  function update_node($exclude_type) {
     $node = $this->drupalCreateNode();
-
     $node_update = (array) $node;
     $node_update['title'] = $this->randomName();
     $node_update['body'][LANGUAGE_NONE][0]['value'] = $this->randomName();
+
+    if ($exclude_type == SERVICES_NODE_TYPE_EMPTY) {
+      $node_update['type'] = '';
+    }
+    elseif($exclude_type == SERVICES_NODE_TYPE_REMOVED) {
+      unset($node_update['type']);
+    }
 
     $responseArray = $this->servicesPut($this->endpoint->path . '/node/' . $node->nid, $node_update);
     // Load node not from cache.
@@ -273,6 +293,22 @@ class ServicesResourceNodetests extends ServicesWebTestCase {
     $this->assertTrue(isset($nodeAfterUpdate->nid), t('Node was successfully updated'), 'NodeResource: Updated');
     $this->assertEqual($nodeAfterUpdate->title, $node_update['title'], t('Title is the same'), 'NodeResource: Update');
     $this->assertEqual($nodeAfterUpdate->body[LANGUAGE_NONE][0]['value'], $node_update['body'][LANGUAGE_NONE][0]['value'], t('Body is the same'), 'NodeResource: Update');
+  }
+
+  /**
+   * Testing node_resource Update.
+   */
+  public function testEndpointResourceNodeUpdate() {
+    // Create and log in our privileged user.
+    $this->privilegedUser = $this->drupalCreateUser(array(
+      'administer services',
+      'bypass node access',
+    ));
+    $this->drupalLogin($this->privilegedUser);
+
+    $this->update_node(SERVICES_NODE_TYPE_INCLUDE);
+    $this->update_node(SERVICES_NODE_TYPE_EMPTY);
+    $this->update_node(SERVICES_NODE_TYPE_REMOVED);
   }
 
   /**

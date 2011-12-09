@@ -6,12 +6,50 @@
  */
 
 /**
- * Implements hook_skinr_operations().
+ * Menu callback; Updates the skin configuration's status.
  */
-function skinr_ui_skinr_operations() {
+function skinr_ui_skin_status_set($skin, $status) {
+  // We require a token in the query string to prevent CSFR attacks.
+  if (!isset($_GET['token']) || !drupal_valid_token($_GET['token'], 'admin/structure/skinr/skin/' . $skin->sid . '/' . ($status ? 'enable' : 'disable'))) {
+    return MENU_ACCESS_DENIED;
+  }
+
+  // Load an uncached version of the skin configuration object.
+  $skin = skinr_skin_load_unchanged($skin->sid);
+  // Let's save some time in skinr_skin_save() by setting $skin->original here.
+  $skin->original = clone($skin);
+
+  // Update the status and save the skin configuration.
+  $skin->status = $status ? 1 : 0;
+  skinr_skin_save($skin);
+  if ($status) {
+    drupal_set_message(t('Skin configuration has been enabled.'));
+  }
+  else {
+    drupal_set_message(t('Skin configuration has been disabled.'));
+  }
+
+  // Return to the skin configuration overview page.
+  drupal_goto('admin/structure/skinr');
+}
+
+/**
+ * Implements hook_skinr_ui_operations().
+ */
+function skinr_ui_skinr_ui_operations() {
   $operations = array(
+    'enable' => array(
+      'label' => t('Enable selected skin configuration'),
+      'callback' => 'skinr_ui_mass_update',
+      'callback arguments' => array('updates' => array('status' => 1)),
+    ),
+    'disable' => array(
+      'label' => t('Disable selected skin configuration'),
+      'callback' => 'skinr_ui_mass_update',
+      'callback arguments' => array('updates' => array('status' => 0)),
+    ),
     'delete' => array(
-      'label' => t('Delete selected Skinr settings'),
+      'label' => t('Delete selected skin configuration'),
       'callback' => NULL,
     ),
   );
@@ -46,24 +84,60 @@ function skinr_ui_filters() {
   $config = skinr_get_config_info();
 
   $options = array('[any]' => t('any'));
-  foreach ($config as $type => $data) {
+  foreach ($config as $type) {
     $options[$type] = $type;
   }
 
-  $filters['type'] = array(
+  $filters['module'] = array(
     'title' => t('type'),
     'options' => $options,
+  );
+
+  // Skin filter.
+  $skin_info = skinr_get_skin_info();
+
+  $options = array('[any]' => t('any'), '_additional' => t('Additional classes'));
+  foreach ($skin_info as $skin => $info) {
+    $options[$skin] = $info['title'];
+  }
+
+  $filters['skin'] = array(
+    'title' => t('skin'),
+    'options' => $options,
+  );
+
+  // Status filter.
+  $filters['status'] = array(
+    'title' => t('status'),
+    'options' => array(
+      '[any]' => t('any'),
+      '1' => t('enabled'),
+      '0' => t('disabled'),
+    ),
   );
 
   return $filters;
 }
 
 /**
+ * Apply filters for skin configuration administration filters based on session.
+ *
+ * @param $query
+ *   A SelectQuery to which the filters should be applied.
+ */
+function skinr_ui_build_filter_query(SelectQueryInterface $query) {
+  // Build query
+  $filter_data = isset($_SESSION['skinr_ui_overview_filter']) ? $_SESSION['skinr_ui_overview_filter'] : array();
+  foreach ($filter_data as $index => $filter) {
+    list($key, $value) = $filter;
+    $query->condition('s.' . $key, $value);
+  }
+}
+
+/**
  * Form builder for the Skinr administration filters form.
  *
  * @ingroup forms
- *
- * @todo This function is missing the $form and $form_state parameters.
  */
 function skinr_ui_filter_form() {
   $session = &$_SESSION['skinr_ui_overview_filter'];
@@ -87,10 +161,8 @@ function skinr_ui_filter_form() {
     else {
       $form['filters']['current'][] = array('#markup' => t('where %property is %value', $t_args));
     }
-    if (in_array($type, array('theme', 'type'))) {
-      // Remove the option if it is already being filtered on.
-      unset($filters[$type]);
-    }
+    // Remove the option if it is already being filtered on.
+    unset($filters[$type]);
   }
 
   $form['filters']['status'] = array(
@@ -135,6 +207,111 @@ function skinr_ui_filter_form() {
 }
 
 /**
+ * Mass update skin configurations, updating all skin configurations in the
+ * $skins array with the field values in $updates.
+ *
+ * IMPORTANT NOTE: This function is intended to work when called
+ * from a form submit handler. Calling it outside of the form submission
+ * process may not work correctly.
+ *
+ * @param array $skins
+ *   Array of skin configuration sids to update.
+ * @param array $updates
+ *   Array of key/value pairs with skin configuration field names and the
+ *   value to update that field to.
+ */
+function skinr_ui_mass_update($skins, $updates) {
+  // We use batch processing to prevent timeout when updating a large number
+  // of skins.
+  if (count($skins) > 10) {
+    $batch = array(
+      'operations' => array(
+        array('_skinr_ui_mass_update_batch_process', array($skins, $updates))
+      ),
+      'finished' => '_skinr_ui_mass_update_batch_finished',
+      'title' => t('Processing'),
+      // We use a single multi-pass operation, so the default
+      // 'Remaining x of y operations' message will be confusing here.
+      'progress_message' => '',
+      'error_message' => t('The update has encountered an error.'),
+      // The operations do not live in the .module file, so we need to
+      // tell the batch engine which file to load before calling them.
+      'file' => drupal_get_path('module', 'skinr_ui') . '/skinr_ui.admin.inc',
+    );
+    batch_set($batch);
+  }
+  else {
+    foreach ($skins as $sid) {
+      _skinr_ui_mass_update_helper($sid, $updates);
+    }
+    drupal_set_message(t('The update has been performed.'));
+  }
+}
+
+/**
+ * Helper function for skin configuration mass updates.
+ */
+function _skinr_ui_mass_update_helper($sid, $updates) {
+  drupal_static_reset('skinr_skin_load_multiple');
+  $skin = skinr_skin_load($sid);
+  // For efficiency manually store the original skin configuration before
+  // applying any changes.
+  $skin->original = clone $skin;
+  foreach ($updates as $name => $value) {
+    $skin->$name = $value;
+  }
+  skinr_skin_save($skin);
+  return $skin;
+}
+
+/**
+ * Batch operation for skin configuration mass updates.
+ */
+function _skinr_ui_mass_update_batch_process($skins, $updates, &$context) {
+  if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = count($skins);
+    $context['sandbox']['skins'] = $skins;
+  }
+
+  // Process skins in groups of 5.
+  $count = min(5, count($context['sandbox']['skins']));
+  for ($i = 1; $i <= $count; $i++) {
+    // For each sid, load the skin configuration, reset the values, and save it.
+    $sid = array_shift($context['sandbox']['skins']);
+    $skin = _skinr_ui_mass_update_helper($sid, $updates);
+
+    // Store result for post-processing in the finished callback.
+    // @todo
+    $context['results'][] = l($skin->title, 'node/' . $skin->sid);
+
+    // Update our progress information.
+    $context['sandbox']['progress']++;
+  }
+
+  // Inform the batch engine that we are not finished,
+  // and provide an estimation of the completion level we reached.
+  if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+
+/**
+ * Batch 'finished' callback for skin configuration mass updates.
+ */
+function _skinr_ui_mass_update_batch_finished($success, $results, $operations) {
+  if ($success) {
+    drupal_set_message(t('The update has been performed.'));
+  }
+  else {
+    drupal_set_message(t('An error occurred and processing did not complete.'), 'error');
+    $message = format_plural(count($results), '1 item successfully processed:', '@count items successfully processed:');
+    $message .= theme('item_list', array('items' => $results));
+    drupal_set_message($message);
+  }
+}
+
+/**
  * Form submission handler for skinr_ui_filter_form().
  */
 function skinr_ui_filter_form_submit($form, &$form_state) {
@@ -164,7 +341,7 @@ function skinr_ui_filter_form_submit($form, &$form_state) {
 }
 
 /**
- * Form builder for the Skinr settings overview form.
+ * Menu callback: skin configurations administration.
  *
  * @ingroup forms
  */
@@ -180,32 +357,27 @@ function skinr_ui_list($form, &$form_state) {
 }
 
 /**
- * Subform builder for the Skinr settings overview form.
+ * Form builder: Builds the skin configuration administration overview.
  *
  * @ingroup forms
  */
 function skinr_ui_admin_skins() {
-  $session = !empty($_SESSION['skinr_ui_overview_filter']) && is_array($_SESSION['skinr_ui_overview_filter']) ? $_SESSION['skinr_ui_overview_filter'] : array();
-  $filters = array();
-  foreach ($session as $filter) {
-    list($key, $value) = $filter;
-    $filters[$key] = $value;
-  }
-
-  // Build an 'Update options' form.
+  // Build the 'Update options' form.
   $form['options'] = array(
     '#type' => 'fieldset',
     '#title' => t('Update options'),
     '#attributes' => array('class' => array('container-inline')),
   );
-
   $options = array();
-  $options['delete'] = t('Delete the selected Skinr settings');
-
+  foreach (module_invoke_all('skinr_ui_operations') as $operation => $array) {
+    $options[$operation] = $array['label'];
+  }
   $form['options']['operation'] = array(
     '#type' => 'select',
+    '#title' => t('Operation'),
+    '#title_display' => 'invisible',
     '#options' => $options,
-    '#default_value' => 'publish',
+    '#default_value' => 'enable',
   );
   $form['options']['submit'] = array(
     '#type' => 'submit',
@@ -214,97 +386,74 @@ function skinr_ui_admin_skins() {
     '#submit' => array('skinr_ui_admin_skins_submit'),
   );
 
-  $sorts = array();
-
-  $headers = array(
-    'theme' => array('data' => t('Theme'), 'field' => 'theme'),
-    'type' => array('data' => t('Type'), 'field' => 'type'),
-    'sid' => array('data' => t('Skinr ID'), 'field' => 'sid'),
+  $header = array(
+    'theme' => array('data' => t('Theme'), 'field' => 's.theme'),
+    'type' => array('data' => t('Type'), 'field' => 's.module'),
+    'element' => array('data' => t('Element ID'), 'field' => 's.element'),
+    'skin' => array('data' => t('Skin'), 'field' => 's.skin'),
+    'status' => array('data' => t('Status'), 'field' => 's.status'),
     'operations' => array('data' => t('Operations')),
   );
 
-  $ts = tablesort_init($headers);
-  $sort = SORT_DESC;
-  if ($ts['sort'] == 'asc') {
-    $sort = SORT_ASC;
-  }
+  $query = db_select('skinr_skins', 's')->extend('PagerDefault')->extend('TableSort');
+  skinr_ui_build_filter_query($query);
 
-  switch ($ts['sql']) {
-    case 'type':
-    case 'sid':
-      $sortby = $ts['sql'];
-      break;
-
-    case 'theme':
-    default:
-      $sortby = 'theme';
-      break;
-  }
+  $sids = $query
+    ->fields('s', array('sid'))
+    ->limit(50)
+    ->orderByHeader($header)
+    ->execute()
+    ->fetchCol();
+  $skins = skinr_skin_load_multiple($sids);
 
   $themes = list_themes();
-  ksort($themes);
-
-  $options = array();
+  $skin_info = skinr_get_skin_info();
   $destination = drupal_get_destination();
-  $type = !empty($filters['type']) ? $filters['type'] : NULL;
-
-  foreach ($themes as $theme) {
-    if (!$theme->status || !empty($theme->info['hidden']) || (!empty($filters['theme']) && $filters['theme'] != $theme->name)) {
-      continue;
-    }
-    if (empty($type)) {
-      $skins = skinr_skin_load($theme->name);
-    }
-    else {
-      $skins = array($type => skinr_skin_load($theme->name, $type));
-    }
-
-    // skinr_skin_load() could return NULL for this theme.
-    if (!empty($skins)) {
-      foreach ($skins as $module => $elements) {
-        foreach ($elements as $sid => $skin) {
-          $operations = array(
-            'edit' => array(
-              'title' => t('edit'),
-              'href' => 'admin/appearance/skinr/edit/nojs/' . $module . '/' . $sid,
-              'query' => $destination,
-            ),
-            'delete' => array(
-              'title' => t('delete'),
-              'href' => 'admin/appearance/skinr/delete/'. $theme->name .'/'. $module .'/'. $sid,
-              'query' => $destination,
-            ),
-          );
-          $options[$theme->name . '__' . $module . '__' . $sid] = array(
-            'theme' => $theme->info['name'],
-            'type' => $module,
-            'sid' => $sid,
-            'operations' => array(
-              'data' => array(
-                '#theme' => 'links__skinr_operations',
-                '#links' => $operations,
-                '#attributes' => array('class' => array('links', 'inline')),
-              ),
-            ),
-          );
-          $sorts[] = strip_tags($options[$theme->name . '__' . $module . '__' . $sid][$sortby]);
-        }
-      }
-    }
+  $options = array();
+  foreach ($skins as $skin) {
+    $operations = array(
+      'edit' => array(
+        'title' => t('edit'),
+        'href' => 'admin/structure/skinr/edit/nojs/' . $skin->module . '/' . $skin->element,
+        'query' => $destination,
+      ),
+      'status' => array(
+        'title' => $skin->status ? t('disable') : t('enable'),
+        'href' => 'admin/structure/skinr/skin/' . $skin->sid . '/' . ($skin->status ? 'disable' : 'enable'),
+        'query' => $destination + array(
+          'token' => drupal_get_token('admin/structure/skinr/skin/' . $skin->sid . '/' . ($skin->status ? 'disable' : 'enable')),
+        ),
+      ),
+      'delete' => array(
+        'title' => t('delete'),
+        'href' => 'admin/structure/skinr/skin/' . $skin->sid . '/delete',
+        'query' => $destination,
+      ),
+    );
+    $options[$skin->sid] = array(
+      'theme' => isset($themes[$skin->theme]) ? $themes[$skin->theme]->info['name'] : '<em>' . $skin->theme . '</em>',
+      'type' => $skin->module,
+      'element' => $skin->element,
+      'skin' => $skin->skin == '_additional' ? '<em>' . t('Additional classes') . '</em>' : (isset($skin_info[$skin->skin]) ? $skin_info[$skin->skin]['title'] : '<em>' . $skin->skin . '</em>'),
+      'status' => $skin->status ? t('enabled') : t('disabled'),
+      'operations' => array(
+        'data' => array(
+          '#theme' => 'links__skinr_ui_operations',
+          '#links' => $operations,
+          '#attributes' => array('class' => array('links', 'inline')),
+        ),
+      ),
+    );
   }
 
-  // Sort table.
-  array_multisort($sorts, $sort, $options);
-
-  // Output table.
   $form['skins'] = array(
     '#type' => 'tableselect',
-    '#header' => $headers,
+    '#header' => $header,
     '#options' => $options,
     '#empty' => t('No content available.'),
   );
-  $form['pager'] = array('#markup' => theme('pager', array('tags' => NULL)));
 
+  $form['pager'] = array('#markup' => theme('pager'));
   return $form;
 }
 
@@ -327,7 +476,7 @@ function skinr_ui_admin_skins_validate($form, &$form_state) {
  * Execute the chosen 'Update option' on the selected skinr settings.
  */
 function skinr_ui_admin_skins_submit($form, &$form_state) {
-  $operations = module_invoke_all('skinr_operations');
+  $operations = module_invoke_all('skinr_ui_operations');
   $operation = $operations[$form_state['values']['operation']];
   // Filter out unchecked nodes
   $nodes = array_filter($form_state['values']['skins']);
@@ -363,13 +512,13 @@ function skinr_ui_multiple_delete_confirm($form, &$form_state, $skins) {
 
   $form['skins'] = array('#prefix' => '<ul>', '#suffix' => '</ul>', '#tree' => TRUE);
   // array_filter returns only elements with TRUE values
-  foreach ($skins as $skin => $value) {
-    $parts = explode('__', $skin, 3);
-    $form['skins'][$skin] = array(
+  $original_skins = skinr_skin_load_multiple(array_keys($skins));
+  foreach ($skins as $sid => $value) {
+    $form['skins'][$sid] = array(
       '#type' => 'hidden',
-      '#value' => $skin,
+      '#value' => $sid,
       '#prefix' => '<li>',
-      '#suffix' => t('Skinr ID %sid of type %type for theme %theme', array('%sid' => $parts[2], '%type' => $parts[1], '%theme' => $themes[$parts[0]]->info['name'])) ."</li>\n",
+      '#suffix' => t('Skin %skin for element %element of type %type for the %theme theme', array('%skin' => $original_skins[$sid]->skin, '%element' => $original_skins[$sid]->element, '%type' => $original_skins[$sid]->module, '%theme' => $themes[$original_skins[$sid]->theme]->info['name'])) ."</li>\n",
     );
   }
   $form['operation'] = array('#type' => 'hidden', '#value' => 'delete');
@@ -379,7 +528,7 @@ function skinr_ui_multiple_delete_confirm($form, &$form_state, $skins) {
                                   'Are you sure you want to delete these items?');
   return confirm_form($form,
                     $confirm_question,
-                    'admin/appearance/skinr', t('This action cannot be undone.'),
+                    'admin/structure/skinr', t('This action cannot be undone.'),
                     t('Delete'), t('Cancel'));
 }
 
@@ -388,64 +537,93 @@ function skinr_ui_multiple_delete_confirm($form, &$form_state, $skins) {
  */
 function skinr_ui_multiple_delete_confirm_submit($form, &$form_state) {
   if ($form_state['values']['confirm']) {
-    foreach ($form_state['values']['skins'] as $skin => $value) {
-      $parts = explode('__', $skin, 3);
-
-      $skin = new StdClass();
-      $skin->theme = $parts[0];
-      $skin->module = $parts[1];
-      $skin->sid = $parts[2];
-      $skin->skins = array();
-
-      skinr_skin_save($skin);
-    }
-
+    skinr_skin_delete_multiple(array_keys($form_state['values']['skins']));
     $count = count($form_state['values']['skins']);
     if ($count == 1) {
-      watchdog('content', 'Deleted 1 skinr setting.');
+      watchdog('content', 'Deleted 1 skin configuration.');
     }
     else {
-      watchdog('content', 'Deleted @count skinr settings.', array('@count' => $count));
+      watchdog('content', 'Deleted @count skin configurations.', array('@count' => $count));
     }
-    drupal_set_message(format_plural($count, 'Deleted 1 skinr setting.', 'Deleted @count skinr settings.'));
+    drupal_set_message(format_plural($count, 'Deleted 1 skin configuration.', 'Deleted @count skin configurations.'));
   }
-  $form_state['redirect'] = 'admin/appearance/skinr';
+  $form_state['redirect'] = 'admin/structure/skinr';
 }
 
 /**
- * Form builder for the skin info listing form.
+ * Menu callback for admin/structure/block.
  *
- * @ingroup forms
- * @see skinr_ui_admin_skin_infos_submit()
+ * @param $theme
+ *   The theme to display the administration page for. If not provided, defaults
+ *   to the currently used theme.
  */
-function skinr_ui_admin_skin_infos($form, $form_state) {
+function skinr_ui_admin_library($theme = NULL) {
+  global $theme_key;
+
+  drupal_theme_initialize();
+
+  if (!isset($theme)) {
+    // If theme is not specifically set, rehash for the current theme.
+    $theme = $theme_key;
+  }
+
+  return drupal_get_form('skinr_ui_admin_library_form', $theme);
+}
+
+/**
+ * Menu callback: skins administration.
+ */
+function skinr_ui_admin_library_form($form, $form_state, $theme) {
+  $form['edited_theme'] = array(
+    '#type' => 'value',
+    '#value' => $theme,
+  );
+
   $skins = skinr_get_skin_info();
   if (empty($skins)) {
     $form['skins_empty'] = array(
-      '#markup' => t('You do not currently have any skin sets to manage.'),
+      '#markup' => t("You don't have any skins to manage."),
     );
     return $form;
   }
+
+  if (isset($form_state['storage']['sids'])) {
+    // Ask for confirmation for disabling skin configurations.
+    foreach ($form_state['storage']['skins'] as $skin) {
+      $items[] = $skins[$skin]['title'];
+    }
+    $message = t('Would you like to disable all skin configurations for the selected skins?') . theme('item_list', array('items' => $items));
+    // Insert a confirmation form.
+    return confirm_form(
+      $form,
+      t('Disable all skin configurations for selected skins?'),
+      'admin/structure/skinr/library',
+      $message,
+      t('Yes'),
+      t('No')
+    );
+  }
+
+  // Apply overridden status.
+  foreach ($skins as $name => $skin_info) {
+    $skins[$name]['status'] = skinr_skin_info_status_get($skins[$name]);
+  }
+
   $groups = skinr_get_group_info();
 
   uasort($skins, 'skinr_ui_sort_by_title');
   $form['skins'] = array('#tree' => TRUE);
 
   // Iterate through each of the skins.
-  foreach ($skins as $name => $skin) {
+  foreach ($skins as $name => $skin_info) {
     $extra = array();
 
-    // Generate link for skin's configuration page
-    $extra['links']['configure'] = array(
-      '#type' => 'link',
-      '#title' => t('Configure'),
-      '#href' => 'admin/appearance/skinr/skins/settings/' . $name,
-      '#options' => array('attributes' => array('class' => array('skin-link', 'skin-link-configure'))),
-    );
+    // Set status.
+    $extra['enabled'] = $skin_info['status'][$theme];
 
     // Create a row entry for this skin.
-    $group = $groups[$skin['group']]['title'];
-    $form['skins'][$group][$name] = _skinr_ui_admin_skin_infos_build_row($skin, $extra);
+    $group = $groups[$skin_info['group']]['title'];
+    $form['skins'][$group][$name] = _skinr_ui_admin_library_form_build_row($skin_info, $extra, $theme);
   }
 
   // Add basic information to the fieldsets.
@@ -454,16 +632,13 @@ function skinr_ui_admin_skin_infos($form, $form_state) {
       '#type' => 'fieldset',
       '#title' => $package,
       '#collapsible' => TRUE,
-      '#theme' => 'skinr_ui_admin_skin_infos_fieldset',
+      '#theme' => 'skinr_ui_admin_library_fieldset',
       '#header' => array(
-        t('Name'),
-        t('Source type'),
-        t('Source name'),
-        t('Source version'),
-        t('Source plug-in'),
-        t('Theme hooks'),
         array('data' => t('Enabled'), 'class' => array('checkbox')),
-        array('data' => t('Operations'), 'colspan' => 3),
+        t('Name'),
+        t('Source'),
+        t('Version'),
+        t('Theme hooks'),
       ),
     );
   }
@@ -473,7 +648,11 @@ function skinr_ui_admin_skin_infos($form, $form_state) {
     '#type' => 'submit',
     '#value' => t('Save configuration'),
   );
-  $form['#action'] = url('admin/appearance/skinr/skins');
+  $form['actions']['reset'] = array(
+    '#type' => 'submit',
+    '#value' => t('Reset to defaults'),
+  );
+  $form['#action'] = url('admin/structure/skinr/library');
 
   return $form;
 }
@@ -481,7 +660,7 @@ function skinr_ui_admin_skin_infos($form, $form_state) {
 /**
  * Build a table row for the skin info listing page.
  */
-function _skinr_ui_admin_skin_infos_build_row($skin, $extra) {
+function _skinr_ui_admin_library_form_build_row($skin_info, $extra, $theme) {
   // Add in the defaults.
   $extra += array(
     'enabled' => FALSE,
@@ -493,31 +672,25 @@ function _skinr_ui_admin_skin_infos_build_row($skin, $extra) {
   );
 
   $form['name'] = array(
-    '#markup' => $skin['title'],
+    '#markup' => $skin_info['title'],
   );
   $form['description'] = array(
-    '#markup' => t($skin['description']),
+    '#markup' => t($skin_info['description']),
   );
-
 
   // Grab source info.
-  $info = system_get_info($skin['source']['type'], $skin['source']['name']);
+  $info = system_get_info($skin_info['source']['type'], $skin_info['source']['name']);
+  $source = !empty($info['name']) ? $info['name'] : $skin_info['source']['name'];
 
-  $form['source type'] = array(
-    '#markup' => $skin['source']['type'],
+  $form['source'] = array(
+    '#markup' => t('%source !type', array('%source' => $source, '!type' => $skin_info['source']['type'] == 'module' ? t('module') : t('theme'))),
   );
-  $form['source name'] = array(
-    '#markup' => $skin['source']['name'],
-  );
-  $form['source version'] = array(
-    '#markup' => $skin['source']['version'],
-  );
-  $form['source plugin'] = array(
-    '#markup' => '', //$skin['source']['plugin'],
+  $form['version'] = array(
+    '#markup' => $skin_info['source']['version'],
   );
 
   $theme_hooks = array();
-  foreach ($skin['theme hooks'] as $theme_hook) {
+  foreach ($skin_info['theme hooks'] as $theme_hook) {
     $theme_hooks[] = $theme_hook == '*' ? t('all hooks') : $theme_hook;
   }
   $form['theme hooks'] = array(
@@ -532,9 +705,6 @@ function _skinr_ui_admin_skin_infos_build_row($skin, $extra) {
   if ($extra['disabled']) {
     $form['enable']['#disabled'] = TRUE;
   }
-
-  // Build operation links.
-  $form['links']['configure'] = (isset($extra['links']['configure']) ? $extra['links']['configure'] : array());
 
   return $form;
 }
@@ -556,39 +726,106 @@ function skinr_ui_sort_by_title($a, $b) {
 }
 
 /**
- * Form submission handler for skinr_ui_admin_skin_infos().
- *
- * @todo Update status storage code.
+ * Form submission handler for skinr_ui_admin_library_form().
  */
-function skinr_ui_admin_skin_infos_submit($form, &$form_state) {
-  // Store list of previously enabled themes and disable all themes.
-  $old_skin_infos = $new_skin_infos = array();
-  foreach (skinr_get_skin_info() as $skin_info) {
-    if ($skin_info->status) {
-      $old_skin_infos[] = $skin_info->name;
-    }
-  }
-  db_query("UPDATE {skinr_skinsets} SET status = 0");
+function skinr_ui_admin_library_form_submit($form, &$form_state) {
+  $skins = skinr_get_skin_info();
+  $theme = $form_state['values']['edited_theme'];
+  $theme_info = system_get_info('theme', $theme);
+  $reset = $form_state['clicked_button']['#id'] == 'edit-reset' ? TRUE : FALSE;
 
-  // Set status for all
-  foreach ($form_state['values']['skinsets'] as $category) {
-    foreach ($category as $name => $choice) {
-      if ($choice['enable']) {
-        $new_theme_list[] = $name;
-        db_update('skinr_skinsets')
-          ->fields(array('status' => 1))
-          ->condition('name', $name)
-          ->execute();
+  if ($reset) {
+    // Reset all values to their default.
+    foreach ($form_state['values']['skins'] as $category => $data) {
+      foreach ($data as $skin => $enabled) {
+        $default_status = isset($skins[$skin]['status'][$theme]) ? $skins[$skin]['status'][$theme] : $skins[$skin]['default status'];
+        $form_state['values']['skins'][$category][$skin]['enable'] = $default_status;
       }
     }
   }
 
-  // Refresh skinsets from DB.
-  drupal_static_reset('skinr_get_skin_info');
+  if ($form_state['clicked_button']['#id'] == 'edit-submit' || $reset) {
+    // Make sure we don't disable skins for which configuration exists. Ask to
+    // disable all related skin configurations so we can disable the skin.
 
-  drupal_set_message(t('The configuration options have been saved.'));
+    $affected_skins = array();
+    $disable_sids = array();
+    $rebuild = FALSE;
 
-  return;
+    foreach ($form_state['values']['skins'] as $category => $data) {
+      foreach ($data as $skin => $enabled) {
+        $enabled = $enabled['enable'];
+        $status = skinr_skin_info_status_get($skins[$skin]);
+
+        if (!empty($status[$theme]) && !$enabled) {
+          // This skin is being disabled.
+          $affected_skins[] = $skin;
+
+          // Find all enabled configurations for this skin.
+          $params = array(
+            'theme' => $theme,
+            'skin' => $skin,
+            'status' => 1,
+          );
+          $sids = skinr_skin_get_sids($params);
+          if (count($sids)) {
+            $disable_sids += $sids;
+            $rebuild = TRUE;
+          }
+        }
+      }
+    }
+
+    if ($rebuild) {
+      $form_state['storage']['status'] = $form_state['values']['skins'];
+      $form_state['storage']['skins'] = $affected_skins;
+      $form_state['storage']['sids'] = $disable_sids;
+      $form_state['storage']['reset'] = $reset;
+      $form_state['rebuild'] = TRUE;
+      return;
+    }
+  }
+
+  if (!empty($form_state['storage']['sids'])) {
+    // Disable any configurations for skins that are being disabled.
+    db_update('skinr_skins')
+      ->fields(array('status' => 0))
+      ->condition('sid', $form_state['storage']['sids'])
+      ->execute();
+
+    // Clear skinr_skin_load_multiple cache.
+    drupal_static_reset('skinr_skin_load_multiple');
+
+    foreach ($form_state['storage']['skins'] as $skin) {
+      drupal_set_message(t('Disabled all skin configurations for skin %skin and theme %theme.', array('%skin' => $skin, '%theme' => $theme_info['name'])));
+    }
+    $changed_status = $form_state['storage']['status'];
+    $reset = $form_state['storage']['reset'];
+  }
+  else {
+    $changed_status = $form_state['values']['skins'];
+  }
+
+  // Save new status.
+  foreach ($changed_status as $category => $data) {
+    foreach ($data as $skin => $enabled) {
+      $enabled = $enabled['enable'];
+      $status = skinr_skin_info_status_get($skins[$skin]);
+      if (!isset($status[$theme]) || $status[$theme] != $enabled) {
+        // Update status.
+        $status[$theme] = $enabled;
+        skinr_skin_info_status_set($skins[$skin], $status);
+      }
+    }
+  }
+
+  if ($reset) {
+    drupal_set_message(t("Statuses for %theme's skins have been reset to their defaults.", array('%theme' => $theme_info['name'])));
+  }
+  else {
+    drupal_set_message(t("Statuses for %theme's skins have been updated.", array('%theme' => $theme_info['name'])));
+  }
+  $form_state['redirect'] = 'admin/structure/skinr/library';
 }
 
 /**
@@ -600,7 +837,7 @@ function skinr_ui_admin_skin_infos_submit($form, &$form_state) {
  *
  * @ingroup themeable
  */
-function theme_skinr_ui_admin_skin_infos_fieldset($variables) {
+function theme_skinr_ui_admin_library_fieldset($variables) {
   $form = $variables['form'];
 
   // Individual table headers.
@@ -613,29 +850,23 @@ function theme_skinr_ui_admin_skin_infos_fieldset($variables) {
 
     $row = array();
 
+    // Enabled.
+    unset($skin_info['enable']['#title']);
+    $row[] = array('class' => array('checkbox'), 'data' => drupal_render($skin_info['enable']));
+
     // Name.
-    $row[] = theme('skinr_ui_admin_skin_infos_summary', array(
+    $row[] = theme('skinr_ui_admin_library_summary', array(
       'name' => drupal_render($skin_info['name']),
       'description' => drupal_render($skin_info['description']),
     ));
 
     // Source.
-    $row[] = drupal_render($skin_info['source type']);
-    $row[] = drupal_render($skin_info['source name']);
-    $row[] = drupal_render($skin_info['source version']);
-    $row[] = drupal_render($skin_info['source plugin']);
+    $row[] = drupal_render($skin_info['source']);
+    $row[] = drupal_render($skin_info['version']);
 
     // Theme hooks.
     $row[] = drupal_render($skin_info['theme hooks']);
 
-    // Enabled.
-    unset($skin_info['enable']['#title']);
-    $row[] = array('class' => array('checkbox'), 'data' => drupal_render($skin_info['enable']));
-
-    // Display links (such as help or permissions) in their own columns.
-    foreach (array('help', 'permissions', 'configure') as $key) {
-      $row[] = array('data' => drupal_render($skin_info['links'][$key]), 'class' => array($key));
-    }
     $rows[] = $row;
   }
 
@@ -651,201 +882,8 @@ function theme_skinr_ui_admin_skin_infos_fieldset($variables) {
  *
  * @ingroup themeable
  */
-function theme_skinr_ui_admin_skin_infos_summary($variables) {
+function theme_skinr_ui_admin_library_summary($variables) {
   return '<div class="skin-infos-summary"><h2>'. $variables['name'] .'</h2><div class="description">'. $variables['description'] .'</div></div>';
-}
-
-/**
- * Returns HTML for a message about incompatible skinsets.
- *
- * @param $variables
- *   An associative array containing:
- *   - message: The form array representing the currently disabled modules.
- *
- * @ingroup themeable
- */
-function theme_skinr_ui_admin_skin_infos_incompatible($variables) {
-  return '<div class="incompatible">' . $variables['message'] . '</div>';
-}
-
-/**
- * Menu callback; displays a listing of all skins in a skinset, allowing you
- * to enable or disable them individually for each theme.
- *
- * @ingroup forms
- * @see skinr_ui_admin_skin_infos_settings_submit()
- */
-function skinr_ui_admin_skin_infos_settings($form, &$form_state, $skin_info) {
-  $themes = list_themes();
-  ksort($themes);
-
-  $form['skins'] = array('#tree' => TRUE);
-
-  foreach ($themes as $theme) {
-    if ($theme->status) {
-      // Create a row entry for this skinset.
-      $form['skins'][$theme->name][$skin_info['name']] = _skinr_ui_admin_skin_infos_settings_build_row($skin_info, $theme->name);
-    }
-  }
-
-  // Add basic information to the fieldsets.
-  $current_theme = skinr_current_theme(TRUE);
-  foreach (element_children($form['skins']) as $theme_name) {
-    $form['skins'][$theme_name] += array(
-      '#type' => 'fieldset',
-      '#title' => t($themes[$theme_name]->info['name']),
-      '#collapsible' => TRUE,
-      '#collapsed' => ($theme_name != $current_theme),
-      '#theme' => 'skinr_ui_admin_skin_infos_settings_fieldset',
-      '#header' => array(
-        t('Enabled'),
-        t('Name'),
-      ),
-    );
-  }
-  $form_state['skin_info'] = $skin_info;
-
-  $form['actions'] = array('#type' => 'actions');
-  $form['actions']['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Save configuration'),
-  );
-  $form['actions']['reset'] = array(
-    '#type' => 'submit',
-    '#value' => t('Reset to defaults'),
-  );
-
-  return $form;
-}
-
-/**
- * Build a table row for the skinset settings page.
- */
-function _skinr_ui_admin_skin_infos_settings_build_row($skin, $theme_name) {
-  $form['enable'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Enable'),
-    '#default_value' => (int) !empty($skin['status'][$theme_name]),
-  );
-
-  // The hooks this skin is working with.
-  $theme_hooks = array();
-  foreach ($skin['theme hooks'] as $theme_hook) {
-    $theme_hooks[] = $theme_hook == '*' ? t('all hooks') : $theme_hook;
-  }
-  $features = t('Used by: !theme_hooks', array('!theme_hooks' => implode(', ', $theme_hooks)));
-
-  $form['name'] = array(
-    '#markup' => t($skin['title']),
-  );
-  $form['description'] = array(
-    '#markup' => t($skin['description']),
-  );
-  $form['features'] = array(
-    '#markup' => $features,
-  );
-
-  return $form;
-}
-
-/**
- * Returns HTML for the skinsets settings form.
- *
- * @param $variables
- *   An associative array containing:
- *   - form: A render element representing the form.
- *
- * @ingroup themeable
- */
-function theme_skinr_ui_admin_skin_infos_settings_fieldset($variables) {
-  $form = $variables['form'];
-
-  // Individual table headers.
-  $rows = array();
-  // Iterate through all the modules, which are
-  // children of this fieldset.
-  foreach (element_children($form) as $key) {
-    // Stick it into $skin for easier accessing.
-    $skin = $form[$key];
-
-    $row = array();
-
-    // Enabled.
-    unset($skin['enable']['#title']);
-    $row[] = array('class' => array('checkbox'), 'data' => drupal_render($skin['enable']));
-
-    // Name.
-    $row[] = theme('skinr_ui_admin_skin_infos_settings_summary', array(
-      'name' => drupal_render($skin['name']),
-      'description' => drupal_render($skin['description']),
-      'theme hooks' => drupal_render($skin['theme hooks'])
-    ));
-
-    $rows[] = $row;
-  }
-
-  return theme('table', array('header' => $form['#header'], 'rows' => $rows));
-}
-
-/**
- * Returns HTML for the name column in the skinsets settings form.
- *
- * @param $variables
- *   An associative array containing:
- *   - name
- *   - description
- *   - features
- *
- * @ingroup themeable
- */
-function theme_skinr_ui_admin_skin_infos_settings_summary($variables) {
-  return '<div class="skin-info"><h2>'. $variables['name'] .'</h2><div class="description">'. $variables['description'] .'</div><div class="theme-hooks">'. $variables['theme hooks'] .'</div></div>';
-}
-
-/**
- * Process skinr_ui_admin_skin_infos_settings() form submissions.
- */
-function skinr_ui_admin_skin_infos_settings_submit($form, &$form_state) {
-  if ($form_state['values']['op'] == t('Save configuration')) {
-    $statuses = array();
-    foreach ($form_state['values']['skins'] as $theme => $skins) {
-      foreach ($skins as $name => $skin) {
-        if ($skin['enable']) {
-          $statuses[$name][$theme] = $theme;
-        }
-      }
-    }
-
-    foreach ($statuses as $name => $status) {
-      $skinr_skin = new StdClass();
-      $skinr_skin->name = $form_state['skin_info']['source']['name'];
-      $skinr_skin->type = 'skinset';
-      $skinr_skin->skin = $name;
-      $skinr_skin->status = $status;
-
-      $exists = (bool) db_query_range('SELECT 1 FROM {skinr_skins} WHERE name = :name AND skin = :skin', 0, 1, array(
-        ':name' => $skinr_skin->name,
-        ':skin' => $skinr_skin->skin,
-      ))->fetchField();
-      if ($exists) {
-        // Record exists, so let's update.
-        drupal_write_record('skinr_skins', $skinr_skin, array('name', 'skin'));
-      }
-      else {
-        // Insert a new record.
-        drupal_write_record('skinr_skins', $skinr_skin);
-      }
-    }
-  }
-  else {
-    // Revert to defaults: disable all skinsets.
-    db_delete('skinr_skins')
-      ->condition('name', $form_state['values']['skinset'])
-      ->execute();
-  }
-
-  drupal_set_message(t('The configuration options have been saved.'));
-  $form_state['redirect'] = 'admin/appearance/skinr/skins';
 }
 
 /**
@@ -864,16 +902,19 @@ function skinr_ui_export_form($form, &$form_state, $theme = NULL) {
   if ($theme) {
     // Export an individual theme.
     $theme = str_replace('-', '_', $theme);
-    $skins = skinr_skin_load($theme);
+    $params = array(
+      'theme' => $theme,
+    );
+    $skins = skinr_skin_load_multiple(skinr_skin_get_sids($params));
 
     // Convert classes to arrays.
-    foreach ($skins as $module => $data) {
-      foreach ($data as $sid => $skin) {
-        $skins[$module][$sid] = (array) $skins[$module][$sid];
-      }
+    $code = '';
+    foreach ($skins as $skin) {
+      unset($skin->sid);
+      unset($skin->rdf_mapping);
+      $code .= '$skins[] = '. var_export((array) $skin, TRUE) .";\n";
     }
 
-    $code = '$skins = '. var_export($skins, TRUE) .';';
     $lines = substr_count($code, "\n") + 1;
 
     $form['theme'] = array(
@@ -945,7 +986,7 @@ function skinr_ui_export_form_validate(&$form, &$form_state) {
  * Form submission handler for skinr_ui_export_form().
  */
 function skinr_ui_export_form_submit(&$form, &$form_state) {
-  drupal_goto('admin/appearance/skinr/export/' . str_replace('_', '-', $form_state['values']['theme']));
+  drupal_goto('admin/structure/skinr/export/' . str_replace('_', '-', $form_state['values']['theme']));
 }
 
 /**
@@ -954,41 +995,10 @@ function skinr_ui_export_form_submit(&$form, &$form_state) {
  * @ingroup forms
  */
 function skinr_ui_import_form($form, &$form_state) {
-  $form = array();
-
-  $options = array();
-  $themes = list_themes();
-  ksort($themes);
-  $current_theme = skinr_current_theme(TRUE);
-
-  // Put default theme at the top.
-  $options[$current_theme] = $themes[$current_theme]->info['name']. ' [' . t('default') . ']';
-
-  foreach ($themes as $theme) {
-    if (!empty($theme->info['hidden'])) {
-      continue;
-    }
-    if ($theme->name == $current_theme) {
-      // Do nothing.
-    }
-    elseif ($theme->status) {
-      $options[$theme->name] = $theme->info['name'] . ' [' . t('enabled') . ']';
-    }
-    else {
-      $options[$theme->name] = $theme->info['name'];
-    }
-  }
-
-  $form['theme'] = array(
-    '#type' => 'select',
-    '#title' => t('Theme'),
-    '#options' => $options,
-    '#required' => TRUE,
-  );
-  $form['skinr_settings'] = array(
+  $form['skin_configurations'] = array(
     '#type' => 'textarea',
-    '#title' => t('Skinr settings'),
-    '#description' => t('Paste skinr settings here.'),
+    '#title' => t('Skin configurations'),
+    '#description' => t('Paste skin coonfigurations here.'),
     '#rows' => 16,
   );
   $form['submit'] = array(
@@ -1003,58 +1013,56 @@ function skinr_ui_import_form($form, &$form_state) {
  * Form validation handler for skinr_ui_import_form().
  */
 function skinr_ui_import_form_validate(&$form, &$form_state) {
-  if (empty($form_state['values']['skinr_settings'])) {
+  if (empty($form_state['values']['skin_configurations'])) {
     // Error.
-    form_error($form['skinr_settings'], t('These are not valid Skinr settings.'));
+    form_error($form['skin_configurations'], t('These are not valid skin configurations.'));
     return;
   }
 
   $skins = '';
   ob_start();
-  eval($form_state['values']['skinr_settings']);
+  eval($form_state['values']['skin_configurations']);
   ob_end_clean();
 
-  foreach ($skins as $module => $ignored) {
-    if (!is_array($skins[$module])) {
-      // Error.
-      form_error($form['skinr_settings'], t('These are not valid Skinr settings.'));
+  foreach ($skins as $key => $skin) {
+    if (!is_array($skin)) {
+      form_error($form['skin_configurations'], t('These are not valid skin configurations.'));
+      break;
     }
-    foreach ($skins[$module] as $sid => $ignored) {
-      if (!is_array($skins[$module][$sid])) {
-        // Error.
-        form_error($form['skinr_settings'], t('These are not valid Skinr settings.'));
-      }
-
-      // Cast skinr array to object so we can actually use it.
-      $skins[$module][$sid] = (object) $skins[$module][$sid];
-      if (!skinr_validate($skins[$module][$sid])) {
-        // Error.
-        form_error($form['skinr_settings'], t('These are not valid Skinr settings.'));
-      }
+    $skins[$key] = (object) $skin;
+    if (!skinr_skin_validate($skins[$key])) {
+      form_error($form['skin_configurations'], t('These are not valid skin configurations.'));
     }
   }
 
-  if (!empty($form_state['values']['theme']) && preg_match('/[^a-zA-Z0-9_]/', $form_state['values']['theme'])) {
-    form_error($form['theme'], t('The theme name must be alphanumeric and can contain underscores only.'));
-  }
-
-  $form_state['skinrs'] = &$skins;
+  $form_state['skins'] = &$skins;
 }
 
 /**
  * Form submission handler for skinr_ui_import_form().
  */
 function skinr_ui_import_form_submit(&$form, &$form_state) {
-  foreach ($form_state['skinrs'] as $module => $skins) {
-    foreach ($skins as $sid => $skin) {
-      if (!skinr_skin_save($skin)) {
-        drupal_set_message(t('Skinr settings for the theme %theme could not be saved!', array('%theme' => $form_state['values']['theme'])), 'error');
-      }
+  foreach ($form_state['skins'] as $skin) {
+    // Find existing skin configuration and grab its sid.
+    $params = array(
+      'theme' => $skin->theme,
+      'module' => $skin->module,
+      'element' => $skin->element,
+      'skin' => $skin->skin,
+    );
+    $sids = skinr_skin_get_sids($params);
+    if (!empty($sids)) {
+      $skin->sid = reset($sids);
+    }
+
+    // Save skin configuration.
+    if (!skinr_skin_save($skin)) {
+      drupal_set_message(t('Not all skin configurations could be saved!'), 'error', FALSE);
     }
   }
 
-  drupal_set_message(t('Skinr settings for the theme %theme have been saved.', array('%theme' => $form_state['values']['theme'])));
-  drupal_goto('admin/appearance/skinr');
+  drupal_set_message(t('The skin configurations have been saved.'));
+  drupal_goto('admin/structure/skinr');
 }
 
 /**
@@ -1064,31 +1072,25 @@ function skinr_ui_import_form_submit(&$form, &$form_state) {
  *   The name of the theme to delete a setting for.
  * @param $module
  *   The module to delete a setting for.
- * @param $sid
+ * @param $element
  *   The ID of the setting to delete.
  *
  * @ingroup forms
  */
-function skinr_ui_delete_confirm($form, &$form_state, $theme, $module, $sid) {
-  $form['theme'] = array(
-    '#type' => 'value',
-    '#value' => isset($form_state['theme']) ? $form_state['theme'] : $theme,
-  );
-  $form['module'] = array(
-    '#type' => 'value',
-    '#value' => isset($form_state['module']) ? $form_state['module'] : $module,
-  );
+function skinr_ui_delete_confirm($form, &$form_state, $skin) {
+  $form['#skin'] = $skin;
+  // Always provide skin configuration sid in the same form key as in the skin
+  // configuration edit form.
   $form['sid'] = array(
     '#type' => 'value',
-    '#value' => isset($form_state['sid']) ? $form_state['sid'] : $sid,
+    '#value' => $skin->sid,
   );
 
   $themes = list_themes();
-
   return confirm_form($form,
-    t('Are you sure you want to delete these Skinr settings?'),
-    isset($_GET['destination']) ? $_GET['destination'] : 'admin/appearance/skinr',
-    t('This action cannot be undone.<br /> Theme: !theme<br />Module: !module<br />Skinr ID: !sid', array('!theme' => $themes[$theme]->info['name'], '!module' => $module, '!sid' => $sid)),
+    t('Are you sure you want to delete this skin configuration?'),
+    isset($_GET['destination']) ? $_GET['destination'] : 'admin/structure/skinr',
+    t('This action cannot be undone.<br />Theme: %theme<br />Module: %module<br />Element: %element<br />Skin: %skin', array('%theme' => $themes[$skin->theme]->info['name'], '%module' => $skin->module, '%element' => $skin->element, '%skin' => $skin->skin)),
     t('Delete'),
     t('Cancel')
   );
@@ -1099,15 +1101,10 @@ function skinr_ui_delete_confirm($form, &$form_state, $theme, $module, $sid) {
  */
 function skinr_ui_delete_confirm_submit($form, &$form_state) {
   if ($form_state['values']['confirm']) {
-    $skin = new stdClass();
-    $skin->theme = $form_state['values']['theme'];
-    $skin->module = $form_state['values']['module'];
-    $skin->sid = $form_state['values']['sid'];
-    $skin->skins = array();
-    $skin->settings = array();
-
-    skinr_skin_save($skin);
+    skinr_skin_delete($form_state['values']['sid']);
+    watchdog('content', 'Deleted a skin configuration.');
+    drupal_set_message(t('A skin configuration has been deleted.'));
   }
 
-  $form_state['redirect'] = 'admin/appearance/skinr';
+  $form_state['redirect'] = 'admin/structure/skinr';
 }

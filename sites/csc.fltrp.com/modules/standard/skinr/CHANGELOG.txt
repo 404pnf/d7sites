@@ -1,6 +1,36 @@
-
 Skinr 7.x-2.x, xxxx-xx-xx
 -------------------------
+Issue #984402 by moonray: Updated Skinr admin UI.
+Issue #952610 by aquariumtap, moonray | Alan D.: Added Vertical tabs integration.
+Issue #1163618 by moonray: Fixed *.skinr.inc not auto-loading for certain hooks.
+Issue #1163618 by moonray: Removed skinr_handlers and replaced them with proper
+  hooks.
+Issue #1163618 by sun, moonray: Added dependency on panels for skinr_panels.
+Issue #1163618 by sun, moonray: Fixed errors due to default groups not loaded
+  when clearing cache on Skin settings page.
+Issue #1218786 by moonray: Fixed skinr_rule_is_visible() doesn't work properly
+  for node/add/[type] when limiting by content type.
+Issue #1183954 by moonray: Fixed inability to register a skin under specific
+  theme hooks.
+Issues #1127434 by moonray: Fixed previous widget displaying twice if skin type
+  is invalid in skin plugin.
+Issue #1199972 by sun: Cleaned up tests.
+by moonray: Organized testing related modules into their own sub-directories.
+Issue #1185224 by moonray: Added tests for functionality plugins. Update.
+Issue #1185224 by moonray: Added tests for functionality plugins. Fixed a small
+  inconsistency with panels plugin.
+Issue #1044222 by sun, moonray: Removed left-over junk code.
+Issue #1044222 by sun, moonray: Fixed tests.
+Issue #1044222 by sun, moonray: Removed skin configuration functionality from
+  third-party forms.
+by moonray: Fixed typo in skinr_get_config_info() that prevented skipping
+  re-loading of cached data.
+#1148092 by moonray: Fixed PDOException on Skinr installation when using UTF8
+  character set in DB.
+#891942 by Vraja, moonray: Tests for class lost when editing block and user doesn't
+  have "access skinr classes" permission. Bug already fixed by previous patch.
+#1082842 by moonray: Update storage of skin configurations to give more
+  granular control.
 #1050064 by moonray | Hari: Fixed Skinr failing to load CSS files when added at
   the option level of a Skin.
 #1053738 by moonray: Fixed Simpletest for Skinr UI fails.
@@ -66,4 +96,3 @@ Skinr 7.x-2.x, xxxx-xx-xx
 #942292 by Jacine: Added Advanced Help support files.
 #917540 by Jacine: Added support for Form API #weight attribute.
 #908946 by sun: Partial clean up of Drupal 7 port.
-

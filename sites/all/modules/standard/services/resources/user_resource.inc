@@ -109,6 +109,14 @@ function _user_resource_definition() {
             'default value' => array(),
             'source' => array('param' => 'parameters'),
           ),
+          array(
+            'name' => 'pagesize',
+            'optional' => TRUE,
+            'type' => 'int',
+            'description' => 'Number of records to get per page.',
+            'default value' => variable_get('services_user_index_page_size', 20),
+            'source' => array('param' => 'pagesize'),
+          ),
         ),
         'access arguments' => array('access user profiles'),
         'access arguments append' => FALSE,
@@ -171,6 +179,8 @@ function _user_resource_retrieve($uid) {
     return services_error(t('There is no user with ID @uid.', array('@uid' => $uid)), 404);
   }
 
+  services_remove_user_data($account);
+
   // Everything went right.
   return $account;
 }
@@ -178,7 +188,7 @@ function _user_resource_retrieve($uid) {
 /**
  * Create a new user.
  *
- * This function uses drupal_form_submit() and as such exepects all input to match
+ * This function uses drupal_form_submit() and as such expects all input to match
  * the submitting form in question.
  *
  * @param $account
@@ -201,9 +211,7 @@ function _user_resource_retrieve($uid) {
  */
 function _user_resource_create($account) {
   // Adds backwards compatability with regression fixed in #1083242
-  if (isset($account['account'])) {
-    $account = $account['account'];
-  }
+  $account = _services_arg_value($account, 'account');
 
   // Load the required includes for saving profile information
   // with drupal_form_submit().
@@ -215,13 +223,13 @@ function _user_resource_create($account) {
     'pass1' => $account['pass'],
     'pass2' => $account['pass'],
   );
-  $form_state['values']['op'] = t('Create new account');
+  $form_state['values']['op'] = variable_get('services_user_create_button_resource_create', t('Create new account'));
 
   // execute the register form
   drupal_form_submit('user_register_form', $form_state);
   // find and store the new user into the form_state
   if(isset($form_state['values']['uid'])) {
-    $form_state['user'] = user_load($form_state['values']['uid']); 
+    $form_state['user'] = user_load($form_state['values']['uid']);
   }
 
   // Error if needed.
@@ -240,7 +248,7 @@ function _user_resource_create($account) {
 /**
  * Update an existing user.
  *
- * This function uses drupal_form_submit() and as such exepects all input to match
+ * This function uses drupal_form_submit() and as such expects all input to match
  * the submitting form in question.
  *
  * @param $uid
@@ -253,9 +261,7 @@ function _user_resource_create($account) {
  */
 function _user_resource_update($uid, $account) {
   // Adds backwards compatability with regression fixed in #1083242
-  if (isset($account['data'])) {
-    $account = $account['data'];
-  }
+  $account = _services_arg_value($account, 'data');
 
   $account['uid'] = $uid;
 
@@ -299,7 +305,7 @@ function _user_resource_update($uid, $account) {
     $form_state['values']['pass']['pass2'] = $account['pass'];
   }
 
-  $form_state['values']['op'] = t('Save');
+  $form_state['values']['op'] = variable_get('services_user_save_button_resource_update', t('Save'));
   $form_state['values']['#user_category'] = $category;
   $form_state['values']['#account'] = $account_loaded;
 
@@ -310,6 +316,7 @@ function _user_resource_update($uid, $account) {
     return services_error(implode(" ", $errors), 406, array('form_errors' => $errors));
   }
   else {
+    services_remove_user_data($account);
     return $account;
   }
 }
@@ -354,6 +361,11 @@ function _user_resource_login($username, $password) {
     return services_error(t('Already logged in as @user.', array('@user' => $user->name)), 406);
   }
 
+  // Check if account is active.
+  if (user_is_blocked($username)) {
+    return services_error(t('The username %name has not been activated or is blocked.', array('%name' => $username)), 403);
+  }
+
   $uid = user_authenticate($username, $password);
 
   if ($uid) {
@@ -364,6 +376,9 @@ function _user_resource_login($username, $password) {
       $return = new stdClass();
       $return->sessid = session_id();
       $return->session_name = session_name();
+
+      services_remove_user_data($user);
+
       $return->user = $user;
 
       return $return;
@@ -384,7 +399,7 @@ function _user_resource_logout() {
     return services_error(t('User is not logged in.'), 406);
   }
 
-  watchdog('user', 'Session closed for %name.', array('%name' => theme('placeholder', $user->name)));
+  watchdog('user', 'Session closed for %name.', array('%name' => drupal_placeholder($user->name)));
 
   // Destroy the current session:
   session_destroy();
@@ -411,20 +426,22 @@ function _user_resource_logout() {
  * @param $fields
  *   The fields you want returned.
  * @param $parameters
- *   An object containing fields and values used to build a sql WHERE clause indicating
- *   what items should be deleted.
+ *   An array containing fields and values used to build a sql WHERE clause
+ *   indicating items to retrieve.
+ * @param $page_size
+ *   Integer number of items to be returned.
  * @return
  *   An array of user objects.
  *
  * @see _node_resource_index() for more notes
  */
-function _user_resource_index($page, $fields, $parameters) {
+function _user_resource_index($page, $fields, $parameters, $page_size) {
   $user_select = db_select('users', 't')
     ->orderBy('created', 'DESC');
 
-  services_resource_build_index_query($user_select, $page, $fields, $parameters);
+  services_resource_build_index_query($user_select, $page, $fields, $parameters, $page_size, 'user');
 
-  $results = $user_select->execute();
+  $results = services_resource_execute_index_query($user_select);
 
   return services_resource_build_index_list($results, 'user', 'uid');
 }
@@ -434,23 +451,23 @@ function _user_resource_index($page, $fields, $parameters) {
  */
 function _user_resource_access($op = 'view', $args = array()) {
   // Adds backwards compatability with regression fixed in #1083242
-  if (isset($args[0]['account']) || isset($args[0]['data'])) {
-    $args[0] = $args[0]['account'] ? $args[0]['account'] : $args[0]['data'];
+  if (isset($args[0])) {
+    $args[0] = _services_access_value($args[0], array('account', 'data'));
+  }
+
+  // Check if the user exists if appropriate.
+  if ($op != 'create' && $op != 'register' ) {
+    $account = user_load($args[0]);
+    if (!$account) {
+      return services_error(t('There is no user with ID @uid.', array('@uid' => $args[0])), 406);
+    }
   }
 
   global $user;
   switch ($op) {
     case 'view':
-      $account = user_load($args[0]);
-      if (!$account->uid) {
-        return services_error(t('There is no user with ID @uid.', array('@uid' => $account->uid)), 406);
-      }
       return user_view_access($account);
     case 'update':
-      $account = user_load($args[0]);
-      if (!$account->uid) {
-        return services_error(t('There is no user with ID @uid.', array('@uid' => $account->uid)), 406);
-      }
       return ($user->uid == $account->uid || user_access('administer users'));
     case 'create':
     case 'register':
@@ -461,10 +478,6 @@ function _user_resource_access($op = 'view', $args = array()) {
         return user_access('administer users');
       }
     case 'delete':
-      $account = user_load($args[0]);
-      if (!$account->uid) {
-        return services_error(t('There is no user with ID @uid.', array('@uid' => $account->uid)), 406);
-      }
       return user_access('administer users');
   }
 }
