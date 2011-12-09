@@ -25,7 +25,6 @@ function video_field_info() {
         'file_directory' => 'videos/original',
         'max_filesize' => '',
         'default_dimensions' => '640x360',
-        'default_player_dimensions' => '640x360'
       ),
       'default_widget' => 'video_upload',
       'default_formatter' => 'video',
@@ -117,8 +116,8 @@ function video_field_load($entity_type, $entities, $field, $instances, $langcode
 function video_field_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items) {
   // If there are no files specified at all, use the default.
   foreach ($entities as $id => $entity) {
-    if (empty($items[$id]) && $field['settings']['default_video_thumbnail']) {
-      if ($file = file_load($field['settings']['default_video_thumbnail'])) {
+    if (empty($items[$id]) && $field['settings']['default_video_thumbnail']['fid']) {
+      if ($file = file_load($field['settings']['default_video_thumbnail']['fid'])) {
         $items[$id][0] = (array) $file + array(
           'is_default' => TRUE,
         );
@@ -132,10 +131,22 @@ function video_field_prepare_view($entity_type, $entities, $field, $instances, $
  */
 function video_field_presave($entity_type, $entity, $field, $instance, $langcode, &$items) {
   // change the theumbnails if default is checked
-  if (!empty($field['settings']['default_video_thumbnail'])) {
-    foreach ($items as $delta => $item) {
+  foreach ($items as $delta => $item) {
+    if (!empty($field['settings']['default_video_thumbnail']['fid'])) {
       if ($item['use_default_video_thumb'])
-        $items[$delta]['thumbanail'] = $field['settings']['default_video_thumbnail']['fid'];
+        $items[$delta]['thumbnail'] = $field['settings']['default_video_thumbnail']['fid'];
+    }
+    // save thumbnail as permanent
+    if (!empty($items[$delta]['thumbnail'])) {
+      $file = file_load($items[$delta]['thumbnail']);
+      $file->status |= FILE_STATUS_PERMANENT;
+      $file = file_save($file);
+    }
+    // delete from cache if exists
+    $cid = 'video:video:' . md5($item['fid']);
+    $cache = cache_get($cid);
+    if (!empty($cache->data)) {
+      cache_clear_all($cid, 'cache');
     }
   }
   file_field_presave($entity_type, $entity, $field, $instance, $langcode, $items);
@@ -160,31 +171,37 @@ function video_field_update($entity_type, $entity, $field, $instance, $langcode,
 }
 
 /**
- * Video file save to the video_files table for conversions
+ * Video file save to the video_queue table for conversions
  */
 function _video_field_file_autoconversion($entity_type, $entity, $field, $instance, $langcode, &$items) {
   // Create entry for video conversion if auto converison is enabled
   if ($field['settings']['autoconversion'] == 1) {
     $job = FALSE;
-    $nid = $entity->vid;
-    module_load_include('inc', 'video', '/includes/conversion');
-    $video_conversion = new video_conversion;
+    $nid = $entity->nid;
+    // conversion class
+    module_load_include('inc', 'video', 'includes/Conversion');
+    $video_conversion = new Conversion();
+    // transcoder factory
+    $factory = new TranscoderAbstractionAbstractFactory();
+    $transcoder = $factory->getProduct();
     foreach ($items as $delta => $item) {
+      // set input file
+      $transcoder->setInput($item);
       // skip adding entry if bypass conversion is checked
       if (isset($item['bypass_autoconversion']) && ($item['bypass_autoconversion'] == 1 || variable_get('video_bypass_conversion', FALSE))) {
         // delete the conversion job if any
-        $video_conversion->delete_job($item);
+        $transcoder->deleteJob($item);
         return;
       }
       // re queue for video conversion
       if (isset($item['re_convert_video']) && $item['re_convert_video'] == 1) {
-        $video = $video_conversion->load_job($item['fid']);
-        $video_conversion->change_status($video->vid, VIDEO_RENDERING_PENDING);
+        $video = $transcoder->loadJob();
+        $video_conversion->changeStatus($video->vid, VIDEO_RENDERING_PENDING);
         $job = TRUE;
       }
       // Lets verify that we haven't added this video already.  Multiple validation fails will cause this to be ran more than once
-      if (!$video = $video_conversion->load_job($item['fid'])) {
-        if (!($video_conversion->create_job($item, $nid)))
+      if (!$video = $transcoder->loadJob()) {
+        if (!($transcoder->createJob($item, $nid)))
           drupal_set_message(t('Something went wrong with your video job creation.  Please check your recent log entries for further debugging.'), 'error');
         else
           $job = TRUE;
@@ -193,29 +210,15 @@ function _video_field_file_autoconversion($entity_type, $entity, $field, $instan
       if (isset($item['convert_video_on_save']) && $item['convert_video_on_save'] == 1 || variable_get('video_convert_on_save', FALSE)) {
         // set to false when convert on save
         $job = FALSE;
-        switch ($video_conversion->process($item['fid'])) {
-          case FALSE:
-            drupal_set_message(t('Something went wrong with your video conversion.  Please check your recent log entries for further debugging.'), 'error');
-            break;
-          case TRUE;
-            drupal_set_message(t('Successfully converted your video.'));
-            break;
+        if ($video_conversion->process($item['fid'])) {
+          drupal_set_message(t('Transcoding job submission was successful. Your video will convert and publish very soon.'));
+        }
+        else {
+          $video = $transcoder->loadJob();
+          $video_conversion->changeStatus($video->vid, VIDEO_RENDERING_FAILED);
+          drupal_set_message(t('Something went wrong with your video transcoding.  Please check your recent log entries for further debugging.'), 'error');
         }
       }
-    }
-    // set node status to unpublish
-    if ($job && variable_get('video_publish_on_complete', TRUE)) {
-      // Update our node id to published.  We do not do a node_load as it causes editing problems when saving.
-      db_update('node')
-          ->fields(array(
-            'status' => NODE_NOT_PUBLISHED))
-          ->condition('nid', $nid, '=')
-          ->execute();
-      db_update('node_revision')
-          ->fields(array(
-            'status' => NODE_NOT_PUBLISHED))
-          ->condition('nid', $nid, '=')
-          ->execute();
     }
   }
 }
@@ -307,7 +310,8 @@ function video_field_widget_form(&$form, &$form_state, $field, $instance, $langc
     if (empty($elements[0]['#default_value']['fid'])) {
       $elements[0]['#description'] = theme('file_upload_help', array('description' => $instance['description'], 'upload_validators' => $elements[0]['#upload_validators']));
     }
-  } else {
+  }
+  else {
     $elements['#file_upload_description'] = theme('file_upload_help', array('upload_validators' => $elements[0]['#upload_validators']));
   }
   return $elements;
@@ -355,15 +359,20 @@ function video_field_widget_process($element, &$form_state, $form) {
  */
 function video_field_formatter_info() {
   $formatters = array(
-    'video' => array(
-      'label' => t('Video'),
+    'video_formatter_player' => array(
+      'label' => t('Video player'),
       'field types' => array('video'),
-      'settings' => array('video_style' => '', 'video_link' => ''),
+      'settings' => array(
+        'widthxheight' => '640x360',
+      ),
     ),
-    'video_thumbnail' => array(
+    'video_formatter_thumbnail' => array(
       'label' => t('Video thumbnail'),
       'field types' => array('video'),
-      'settings' => array('video_style' => '', 'video_link' => ''),
+      'settings' => array(
+        'image_style' => '',
+        'image_link' => ''
+      ),
     ),
   );
   return $formatters;
@@ -376,27 +385,38 @@ function video_field_formatter_settings_form($field, $instance, $view_mode, $for
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
 
-  $image_styles = image_style_options(FALSE);
-  $element['video_style'] = array(
-    '#title' => t('Video thumbnail style'),
-    '#type' => 'select',
-    '#default_value' => $settings['video_style'],
-    '#empty_option' => t('None (original video thumbnail)'),
-    '#options' => $image_styles,
-  );
+  if ($display['type'] == 'video_formatter_thumbnail') {
+    $image_styles = image_style_options(FALSE);
+    $element['image_style'] = array(
+      '#title' => t('Video thumbnail style'),
+      '#type' => 'select',
+      '#default_value' => $settings['image_style'],
+      '#empty_option' => t('None (original video thumbnail)'),
+      '#options' => $image_styles,
+    );
 
-  $link_types = array(
-    'content' => t('Content'),
-    'file' => t('File'),
-  );
-  $element['video_link'] = array(
-    '#title' => t('Link video or video thumbanil to'),
-    '#type' => 'select',
-    '#default_value' => $settings['video_link'],
-    '#empty_option' => t('Nothing'),
-    '#options' => $link_types,
-  );
-
+    $link_types = array(
+      'content' => t('Content'),
+      'file' => t('File'),
+    );
+    $element['image_link'] = array(
+      '#title' => t('Link video or video thumbanil to'),
+      '#type' => 'select',
+      '#default_value' => $settings['image_link'],
+      '#empty_option' => t('Nothing'),
+      '#options' => $link_types,
+    );
+  }
+  // set the player wxh
+  if ($display['type'] == 'video_formatter_player') {
+    $element['widthxheight'] = array(
+      '#title' => t('Dimensions'),
+      '#type' => 'select',
+      '#default_value' => $settings['widthxheight'],
+      '#description' => t('Select the desired widthxheight of the video player. You can add your own dimention from !settings.', array('!settings' => l('video metadata settings', 'admin/config/media/video/metadata'))),
+      '#options' => video_explode("\n", variable_get("video_metadata_dimensions", video_default_dimensions()))
+    );
+  }
   return $element;
 }
 
@@ -406,27 +426,31 @@ function video_field_formatter_settings_form($field, $instance, $view_mode, $for
 function video_field_formatter_settings_summary($field, $instance, $view_mode) {
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
-
   $summary = array();
-
   $image_styles = image_style_options(FALSE);
   // Unset possible 'No defined styles' option.
   unset($image_styles['']);
   // Styles could be lost because of enabled/disabled modules that defines
   // their styles in code.
-  if (isset($image_styles[$settings['video_style']])) {
-    $summary[] = t('Video thumbnail style: @style', array('@style' => $image_styles[$settings['video_style']]));
-  } else {
-    $summary[] = t('Original video thumbnail');
-  }
+  if ($display['type'] == 'video_formatter_thumbnail') {
+    if (isset($image_styles[$settings['image_style']])) {
+      $summary[] = t('Video thumbnail style: @style', array('@style' => $image_styles[$settings['image_style']]));
+    }
+    else {
+      $summary[] = t('Original video thumbnail');
+    }
 
-  $link_types = array(
-    'content' => t('Linked to content'),
-    'file' => t('Linked to video file'),
-  );
-  // Display this setting only if image is linked.
-  if (isset($link_types[$settings['video_link']])) {
-    $summary[] = $link_types[$settings['video_link']];
+    $link_types = array(
+      'content' => t('Linked to content'),
+      'file' => t('Linked to video file'),
+    );
+    // Display this setting only if image is linked.
+    if (isset($link_types[$settings['image_link']])) {
+      $summary[] = $link_types[$settings['image_link']];
+    }
+  }
+  if ($display['type'] == 'video_formatter_player') {
+    $summary[] = t('WidthxHeight of the player: @widthxheight', array('@widthxheight' => $settings['widthxheight']));
   }
 
   return implode('<br />', $summary);
@@ -437,47 +461,44 @@ function video_field_formatter_settings_summary($field, $instance, $view_mode) {
  */
 function video_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-
-  // Check if the formatter involves a link.
-  if ($display['settings']['video_link'] == 'content') {
-    $uri = entity_uri($entity_type, $entity);
-  } elseif ($display['settings']['video_link'] == 'file') {
-    $link_file = TRUE;
-  }
-
+  $settings = $display['settings'];
   // set the display
   $theme = $display['type'];
   foreach ($items as $delta => $item) {
-    if (isset($link_file)) {
-      $uri = array(
-        'path' => file_create_url($item['uri']),
-        'options' => array(),
+    if ($display['type'] == 'video_formatter_thumbnail') {
+      // Check if the formatter involves a link.
+      if ($settings['image_link'] == 'content') {
+        $uri = entity_uri($entity_type, $entity);
+      }
+      elseif ($settings['image_link'] == 'file') {
+        $link_file = TRUE;
+      }
+      if (isset($link_file)) {
+        $uri = array(
+          'path' => file_create_url($item['uri']),
+          'options' => array(),
+        );
+      }
+      $element[$delta] = array(
+        '#theme' => $theme,
+        '#item' => $item,
+        '#image_style' => $settings['image_style'],
+        '#path' => isset($uri) ? $uri : '',
+        '#entity' => $entity,
+        '#field' => $field,
+        '#instance' => $instance
       );
     }
-    $element[$delta] = array(
-      '#theme' => $theme,
-      '#item' => $item,
-      '#video_style' => $display['settings']['video_style'],
-      '#path' => isset($uri) ? $uri : '',
-      '#entity' => $entity,
-      '#field' => $field,
-      '#instance' => $instance
-    );
+    if ($display['type'] == 'video_formatter_player') {
+      $element[$delta] = array(
+        '#theme' => $theme,
+        '#item' => $item,
+        '#entity' => $entity,
+        '#field' => $field,
+        '#instance' => $instance,
+        '#player_dimensions' => $settings['widthxheight']
+      );
+    }
   }
   return $element;
-}
-
-/**
- * Element specific validation for video thumbnail value.
- *
- */
-function video_thumbnail_validate($element, &$form_state) {
-  $fid = $element['#value'];
-  // Make the file permanent and store it in the form.
-  if (!empty($fid)) {
-    $file = file_load($fid);
-    $file->status |= FILE_STATUS_PERMANENT;
-    $file = file_save($file);
-//    $element['#value'] = (array) $file;
-  }
 }

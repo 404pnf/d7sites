@@ -10,8 +10,8 @@
  * @return <type>
  */
 function video_transcoder_admin_settings() {
-  $transcoder = new video_transcoder;
-  $form = $transcoder->admin_settings();
+  $transcoder = new Transcoder;
+  $form = $transcoder->adminSettings();
   return system_settings_form($form);
 }
 
@@ -26,8 +26,9 @@ function video_transcoder_admin_settings_validate($form, &$form_state) {
 
   // add vallidations by trnacoder interface
   $transcoder = $form_state['values']['video_convertor'];
-  $transcoder = new video_transcoder($transcoder);
-  $transcoder->admin_settings_validate($form, $form_state);
+  $factory = new TranscoderAbstractionAbstractFactory();
+  $transcoder = $factory->getProduct($transcoder);
+  $transcoder->adminSettingsValidate($form, $form_state);
 }
 
 /**
@@ -35,8 +36,8 @@ function video_transcoder_admin_settings_validate($form, &$form_state) {
  * @return <type>
  */
 function video_preset_admin_settings() {
-  $preset = new video_preset();
-  $form = $preset->admin_settings();
+  $preset = new Preset();
+  $form = $preset->adminSettings();
   return system_settings_form($form);
 }
 
@@ -79,9 +80,10 @@ function video_general_admin_settings() {
   $form['video_publish_on_complete'] = array(
     '#type' => 'checkbox',
     '#title' => t('Publish when conversion complete'),
-    '#default_value' => variable_get('video_publish_on_complete', TRUE),
-    '#description' => t('Un-publish the node on submit and once conversion complete
-      turn node in to publish.')
+    '#default_value' => variable_get('video_publish_on_complete', FALSE),
+    '#description' => t('Now this feature is fully controlled by !rules module. Download 
+      the module and configure your rules to effect when the video conversions has been completed and failed.', array('!rules' => l('Rules', 'http://drupal.org/project/rules'))),
+    '#disabled' => TRUE
   );
   return system_settings_form($form);
 }
@@ -122,7 +124,8 @@ function video_players_admin_settings() {
         '#prefix' => '<div class="admin_flv_player_wrapper" id="flv_player_' . $ext . '">',
         '#suffix' => '</div>',
       );
-    } else {
+    }
+    else {
       $form['extensions']['video_extension_' . $ext . '_flash_player'] = array(
         '#type' => 'markup',
         '#markup' => t('No flash players detected.<br />You need to install !swf_tools or !flowplayer.', array('!swf_tools' => l(t('SWF Tools'), 'http://www.drupal.org/project/swftools'), '!flowplayer' => l(t('Flowplayer'), 'http://www.drupal.org/project/flowplayer'))),
@@ -151,16 +154,16 @@ function video_players_admin_settings() {
  * @return <type>
  */
 function video_metadata_admin_settings() {
-  $metadata = new video_metadata;
-  $form = $metadata->admin_settings();
+  $metadata = new Metadata;
+  $form = $metadata->adminSettings();
   return system_settings_form($form);
 }
 
 function video_metadata_admin_settings_validate($form, &$form_state) {
   // add vallidations by metadata interface
   $metadata = $form_state['values']['video_metadata'];
-  $metadata = new video_metadata($metadata);
-  $metadata->admin_settings_validate($form, $form_state);
+  $metadata = new Metadata($metadata);
+  $metadata->adminSettingsValidate($form, $form_state);
 }
 
 /**

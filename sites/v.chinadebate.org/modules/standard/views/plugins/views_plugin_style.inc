@@ -19,6 +19,10 @@
  */
 class views_plugin_style extends views_plugin {
   /**
+   * Store all available tokens row rows.
+   */
+  var $row_tokens = array();
+  /**
    * Initialize a style plugin.
    *
    * @param $view
@@ -103,7 +107,7 @@ class views_plugin_style extends views_plugin {
     if ($this->uses_row_class()) {
       $class = $this->options['row_class'];
       if ($this->uses_fields() && $this->view->field) {
-        $class = $this->tokenize_value($class, $row_index);
+        $class = strip_tags($this->tokenize_value($class, $row_index));
       }
 
       $classes = explode(' ', $class);
@@ -124,10 +128,15 @@ class views_plugin_style extends views_plugin {
         'text' => $value,
       );
 
-      $tokens = $this->row_tokens[$row_index];
-      // Grab a random field handler to perform the render.
-      $field = end($this->view->field);
-      $value = strip_tags($field->render_altered($fake_item, $tokens));
+      // Row tokens might be empty, for example for node row style.
+      $tokens = isset($this->row_tokens[$row_index]) ? $this->row_tokens[$row_index] : array();
+      if (!empty($this->view->build_info['substitutions'])) {
+        $tokens += $this->view->build_info['substitutions'];
+      }
+
+      if ($tokens) {
+        $value = strtr($value, $tokens);
+      }
     }
 
     return $value;
@@ -243,7 +252,7 @@ class views_plugin_style extends views_plugin {
           'options' => $this->options,
           'rows' => $rows,
           'title' => $title)
-        );
+      );
     }
     unset($this->view->row_index);
     return $output;
@@ -297,23 +306,27 @@ class views_plugin_style extends views_plugin {
       return;
     }
 
-    if (isset($this->rendered_fields)) {
-      return $this->rendered_fields;
+    if (!isset($this->rendered_fields)) {
+      $this->rendered_fields = array();
+      $this->view->row_index = 0;
+      $keys = array_keys($this->view->field);
+
+      // If all fields have a field::access FALSE there might be no fields, so
+      // there is no reason to execute this code.
+      if (!empty($keys)) {
+        foreach ($result as $count => $row) {
+          $this->view->row_index = $count;
+          foreach ($keys as $id) {
+            $this->rendered_fields[$count][$id] = $this->view->field[$id]->theme($row);
+          }
+
+          $this->row_tokens[$count] = $this->view->field[$id]->get_render_tokens(array());
+        }
+      }
+      unset($this->view->row_index);
     }
 
-    $this->view->row_index = 0;
-    $keys = array_keys($this->view->field);
-    foreach ($result as $count => $row) {
-      $this->view->row_index = $count;
-      foreach ($keys as $id) {
-        $this->rendered_fields[$count][$id] = $this->view->field[$id]->theme($row);
-      }
-
-      if ($this->uses_tokens()) {
-        $this->row_tokens[$count] = $this->view->field[$id]->get_render_tokens(array());
-      }
-    }
-    unset($this->view->row_index);
+    return $this->rendered_fields;
   }
 
   /**
@@ -363,4 +376,3 @@ class views_plugin_style extends views_plugin {
 /**
  * @}
  */
-
