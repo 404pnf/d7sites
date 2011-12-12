@@ -264,7 +264,6 @@ function shortcut_set_add_form_submit($form, &$form_state) {
  * @see shortcut_set_customize_submit()
  */
 function shortcut_set_customize($form, &$form_state, $shortcut_set) {
-  $form['#shortcut_set_name'] = $shortcut_set->set_name;
   $form['shortcuts'] = array(
     '#tree' => TRUE,
     '#weight' => -20,
@@ -300,10 +299,7 @@ function shortcut_set_customize($form, &$form_state, $shortcut_set) {
     'js' => array(drupal_get_path('module', 'shortcut') . '/shortcut.admin.js'),
   );
 
-  $form['actions'] = array(
-    '#type' => 'actions',
-    '#access' => !empty($shortcut_set->links),
-  );
+  $form['actions'] = array('#type' => 'actions');
   $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save changes'),
@@ -340,15 +336,9 @@ function shortcut_set_customize_submit($form, &$form_state) {
 function theme_shortcut_set_customize($variables) {
   $form = $variables['form'];
   $map = array('disabled' => t('Disabled'), 'enabled' => t('Enabled'));
-  $shortcuts_by_status = array(
-    'enabled' => element_children($form['shortcuts']['enabled']),
-    'disabled' => element_children($form['shortcuts']['disabled']),
-  );
-  // Do not add any rows to the table if there are no shortcuts to display.
-  $statuses = empty($shortcuts_by_status['enabled']) && empty($shortcuts_by_status['disabled']) ? array() : array_keys($shortcuts_by_status);
 
   $rows = array();
-  foreach ($statuses as $status) {
+  foreach (array('enabled', 'disabled') as $status) {
     drupal_add_tabledrag('shortcuts', 'match', 'sibling', 'shortcut-status-select');
     drupal_add_tabledrag('shortcuts', 'order', 'sibling', 'shortcut-weight');
     $rows[] = array(
@@ -359,7 +349,7 @@ function theme_shortcut_set_customize($variables) {
       'class' => array('shortcut-status', 'shortcut-status-' . $status),
     );
 
-    foreach ($shortcuts_by_status[$status] as $key) {
+    foreach (element_children($form['shortcuts'][$status]) as $key) {
       $shortcut = &$form['shortcuts'][$status][$key];
       $row = array();
       $row[] = drupal_render($shortcut['name']);
@@ -383,7 +373,7 @@ function theme_shortcut_set_customize($variables) {
           'class' => array('shortcut-slot-empty'),
         );
       }
-      $count_shortcuts = count($shortcuts_by_status[$status]);
+      $count_shortcuts = count(element_children($form['shortcuts'][$status]));
       if (!empty($count_shortcuts)) {
         for ($i = 0; $i < min($count_shortcuts, shortcut_max_slots()); $i++) {
           $rows['empty-' . $i]['class'][] = 'shortcut-slot-hidden';
@@ -393,7 +383,7 @@ function theme_shortcut_set_customize($variables) {
   }
 
   $header = array(t('Name'), t('Weight'), t('Status'), array('data' => t('Operations'), 'colspan' => 2));
-  $output = theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('id' => 'shortcuts'), 'empty' => t('No shortcuts available. <a href="@link">Add a shortcut</a>.', array('@link' => url('admin/config/user-interface/shortcut/' . $form['#shortcut_set_name'] . '/add-link')))));
+  $output = theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('id' => 'shortcuts')));
   $output .= drupal_render($form['actions']);
   $output = drupal_render_children($form) . $output;
   return $output;
@@ -482,7 +472,6 @@ function _shortcut_link_form_elements($shortcut_link = NULL) {
     '#size' => 40,
     '#maxlength' => 255,
     '#default_value' => $shortcut_link['link_title'],
-    '#required' => TRUE,
   );
 
   $form['shortcut_link']['link_path'] = array(

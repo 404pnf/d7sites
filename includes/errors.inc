@@ -136,7 +136,7 @@ function _drupal_decode_exception($exception) {
 }
 
 /**
- * Render an error message for an exception without any possibility of a further exception occurring.
+ * Render an error message for an exception without any possibility of a further exception occuring.
  *
  * @param $exception
  *   The exception object that was thrown.

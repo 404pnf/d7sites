@@ -299,9 +299,7 @@ function poll_form($node, &$form_state) {
   $form['choice_wrapper']['poll_more'] = array(
     '#type' => 'submit',
     '#value' => t('More choices'),
-    '#attributes' => array(
-      'title' => t("If the amount of boxes above isn't enough, click here to add more choices."),
-    ),
+    '#description' => t("If the amount of boxes above isn't enough, click here to add more choices."),
     '#weight' => 1,
     '#limit_validation_errors' => array(array('choice')),
     '#submit' => array('poll_more_choices_submit'),
@@ -585,20 +583,13 @@ function poll_update($node) {
           'chvotes' => (int) $choice['chvotes'],
           'weight' => $choice['weight'],
         ))
-        ->insertFields(array(
-           'nid' => $node->nid,
-           'chtext' => $choice['chtext'],
-        ))
+        ->insertFields(array('nid' => $node->nid))
         ->execute();
     }
     else {
       db_delete('poll_vote')
         ->condition('nid', $node->nid)
         ->condition('chid', $key)
-        ->execute();
-      db_delete('poll_choice')
-        ->condition('nid', $node->nid)
-        ->condition('chid', $choice['chid'])
         ->execute();
     }
   }

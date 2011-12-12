@@ -570,9 +570,11 @@ function hook_node_load($nodes, $types) {
  * block access, return NODE_ACCESS_IGNORE or simply return nothing.
  * Blindly returning FALSE will break other node access modules.
  *
+ * @link http://api.drupal.org/api/group/node_access/7 More on the node access system @endlink
+ * @ingroup node_access
  * @param $node
- *   Either a node object or the machine name of the content type on which to
- *   perform the access check.
+ *   The node on which the operation is to be performed, or, if it does
+ *   not yet exist, the type of node to be created.
  * @param $op
  *   The operation to be performed. Possible values:
  *   - "create"
@@ -580,14 +582,13 @@ function hook_node_load($nodes, $types) {
  *   - "update"
  *   - "view"
  * @param $account
- *   The user object to perform the access check operation on.
+ *   A user object representing the user for whom the operation is to be
+ *   performed.
  *
  * @return
- *   - NODE_ACCESS_ALLOW: if the operation is to be allowed.
- *   - NODE_ACCESS_DENY: if the operation is to be denied.
- *   - NODE_ACCESS_IGNORE: to not affect this operation at all.
- *
- * @ingroup node_access
+ *   NODE_ACCESS_ALLOW if the operation is to be allowed;
+ *   NODE_ACCESS_DENY if the operation is to be denied;
+ *   NODE_ACCESS_IGNORE to not affect this operation at all.
  */
 function hook_node_access($node, $op, $account) {
   $type = is_string($node) ? $node : $node->type;
@@ -879,9 +880,9 @@ function hook_node_view_alter(&$build) {
  *      machine name of this type. FALSE = changeable (not locked),
  *      TRUE = unchangeable (locked). Optional (defaults to TRUE).
  *
- * The machine name of a node type should contain only letters, numbers, and
- * underscores. Underscores will be converted into hyphens for the purpose of
- * constructing URLs.
+ * The machine-readable name of a node type should contain only letters,
+ * numbers, and underscores. Underscores will be converted into hyphens for the
+ * purpose of constructing URLs.
  *
  * All attributes of a node type that are defined through this hook (except for
  * 'locked') can be edited by a site administrator. This includes the

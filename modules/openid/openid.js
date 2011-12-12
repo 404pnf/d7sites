@@ -11,10 +11,10 @@ Drupal.behaviors.openid = {
       if (cookie) {
         $('#edit-openid-identifier').val(cookie);
       }
-      if ($('#edit-openid-identifier').val() || location.hash == '#openid-login') {
+      if ($('#edit-openid-identifier').val()) {
         $('#edit-openid-identifier').addClass('openid-processed');
         loginElements.hide();
-        // Use .css('display', 'block') instead of .show() to be Konqueror friendly.
+        // Use .css('display', 'block') instead of .show() to  Konqueror friendly.
         openidElements.css('display', 'block');
       }
     }

@@ -60,10 +60,8 @@ class DatabaseConnection_mysql extends DatabaseConnection {
     // This allows Drupal to run almost seamlessly on many different
     // kinds of database systems. These settings force MySQL to behave
     // the same as postgresql, or sqlite in regards to syntax interpretation
-    // and invalid data handling. See http://drupal.org/node/344575 for
-    // further discussion. Also, as MySQL 5.5 changed the meaning of
-    // TRADITIONAL we need to spell out the modes one by one.
-    $this->exec("SET sql_mode='ANSI,STRICT_TRANS_TABLES,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER'");
+    // and invalid data handling. See http://drupal.org/node/344575 for further discussion.
+    $this->exec("SET sql_mode='ANSI,TRADITIONAL'");
   }
 
   public function queryRange($query, $from, $count, array $args = array(), array $options = array()) {
@@ -139,16 +137,21 @@ class DatabaseConnection_mysql extends DatabaseConnection {
   /**
    * Overridden to work around issues to MySQL not supporting transactional DDL.
    */
-  protected function popCommittableTransactions() {
-    // Commit all the committable layers.
-    foreach (array_reverse($this->transactionLayers) as $name => $active) {
-      // Stop once we found an active transaction.
-      if ($active) {
-        break;
+  public function popTransaction($name) {
+    if (!$this->supportsTransactions()) {
+      return;
+    }
+    if (!$this->inTransaction()) {
+      throw new DatabaseTransactionNoActiveException();
+    }
+
+    // Commit everything since SAVEPOINT $name.
+    while ($savepoint = array_pop($this->transactionLayers)) {
+      if ($savepoint != $name) {
+        continue;
       }
 
       // If there are no more layers left then we should commit.
-      unset($this->transactionLayers[$name]);
       if (empty($this->transactionLayers)) {
         if (!PDO::commit()) {
           throw new DatabaseTransactionCommitFailedException();
@@ -170,12 +173,13 @@ class DatabaseConnection_mysql extends DatabaseConnection {
           if ($e->errorInfo[1] == '1305') {
             // If one SAVEPOINT was released automatically, then all were.
             // Therefore, we keep just the topmost transaction.
-            $this->transactionLayers = array('drupal_transaction' => 'drupal_transaction');
+            $this->transactionLayers = array('drupal_transaction');
           }
           else {
             throw $e;
           }
         }
+        break;
       }
     }
   }
