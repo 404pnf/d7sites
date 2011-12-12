@@ -1,0 +1,4 @@
+name = Menu ABC
+description = 学习菜单api
+core = 7.x
+gropup - testing

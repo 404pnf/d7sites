@@ -21,16 +21,9 @@
   */
 ?>
 <?php 
-	$url="editor/";
-	$user=arg(1);
-	//print("<pre>");
-	//print_r($row);
-//		print("</pre>");
-
-	$term_name = $row->taxonomy_term_data_field_data_field_baoming_name;
-	$term_id = $row->field_data_field_baoming_field_baoming_tid;
-	$url =$url.$term_id.'/'.$user;
-
-
+	$user=$row->users_name;
+	 $degree= 15;	
+	 $views_name = 'my_ccec';
+     $display_id = 'statistics_summary_admin_notitle';
+	 print views_embed_view($views_name, $display_id,$degree,$user);
 ?>
-<?php print l($term_name,$url); ?>
