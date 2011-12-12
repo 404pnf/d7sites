@@ -1,13 +1,14 @@
-; $Id: feeds_tamper_ui.info,v 1.2 2011/01/30 07:53:12 twistor Exp $
 name = Feeds Tamper Admin UI
 description = Administrative UI for Feeds Tamper module.
 package = Feeds
 dependencies[] = feeds_tamper
+dependencies[] = feeds_ui
+files[] = tests/feeds_tamper_ui.test
 core = 7.x
 
-; Information added by drupal.org packaging script on January 1, 1970 - 00:00
-version = "7.x-1.0-beta2"
+; Information added by drupal.org packaging script on 2011-07-31
+version = "7.x-1.0-beta3"
 core = "7.x"
 project = "feeds_tamper"
-datestamp = "1296534832"
+datestamp = "1312094529"
 

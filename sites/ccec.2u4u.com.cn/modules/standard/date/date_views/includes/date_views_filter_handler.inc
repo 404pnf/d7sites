@@ -3,13 +3,17 @@
 /**
  * @file
  * A flexible, configurable date filter.
- * This filter combines multiple date filters into a single filter 
+ * This filter combines multiple date filters into a single filter
  * where all fields are controlled by the same date and can be combined with either AND or OR.
  */
 
 class date_views_filter_handler extends date_views_filter_handler_simple {
   function init(&$view, &$options) {
     parent::init($view, $options);
+
+    if (empty($this->view->date_info)) {
+      $this->view->date_info = new stdClass();
+    }
     if (empty($this->view->date_info->date_fields)) {
       $this->view->date_info->date_fields = array();
     }
@@ -20,51 +24,62 @@ class date_views_filter_handler extends date_views_filter_handler_simple {
   function option_definition() {
     $options = parent::option_definition();
     $options['date_fields'] = array('default' => array());
-    $options['date_method'] = array('default' => 'OR', 'export' => 'export_plugin');
+    $options['date_method'] = array('default' => 'OR');
+    $options['date_group'] = array('default' => 'date');
     return $options;
-  }
-
-  /**
-   * Make sure our custom options get exported.
-   * Handle the options we know about, pass the rest to the parent plugin.
-   */
-  function export_plugin($indent, $prefix, $storage, $option, $definition, $parents) {
-    $output = '';
-    if (in_array($option, array('date_method'))) {
-      $name = $this->options[$option];
-      $output .= $indent . $prefix . "['$option'] = '$name';\n";
-      return $output;
-    }
-    return parent::export_plugin($indent, $prefix, $storage, $option, $definition, $parents);
   }
 
   function op_between($field) {
     $this->get_query_fields();
     if (!empty($this->query_fields)) {
+
+      // If we don't add a dummy where clause and there is no other filter defined for this view,
+      // Views will dump in an invalid WHERE () in addition to our custom filters, so give it a valid value.
+      // @TODO This is probably the wrong way to solve this problem.
+      if (empty($this->query->where[$this->options['group']]['conditions'])) {
+        $this->query->add_where_expression(NULL, '1=1', array());
+      }
+
+      $this->query->set_where_group($this->options['date_method'], $this->options['date_group']);
       foreach ((array) $this->query_fields as $query_field) {
         $field = $query_field['field'];
+        $this->date_handler = $query_field['date_handler'];
         if ($field['table_name'] != $this->table || !empty($this->relationship)) {
           $this->related_table_alias = $this->query->queue_table($field['table_name'], $this->relationship);
         }
         $table_alias = !empty($this->related_table_alias) ? $this->related_table_alias : $field['table_name'];
         $query_field['field']['fullname'] = $table_alias .'.'. $query_field['field']['field_name'];
-        $this->query->set_where_group($this->options['date_method'], $this->options['group']);
         parent::op_between($query_field['field']['fullname']);
       }
     }
   }
 
   function op_simple($field) {
+
     $this->get_query_fields();
     if (!empty($this->query_fields)) {
+
+      // If we don't add a dummy where clause and there is no other filter defined for this view,
+      // Views will dump in an invalid WHERE () in addition to our custom filters, so give it a valid value.
+      // @TODO This is probably the wrong way to solve this problem.
+      if (empty($this->query->where[$this->options['group']]['conditions'])) {
+        $this->query->add_where_expression(NULL, '1=1', array());
+      }
+
+      $this->query->set_where_group($this->options['date_method'], $this->options['date_group']);
       foreach ((array) $this->query_fields as $query_field) {
         $field = $query_field['field'];
+        $this->date_handler = $query_field['date_handler'];
         if ($field['table_name'] != $this->table || !empty($this->relationship)) {
           $this->related_table_alias = $this->query->queue_table($field['table_name'], $this->relationship);
         }
+        // $this->related_table_alias gets set when the first field is processed if otherwise empty.
+        // For subsequent fields, we need to be sure it is emptied again.
+        elseif (empty($this->relationship)) {
+          $this->related_table_alias = NULL;
+        }
         $table_alias = !empty($this->related_table_alias) ? $this->related_table_alias : $field['table_name'];
         $query_field['field']['fullname'] = $table_alias .'.'. $query_field['field']['field_name'];
-        $this->query->set_where_group($this->options['date_method'], $this->options['group']);
         parent::op_simple($query_field['field']['fullname']);
       }
     }
@@ -151,9 +166,10 @@ class date_views_filter_handler extends date_views_filter_handler_simple {
     $this->query_fields = array();
     foreach ((array) $this->options['date_fields'] as $delta => $name) {
       if (array_key_exists($name, $fields) && $field = $fields[$name]) {
-        $date_handler = new date_sql_handler();
-        $date_handler->construct($field['sql_type'], date_default_timezone());
+        $date_handler = new date_sql_handler($field['sql_type'], date_default_timezone());
         $date_handler->granularity = $this->options['granularity'];
+        $date_handler->db_timezone = date_get_timezone_db($field['tz_handling']);
+        $date_handler->local_timezone = date_get_timezone($field['tz_handling']);
         $this->query_fields[] = array('field' => $field, 'date_handler' => $date_handler);
       }
     }

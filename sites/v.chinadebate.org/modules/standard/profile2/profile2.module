@@ -12,6 +12,8 @@ function profile2_entity_info() {
   $return = array(
     'profile2' => array(
       'label' => t('Profile'),
+      'plural label' => t('Profiles'),
+      'description' => t('Profile2 user profiles.'),
       'entity class' => 'Profile',
       'controller class' => 'EntityAPIController',
       'base table' => 'profile',
@@ -37,10 +39,31 @@ function profile2_entity_info() {
       'metadata controller class' => 'Profile2MetadataController'
     ),
   );
+
+  // Add bundle info but bypass entity_load() as we cannot use it here.
+  $types = db_select('profile_type', 'p')
+    ->fields('p')
+    ->execute()
+    ->fetchAllAssoc('type');
+
+  foreach ($types as $type => $info) {
+    $return['profile2']['bundles'][$type] = array(
+      'label' => $info->label,
+      'admin' => array(
+        'path' => 'admin/structure/profiles/manage/%profile2_type',
+        'real path' => 'admin/structure/profiles/manage/' . $type,
+        'bundle argument' => 4,
+        'access arguments' => array('administer profiles'),
+      ),
+    );
+  }
+
   $return['profile2_type'] = array(
     'label' => t('Profile type'),
+    'plural label' => t('Profile types'),
+    'description' => t('Profiles types of Profile2 user profiles.'),
     'entity class' => 'ProfileType',
-    'controller class' => 'EntityAPIController',
+    'controller class' => 'EntityAPIControllerExportable',
     'base table' => 'profile_type',
     'fieldable' => FALSE,
     'bundle of' => 'profile2',
@@ -59,27 +82,8 @@ function profile2_entity_info() {
       'controller class' => 'Profile2TypeUIController',
     ),
   );
-  return $return;
-}
 
-/**
- * Implements hook_entity_info_alter().
- *
- * Use this hook to specify profile bundles to avoid a recursion, as loading
- * the profile types needs the entity info too.
- */
-function profile2_entity_info_alter(&$entity_info) {
-  foreach (profile2_get_types() as $type => $info) {
-    $entity_info['profile2']['bundles'][$type] = array(
-      'label' => $info->label,
-      'admin' => array(
-        'path' => 'admin/structure/profiles/manage/%profile2_type',
-        'real path' => 'admin/structure/profiles/manage/' . $type,
-        'bundle argument' => 4,
-        'access arguments' => array('administer profiles'),
-      ),
-    );
-  }
+  return $return;
 }
 
 /**
@@ -138,7 +142,7 @@ function profile2_permission() {
  *   Depending whether $type isset, an array of profile types or a single one.
  */
 function profile2_get_types($type_name = NULL) {
-  $types = entity_load('profile2_type', isset($type_name) ? array($type_name) : FALSE);
+  $types = entity_load_multiple_by_name('profile2_type', isset($type_name) ? array($type_name) : FALSE);
   return isset($type_name) ? reset($types) : $types;
 }
 
@@ -190,12 +194,14 @@ function profile2_load_multiple($pids = array(), $conditions = array(), $reset =
  *   Either a single profile or an array of profiles keyed by profile type.
  *
  * @see profile2_load_multiple()
+ * @see profile2_profile2_delete()
+ * @see Profile::save()
  */
 function profile2_load_by_user($account, $type_name = NULL) {
   // Use a separate query to determine all profile ids per user and cache them.
   // That way we can look up profiles by id and benefit from the static cache
   // of the entity loader.
-  $cache = drupal_static(__FUNCTION__, array());
+  $cache = &drupal_static(__FUNCTION__, array());
   $uid = is_object($account) ? $account->uid : $account;
 
   if (!isset($cache[$uid])) {
@@ -222,6 +228,15 @@ function profile2_load_by_user($account, $type_name = NULL) {
 }
 
 /**
+ * Implements hook_profile2_delete().
+ */
+function profile2_profile2_delete($profile) {
+  // Clear the static cache from profile2_load_by_user().
+  $cache = &drupal_static('profile2_load_by_user', array());
+  unset($cache[$profile->uid][$profile->type]);
+}
+
+/**
  * Deletes a profile.
  */
 function profile2_delete(Profile $profile) {
@@ -239,10 +254,9 @@ function profile2_delete_multiple(array $pids) {
 }
 
 /**
- * Implements hook_user_cancel().
+ * Implements hook_user_delete().
  */
-function profile2_user_cancel($edit, $account, $method) {
-  // Delete all profiles of the user in any case.
+function profile2_user_delete($account) {
   foreach (profile2_load_by_user($account) as $profile) {
     profile2_delete($profile);
   }
@@ -293,29 +307,51 @@ function profile2_profile2_load($profiles) {
 }
 
 /**
- * Implements hook_profile2_type_delete()
+ * Implements hook_profile2_type_insert().
  */
+function profile2_profile2_type_insert(ProfileType $type) {
+  // Always rebuild the menu in case a profile type is inserted or changed, as
+  // also extension modules like profile2 page might need menu rebuilds. In
+  // order to avoid possible multiple rebuilds of modules we just do it always
+  // but once here.
+  menu_rebuild();
+}
+
+/**
+ * Implements hook_profile2_type_update().
+ */
+function profile2_profile2_type_update(ProfileType $type) {
+  // @see profile2_profile2_type_insert()
+  menu_rebuild();
+}
+
+/**
+* Implements hook_profile2_type_delete()
+*/
 function profile2_profile2_type_delete($type) {
   // Delete all profiles of this type.
   if ($pids = array_keys(profile2_load_multiple(FALSE, array('type' => $type->type)))) {
     profile2_delete_multiple($pids);
   }
-  // Rebuild the menu as any (user-category) menu items should be gone now.
+  // @see profile2_profile2_type_insert()
   menu_rebuild();
 }
+
 
 /**
  * Implements hook_user_view().
  */
-function profile2_user_view($account) {
+function profile2_user_view($account, $view_mode, $langcode) {
   foreach (profile2_get_types() as $type => $profile_type) {
-    if ($profile_type->userView && ($profile = profile2_load_by_user($account, $type))) {
-      $account->content['profile_' . $type] = array(
-        '#type' => 'user_profile_category',
-        '#title' => $profile->label,
-        '#prefix' => '<a id="profile-' . $profile->type . '"></a>',
-      );
-      $account->content['profile_' . $type]['view'] = $profile->view('account');
+    if ($profile_type->userView && $profile = profile2_load_by_user($account, $type)) {
+      if (profile2_access('view', $profile)) {
+        $account->content['profile_' . $type] = array(
+          '#type' => 'user_profile_category',
+          '#title' => $profile->label,
+          '#prefix' => '<a id="profile-' . $profile->type . '"></a>',
+        );
+        $account->content['profile_' . $type]['view'] = $profile->view('account');
+      }
     }
   }
 }
@@ -492,7 +528,7 @@ function profile2_category_access($account, $type_name) {
   // As there might be no profile yet, create a new object for being able to run
   // a proper access check.
   $profile = profile_create(array('type' => $type_name, 'uid' => $account->uid));
-  return ($account->uid > 0 && profile2_access('edit', $profile));
+  return ($account->uid > 0 && $profile->type()->userCategory && profile2_access('edit', $profile));
 }
 
 /**
@@ -502,22 +538,43 @@ function profile2_category_access($account, $type_name) {
  *   The operation being performed. One of 'view', 'update', 'create', 'delete'
  *   or just 'edit' (being the same as 'create' or 'update').
  * @param $profile
- *   Optionally a profile or a profile type o check access for. If nothing is
- *   given, access for all profiles is determined.
+ *   (optional) A profile to check access for. If nothing is given, access for
+ *   all profiles is determined.
  * @param $account
  *   The user to check for. Leave it to NULL to check for the global user.
  * @return boolean
  *   Whether access is allowed or not.
+ *
+ * @see hook_profile2_access()
+ * @see profile2_profile2_access()
  */
 function profile2_access($op, $profile = NULL, $account = NULL) {
   if (user_access('administer profiles', $account)) {
     return TRUE;
   }
-  if (isset($profile) && $type_name = $profile->type) {
-    if ($op == 'delete') {
-      return FALSE;
-    }
-    $op = ($op == 'view') ? 'view' : 'edit';
+  if ($op == 'create' || $op == 'update') {
+    $op = 'edit';
+  }
+  // Allow modules to grant / deny access.
+  $access = module_invoke_all('profile2_access', $op, $profile, $account);
+
+  // Only grant access if at least one module granted access and no one denied
+  // access.
+  if (in_array(FALSE, $access, TRUE)) {
+    return FALSE;
+  }
+  elseif (in_array(TRUE, $access, TRUE)) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
+ * Implements hook_profile2_access().
+ */
+function profile2_profile2_access($op, $profile = NULL, $account = NULL) {
+  // Don't grant access for users to delete their profile.
+  if (isset($profile) && ($type_name = $profile->type) && $op != 'delete') {
     if (user_access("$op any $type_name profile", $account)) {
       return TRUE;
     }
@@ -526,7 +583,7 @@ function profile2_access($op, $profile = NULL, $account = NULL) {
       return TRUE;
     }
   }
-  return FALSE;
+  // Do not explicitly deny access so others may still grant access.
 }
 
 /**
@@ -628,6 +685,15 @@ class Profile extends Entity {
     }
     return entity_get_controller($this->entityType)->buildContent($this, $view_mode, $langcode, $content);
   }
+
+  public function save() {
+    parent::save();
+    // Update the static cache from profile2_load_by_user().
+    $cache = &drupal_static('profile2_load_by_user', array());
+    if (isset($cache[$this->uid])) {
+      $cache[$this->uid][$this->type] = $this->pid;
+    }
+  }
 }
 
 /**
@@ -693,14 +759,14 @@ function profile2_form_field_ui_field_edit_form_alter(&$form, &$form_state) {
  * Implements hook_field_access().
  */
 function profile2_field_access($op, $field, $entity_type, $profile = NULL, $account = NULL) {
-  if ($entity_type == 'profile2' && $op == 'view' && !user_access('administer profiles', $account)) {
-    // For profiles, deny general view access.
+  if ($entity_type == 'profile2' && $op == 'view' && !empty($field['settings']['profile2_private']) && !user_access('administer profiles', $account)) {
+    // For profiles, deny general view access for private fields.
     if (!isset($profile)) {
       return FALSE;
     }
     // Also deny view access, if someone else views a private field.
     $account = isset($account) ? $account : $GLOBALS['user'];
-    if ($account->uid != $profile->uid && !empty($field['settings']['profile2_private'])) {
+    if ($account->uid != $profile->uid) {
       return FALSE;
     }
   }

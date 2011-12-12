@@ -1,5 +1,4 @@
 <?php
-// $Id: features.export.inc,v 1.1.2.47.2.12 2011/02/18 23:21:08 inadarei Exp $
 
 /**
  * @param $items
@@ -107,9 +106,11 @@ function _features_export_minimize_dependencies($dependencies, $module_name = ''
  */
 function _features_export_maximize_dependencies($dependencies, $module_name = '', $maximized = array(), $first = TRUE) {
   foreach ($dependencies as $k => $v) {
-    if (!in_array($v, $maximized)) {
-      $maximized[] = $v;
-      $module = features_get_modules($v);
+    $parsed_dependency = drupal_parse_dependency($v);
+    $name = $parsed_dependency['name'];
+    if (!in_array($name, $maximized)) {
+      $maximized[] = $name;
+      $module = features_get_modules($name);
       if ($module && !empty($module->info['dependencies'])) {
         $maximized = array_merge($maximized, _features_export_maximize_dependencies($module->info['dependencies'], $module_name, $maximized, FALSE));
       }
@@ -210,7 +211,7 @@ function features_export_render($export, $module_name, $reset = FALSE) {
 
   // Finalize strings to be written to files
   foreach ($code as $filename => $contents) {
-    $code[$filename] = "<?php\n\n". implode("\n\n", $contents) ."\n";
+    $code[$filename] = "<?php\n/**\n * @file\n * {$module_name}.{$filename}.inc\n */\n\n". implode("\n\n", $contents) ."\n";
   }
 
   // Generate info file output
@@ -247,10 +248,10 @@ function features_export_render($export, $module_name, $reset = FALSE) {
   }
   // Add a stub module to include the defaults
   else if (!empty($code['features'])) {
-    $code['module'] = "<?php\n\ninclude_once('{$module_name}.features.inc');\n";
+    $code['module'] = "<?php\n/**\n * @file\n * Code for the {$export['name']} feature.\n */\n\ninclude_once('{$module_name}.features.inc');\n";
   }
   else {
-    $code['module'] = "<?php\n\n// Drupal needs this blank file.\n";
+    $code['module'] = "<?php\n/**\n * @file\n */\n\n// Drupal needs this blank file.\n";
   }
   return $code;
 }
@@ -328,7 +329,7 @@ function features_get_default_hooks($component = NULL, $reset = FALSE) {
 function features_export_render_defaults($module, $hook, $code) {
   $output = array();
   $output[] = "/**";
-  $output[] = " * Implementation of hook_{$hook}().";
+  $output[] = " * Implements hook_{$hook}().";
   $output[] = " */";
   $output[] = "function {$module}_{$hook}() {";
   $output[] = $code;
@@ -426,7 +427,8 @@ function features_var_export($var, $prefix = '', $init = TRUE) {
     else {
       $output = "array(\n";
       foreach ($var as $key => $value) {
-        $output .= "  '$key' => " . features_var_export($value, '  ', FALSE) . ",\n";
+        // Using normal var_export on the key to ensure correct quoting.
+        $output .= "  " . var_export($key, TRUE) . " => " . features_var_export($value, '  ', FALSE) . ",\n";
       }
       $output .= ')';
     }
@@ -804,8 +806,7 @@ function _features_linetrim($code) {
  */
 function _features_sanitize(&$array) {
   if (is_array($array)) {
-    $is_assoc = (array_keys($array) != range(0, count($array) - 1));
-    if ($is_assoc) {
+    if (_features_is_assoc($array)) {
       ksort($array);
       $array = array_filter($array);
     }
@@ -818,4 +819,19 @@ function _features_sanitize(&$array) {
       }
     }
   }
+}
+
+/**
+ * Is the given array an associative array. This basically extracts the keys twice to get the
+ * numerically ordered keys. It then does a diff with the original array and if there is no
+ * key diff then the original array is not associative.
+ *
+ * NOTE: If you have non-sequential numerical keys, this will identify the array as assoc.
+ *
+ * Borrowed from: http://www.php.net/manual/en/function.is-array.php#96724
+ *
+ * @return True is the array is an associative array, false otherwise
+ */
+function _features_is_assoc($array) {
+  return (is_array($array) && (0 !== count(array_diff_key($array, array_keys(array_keys($array)))) || count($array)==0));
 }

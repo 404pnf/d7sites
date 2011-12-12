@@ -299,7 +299,7 @@ function boost_transform_url($url = NULL, $b_path = NULL) {
       return $items[$hash];
     }
     $parts['base_dir'] = boost_get_normal_cache_dir() . '/' . $parts['host'] . $b_path;
-    $parts['filename'] = $parts['base_dir'] . $parts['path'] . variable_get('boost_char', BOOST_CHAR) . $parts['query'];
+    $parts['filename'] = $parts['base_dir'] . $parts['full_path'] . variable_get('boost_char', BOOST_CHAR) . $parts['query'];
     $parts['directory'] = dirname($parts['filename']);
 
     // Get the internal path (node/8).
@@ -364,10 +364,18 @@ function boost_parse_url($url = NULL, $b_path = NULL) {
   if (!isset($parts['query'])) {
     $parts['query'] = '';
   }
-  $parts['path'] = preg_replace('/^' . preg_quote($b_path, '/') .'/i', '', $parts['path']);
+  $parts['path'] = $parts['full_path'] = preg_replace('/^' . preg_quote($b_path, '/') .'/i', '', $parts['path']);
   $parts['base_path'] = $b_path;
   $parts['query_array'] = array();
   parse_str($parts['query'], $parts['query_array']);
+
+  // Check if language prefix for urls is enabled.
+  if (defined('LOCALE_LANGUAGE_NEGOTIATION_URL_PREFIX') && variable_get('locale_language_negotiation_url_part') == LOCALE_LANGUAGE_NEGOTIATION_URL_PREFIX) {
+    // Get languages grouped by status and select only the enabled ones.
+    $languages = language_list('enabled');
+    $languages = $languages[1];
+    list($language, $parts['path']) = language_url_split_prefix($parts['path'], $languages);
+  }
 
   // Get page number and info from the query string.
   if (!empty($parts['query_array'])) {
@@ -498,10 +506,13 @@ function boost_is_cacheable($parts) {
   // Invoke hook_boost_is_cacheable($path).
   $modules = boost_module_implements('boost_is_cacheable', 'boost');
   foreach ($modules as $module) {
-    if (($result = module_invoke($module, 'boost_is_cacheable', $parts)) !== NULL) {
+    $result = module_invoke($module, 'boost_is_cacheable', $parts);
+    if ($result['is_cacheable'] === FALSE) {
       return $result;
     }
   }
+
+  return $result;
 }
 
 /**

@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @file
+ * Implement an drush commands to trasncode videos.
+ */
 /**
  * Implementation of hook_drush_command().
  */
@@ -26,7 +29,7 @@ function drush_video_scheduler() {
   $GLOBALS['conf']['video_ffmpeg_instances'] = $limit;
 
   // include our conversion class (also contains our defines)
-  module_load_include('inc', 'video', 'includes/conversion');
-  $video_conversion = new video_conversion;
-  $video_conversion->run_queue();
+  module_load_include('inc', 'video', 'includes/Conversion');
+  $video_conversion = new Conversion;
+  $video_conversion->runQueue();
 }

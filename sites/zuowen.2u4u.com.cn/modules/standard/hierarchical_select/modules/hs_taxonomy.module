@@ -83,10 +83,6 @@ function hs_taxonomy_form_field_ui_widget_type_form_alter(&$form, &$form_state) 
       '#suffix' => '</div>',
     );
 
-    // TODO: implement all functionality, but for now, disable unsupported
-    // settings.
-    unset($form['hs']['editability']);
-
     // Add the submit handler for the Hierarchical Select config form. Make
     // sure it is executed first.
     $form['#hs_common_config_form_parents'] = array('hs');
@@ -132,7 +128,7 @@ function hs_taxonomy_field_settings_submit(&$form, &$form_state) {
  * or "save lineage" is enabled.
  */
 function hs_taxonomy_form_field_ui_field_edit_form_alter(&$form, &$form_state) {
-  if (isset($form['#field']['type']) && $form['#field']['type'] === 'taxonomy_term_reference') {
+  if (isset($form['#field']['type']) && $form['#field']['type'] === 'taxonomy_term_reference' && $form['#instance']['widget']['type'] == 'taxonomy_hs') {
     require_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'hierarchical_select') . '/includes/common.inc';
 
     $vocabulary = taxonomy_vocabulary_machine_name_load($form['#field']['settings']['allowed_values'][0]['vocabulary']);
@@ -165,7 +161,8 @@ function hs_taxonomy_form_taxonomy_form_term_alter(&$form, &$form_state) {
     'module' => 'hs_taxonomy',
     'params' => array(
       'vid'         => $vid,
-      'exclude_tid' => $form['#term']['tid'],
+      'exclude_tid' => isset($form['#term']['tid']) ? $form['#term']['tid'] : NULL,
+      'root_term'   => TRUE,
     ),
     'enforce_deepest' => 0,
     'entity_count'    => 0,
@@ -179,19 +176,15 @@ function hs_taxonomy_form_taxonomy_form_term_alter(&$form, &$form_state) {
     'editability' => array(
       'status' => 0,
     ),
-    'params' => array(
-      'vid'         => isset($form['#term']['vid']) ? $form['#term']['vid'] : NULL,
-      'exclude_tid' => isset($form['#term']['tid']) ? $form['#term']['tid'] : NULL,
-      'root_term'   => TRUE,
-    ),
     'render_flat_select' => 0,
   );
 
   // Use Hierarchical Select for selecting the parent term(s).
-  $parent = isset($form['#term']['tid']) ? array_keys(taxonomy_get_parents($form['#term']['tid'])) : array();
+  $parent = isset($form['#term']['tid']) ? array_keys(taxonomy_get_parents($form['#term']['tid'])) : array(0);
   $form['relations']['parent'] = array(
     '#type'          => 'hierarchical_select',
     '#title'         => t('Parents'),
+    '#required'      => TRUE,
     '#default_value' => $parent,
     '#config'        => $config,
   );
@@ -311,7 +304,7 @@ function hs_taxonomy_widget_process($element, &$form_state, $complete_form) {
   }
 
   $element['#return_value'] = $items;
-    
+
   return $element;
 }
 
@@ -421,7 +414,7 @@ function hs_taxonomy_field_formatter_view($entity_type, $entity, $field, $instan
 
   // Actual formatting.
   $element = array();
-  $element['#attached']['css'][] = drupal_get_path('module', 'hierarchical_select') . '/hierarchical_select.css';  
+  $element['#attached']['css'][] = drupal_get_path('module', 'hierarchical_select') . '/hierarchical_select.css';
   switch ($display['type']) {
     case 'hs_taxonomy_term_reference_hierarchical_text':
       for ($l = 0; $l < count($lineages); $l++) {
@@ -602,7 +595,15 @@ function hs_taxonomy_hierarchical_select_item_get_label($item, $params) {
   static $labels = array();
 
   if (!isset($labels[$item])) {
-    $term = taxonomy_term_load($item);
+    if ($item === 0 && isset($params['root_term']) && $params['root_term'] === TRUE) {
+      $term = new StdClass();
+      $term->tid = 0;
+      $term->name = '<' . t('root') . '>';
+    }
+    else {
+      $term = taxonomy_term_load($item);
+    }
+
     // Use the translated term when available!
     if (module_exists('i18ntaxonomy') && i18ntaxonomy_vocabulary($term->vid) == I18N_TAXONOMY_LOCALIZE) {
       $labels[$item] = i18n_taxonomy_term_name($term);
@@ -619,25 +620,24 @@ function hs_taxonomy_hierarchical_select_item_get_label($item, $params) {
 /**
  * Implementation of hook_hierarchical_select_create_item().
  */
-/*
-// TODO: port this to D7.
 function hs_taxonomy_hierarchical_select_create_item($label, $parent, $params) {
-  $form_state['values'] = array(
-    'name'   => html_entity_decode($label, ENT_QUOTES),
-    'parent' => $parent,
-    'vid'    => $params['vid'],
-  );
-  $status = taxonomy_term_save($term); // TODO Term object replaces array $form_state['values']
+  $term = new StdClass();
+  $term->vid         = $params['vid'];
+  $term->name        = html_entity_decode($label, ENT_QUOTES);
+  $term->description = '';
+  $term->parent      = $parent;
+
+  $status = taxonomy_term_save($term);
 
   if ($status == SAVED_NEW) {
     // Reset the cached tree.
     _hs_taxonomy_hierarchical_select_get_tree($params['vid'], 0, -1, 1, TRUE);
 
     // Retrieve the tid.
-    $children = taxonomy_get_children($parent, $params['vid']);
-    foreach ($children as $tid => $term) {
+    $children = _hs_taxonomy_hierarchical_select_get_tree($params['vid'], $parent, 1);
+    foreach ($children as $term) {
       if ($term->name == $label) {
-        return $tid;
+        return $term->tid;
       }
     }
   }
@@ -645,7 +645,7 @@ function hs_taxonomy_hierarchical_select_create_item($label, $parent, $params) {
     return FALSE;
   }
 }
-*/
+
 
 /**
  * Implementation of hook_hierarchical_select_entity_count().
@@ -699,7 +699,7 @@ function hs_taxonomy_hierarchical_select_config_info() {
               'bundle'         => l(t($bundles_info[$bundle]['label']), "admin/structure/types/manage/$bundle"),
               'context type'   => '',
               'context'        => '',
-              'edit link'      => $bundles_info[$bundle]['admin']['real path'] . "/fields/$field_name/widget-type",
+              'edit link'      => isset($bundles_info[$bundle]['admin']['real path']) ? $bundles_info[$bundle]['admin']['real path'] . "/fields/$field_name/widget-type" : $bundles_info[$bundle]['admin']['path'] . "/fields/$field_name/widget-type",
             );
 
           }
@@ -977,7 +977,7 @@ function _hs_taxonomy_hierarchical_select_terms_to_options($terms) {
   $use_i18n = module_exists('i18n_taxonomy');
   foreach ($terms as $key => $term) {
     // Use the translated term when available!
-    $options[$term->tid] = $use_i18n ? i18n_taxonomy_term_name($term) : t($term->name);
+    $options[$term->tid] = $use_i18n && isset($term->vid) ? i18n_taxonomy_term_name($term) : t($term->name);
   }
   return $options;
 }

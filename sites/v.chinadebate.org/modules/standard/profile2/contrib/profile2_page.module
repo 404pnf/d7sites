@@ -146,6 +146,7 @@ function profile2_page_entity_info_alter(&$entity_info) {
     'custom settings' => FALSE,
   );
   $entity_info['profile2']['uri callback'] = 'profile2_page_uri_callback';
+  $entity_info['profile2']['form callback'] = 'profile2_page_form_callback';
 }
 
 /**
@@ -163,28 +164,20 @@ function profile2_page_uri_callback($profile) {
 }
 
 /**
+ * Form callback for entity_form().
+ */
+function profile2_page_form_callback($profile) {
+  // Pre-populate the form-state with the right form include.
+  form_load_include($form_state, 'inc', 'profile2_page');
+  return entity_ui_get_form('profile2', $profile, 'edit', $form_state);
+}
+
+/**
  * Menu title callback.
  */
 function profile2_page_own_title($type_name) {
   $type = profile2_get_types($type_name);
   return user_is_logged_in() ? t('My @profile-label', array('@profile-label' => drupal_strtolower($type->label))) : check_plain($type->label);
-}
-
-/**
- * Implements hook_profile2_type_insert().
- */
-function profile2_page_profile2_type_insert(ProfileType $type) {
-  if (!empty($type->data['use_page'])) {
-    menu_rebuild();
-  }
-}
-
-/**
- * Implements hook_profile2_type_update().
- */
-function profile2_page_profile2_type_update(ProfileType $type) {
-  // Rebuild the cache as use_page might have been changed.
-  menu_rebuild();
 }
 
 /**

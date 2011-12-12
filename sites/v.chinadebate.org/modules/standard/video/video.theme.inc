@@ -36,7 +36,7 @@ function theme_video_widget($variables) {
  * If not or the video is processed, then it will get the default player for the specific video type for output.
  */
 
-function theme_video($variables) {
+function theme_video_formatter_player($variables) {
   $themed_output = '';
   if (empty($variables['item']['fid']))
     return '';
@@ -44,20 +44,28 @@ function theme_video($variables) {
   $instance_settings = $variables['instance']['settings'];
   // Only needs to be ran if they are converting videos
   if (isset($field_settings['autoconversion']) && $field_settings['autoconversion']) {
-    module_load_include('inc', 'video', '/includes/conversion');
-    $conversion = new video_conversion;
-    if ($video = $conversion->load_job($variables['item']['fid'])) {
+    $factory = new TranscoderAbstractionAbstractFactory();
+    $transcoder = $factory->getProduct();
+    $transcoder->setInput($variables['item']);
+    if ($video = $transcoder->loadJob()) {
       if ($video->video_status == VIDEO_RENDERING_ACTIVE || $video->video_status == VIDEO_RENDERING_PENDING) {
         return theme('video_inprogress');
-      } else if ($video->video_status == VIDEO_RENDERING_FAILED) {
+      }
+      else if ($video->video_status == VIDEO_RENDERING_FAILED) {
         return theme('video_conversion_failed');
       }
     }
   }
   // Setup our video object
-  module_load_include('inc', 'video', '/includes/video_helper');
-  $video_helper = new video_helper;
+  module_load_include('inc', 'video', '/includes/VideoHelper');
+  $video_helper = new VideoHelper;
   $video = $video_helper->video_object($variables);
+  // override player dimentions
+  if (isset($variables['player_dimensions']) && !empty($variables['player_dimensions'])) {
+    $player_dimensions = explode('x', $variables['player_dimensions']);
+    $video->player_width = trim($player_dimensions[0]);
+    $video->player_height = trim($player_dimensions[1]);
+  }
   // Lets spit out our theme based on the extension
   $defaults = video_video_extensions();
   $theme_function = variable_get('video_extension_' . $video->player, $defaults[$video->player]);
@@ -80,20 +88,20 @@ function theme_video($variables) {
  * Renders the video thumbnail as a link to the node page.
  */
 
-function theme_video_thumbnail($variables) {
+function theme_video_formatter_thumbnail($variables) {
 // Inside a view $variables may contain null data. In that case, just return.
   if (empty($variables['item']['fid']))
     return '<!-- File not found: ' . $variables['item']['fid'] . ' -->';
 
 //setup our thumbnail object
-  module_load_include('inc', 'video', '/includes/video_helper');
-  $video_helper = new video_helper;
+  module_load_include('inc', 'video', '/includes/VideoHelper');
+  $video_helper = new VideoHelper;
 // @TODO : change the object to an array
   $thumbnail = (array) $video_helper->thumbnail_object($variables);
 // return if no file path found for the video thumbnails and add log message
   if (empty($thumbnail['filepath'])) {
     watchdog('video', 'Unable to find the video thumbnail for the %node.', array('%node' => $variables['entity']->title), WATCHDOG_ERROR);
-    return '<!-- File not found: ' . $thumbnail['filepath'] . ' -->';
+    return '<!-- File not found: -->';
   }
   $image = array(
     'path' => $thumbnail['filepath'],
@@ -104,10 +112,11 @@ function theme_video_thumbnail($variables) {
     $image['title'] = $thumbnail['title'];
   }
 
-  if ($variables['video_style']) {
-    $image['style_name'] = $variables['video_style'];
+  if ($variables['image_style']) {
+    $image['style_name'] = $variables['image_style'];
     $output = theme('image_style', $image);
-  } else {
+  }
+  else {
     $output = theme('image', $image);
   }
 
@@ -166,7 +175,7 @@ function theme_video_inprogress() {
  * Display an "encoding failed" message"
  */
 function theme_video_conversion_failed() {
-  return '<div class="video-conversion-failed">' . t('The video conversion process has failed. You might want to submit a simpler video format like <em>mpeg</em> or <em>divx avi</em>.<br />If the problem persists please contact website administrators.') . '</div>';
+  return '<div class="video-conversion-failed">' . t('The video conversion process has failed. You might want to submit a simpler video format like <em>mpeg</em> or <em>divx avi</em>.<br />If the problem persists please contact website administrators. Please check logs for further debugging.') . '</div>';
 }
 
 /*
@@ -190,28 +199,39 @@ function theme_video_flv($variables) {
           'image' => $video->thumbnail->swfthumb,
         ),
       );
-      $themed_output = swf($video->files->{$video->player}->url, $options);
+      $themed_output = swf(file_create_url($video->files->{$video->player}->uri), $options);
       break;
     case 'flowplayer':
       // kjh: use a playlist to display the thumbnail if not auto playing
-      if (isset($video->autoplay) && isset($video->thumbnail->url)) {
+      if (isset($video->autoplay) && isset($video->thumbnail->url) && !empty($video->thumbnail->url)) {
         $options = array(
           'playlist' => array($video->thumbnail->url,
-            array('url' => urlencode($video->files->{$video->player}->url),
+            array('url' => urlencode(file_create_url($video->files->{$video->player}->uri)),
               'autoPlay' => $video->autoplay,
               'autoBuffering' => $video->autobuffering,
             ),),);
-      } else {
+      }
+      else {
         $options = array(
-          'clip' => array('url' => urlencode($video->files->{$video->player}->url),
+          'clip' => array('url' => urlencode(file_create_url($video->files->{$video->player}->uri)),
             'autoPlay' => $video->autoplay,
             'autoBuffering' => $video->autobuffering,
           ),);
       }
       $themed_output = theme('flowplayer', array('config' => $options, 'id' => 'flowplayer-' . $video->formatter, 'attributes' => array('style' => 'width:' . $video->player_width . 'px;height:' . ($video->player_height + 24) . 'px;')));
       break;
+    case 'jwplayer':
+      foreach ($video->files as $ext => $file) {
+        $item = (array) $file;
+        $item +=array('image' => (array) $video->thumbnail);
+      }
+      $attributes = array();
+      $attributes['width'] = $video->player_width;
+      $attributes['height'] = $video->player_height;
+      return theme('jwplayer', array('item' => $item, 'player_id' => 'jwplayer', 'attributes' => $attributes));
+      break;
     default:
-      $themed_output = t('No flash player has been setup. ' . l(t('Please select a player to play Flash videos.'), 'admin/settings/video/players'));
+      $themed_output = t('No flash player has been setup. ' . l(t('Please select a player to play Flash videos.'), 'admin/config/media/video/players'));
       break;
   }
   return theme('video_play_flv', array('video' => $video, 'themed_output' => $themed_output));
@@ -223,7 +243,7 @@ function theme_video_flv($variables) {
 function theme_video_html5($variables) {
   $themed_output = NULL;
   $video = $variables['video'];
-  echo $video->html5_player = variable_get('video_extension_' . $video->player . '_html5_player', '');
+  $video->html5_player = variable_get('video_extension_' . $video->player . '_html5_player', '');
   switch ($video->html5_player) {
     case 'video':
       return theme('video_play_html5', array('video' => $video, 'themed_output' => $themed_output));
@@ -232,9 +252,16 @@ function theme_video_html5($variables) {
       $items = _video_object_to_array($video->files);
       $items +=array('thumbnail' => (array) $video->thumbnail);
       $attributes = array();
-      $attributes['width'] = $video->width;
-      $attributes['height'] = $video->height;
+      $attributes['width'] = $video->player_width;
+      $attributes['height'] = $video->player_height;
       return theme('videojs', array('items' => $items, 'player_id' => 'video-' . $video->fid, 'attributes' => $attributes));
       break;
   }
+}
+
+/**
+ * Add messages to the page.
+ */
+function template_preprocess_video_dialog_page(&$variables) {
+  $variables['messages'] = theme('status_messages');
 }

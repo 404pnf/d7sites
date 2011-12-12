@@ -1,5 +1,9 @@
 <?php
-// $Id: find_replace_regex.inc,v 1.5.2.3 2011/02/01 03:51:03 twistor Exp $
+
+/**
+ * @file
+ * Find/replace text using REGEX.
+ */
 
 $plugin = array(
   'form'     => 'feeds_tamper_find_replace_regex_form',
@@ -16,7 +20,7 @@ function feeds_tamper_find_replace_regex_form($importer, $element_key, $settings
     '#type' => 'textfield',
     '#title' => t('REGEX to find'),
     '#default_value' => isset($settings['find']) ? $settings['find'] : '',
-    '#description' => t(check_plain('A regular expression in the form: /<your regex here>/')),
+    '#description' => t('A regular expression in the form: @regex', array('@regex' => '/<your regex here>/')),
   );
   $form['replace'] = array(
     '#type' => 'textfield',
@@ -37,7 +41,7 @@ function feeds_tamper_find_replace_regex_validate(&$settings) {
   // test the regex
   $test = @preg_replace($settings['find'], '', 'asdfsadf');
   if ($test === NULL) {
-    return form_set_error('find_replace_regex][find', 'Invalid regular expression.');
+    form_set_error('settings][find', 'Invalid regular expression.');
   }
   $settings['limit'] = trim($settings['limit']);
   if (empty($settings['limit'])) {
@@ -47,7 +51,7 @@ function feeds_tamper_find_replace_regex_validate(&$settings) {
     $settings['real_limit'] = $settings['limit'];
   }
   if (!is_numeric($settings['real_limit'])) {
-    form_set_error('find_replace_regex][limit', 'Limit must be an integer.');
+    form_set_error('settings][limit', 'Limit must be an integer.');
   }
 }
 

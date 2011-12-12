@@ -1,13 +1,12 @@
 <?php
-// $Id: features.filter.inc,v 1.1.2.9.2.6 2010/10/21 21:22:08 jmiccolis Exp $
 
 /**
- * Implementation of hook_features_api().
+ * Implements hook_features_api().
  */
 function filter_features_api() {
   return array(
     'filter' => array(
-      'name' => t('Filter formats'),
+      'name' => t('Text formats'),
       'default_hook' => 'filter_default_formats',
       'default_file' => FEATURES_DEFAULTS_INCLUDED,
       'feature_source' => TRUE
@@ -16,7 +15,7 @@ function filter_features_api() {
 }
 
 /**
- * Implementation of hook_features_export_options().
+ * Implements hook_features_export_options().
  */
 function filter_features_export_options() {
   $options = array();
@@ -27,7 +26,7 @@ function filter_features_export_options() {
 }
 
 /**
- * Implementation of hook_features_export().
+ * Implements hook_features_export().
  */
 function filter_features_export($data, &$export, $module_name = '') {
   // The filter_default_formats() hook integration is provided by the
@@ -55,7 +54,7 @@ function filter_features_export($data, &$export, $module_name = '') {
 }
 
 /**
- * Implementation of hook_features_export_render().
+ * Implements hook_features_export_render().
  */
 function filter_features_export_render($module, $data, $export = NULL) {
   $code = array();
@@ -78,14 +77,14 @@ function filter_features_export_render($module, $data, $export = NULL) {
 }
 
 /**
- * Implementation of hook_features_revert().
+ * Implements hook_features_revert().
  */
 function filter_features_revert($module) {
   return filter_features_rebuild($module);
 }
 
 /**
- * Implementation of hook_features_rebuild().
+ * Implements hook_features_rebuild().
  */
 function filter_features_rebuild($module) {
   if ($defaults = features_get_default('filter', $module)) {

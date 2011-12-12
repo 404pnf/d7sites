@@ -11,8 +11,8 @@
  * Implementation of hook_schema().
  */
 function video_schema() {
-  // video files
-  $schema['video_files'] = array(
+  // video queue
+  $schema['video_queue'] = array(
     'description' => 'Store video transcoding queue.',
     'fields' => array(
       'vid' => array(
@@ -45,8 +45,14 @@ function video_schema() {
       'dimensions' => array(
         'description' => 'The dimensions of the output video.',
         'type' => 'varchar',
-        'length' => '255',
+        'length' => 255,
         'default' => '',
+      ),
+      'duration' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => FALSE,
+        'description' => 'Stores the video duration in Sec.',
       ),
       'started' => array(
         'description' => t('Start timestamp of transcodings'),
@@ -120,7 +126,7 @@ function video_schema() {
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
-        'description' => 'Foreign Key {video_files}.fid.',
+        'description' => 'Foreign Key {video_queue}.fid.',
       ),
       'thumbnails' => array(
         'type' => 'blob',
@@ -136,11 +142,44 @@ function video_schema() {
     ),
     'foreign keys' => array(
       'thumbnails' => array(
-        'table' => 'video_files',
+        'table' => 'video_queue',
         'columns' => array('vid' => 'vid'),
       ),
     ),
   );
+  // video converted file reference
+  $schema['video_output'] = array(
+    'description' => 'Track file id for conveted files.',
+    'fields' => array(
+      'vid' => array(
+        'description' => 'Video ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'original_fid' => array(
+        'description' => 'Original File ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'output_fid' => array(
+        'description' => 'Converted file fid.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'job_id' => array(
+        'description' => 'Referenced job id if any.',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+    ),
+    'primary key' => array('vid', 'original_fid', 'output_fid')
+  );
+
   return $schema;
 }
 
@@ -156,18 +195,12 @@ function video_field_schema($field) {
         'not null' => FALSE,
         'unsigned' => TRUE,
       ),
-      'thumbanail' => array(
+      'thumbnail' => array(
         'description' => 'The {file_managed}.fid being referenced for video thumbanil.',
         'type' => 'int',
         'not null' => FALSE,
         'unsigned' => TRUE,
       ),
-      'player_dimensions' => array(
-        'description' => "Video dimention for the video player.",
-        'type' => 'varchar',
-        'length' => 32,
-        'not null' => FALSE,
-      )
     ),
     'indexes' => array(
       'fid' => array('fid'),
@@ -199,4 +232,72 @@ function video_uninstall() {
   db_query("DELETE FROM {variable} WHERE name LIKE 'video_%'");
   // Remove the video directory and generated images.
   file_unmanaged_delete_recursive(file_default_scheme() . '://videos');
+}
+
+/**
+ * Implementation of hook_requirements().
+ */
+function video_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+    $factory = new TranscoderAbstractionAbstractFactory();
+    $transcoder = $factory->getProduct();
+    $requirements['video']['title'] = $transcoder->getName();
+    if ($ffmpeg_version = $transcoder->getVersion()) {
+      $requirements['video']['value'] = $ffmpeg_version;
+      $requirements['video']['severity'] = REQUIREMENT_OK;
+    }
+    else {
+      $requirements['video']['value'] = t('Not found');
+      $requirements['video']['description'] = t('Missing the transcoder library. Please <a href="!url">install FFmpeg</a> in to your server if you intend to transcode or to auto create thumbnails.', array('!url' => url('http://video.heidisoft.com/documentation/ffmpeg-installtion-scripts')));
+      $requirements['video']['severity'] = REQUIREMENT_WARNING;
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Update the video convertor to Zencoder.
+ */
+function video_update_7201(&$sandbox) {
+  variable_set('video_convertor', 'TranscoderAbstractionFactoryZencoder');
+  return TRUE;
+}
+
+/**
+ * Alter video_queue table to add video duration.
+ */
+function video_update_7202(&$sandbox) {
+  $ret = array();
+  // Check because D6 installs may already have added this.
+  if (!db_field_exists('video_queue', 'duration')) {
+    $new_field = array(
+      'type' => 'int',
+      'default' => 0,
+      'description' => 'Stores the video duration in Sec.',
+    );
+    db_add_field('video_queue', 'duration', $new_field);
+  }
+
+  return $ret;
+}
+
+/**
+ * Alter video_queue table to add video duration.
+ */
+function video_update_7203(&$sandbox) {
+  $ret = array();
+  // Check because D6 installs may already have added this.
+  if (!db_field_exists('video_queue', 'duration')) {
+    db_change_field('video_queue', 'duration', 'duration', array(
+      'type' => 'varchar',
+      'length' => 32,
+      'not null' => FALSE,
+      'description' => 'Stores the video duration in Sec.',
+    ));
+  }
+
+  return $ret;
 }

@@ -11,32 +11,11 @@ define('VIDEO_PRESET_MAX_LENGTH', 64);
  * @return <array> - The additional form settings that you would like to add to your preset.
  */
 function video_preset_default_form($form, &$form_state, $preset) {
-  $video_transcoder = new video_transcoder;
-  $codecs = $video_transcoder->get_codecs();
+  $factory = new TranscoderAbstractionAbstractFactory();
+  $transcoder = $factory->getProduct();
+  $codecs = $transcoder->getCodecs();
+  $formats = $transcoder->getAvailableFormats('muxing');
   $form = array();
-  $form['settings']['device_profile'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Output parameter'),
-    '#description' => t('All output settings are optional. We choose sensible defaults for web and iPhone playback.'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE
-  );
-  $form['settings']['device_profile']['device_profile'] = array(
-    '#type' => 'select',
-    '#title' => t('Device profile'),
-    '#description' => t('A profile for your target device.'),
-    '#options' => array(
-      '0' => 'None',
-      'mobile/advanced' => 'mobile/advanced',
-      'mobile/baseline' => 'mobile/baseline',
-      'mobile/legacy' => 'mobile/legacy',
-      'v1/mobile/advanced' => 'v1/mobile/advanced',
-      'v1/mobile/baseline' => 'v1/mobile/baseline',
-      'v1/mobile/legacy' => 'v1/mobile/legacy',
-      'v2/mobile/legacy' => 'v2/mobile/legacy'
-    ),
-    '#default_value' => (!empty($preset['settings']['device_profile'])) ? $preset['settings']['device_profile'] : 0
-  );
   // video settings
   $form['settings']['video'] = array(
     '#type' => 'fieldset',
@@ -44,15 +23,11 @@ function video_preset_default_form($form, &$form_state, $preset) {
     '#collapsible' => TRUE,
     '#collapsed' => FALSE
   );
-  $video_extension = array();
-  foreach (video_video_extensions () as $extension => $theme) {
-    $video_extension[$extension] = $extension;
-  }
   $form['settings']['video']['video_extension'] = array(
     '#type' => 'select',
     '#title' => t('Video output extension'),
     '#description' => t('Extension of the output video.'),
-    '#options' => $video_extension,
+    '#options' => $formats,
     '#default_value' => (!empty($preset['settings']['video_extension'])) ? $preset['settings']['video_extension'] : 'flv'
   );
   $form['settings']['video']['video_codec'] = array(
@@ -62,16 +37,53 @@ function video_preset_default_form($form, &$form_state, $preset) {
     '#options' => $codecs['encode']['video'],
     '#default_value' => (!empty($preset['settings']['video_codec'])) ? $preset['settings']['video_codec'] : 'h264'
   );
+  $form['settings']['video']['video_preset'] = array(
+    '#type' => 'select',
+    '#title' => t('Video preset'),
+    '#description' => t('A preset file contains a sequence of option=value pairs, one for each line, specifying a sequence of options which would be awkward to specify on the command line. Lines starting with the hash (\'#\') character are ignored and are used to provide comments. Check the \`ffpresets\' directory in the FFmpeg source tree for examples. See the !doc', array('!doc' => l('ffmpeg documentation', 'http://ffmpeg.org/ffmpeg.html#TOC13'))),
+    '#options' => array(
+      'none' => 'None',
+      'libx264-baseline' => 'libx264-baseline',
+      'libx264-default' => 'libx264-default',
+      'libx264-fast' => 'libx264-fast',
+      'libx264-faster' => 'libx264-faster',
+      'libx264-hq' => 'libx264-hq',
+      'libx264-ipod320' => 'libx264-ipod320',
+      'libx264-ipod640' => 'libx264-ipod640',
+      'libx264-main' => 'libx264-main',
+      'libx264-max' => 'libx264-max',
+      'libx264-medium' => 'libx264-medium',
+      'libx264-normal' => 'libx264-normal',
+      'libx264-slow' => 'libx264-slow',
+      'libx264-slower' => 'libx264-slower',
+      'libx264-superfast' => 'libx264-superfast',
+      'libx264-ultrafast' => 'libx264-ultrafast',
+      'libx264-veryfast' => 'libx264-veryfast',
+      'libvpx-1080p' => 'libvpx-1080p',
+      'libvpx-1080p50_60' => 'libvpx-1080p50_60',
+      'libvpx-360p' => 'libvpx-360p',
+      'libvpx-720p' => 'libvpx-720p',
+      'libvpx-720p50_60' => 'libvpx-720p50_60',
+      'libx264-lossless_fast' => 'libx264-lossless_fast',
+      'libx264-lossless_max' => 'libx264-lossless_max',
+      'libx264-lossless_medium' => 'libx264-lossless_medium',
+      'libx264-lossless_slow' => 'libx264-lossless_slow',
+      'libx264-lossless_slower' => 'libx264-lossless_slower',
+      'libx264-lossless_ultrafast' => 'libx264-lossless_ultrafast'
+    ),
+    '#default_value' => (!empty($preset['settings']['video_preset'])) ? $preset['settings']['video_preset'] : 2
+  );
   $form['settings']['video']['video_quality'] = array(
     '#type' => 'select',
     '#title' => t('Video quality'),
     '#description' => t('A target video quality. Affects bitrate and file size.'),
     '#options' => array(
-      '1 - Poor quality (smaller file)',
-      '2',
-      '3 (default)',
-      '4',
-      '5 - High quality (larger file)'
+      'none' => 'None',
+      1 => '1 - Poor quality (smaller file)',
+      2 => '2',
+      3 => '3 (default)',
+      4 => '4',
+      5 => '5 - High quality (larger file)'
     ),
     '#default_value' => (!empty($preset['settings']['video_quality'])) ? $preset['settings']['video_quality'] : 2
   );
@@ -80,25 +92,21 @@ function video_preset_default_form($form, &$form_state, $preset) {
     '#title' => t('Video speed'),
     '#description' => t('Speed of encoding. Affects compression.'),
     '#options' => array(
-      '1 - Slow (better compression)',
-      '2',
-      '3 (default)',
-      '4',
-      '5 - Fast (worse compression)'
+      'none' => 'None',
+      1 => '1 - Slow (better compression)',
+      2 => '2',
+      3 => '3 (default)',
+      4 => '4',
+      5 => '5 - Fast (worse compression)'
     ),
     '#default_value' => (!empty($preset['settings']['video_speed'])) ? $preset['settings']['video_speed'] : 2
   );
-  $form['settings']['video']['width'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Width'),
-    '#description' => t('The maximum width of the output video (in pixels).'),
-    '#default_value' => !empty($preset['settings']['width']) ? $preset['settings']['width'] : ''
-  );
-  $form['settings']['video']['height'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Height'),
-    '#description' => t('The maximum height of the output video (in pixels).'),
-    '#default_value' => !empty($preset['settings']['height']) ? $preset['settings']['height'] : ''
+  $form['settings']['video']['wxh'] = array(
+    '#type' => 'select',
+    '#title' => t('Dimensions'),
+    '#description' => t('Select the desired widthxheight of the video player. You can add your own dimention from !settings.', array('!settings' => l('video metadata settings', 'admin/config/media/video/metadata'))),
+    '#default_value' => !empty($preset['settings']['wxh']) ? $preset['settings']['wxh'] : '640x480',
+    '#options' => video_explode("\n", variable_get("video_metadata_dimensions", video_default_dimensions()))
   );
   $form['settings']['video']['video_aspectmode'] = array(
     '#type' => 'select',
@@ -137,11 +145,12 @@ function video_preset_default_form($form, &$form_state, $preset) {
     '#title' => t('Audio quality'),
     '#description' => t('A target audio quality. Affects bitrate and file size.'),
     '#options' => array(
-      '1 - Poor quality (smaller file)',
-      '2',
-      '3 (default)',
-      '4',
-      '5 - High quality (larger file)'
+      'none' => 'None',
+      1 => '1 - Poor quality (smaller file)',
+      2 => '2',
+      3 => '3 (default)',
+      4 => '4',
+      5 => '5 - High quality (larger file)'
     ),
     '#default_value' => (!empty($preset['settings']['audio_quality'])) ? $preset['settings']['audio_quality'] : 2
   );
@@ -175,11 +184,11 @@ function video_preset_default_form($form, &$form_state, $preset) {
     '#description' => t('Force a specific output frame rate (in frames per second). For best quality, do not use this setting.'),
     '#default_value' => !empty($preset['settings']['frame_rate']) ? $preset['settings']['frame_rate'] : ''
   );
-  $form['settings']['adv_video']['frame_rate'] = array(
+  $form['settings']['adv_video']['keyframe_interval'] = array(
     '#type' => 'textfield',
-    '#title' => t('Frame rate'),
-    '#description' => t('Force a specific output frame rate (in frames per second). For best quality, do not use this setting.'),
-    '#default_value' => !empty($preset['settings']['frame_rate']) ? $preset['settings']['frame_rate'] : ''
+    '#title' => t('Key frame interval'),
+    '#description' => t('By default, a keyframe will be created at most every 250 frames. Specifying a different keyframe interval will allow you to create more or less keyframes in your video. A greater number of keyframes will increase the size of your output file, but will allow for more precise scrubbing in most players. Keyframe interval should be specified as a positive integer. For example, a value of 100 will create a keyframe every 100 frames.'),
+    '#default_value' => !empty($preset['settings']['keyframe_interval']) ? $preset['settings']['keyframe_interval'] : ''
   );
   $form['settings']['adv_video']['video_bitrate'] = array(
     '#type' => 'textfield',
@@ -202,7 +211,7 @@ function video_preset_default_form($form, &$form_state, $preset) {
   $form['settings']['adv_video']['one_pass'] = array(
     '#type' => 'checkbox',
     '#title' => t('One pass'),
-    '#description' => t('Force one-pass encoding when targeting a specific video_bitrate. True or False.'),
+    '#description' => t('Force one-pass encoding when targeting a specific video_bitrate. TRUE or FALSE.'),
     '#default_value' => !empty($preset['settings']['one_pass']) ? $preset['settings']['one_pass'] : ''
   );
   $form['settings']['adv_video']['skip_video'] = array(
@@ -246,6 +255,58 @@ function video_preset_default_form($form, &$form_state, $preset) {
     '#description' => t('The audio track will be omitted from the output. You must specify a video format and no audio track will be present in the resulting file.'),
     '#default_value' => !empty($preset['settings']['skip_audio']) ? $preset['settings']['skip_audio'] : ''
   );
+  // Watermark
+//  $form['settings']['warermark'] = array(
+//    '#type' => 'fieldset',
+//    '#title' => t('Video watermark'),
+//    '#collapsible' => TRUE,
+//    '#collapsed' => ($preset['settings']['video_enable_watermark'] == TRUE) ? FALSE : TRUE,
+//  );
+//  $form['settings']['warermark']['video_enable_watermark'] = array(
+//    '#type' => 'checkbox',
+//    '#title' => t('<b>Enable watermark video</b>'),
+//    '#default_value' => !empty($preset['settings']['video_enable_watermark']) ? $preset['settings']['video_enable_watermark'] : FALSE,
+//    '#description' => t('In visible digital watermarking, the information is 
+//        visible in the video. Typically, the information is text or a 
+//        logo, which identifies the owner of the media. When a television broadcaster adds its logo to the 
+//        corner of transmitted video, this also is a visible watermark.')
+//  );
+//  $form['settings']['warermark']['video_watermark_fid'] = array(
+//    '#type' => 'managed_file',
+//    '#title' => t('Upload watermark image'),
+//    '#description' => t('Watermark image should be a PNG or JPG image.'),
+//    '#default_value' => !empty($preset['settings']['video_watermark_fid']) ? $preset['settings']['video_watermark_fid'] : 'http://heidisoft.com/watermark_drupal_40x40.png',
+//    '#upload_location' => 'public://videos/warermark',
+//  );
+//  $form['settings']['warermark']['video_warermarkx'] = array(
+//    '#type' => 'textfield',
+//    '#title' => t('X-axis'),
+//    '#description' => t('Where to place the watermark, on the x axis..'),
+//    '#default_value' => !empty($preset['settings']['video_warermarkx']) ? $preset['settings']['video_warermarkx'] : 5,
+//  );
+//  $form['settings']['warermark']['video_warermarky'] = array(
+//    '#type' => 'textfield',
+//    '#title' => t('Y-axis'),
+//    '#description' => t('Where to place the watermark, on the y axis.'),
+//    '#default_value' => !empty($preset['settings']['video_warermarky']) ? $preset['settings']['video_warermarky'] : 5,
+//  );
+//  $form['settings']['warermark']['video_warermark_position'] = array(
+//    '#title' => t('Position'),
+//    '#type' => 'select',
+//    '#options' => array(
+//      'top-left' => 'top-left',
+//      'top-middle' => 'top-middle',
+//      'top-right' => 'top-right',
+//      'center-left' => 'center-left',
+//      'center-middle' => 'center-middle',
+//      'center-right' => 'center-right',
+//      'bottom-left' => 'bottom-left',
+//      'bottom-middle' => 'bottom-middle',
+//      'bottom-right' => 'bottom-right'
+//    ),
+//    '#default_value' => !empty($preset['settings']['video_warermark_position']) ? $preset['settings']['video_warermark_position'] : 'bottom-right',
+//    '#weight' => 20,
+//  );
   // video optimizations
   $form['settings']['vid_optimization'] = array(
     '#type' => 'fieldset',
@@ -278,29 +339,6 @@ function video_preset_default_form($form, &$form_state, $preset) {
     ),
     '#default_value' => (!empty($preset['settings']['denoise'])) ? $preset['settings']['denoise'] : 2
   );
-  // Segmented Streaming
-  $form['settings']['segmented_streaming'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Segmented Streaming'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE
-  );
-  $form['settings']['segmented_streaming']['segmented_type'] = array(
-    '#type' => 'select',
-    '#title' => t('Type'),
-    '#description' => t('Set to segmented for HTTP Live Streaming.'),
-    '#options' => array(
-      0 => 'Standard',
-      'segmented' => 'segmented'
-    ),
-    '#default_value' => (!empty($preset['settings']['segmented_type'])) ? $preset['settings']['segmented_type'] : 0
-  );
-  $form['settings']['segmented_streaming']['segmented_seconds'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Segment Seconds'),
-    '#description' => t('The maximum duration of each segment in segmented outputs.'),
-    '#default_value' => !empty($preset['settings']['segmented_seconds']) ? $preset['settings']['segmented_seconds'] : ''
-  );
   // Create clip
   $form['settings']['create_clip'] = array(
     '#type' => 'fieldset',
@@ -319,26 +357,6 @@ function video_preset_default_form($form, &$form_state, $preset) {
     '#title' => t('Clip length '),
     '#description' => t('The length of the subclip (in timecode or number of seconds).'),
     '#default_value' => !empty($preset['settings']['clip_length']) ? $preset['settings']['clip_length'] : ''
-  );
-  // Command line parameters
-  $form['settings']['command_line'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Command line options'),
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE
-  );
-  $tokes = array(
-    '!cmd_path - Path to transcoder',
-    '!videofile - Input video file',
-    '!convertfile - Output video file',
-    '!width - Width of output video',
-    '!height - Height of output video'
-  );
-  $form['settings']['command_line']['cli_code'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Command line codes to run'),
-    '#description' => t('Please add command line codes each to run separated by a new line.') . theme('item_list', array('items' => $tokes, 'title' => 'Available Tokes')),
-    '#default_value' => !empty($preset['settings']['cli_code']) ? $preset['settings']['cli_code'] : '!cmd_path -i !videofile -s !widthx!height -r 15 -b 250 -ar 22050 -ab 48 !convertfile'
   );
   return $form;
 }
@@ -366,10 +384,10 @@ function video_presets_overview() {
       $rows[] = $row;
     }
     return theme('table', array('header' => $header, 'rows' => $rows));
-  } else {
+  }
+  else {
     return t('No Preset were found. Please use the !create_link link to create
-      a new video preset, or upload an existing Feature to your modules directory.',
-        array('!create_link' => l(t('Create Video Preset'), 'admin/config/media/video/presets/add')));
+      a new video preset, or upload an existing Feature to your modules directory.', array('!create_link' => l(t('Create Video Preset'), 'admin/config/media/video/presets/add')));
   }
 }
 
@@ -380,7 +398,7 @@ function video_presets_overview() {
  * @param <type> $preset
  * @return string
  */
-function video_preset_form($form, &$form_state, $preset = false) {
+function video_preset_form($form, &$form_state, $preset = FALSE) {
   $form = array();
   // basic preset details
   $form['preset'] = array(
@@ -393,7 +411,8 @@ function video_preset_form($form, &$form_state, $preset = false) {
       '#type' => 'value',
       '#value' => $preset['pid'],
     );
-  } elseif (video_is_default_preset($preset['name'])) {
+  }
+  elseif (video_is_default_preset($preset['name'])) {
     $form['preset']['default'] = array(
       '#type' => 'value',
       '#value' => TRUE,
@@ -445,7 +464,7 @@ function video_preset_form($form, &$form_state, $preset = false) {
  * Validation for the preset form.
  */
 function video_preset_validate($form, &$form_state) {
-
+  
 }
 
 /**
@@ -459,7 +478,8 @@ function video_preset_array_flatten($array, $return=array()) {
   foreach ($array as $key => $value) {
     if (is_array($value)) {
       $return = video_preset_array_flatten($value, $return);
-    } else {
+    }
+    else {
       $return[$key] = $value;
     }
   }
@@ -474,14 +494,19 @@ function video_preset_submit($form, &$form_state) {
   if (isset($form_state['values']['pid'])) {
     $preset['pid'] = $form_state['values']['pid'];
   }
+  // save watermark image if exists
+  // Load the file via file.fid.
+  if (!empty($form_state['values']['video_watermark_fid'])) {
+    $file = file_load($form_state['values']['video_watermark_fid']);
+    // Change status to permanent.
+    $file->status = FILE_STATUS_PERMANENT;
+    // Save.
+    file_save($file);
+  }
   $preset['name'] = $form_state['values']['name'];
   $preset['description'] = $form_state['values']['description'];
   // unset unwanted values saved to database
-  unset($form_state['values']['pid'], $form_state['values']['name'],
-      $form_state['values']['description'], $form_state['values']['submit'],
-      $form_state['values']['delete'], $form_state['values']['form_build_id'],
-      $form_state['values']['form_token'], $form_state['values']['form_id'],
-      $form_state['values']['op']);
+  unset($form_state['values']['pid'], $form_state['values']['name'], $form_state['values']['description'], $form_state['values']['submit'], $form_state['values']['delete'], $form_state['values']['form_build_id'], $form_state['values']['form_token'], $form_state['values']['form_id'], $form_state['values']['op']);
   $preset['settings'] = video_preset_array_flatten($form_state['values']);
 
   // Save this preset.
@@ -568,7 +593,8 @@ function video_preset_import_validate($form, &$form_state) {
     if ($error = video_validate_preset_name($name)) {
       form_set_error('name', $error);
     }
-  } else {
+  }
+  else {
     form_set_error('name', 'Invalid preset import.');
   }
 
@@ -593,7 +619,7 @@ function video_preset_export_form($form, &$form_state, $preset) {
   unset($preset['default']);
 
   // Get the code string representation.
-  $code = var_export($preset, true);
+  $code = var_export($preset, TRUE);
 
   // Make sure to format the arrays like drupal.
   $code = str_replace("=> \n  ", '=> ', $code);
@@ -663,9 +689,9 @@ function video_preset_get_presets() {
 
   // Get all the presets from the database.
   $result = db_select('video_preset', 'p')
-          ->fields('p')
-          ->orderBy('p.name', 'ASC')
-          ->execute();
+      ->fields('p')
+      ->orderBy('p.name', 'ASC')
+      ->execute();
 
   // Iterate through all the presets and structure them in an array.
   foreach ($result as $preset) {
@@ -676,7 +702,7 @@ function video_preset_get_presets() {
   }
 
   // Now allow other modules to add their default presets.
-  foreach (video_preset_get_default_presets () as $preset) {
+  foreach (video_preset_get_default_presets() as $preset) {
     // adding default TRUE
     $preset['default'] = TRUE;
     if (!empty($preset['name']) && !isset($normal_presets[$preset['name']])) {
@@ -693,13 +719,14 @@ function video_preset_get_presets() {
 function video_get_preset($preset_name) {
   // Get the preset from the database.
   $preset = db_select('video_preset', 'p')
-          ->fields('p')
-          ->condition('p.name', $preset_name)
-          ->execute()
-          ->fetchAssoc();
+      ->fields('p')
+      ->condition('p.name', $preset_name)
+      ->execute()
+      ->fetchAssoc();
   if ($preset) {
     $preset['settings'] = $preset['settings'] ? unserialize($preset['settings']) : array();
-  } else {
+  }
+  else {
     // Get all of the default presets.
     $default_presets = video_preset_get_default_presets();
 
@@ -737,14 +764,15 @@ function video_preset_name_exists($preset_name) {
 
   // See if there is a default preset name.
   if ($default_presets && isset($default_presets[$preset_name])) {
-    return true;
-  } else {
+    return TRUE;
+  }
+  else {
     return (bool) db_select('video_preset', 'p')
-        ->fields('p')
-        ->condition('p.name', $preset_name)
-        ->range(0, 1)
-        ->execute()
-        ->fetchField();
+            ->fields('p')
+            ->condition('p.name', $preset_name)
+            ->range(0, 1)
+            ->execute()
+            ->fetchField();
   }
 }
 
