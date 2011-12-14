@@ -46,7 +46,10 @@ function apply_assit_extra_validate($form, &$form_state) {
 
 		$publicGroupLImited = 2;
 		$speciatyGroupLImited = 1;
-		  $query = new EntityFieldQuery();		
+
+		$publicGroupCount =0;
+
+		  $query = new EntityFieldQuery();				   
 		  $publicGroupCount = $query
 			  ->entityCondition('entity_type', 'node')
 				->entityCondition('bundle', 'baoming')
@@ -55,8 +58,8 @@ function apply_assit_extra_validate($form, &$form_state) {
 			->count()
 			->execute();
 
-
-		  $query = new EntityFieldQuery();		
+		  $speciatyGroupCount=0;
+		  $query = new EntityFieldQuery();				 
 		  $speciatyGroupCount = $query
 			  ->entityCondition('entity_type', 'node')
 				->entityCondition('bundle', 'baoming')
@@ -66,7 +69,7 @@ function apply_assit_extra_validate($form, &$form_state) {
 			->execute();
 		
 		if(strtolower (arg(2))!='edit'){
-			if(($publicGroupCount>=$publicGroupLImited)||($speciatyGroupCount>=$speciatyGroupCount)){
+			if(($publicGroupCount>=$publicGroupLImited)||($speciatyGroupCount>=$speciatyGroupLImited)){
 					form_set_error ( 'field_firstname',t ( '报名数超出限制。限报3名选手（公英组最多2名、专业组1名）'));
 			  }
 		}
