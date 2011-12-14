@@ -25,21 +25,12 @@
  */
 ?>
 <?php
-	//print("<pre>");
-//	print_r($row);
-	//print("</pre>");
+//	print("<pre>");
+	//print_r($row);
+//print("</pre>");
 
 ?>
-<style>
 
-#photo{ position: absolute;}
-.rows{position:absolute;left:258px;font-size:14px}
-#photo{top:128px;left:62px;}
-#name{top:126px}
-#candidate-id{top:162px}
-#degree{top:198px}
-#date{top:232px}
-</style>
 <div style="background: url('/sites/ccec.2u4u.com.cn/themes/custom/ccec/images/certificate.jpg');width:540px;height:370px;float:left;position: relative;">
 <?php
 	$photo_style = 'candidate_photo_2inch';
@@ -53,8 +44,8 @@
 	$degree = $row->field_field_baoming[0]['raw']['taxonomy_term']->name;
 ?>
 <div id="photo"><?php print $photo;?></div>
-<div id="name" class="rows"><?php print $name;?></div>
 <div id="candidate-id" class="rows"><?php print $candidate_id;?></div>
+<div id="name" class="rows"><?php print $name;?></div>
 <div id="degree" class="rows"><?php print $degree;?></div>
 <div id="date" class="rows">□2012-1-7/□2012-1-8</div>
 </div>
