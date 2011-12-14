@@ -190,35 +190,16 @@ $databases = array (
       'host' => '129.0.0.223',
       'port' => '',
       'driver' => 'mysql',
-          'prefix' => array(
+      'prefix' => array(
       'default'   => '',
-// decoxy update 20110727 begin
-//      'users'     => 'ncec.',
-//      'sessions'  => 'ncec.',
-//      'authmap'   => 'ncec.',
-// decoxy update 20110727 end
-    )
+    	)
     ),
   ),
-
-'2u4u' => 
-  array (
-    'default' => 
-    array (
-      'database' => '2u4u',
-      'username' => 'zl',
-      'password' => '8b51575413560e07859cd1380b82d6d2',
-      'host' => '119.161.209.18',
-      'port' => '3306',
-      'driver' => 'mysql',
-          'prefix' => array(
-      'default'   => '',
-    )
-    ),
-  ),
-
 );
 
+
+// 禁止显示错误信息
+//ini_set('error_reporting', 'E_ALL ^ E_NOTICE')
 
 /**
  * Access control for update.php script.
