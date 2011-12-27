@@ -1,0 +1,10 @@
+; $Id$
+name = apply assit
+description = 报名助手，用来限制报名数；
+package = bm.russia.fltrp.com
+
+
+project = 2u4u
+core = 7.x
+php = 5.0
+	

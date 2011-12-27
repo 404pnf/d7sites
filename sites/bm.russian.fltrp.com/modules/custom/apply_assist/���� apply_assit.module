@@ -1,0 +1,77 @@
+<?php
+
+/* 写作大赛报名助手，用来限制某个组别报名数；
+ * 
+ */
+
+function apply_assit_menu() {
+	
+	$items ['test'] = array ('title' => 'test', 'description' => t ( 'test' ), 'page callback' => 'apply_assit_show_profile', 'access callback' => true );
+	
+	return $items;
+
+}
+
+function apply_assit_show_profile() {
+	global $user;
+	$uid = $user->uid;
+
+	$profile_type = 'main';
+	$node_type = 'baoming';
+		
+  $query = new EntityFieldQuery();		
+  $publicGroupCount = $query
+	  ->entityCondition('entity_type', 'node')
+		->entityCondition('bundle', 'baoming')
+		->fieldCondition('field_group','value','公共英语组')
+		->propertyCondition('uid',$uid)
+    ->count()
+    ->execute();
+
+	return t ( $publicGroupCount );
+
+}
+
+
+function apply_assit_form_alter(&$form, &$form_state, $form_id){		
+	if ($form_id == 'baoming_node_form') {
+		$form ['#validate'] [] = 'apply_assit_extra_validate';
+	}
+}
+
+
+function apply_assit_extra_validate($form, &$form_state) {
+		global $user;
+		$uid = $user->uid;
+
+		$publicGroupLImited = 2;
+		$speciatyGroupLImited = 1;
+		  $query = new EntityFieldQuery();		
+		  $publicGroupCount = $query
+			  ->entityCondition('entity_type', 'node')
+				->entityCondition('bundle', 'baoming')
+				->fieldCondition('field_group','value','公共英语组')
+				->propertyCondition('uid',$uid)
+			->count()
+			->execute();
+
+
+		  $query = new EntityFieldQuery();		
+		  $speciatyGroupCount = $query
+			  ->entityCondition('entity_type', 'node')
+				->entityCondition('bundle', 'baoming')
+				->fieldCondition('field_group','value','专业英语组')
+				->propertyCondition('uid',$uid)
+			->count()
+			->execute();
+
+		 if(($publicGroupCount>=$publicGroupLImited)||($speciatyGroupCount>=$speciatyGroupCount)){
+				form_set_error ( 'field_firstname',t ( '限报3名选手（公英组最多2名、专业组1名）'));
+		  }
+
+
+}
+
+
+
+

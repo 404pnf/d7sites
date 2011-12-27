@@ -1,0 +1,30 @@
+@charset "utf-8";
+/* content */
+#content-top{ margin:0; padding:0; height:20px;}
+#content-top p{ display:none;}
+#content-inner{ margin-left:250px; float:left; width: 700px;}
+#content-area{ margin:0}
+#sidebar-first { width:207px; margin-right:-207px; margin-left:26px;}
+#sidebar-first h2{ background:#DADADA; height:40px;line-height:40px;text-indent:1.2em; margin-bottom:10px;}
+#sidebar-first h3{border: 1px solid #BCBCBC;margin:5px 0;text-align:center;}
+#sidebar-first h3 a{ display:block; background:url(../images/sidebarbg.gif) repeat-x;height: 32px;line-height: 32px;font-weight:400; font-size:14px}
+.productlist{ border:1px solid #ddd; overflow:auto; width:620px; padding:0 26px;}
+.productlist li{border-bottom: 1px dashed #CCCCCC;font-size: 12px;line-height: 24px;margin: 0;padding: 30px 0;}
+.productlist li img{ float: left; margin: 0 30px 0 4px }
+.productlist li h2{ margin-bottom:0; font-size:14px; }
+.productlist li h2 a{ color: #CB6300; font-size:14px} 
+.productlist li span{color:#646464}
+.productlist li span em{ color:#DD0108}
+
+/* 产品内容页面*/
+.bookimg{padding:15px; border: 1px solid #ddd; float: left; margin: 10px 40px 10px 10px;display: inline;}
+.bookimg img{ width:140px;height:200px}
+#bookinfo h1{margin: 0 10px 5px 15px;}
+#bookinfo p{ font-size: 12px; color: #505050; margin: 1.6em 0 0 0;}
+#bookinfo .bookcontent,#bookinfo .bookdirectory{ margin: 10px 10px 10px 10px; line-height: 26px; border-top:3px solid #d5d5d5;border-bottom:1px dashed #d5d5d5; padding:30px 20px; font-size: 12px;}
+#bookinfo .bookcontent p,#bookinfo .bookdirectory p{ margin:6px 0;}
+#bookinfo p.buy{ *font-size: 0; *margin: 0; *height: 0}
+.wrapper #share{ margin-top: 0}
+/*#main{ overflow: auto}*/
+
+.item-list{ margin: 30px;}

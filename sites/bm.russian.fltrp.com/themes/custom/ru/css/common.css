@@ -1,0 +1,23 @@
+/* 公用样式 */
+body{ background:url("../images/body_bg.jpg") repeat scroll 0 0 transparent; font-size:12px;}
+a{ color:#000; font-size:12px;}
+a:hover{ color:#39C}
+#page{ width:960px; background:#FFF;}
+#content-top{ margin:20px 22px; overflow:auto}
+#content-inner{ float:none;}
+/* header */
+#header{ overflow:auto; *overflow:hidden; *height:130px;}
+#logo{display:block; margin:34px 50px 24px;}
+.logoNav ul li{ float:left; border-left:2px solid #FFF; padding:0 20px; margin:10px 0 0 -2px;list-style: none;padding:0px;}
+.logoNav ul li a{ color:#FFF; font-weight:700; font-size:16px}
+.logoNav  ul li a:hover{ color:#CCC}
+.logoNavcontent{ width:678px; height:40px; background:url(../images/navbg_black.gif) no-repeat; float:left; margin-left:22px; display:inline;}
+.logoNavcontent ul{ overflow:auto; margin-left:60px; _width:620px; overflow:hidden}
+.logoNavcontent ul li{ padding:0 30px;}
+.userNav{ width:226px;height:40px; background:url(../images/navbg_blue.gif) no-repeat; float:right; margin-right:22px;display:inline;}
+.userNav ul{ overflow:auto; margin-left:4px; overflow:hidden; _width:220px;}
+.userNav ul li{ padding:0 20px }
+/* main */
+#content-area{ margin:0 26px;}
+/* footer */
+#footer{text-align:center; margin-top:10px;}

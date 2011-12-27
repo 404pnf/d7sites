@@ -1,0 +1,23 @@
+@charset "utf-8";
+/* content */
+
+#content-top #block-block-6 p{display:none;}
+.artics  .imgcontent p{text-indent:0;}
+.breadcrumb a{ display:block; height:57px; background:url(../images/artictitle.gif) no-repeat; float:left; font-size:16px; line-height:57px; color:#184854; font-weight:700;text-indent:6em;*text-indent:8em;}
+.btwo{ width:100%;}
+a.this{color:#184A53;}
+.artics{ border:1px solid #DDD; padding:30px 40px;}
+.artics p{line-height:2.6em; font-size:13px; color:#303030;text-indent:2em;margin-bottom:0;}
+.artics h1 { color:#356BC3; font-size:26px;}
+.artics b{font-weight:700;font-size:13px;}
+h1.bookname{font-size:16px}
+.imgcontent{ float:left; width:300px; *+width:310px;}
+.imgcontent ul{ overflow:auto}
+.imgcontent ul li{ float:left; margin:10px 30px 20px 0;_margin-right:0}
+.ronline{ display:block; margin:20px 0 40px}
+.artics .ptext p{text-indent:0}
+.bl1{border-bottom:1px dashed #bbb;padding-bottom:30px;margin-bottom:30px;overflow:auto;}
+.forright{text-align:right;}
+.forright img{margin-left:20px;}
+.top{text-align:right; display:block;margin-top:10px;clear:both;}
+/*.ptext{float:left; width:520px;margin-left:5px;}*/
