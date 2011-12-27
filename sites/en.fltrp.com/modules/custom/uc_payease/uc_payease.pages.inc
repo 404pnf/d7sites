@@ -66,15 +66,16 @@ function uc_payease_notify() {
 	//MD5检验结果，v_md5money效验
 	// $md5sign1 = strtoupper(md5($md5src1));
 	//exec($uc_payease_md5program." $md5src1 $md5key",$md5sign1,$res1);
-	exec("$uc_payease_md5program \"$md5src1\" $md5key",$md5sign1,$res1);
-
+	//exec("$uc_payease_md5program \"$md5src1\" $md5key",$md5sign1,$res1);
+	$md5sign1= bin2hex(mhash(MHASH_MD5,$md5src1,$md5key));
 	//校验源字符串，v_md5money效验
 	$md5src2 = $v_amount . $v_moneytype;
 	//MD5检验结果，v_md5money效验
 	// $md5sign2 = strtoupper(md5($md5src2));
 
 	//exec($uc_payease_md5program." $md5src2 $md5key",$md5sign2,$res2);
-	exec("$uc_payease_md5program \"$md5src2\" $md5key",$md5sign2,$res2);
+	//exec("$uc_payease_md5program \"$md5src2\" $md5key",$md5sign2,$res2);
+	$md5sign2= bin2hex(mhash(MHASH_MD5,$md5src2,$md5key));
 	/*
 	$rsa_source=$v_oid . $v_pstatus . $v_amount . $v_moneytype . $v_count;
 	$rsa_source_length = strlen($rsa_source);
@@ -91,7 +92,9 @@ function uc_payease_notify() {
 	//if ($v_mac==$md5sign1 && $v_md5money==$md5sign2) {
 	//这里面我担心中文验证有问题,所以仅使用了md5money进行验证，下面的代码从理论上和上面是一致的，也就是等效的。	
 	//当有特殊字符时,会加密失败,此时$v_md5money为空,所以检查是否为空,以防止潜在的安全漏洞
-	if ( $v_md5money==$md5sign2[0] && !empty($v_md5money)) {
+	//if ( $v_md5money==$md5sign2[0] && !empty($v_md5money)) {
+	//原有程序PHP在64位不能工作,改为php自带函数. 
+	if ( $v_md5money==$md5sign2 && !empty($v_md5money)) {
 	//if ( $v_sign==$rsa_res[0]) {
 	//if ($ress[0] === '0') {
 		//如果只返回了一个订单
@@ -215,8 +218,9 @@ function uc_payease_return() {
 	// $md5sign1 = strtoupper(md5($md5src1));
 	//exec($uc_payease_md5program." $md5src1 $md5key",$md5sign1,$res1);
 	//exec("$uc_payease_md5program '".$md5src1."' $md5key",$md5sign1,$res1);
-	exec("$uc_payease_md5program \"$md5src1\" $md5key",$md5sign1,$res1);
-
+	//exec("$uc_payease_md5program \"$md5src1\" $md5key",$md5sign1,$res1);
+  //改为调用PHP程序
+	$md5sign1= bin2hex(mhash(MHASH_MD5,$md5src1,$md5key));
 	//校验源字符串，v_md5money效验
 	$md5src2 = $v_amount . $v_moneytype;
 	//MD5检验结果，v_md5money效验
@@ -224,12 +228,13 @@ function uc_payease_return() {
 
 	//exec($uc_payease_md5program." $md5src2 $md5key",$md5sign2,$res2);
 	//exec("$uc_payease_md5program '".$md5src2."' $md5key",$md5sign2,$res2);
-	exec("$uc_payease_md5program \"$md5src2\" $md5key",$md5sign2,$res2);
-	
+	//exec("$uc_payease_md5program \"$md5src2\" $md5key",$md5sign2,$res2);
+	$md5sign2= bin2hex(mhash(MHASH_MD5,$md5src2,$md5key));
 	//if ($v_md5info==$md5sign1[0] && $v_md5money==$md5sign2[0]) {
 	//这里面我担心中文验证有问题,所以仅使用了md5money进行验证，下面的代码从理论上和上面是一致的，也就是等效的。
 	//当有特殊字符时,会加密失败,此时$v_md5money为空,所以检查是否为空,以防止潜在的安全漏洞	
-	if ( $v_md5money==$md5sign2[0] && !empty($v_md5money)) {
+	//if ( $v_md5money==$md5sign2[0] && !empty($v_md5money)) {
+	if ( $v_md5money==$md5sign2 && !empty($v_md5money)) {
 		// 商户编号
 		$v_mid = variable_get('uc_payease_seller', '888');  
 		

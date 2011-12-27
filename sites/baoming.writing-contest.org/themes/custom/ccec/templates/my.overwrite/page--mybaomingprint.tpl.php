@@ -9,7 +9,7 @@ h3{margin-bottom:0;}
 
 <?php
 			             $views_name = 'myprofile';
-                        $display_id = 'page';
+                        $display_id = 'myprofileinfo';
                          print views_embed_view($views_name, $display_id);
  ?>
 <?php print render($page['content']); ?>

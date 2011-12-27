@@ -167,16 +167,22 @@ function uc_payease_form($form, &$form_state, $order) {
   //执行外部MD5加密程序
 	//exec("$uc_payease_md5program $md5src $md5key",$v_md5info,$res);
 	//exec("$uc_payease_md5program '".$md5src."' $md5key",$v_md5info,$res);
-	exec("$uc_payease_md5program \"$md5src\" $md5key",$v_md5info,$res);
+	//exec("$uc_payease_md5program \"$md5src\" $md5key",$v_md5info,$res);
+	$v_md5info=bin2hex(mhash(MHASH_MD5,$md5src,$md5key));
+	//$v_md5info =shell_exec("$uc_payease_md5program \"$md5src\" $md5key");
+	//drupal_set_message("$uc_payease_md5program \"$md5src\" $md5key");
+	//drupal_set_message($v_md5info);
 	//md5加密信息，来源于上面代码中的$v_md5info变量，注意这个变量是一个数组，我们取其第1个元素
 	$form['v_md5info'] = array(
     '#type' => 'hidden',
-    '#value' => $v_md5info[0],
+    //'#value' => $v_md5info[0],
+		'#value' => $v_md5info,
 	); 
 	
 	//提交到首信易提供的标准接口http://pay.beijing.com.cn/prs/user_payment.checkit
-	$form['#action'] = 'http://pay.beijing.com.cn/prs/user_payment.checkit';   
-	    
+	//$form['#action'] = 'http://pay.beijing.com.cn/prs/user_payment.checkit';   
+	//english version
+  $form['#action'] = 'http://pay.beijing.com.cn/prs/e_user_payment.checkit'; 	
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' =>  variable_get('uc_payease_checkout_button', t('提交订单')),
@@ -227,7 +233,7 @@ function uc_payment_method_payease($op, &$arg1) {
 			//$base_path = 'http://'.$_SERVER['HTTP_HOST'].base_path();
 			$url = 'payment/payease/'.$arg1->order_id;
 			$output = '<br />';
-			$output .= l('现在去支付',$url,array('attributes'=>array('target'=>'_blank')));
+			$output .= l('Go to payment page',$url,array('attributes'=>array('target'=>'_blank')));
       $output .= '<br />';
 			if($arg1->order_status =='processing'){
 			  $build['#markup'] = $output;
@@ -239,7 +245,7 @@ function uc_payment_method_payease($op, &$arg1) {
 		case 'customer-view':
 			$url = 'payment/payease/'.$arg1->order_id;
 			$output = '<br />';
-			$output .= l('现在去支付',$url,array('attributes'=>array('target'=>'_blank')));
+			$output .= l('Go to payment page',$url,array('attributes'=>array('target'=>'_blank')));
       $output .= '<br />';
 			if($arg1->order_status =='processing'){
 			  $build['#markup'] = $output;

@@ -239,3 +239,7 @@
 /*------右边栏书目下载-----------*/
 .shumu { margin:18px 0 0 10px;      
 }
+/*------登录账户-----------*/
+#block-system-user-menu{position:absolute;top:180px;left:520px}
+#block-system-user-menu .menu li{float:left;margin-right:20px;}
+#block-system-user-menu .menu li a{color:#333;}

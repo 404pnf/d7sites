@@ -39,6 +39,10 @@
  if(stristr($current_path,'productslist/57/26')||stristr($current_path,'productslist/57/78')||stristr($current_path,'productslist/57/79')||stristr($current_path,'productslist/57'))
                            $custom_style_file ='/css/xbz.css';
 
+ if(stristr($current_path,'productslist/62/24')||stristr($current_path,'productslist/62/39')||stristr($current_path,'productslist/62/76')||stristr($current_path,'productslist/62/81')||stristr($current_path,'productslist/62'))
+                            $custom_style_file ='/css/qita.css';
+
+
  
 
 if(!empty($custom_style_file)){

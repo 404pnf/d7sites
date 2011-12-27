@@ -69,7 +69,7 @@ function apply_assit_extra_validate($form, &$form_state) {
 			->execute();
 		
 		if(strtolower (arg(2))!='edit'){
-			if(($publicGroupCount>=$publicGroupLImited)||($speciatyGroupCount>=$speciatyGroupLImited)){
+			if(($publicGroupCount>=$publicGroupLImited)&&($speciatyGroupCount>=$speciatyGroupLImited)){
 					form_set_error ( 'field_firstname',t ( '报名数超出限制。限报3名选手（公英组最多2名、专业组1名）'));
 			  }
 		}
