@@ -353,13 +353,15 @@ class TranscoderAbstractionFactoryZencoder extends TranscoderAbstractionFactory 
   }
 
   public function processPostback() {
-    // get JSON post data
-    $data = file_get_contents("php://input");
-    watchdog('transcoder', t('Zencoder : Postback received from the Zencoder Transcoding servers.'));
     // Catch notification
     $notification = ZencoderOutputNotification::catch_and_parse();
     // Check output/job state
     $video_output = db_query("SELECT vid, original_fid, output_fid FROM {video_output} WHERE job_id = :job_id", array(':job_id' => $notification->job->id))->fetch();
+    if (!$video_output->vid)
+      return;
+    // get JSON post data
+    watchdog('transcoder', t('Zencoder : Postback received from the Zencoder Transcoding servers for vid: !vid.', array('!vid' => $video_output->vid)));
+
     if ($notification->output->state == "finished") {
       if ($notification->job->state == "finished") {
         // update file metadata ie. duration
@@ -369,7 +371,7 @@ class TranscoderAbstractionFactoryZencoder extends TranscoderAbstractionFactory 
         );
 
         if ($request->successful) {
-          $duration = $request->successful['job']['output_media_files'][0]['duration_in_ms'] / 1000;
+          $duration = round($request->results['job']['output_media_files'][0]['duration_in_ms'] / 1000);
           db_update('video_queue')->fields(array('duration' => $duration))->condition('vid', $video_output->vid, '=')->execute();
         }
         else {
@@ -378,16 +380,50 @@ class TranscoderAbstractionFactoryZencoder extends TranscoderAbstractionFactory 
           }
         }
         // change the job status
-        db_update('video_queue')->fields(array('status' => VIDEO_RENDERING_COMPLETE,))->condition('vid', $video_output->vid, '=')->execute();
+        db_update('video_queue')->fields(array('status' => VIDEO_RENDERING_COMPLETE))->condition('vid', $video_output->vid, '=')->execute();
         echo "Dubble w00t!";
+        // Replace thumbnail
+        $video_queue = db_query("SELECT nid FROM {video_queue} WHERE vid = :vid", array(':vid' => $video_output->vid))->fetch();
+        $node = node_load($video_queue->nid);
+        //get field name
+        $field_name = NULL;
+        foreach (field_info_instances('node', $node->type) as $key => $field) {
+          if ($field['widget']['type'] == 'video_upload')
+            $field_name = $key;
+        }
+        // download thumbnails
+        $schema_thumb_path = file_uri_scheme($node->{$field_name}['und'][0]['uri']) . '://' . variable_get('video_thumbnail_path', 'videos/thumbnails') . '/' . $video_output->original_fid;
+        file_prepare_directory($schema_thumb_path, FILE_CREATE_DIRECTORY);
+        $no_of_thumbnails = variable_get('video_thumbnail_count', 5);
+        $thumbnail_id = rand(1, $no_of_thumbnails);
+        $filename = 'thumbnail-' . $video_output->original_fid . '_' . sprintf("%04d", $thumbnail_id) . '.png';
+        libraries_load('awssdk');
+        $key = variable_get('aws_key', '');
+        $secret_key = variable_get('aws_secret_key', '');
+        $bucket = variable_get('amazons3_bucket');
+        $s3 = new AmazonS3($key, $secret_key);
+        if ($s3->get_object_metadata($bucket, file_uri_target($schema_thumb_path) . '/' . $filename) && !file_exists(drupal_realpath($schema_thumb_path . '/' . $filename))) {
+          $s3_get_object = $s3->get_object($bucket, file_uri_target($schema_thumb_path) . '/' . $filename, array('fileDownload' => drupal_realpath($schema_thumb_path . '/' . $filename)));
+          $file = new stdClass();
+          $file->uid = $node->uid;
+          $file->status = 0;
+          $file->filename = trim($filename);
+          $file->uri = $schema_thumb_path . '/' . $filename;
+          $file->filemime = file_get_mimetype($filename);
+          $file->filesize = filesize(drupal_realpath($schema_thumb_path . '/' . $filename));
+          $file->timestamp = time();
+          $file = file_save($file);
+          $node->{$field_name}['und'][0]['thumbnail'] = $file->fid;
+          node_save($node);
+        }
       }
     }
     elseif ($notification->output->state == "cancelled") {
-      db_update('video_queue')->fields(array('status' => VIDEO_RENDERING_FAILED,))->condition('vid', $video_output->vid, '=')->execute();
+      db_update('video_queue')->fields(array('status' => VIDEO_RENDERING_FAILED))->condition('vid', $video_output->vid, '=')->execute();
       echo "Cancelled!\n";
     }
     else {
-      db_update('video_queue')->fields(array('status' => VIDEO_RENDERING_FAILED,))->condition('vid', $video_output->vid, '=')->execute();
+      db_update('video_queue')->fields(array('status' => VIDEO_RENDERING_FAILED))->condition('vid', $video_output->vid, '=')->execute();
       watchdog('transcoder', t('Zencoder reports errors !errors.', array('!errors' => $notification->output->error_message)), NULL, WATCHDOG_ERROR);
       echo "Fail!\n";
     }

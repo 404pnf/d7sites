@@ -43,8 +43,6 @@
                             $custom_style_file ='/css/qita.css';
 
 
- 
-
 if(!empty($custom_style_file)){
     $custom_style_uri = '<style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','ncehome').$custom_style_file.'");</style>';
     print   $custom_style_uri ;

@@ -102,14 +102,12 @@
                                                    print views_embed_view($views_name, $display_id,$category);
                                             ?>
 
-
-
-
-
-                              
-                              
-
-
+                                <!-- 获得当前系列描述 -->
+                                             <?php 
+                                                 $category = arg(2);
+                                                 $term = taxonomy_term_load($category);
+                                                 print $term->description;
+                                             ?>
 
                                 <!-- 获得当前分类显示分类名字 -->
                                            <?php
