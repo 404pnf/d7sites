@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the decosearch feature.
+ */
+
+include_once('decosearch.features.inc');
