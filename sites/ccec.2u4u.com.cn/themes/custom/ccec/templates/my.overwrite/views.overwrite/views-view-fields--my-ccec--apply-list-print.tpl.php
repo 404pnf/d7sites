@@ -31,7 +31,7 @@
 
 ?>
 
-<div style="background: url('/sites/ccec.2u4u.com.cn/themes/custom/ccec/images/certificate.jpg');width:540px;height:370px;float:left;position: relative;">
+<div style="background: url('/sites/ccec.2u4u.com.cn/themes/custom/ccec/images/certificate.jpg') no-repeat -10px 0;width:520px;height:370px;float:left;position: relative;">
 <?php
 	$photo_style = 'candidate_photo_2inch';
     $photo_uri = $row->field_field_pic[0]['raw']['uri'] ;

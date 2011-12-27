@@ -95,7 +95,6 @@
 						global $user;
 						$uid = $user->uid;
 
-						$baomingLimited =1;
 
 						  $query = new EntityFieldQuery();				   
 						  $baomingInfo= $query
@@ -111,12 +110,21 @@
 						//debug($schoolinfo_items,'',TRUE );	
 
 							$schoolinfo_term_id =$schoolinfo_items[$schoolinfo_nids[0]]->field_schoolname['und'][0]['tid'];
-							print  $schoolinfo_term_id;
+
+							$baoming_confirm =$schoolinfo_items[$schoolinfo_nids[0]]->field_baoming_confirm['und'][0]['value'];
+
+							//drupal_set_message( '这个值是：'.$baoming_confirm);
 
 			             $views_name = 'baoming';
                         $display_id = 'school';						
                          print views_embed_view($views_name, $display_id,$schoolinfo_term_id);
 					 ?>
+					 <?php	if($baoming_confirm==0): ?>
+					 <form method="post" action="confirm-baoming">
+									<input  type="submit" value="确认以上报名信息的准确性"/>
+									注：一旦确认，则报名者和所属学校都将无法修改报名信息！
+                    </form>
+					   <?php	endif;?>
           <?php //print render($page['content']) ?>
         </div>
 

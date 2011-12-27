@@ -12,9 +12,9 @@
 <style>
 *{margin:0;padding:0;}
 ul{list-style:none;overflow:auto;}
-li.views-row{overflow:auto;float:left;margin:2px;}
-.rows{margin-left:258px;font-size:14px}
-#photo{margin-top:128px;margin-left:62px;float:left;}
+li.views-row{overflow:auto;float:left;margin:1px;}
+.rows{margin-left:248px;font-size:14px}
+#photo{margin-top:128px;margin-left:52px;float:left;}
 #name{margin-top:16px}
 #candidate-id{margin-top:126px}
 #degree{margin-top:19px}

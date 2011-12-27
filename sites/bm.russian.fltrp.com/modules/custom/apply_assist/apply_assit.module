@@ -33,6 +33,48 @@
 //}
 
 
+function apply_assit_menu() {
+	
+	$items ['confirm-baoming'] = array ('title' => '确认报名', 'description' => t ( '确认报名' ), 'page callback' => 'apply_assit_confirm_baoming', 'access callback' => true );
+	
+	return $items;
+
+}
+
+function apply_assit_confirm_baoming(){
+
+				global $user;
+				$uid = $user->uid;
+
+
+				  $query = new EntityFieldQuery();				   
+				  $baomingInfo= $query
+					  ->entityCondition('entity_type', 'node')
+						->entityCondition('bundle', 'schoolinfo')
+						->propertyCondition('uid',$uid)
+					->execute();
+
+					$schoolinfo_nids = array_keys($baomingInfo['node']);
+
+					$schoolinfo_items = node_load($schoolinfo_nids[0]);
+
+					$schoolinfo_items->field_baoming_confirm['und'][0]['value']=1;
+
+					node_save($schoolinfo_items);
+
+				//debug($schoolinfo_items,'',TRUE );	
+
+				//	$schoolinfo_term_id =$schoolinfo_items[$schoolinfo_nids[0]]->field_schoolname['und'][0]['tid'];
+
+					//$baoming_confirm =$schoolinfo_items[$schoolinfo_nids[0]]->field_baoming_confirm['und'][0]['value'];
+
+					//drupal_set_message( '这个值是：'.$baoming_confirm);
+
+			return t ( "贵校的报名信息已经确认！");
+
+}
+
+
 function apply_assit_form_alter(&$form, &$form_state, $form_id){		
 	if ($form_id == 'baoming_node_form') {
 		$form ['#validate'] [] = 'apply_assit_extra_validate';
