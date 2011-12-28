@@ -1,3 +1,25 @@
+<SCRIPT type="text/javascript" src="<?php print $base_path.$directory?>/js/jQuery v1.6.4.js"></SCRIPT>
+<script>
+//小内部选项卡切换功能                                                                                                                      
+$(document).ready(function(){                                                                                                    
+        $oc = $(".oc");                                                                                                        
+        $tablis = $(".othertab li");                                                                                            
+        $oc.css({"display":"none"});                                                                                              
+        $tablis.removeClass("active");                                                                                           
+        $oc.eq(0).css({"display":"block"});                                                                                  
+        $tablis.eq(0).addClass("active");                                                                                 
+        $tablis.each(function(index){                                                                              
+                $(this).click(function(){                                                                             
+                        $tablis.removeClass("active");                                                                      
+                        $(this).addClass("active");                                                                    
+                        $oc.css({"display":"none"});                                                                  
+                        $oc.eq(index).css({"display":"block"});                                                        
+                });                                                                                                     
+        });                                                                                                               
+}) 
+
+</script> 
+
 <div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <!-- ______________________ TOP NAVIGATION_______________________ -->
     <?php if ($page['topnav']): ?>
@@ -107,16 +129,18 @@
                                                  $category = arg(2);
                                                  $term = taxonomy_term_load($category);
                                                  print $term->description;
-                                             ?>
-
-                                <!-- 获得当前分类显示分类名字 -->
-                                           <?php
-                                                   $views_name = 'category';
-                                                   $display_id = 'current';
-                                                   print views_embed_view($views_name, $display_id);
-                                            ?>
-
-
+                                      
+                                               ?>
+                      <div class="productlist">     
+                            <div class="product-title">
+                                <!--获得当前分类名称 -->
+                                 <?php
+                                     $views_name = 'series_list_books';
+                                     $display_id = 'current';
+                                     print views_embed_view($views_name, $display_id);
+                                  ?>
+                             </div> 
+                          
 				<!-- 	产品列表 开始	 -->			
 				<?php
    				        $category = arg(1);
@@ -126,8 +150,9 @@
                                         $views_name = 'series_list_books';
                                         $display_id = 'productslist';
                                         print views_embed_view($views_name, $display_id,$category,$arg2);
-               ?>
+                                 ?>
 	   			<!-- 	//产品列表 结束	 -->		
+                       </div>
 
           <?php print render($page['content']) ?>
         </div>

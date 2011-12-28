@@ -13,11 +13,11 @@ if (theme_get_setting('clear_registry')) {
   drupal_theme_rebuild();
 }
 // Add Zen Tabs styles
-if (theme_get_setting('basic_tabs')) {
-  drupal_add_css( drupal_get_path('theme', 'basic') .'/css/tabs.css');
+if (theme_get_setting('ncehome_tabs')) {
+  drupal_add_css( drupal_get_path('theme', 'ncehome') .'/css/tabs.css');
 }
 
-function basic_preprocess_page(&$vars, $hook) {
+function ncehome_preprocess_page(&$vars, $hook) {
   if (isset($vars['node_title'])) {
     $vars['title'] = $vars['node_title'];
   }
@@ -34,12 +34,12 @@ function basic_preprocess_page(&$vars, $hook) {
   }  
 }
 
-function basic_preprocess_node(&$vars) {
+function ncehome_preprocess_node(&$vars) {
   // Add a striping class.
   $vars['classes_array'][] = 'node-' . $vars['zebra'];
 }
 
-function basic_preprocess_block(&$vars, $hook) {
+function ncehome_preprocess_block(&$vars, $hook) {
   // Add a striping class.
   $vars['classes_array'][] = 'block-' . $vars['zebra'];
 }
@@ -52,23 +52,47 @@ function basic_preprocess_block(&$vars, $hook) {
  * @return
  *   A string containing the breadcrumb output.
  */
-function basic_breadcrumb($variables) {
+function ncehome_breadcrumb($variables) {
+  $breadcrumb_separator = theme_get_setting('ncehome_breadcrumb_separator');
+  $current_path = drupal_get_path_alias();
+ 
+ 
+  if(arg(0)=='productslist' && arg(1)>0 && arg(2)>0){
+                $tid1 = arg(1);
+                $tid2 = arg(2);
+                $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		$parents = taxonomy_get_parents_all($tid1);
+                print_r ($parents);
+	        #$parents = array_reverse($parents);
+		#foreach($parents as $parent){
+		#	$breadcrumbs[] = ' >> <a href="'.base_path().'productlists/'.$parent->tid.'">'.$parent->name.'</a>';
+		#}
+	        #$output = '<div class="breadcrumb">';
+		#$output .=implode( $breadcrumb_separator , $breadcrumbs);
+		#$output .= '</div>';
+		#return $output;
+	     }
+  
+  
+  
+  
   $breadcrumb = $variables['breadcrumb'];
   // Determine if we are to display the breadcrumb.
-  $show_breadcrumb = theme_get_setting('basic_breadcrumb');
+  $show_breadcrumb = theme_get_setting('ncehome_breadcrumb');
   if ($show_breadcrumb == 'yes' || $show_breadcrumb == 'admin' && arg(0) == 'admin') {
 
     // Optionally get rid of the homepage link.
-    $show_breadcrumb_home = theme_get_setting('basic_breadcrumb_home');
+    $show_breadcrumb_home = theme_get_setting('ncehome_breadcrumb_home');
     if (!$show_breadcrumb_home) {
       array_shift($breadcrumb);
     }
 
     // Return the breadcrumb with separators.
     if (!empty($breadcrumb)) {
-      $breadcrumb_separator = theme_get_setting('basic_breadcrumb_separator');
+      $breadcrumb_separator = theme_get_setting('ncehome_breadcrumb_separator');
       $trailing_separator = $title = '';
-      if (theme_get_setting('basic_breadcrumb_title')) {
+      if (theme_get_setting('ncehome_breadcrumb_title')) {
         $item = menu_get_item();
         if (!empty($item['tab_parent'])) {
           // If we are on a non-default tab, use the tab's title.
@@ -81,7 +105,7 @@ function basic_breadcrumb($variables) {
           $trailing_separator = $breadcrumb_separator;
         }
       }
-      elseif (theme_get_setting('basic_breadcrumb_trailing')) {
+      elseif (theme_get_setting('ncehome_breadcrumb_trailing')) {
         $trailing_separator = $breadcrumb_separator;
       }
 
@@ -113,7 +137,7 @@ function basic_breadcrumb($variables) {
  */	
 
 
-function basic_id_safe($string) {
+function ncehome_id_safe($string) {
   // Replace with dashes anything that isn't A-Z, numbers, dashes, or underscores.
   $string = strtolower(preg_replace('/[^a-zA-Z0-9_-]+/', '-', $string));
   // If the first character is not a-z, add 'n' in front.
@@ -136,7 +160,7 @@ function basic_id_safe($string) {
  * @ingroup themeable
  */
  
-function basic_menu_link(array $variables) {
+function ncehome_menu_link(array $variables) {
   $element = $variables['element'];
   $sub_menu = '';
 
@@ -145,7 +169,7 @@ function basic_menu_link(array $variables) {
   }
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
   // Adding a class depending on the TITLE of the link (not constant)
-  $element['#attributes']['class'][] = basic_id_safe($element['#title']);
+  $element['#attributes']['class'][] = ncehome_id_safe($element['#title']);
   // Adding a class depending on the ID of the link (constant)
   $element['#attributes']['class'][] = 'mid-' . $element['#original_link']['mlid'];
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
@@ -154,7 +178,7 @@ function basic_menu_link(array $variables) {
 /**
  * Override or insert variables into theme_menu_local_task().
  */
-function basic_preprocess_menu_local_task(&$variables) {
+function ncehome_preprocess_menu_local_task(&$variables) {
   $link =& $variables['element']['#link'];
 
   // If the link does not contain HTML already, check_plain() it now.
@@ -170,7 +194,7 @@ function basic_preprocess_menu_local_task(&$variables) {
  *  Duplicate of theme_menu_local_tasks() but adds clearfix to tabs.
  */
 
-function basic_menu_local_tasks(&$variables) {  
+function ncehome_menu_local_tasks(&$variables) {  
   $output = '';
 
   if (!empty($variables['primary'])) {
