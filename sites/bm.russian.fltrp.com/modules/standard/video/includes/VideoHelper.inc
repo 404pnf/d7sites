@@ -29,6 +29,7 @@ class VideoHelper {
       $video->files->{$extension}->filepath = $variables['item']['uri'];
       $video->files->{$extension}->url = file_create_url($variables['item']['uri']);
       $video->files->{$extension}->uri = $variables['item']['uri'];
+      $video->files->{$extension}->filemime = $variables['item']['filemime'];
       $video->files->{$extension}->extension = $extension;
       // set the player to play
       $video->player = $extension;
@@ -84,7 +85,16 @@ class VideoHelper {
     elseif (isset($variables['item']['thumbnail']) ? TRUE : FALSE) {
       // actual video thumbnails is present
       $thumbnail_load = file_load($variables['item']['thumbnail']);
-      $thumbnail->filepath = $thumbnail_load->uri;
+      if (isset($thumbnail_load->uri) && !empty($thumbnail_load->uri)) {
+        $thumbnail->filepath = $thumbnail_load->uri;
+      }
+      elseif (!empty($field_settings['default_video_thumbnail']['fid'])) {
+        // if thumbnail is missing or not found use default one if uploadded
+        $default_thumbnail = file_load($field_settings['default_video_thumbnail']['fid']);
+        $thumbnail->filepath = $default_thumbnail->uri;
+      }
+      else
+        return;
     }
     else {
       return;

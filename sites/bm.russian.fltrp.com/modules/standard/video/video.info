@@ -14,9 +14,10 @@ files[] = includes/VideoHelper.inc
 files[] = includes/TranscoderFactory.inc
 files[] = transcoders/TranscoderAbstractionFactoryFfmpeg.inc
 files[] = transcoders/TranscoderAbstractionFactoryZencoder.inc
-; Information added by drupal.org packaging script on 2011-09-22
-version = "7.x-2.1-alpha3"
+files[] = views/video_handler_field_video_duration.inc
+; Information added by drupal.org packaging script on 2011-11-21
+version = "7.x-2.4"
 core = "7.x"
 project = "video"
-datestamp = "1316666508"
+datestamp = "1321850744"
 

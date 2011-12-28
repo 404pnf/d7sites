@@ -41,6 +41,17 @@ function video_menu() {
     'access arguments' => array('transocder postback'),
     'type' => MENU_CALLBACK,
   );
+  $items['video/browser'] = array(
+    'page callback' => 'video_file_browser',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['video/embed/%video/%/%'] = array(
+    'page callback' => 'video_file_embed',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -127,6 +138,12 @@ function video_theme() {
     'variables' => array('video' => NULL),
     'file' => 'video.theme.inc'
   );
+  // Dialog page.
+  $theme['video_dialog_page'] = array(
+    'render element' => 'page',
+    'template' => 'templates/video-dialog-page',
+    'file' => 'video.theme.inc',
+  );
   return $theme;
 }
 
@@ -202,12 +219,46 @@ function video_views_api() {
 }
 
 /**
+ * Implementation of hook_views_handlers().
+ */
+function video_views_handlers() {
+  return array(
+    'info' => array(
+      'path' => drupal_get_path('module', 'video') . '/views',
+    ),
+    'handlers' => array(
+      'video_handler_field_video_duration' => array(
+        'parent' => 'views_handler_field',
+      ),
+    ),
+  );
+}
+
+/**
  * Implements hook_file_download().
  *
  * Control the access to files underneath the styles directory.
  */
 function video_file_download($uri) {
   $path = file_uri_target($uri);
+
+  // Looks like we have a transcoded file
+	if(strpos($uri, '/converted/') !== FALSE){
+		// Get the original FID and URI using the video_output table
+		$video_fids = db_query('SELECT file_managed.fid output_fid, original_fid, file_original.uri original_uri FROM {file_managed} JOIN {video_output} ON file_managed.fid = video_output.output_fid JOIN {file_managed} file_original ON file_original.fid = video_output.original_fid WHERE file_managed.uri = :uri', array(':uri' => $uri))->fetchObject();
+
+		// Check permissions of original file to grant access to the converted file
+		$original_file_headers = module_invoke_all('file_download', $video_fids->original_uri);
+    if(in_array(-1, $original_file_headers)) {
+      return drupal_access_denied();
+    }
+    // Get the headers of the converted file and return them if they are valid
+    $file = file_load($video_fids->output_fid);
+    $headers = file_get_content_headers($file);
+    if(!in_array(-1, $headers)) {
+      return $headers;
+    }
+	}
 
   // Private file access for image style derivatives.
   if (strpos($path, 'styles/') === 0) {
@@ -262,4 +313,130 @@ function _video_transcoder_postback_jobs() {
   $factory = new TranscoderAbstractionAbstractFactory();
   $transcoder = $factory->getProduct();
   return $transcoder->processPostback();
+}
+
+/**
+ * Implements hook_page_alter().
+ *
+ * This is used to use our alternate template when ?render=media-popup is passed
+ * in the URL.
+ */
+function video_page_alter(&$page) {
+  if (isset($_GET['render']) && $_GET['render'] == 'video-popup') {
+    $page['#theme'] = 'video_dialog_page';
+    // temporary fix while awaiting fix for 914786
+    if (module_exists('admin_menu')) {
+      admin_menu_suppress();
+    }
+    foreach (element_children($page) as $key) {
+      if ($key != 'content') {
+        unset($page[$key]);
+      }
+    }
+  }
+  if (arg(1) == 'embed' && arg(0) == 'video') {
+    $page['#theme'] = 'video_dialog_page';
+    // temporary fix while awaiting fix for 914786
+    if (module_exists('admin_menu')) {
+      admin_menu_suppress();
+    }
+    foreach (element_children($page) as $key) {
+      if ($key != 'content') {
+        unset($page[$key]);
+      }
+    }
+  }
+}
+
+/**
+ * video browser menu callback
+ */
+function video_file_browser() {
+  global $user;
+  $output = array();
+  // width and height of the player
+  $output['video']['wxh'] = array(
+    '#title' => t('Player Dimensions'),
+    '#type' => 'select',
+    '#default_value' => '352x288',
+    '#description' => t('Select the desired widthxheight of the video player. You can add your own dimention from !settings.', array('!settings' => l('video metadata settings', 'admin/config/media/video/metadata'))),
+    '#options' => video_explode("\n", variable_get("video_metadata_dimensions", video_default_dimensions())),
+    '#attributes' => array('class' => array('video-file-browser-dimensions'))
+  );
+  // field get instances
+  $fields = field_info_instances();
+  $node_field = array();
+  foreach ($fields['node'] as $content_type => $fields) {
+    foreach ($fields as $field_name => $field) {
+      if ($field['widget']['type'] == 'video_upload')
+        $node_field[$content_type][$field_name] = $field;
+    }
+  }
+  foreach ($node_field as $content_type => $field) {
+    $result = db_select('node', 'n')
+        ->fields('n', array('nid'))
+        ->condition('status', 0, '>')
+        ->condition('type', $content_type) // @todo place dynamic node types
+        ->condition('uid', $user->uid) // @todo add permissions and full access to admin #1
+        ->execute()
+        ->fetchAll();
+    foreach ($result as $value) {
+      $node = node_load($value->nid);
+      $node_view = node_view($node);
+      foreach ($field as $field_name => $field_settings) {
+        $item = $node_view[$field_settings['field_name']];
+        $item[0]['#theme'] = 'video_formatter_thumbnail';
+        $item[0]['#image_style'] = 'thumbnail';
+        $item[0]['#path'] = '';
+        $form = array();
+        $form['video_browser']['image'] = array(
+          '#prefix' => '<div class="video-item"><a href="#" ref="' . $node->nid . '">',
+          '#markup' => '<div class="video-image">' . render($item[0]) . '</div>',
+        );
+        $form['video_browser']['title'] = array(
+          '#markup' => '<div class="video-title">' . $node->title . '</div>',
+        );
+        $form['video_browser']['nid'] = array(
+          '#type' => 'hidden',
+          '#value' => $node->nid,
+          '#suffix' => '</a></div>'
+        );
+        $output['video'][] = $form;
+      }
+    }
+  }
+  return render($output);
+}
+
+/**
+ * Video load menu callbacl
+ */
+function video_load($nid) {
+  $node = node_load($nid);
+  return $node;
+}
+
+/**
+ * Menu callback : video/embed
+ */
+function video_file_embed($node) {
+//  dsm($node);
+  $fields = field_info_instances('node', $node->type);
+  $node_field = array();
+  foreach ($fields as $field_type => $field) {
+    if ($field['widget']['type'] == 'video_upload') {
+      $video_field = $field;
+    }
+  }
+//  dsm($video_field);
+//  echo 'oki';
+  $element = array(
+    '#theme' => 'video_formatter_player',
+    '#item' => $node->{$video_field['field_name']}['und'][0],
+    '#entity' => $node,
+    '#field' => $video_field,
+    '#instance' => $video_field,
+    '#player_dimensions' => arg(3) . 'x' . arg(4)
+  );
+  return drupal_render($element);
 }

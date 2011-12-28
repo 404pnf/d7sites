@@ -38,7 +38,7 @@ function video_thumb_process(&$element, &$form_state) {
         $element['thumbnail'] = array(
           '#type' => 'radios',
           '#title' => t('Video thumbnails'),
-          '#element_validate' => array('video_thumbnail_validate'),
+//          '#element_validate' => array('video_thumbnail_validate'),
           '#options' => $thumbss,
           '#default_value' => !empty($file['thumbnail']) ? $file['thumbnail'] : $thumbs[$default_thumb]->fid,
           '#weight' => 10,
@@ -61,7 +61,7 @@ function video_thumb_process(&$element, &$form_state) {
         '#description' => t('The uploaded image will be used as video thumbnail on this video.'),
         '#default_value' => !empty($file['thumbnail']['fid']) && is_integer($file['thumbnail']['fid']) ? $file['thumbnail']['fid'] : NULL,
         '#upload_location' => $scheme . '://' . variable_get('video_thumbnail_path', 'videos/thumbnails') . '/' . $file['fid'],
-        '#required' => TRUE
+//        '#required' => TRUE
       );
     }
     // if no thumbnail creation
@@ -204,7 +204,7 @@ function video_widget_element_settings(&$element, &$form_state) {
     }
   }
   // use of default thumbnail
-  $default_thumb = ($field['settings']['default_video_thumbnail']['fid'] == $file['thumbnail']) ? $field['settings']['default_video_thumbnail']['fid'] : variable_get('video_use_default_thumb', FALSE);
+  $default_thumb = (isset($file['thumbnail']) && $field['settings']['default_video_thumbnail']['fid'] == $file['thumbnail']) ? $field['settings']['default_video_thumbnail']['fid'] : variable_get('video_use_default_thumb', FALSE);
   if (isset($field['settings']['default_video_thumbnail']['fid']) && !empty($field['settings']['default_video_thumbnail']['fid'])) {
     if (user_access('use default thumb')) {
       $element['use_default_video_thumb'] = array(
@@ -290,7 +290,7 @@ function _video_aspect_ratio($video) {
   $height = $wxh['video']['dimensions']['height'];
   if (!$width || !$height) {
     //no width and height found just return.
-    watchdog('video_conversion', 'We could not determine the height and width of the video: ' . $video, array(), WATCHDOG_DEBUG);
+    watchdog('video_conversion', 'We could not determine the height and width of the video', array(), WATCHDOG_DEBUG);
 //    drupal_set_message(t('The system counld not determine the width and height of your video: !video.  If transcoding, the system could have problems.', array('!video' => $video)));
     return;
   }
@@ -521,4 +521,19 @@ function _video_object_to_array($data) {
     return $result;
   }
   return $data;
+}
+
+/**
+ * Element specific validation for video thumbnail value.
+ *
+ */
+function video_thumbnail_validate($element, &$form_state) {
+  $fid = $element['#value'];
+  // Make the file permanent and store it in the form.
+  if (!empty($fid)) {
+    $file = file_load($fid);
+    $file->status |= FILE_STATUS_PERMANENT;
+    $file = file_save($file);
+//    $element['#value'] = (array) $file;
+  }
 }
