@@ -111,7 +111,10 @@
 
 							$schoolinfo_term_id =$schoolinfo_items[$schoolinfo_nids[0]]->field_schoolname['und'][0]['tid'];
 
-							$baoming_confirm =$schoolinfo_items[$schoolinfo_nids[0]]->field_baoming_confirm['und'][0]['value'];
+							if(!isset($schoolinfo_items[$schoolinfo_nids[0]]->field_baoming_confirm['und']))
+							    $baoming_confirm=0;
+							else
+							    $baoming_confirm =$schoolinfo_items[$schoolinfo_nids[0]]->field_baoming_confirm['und'][0]['value'];
 
 							//drupal_set_message( '这个值是：'.$baoming_confirm);
 
@@ -123,6 +126,7 @@
 					 <form method="post" action="confirm-baoming">
 									<input  type="submit" value="确认以上报名信息的准确性"/>
 									注：一旦确认，则报名者和所属学校都将无法修改报名信息！
+									系统将为报名者自动分配考号
                     </form>
 					   <?php	endif;?>
           <?php //print render($page['content']) ?>
@@ -140,13 +144,16 @@
       </div>
     <?php endif; ?>
 
-    <?php if ($page['sidebar_first']): ?>
+    <?php //if ($page['sidebar_first']): ?>
       <div id="sidebar-first" class="column sidebar first">
         <div id="sidebar-first-inner" class="inner">
-          <?php print render($page['sidebar_first']); ?>
+			<?php print render($page['sidebar_first']); ?>
+		<!-- 左侧公共调用栏 -->
+			<?php include 'managemenu.tpl.php';?>	
+             <!-- 左侧公共调用栏 -->	
         </div>
       </div>
-    <?php endif; ?> <!-- /sidebar-first -->
+    <?php //endif; ?> <!-- /sidebar-first -->
 
     <?php if ($page['sidebar_second']): ?>
       <div id="sidebar-second" class="column sidebar second">

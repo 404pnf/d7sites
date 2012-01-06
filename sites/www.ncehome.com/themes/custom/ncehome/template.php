@@ -58,22 +58,30 @@ function ncehome_breadcrumb($variables) {
  
  
   if(arg(0)=='productslist' && arg(1)>0 && arg(2)>0){
-                $tid1 = arg(1);
-                $tid2 = arg(2);
+                $tid1= arg(1);   
+                $tid2 = arg(2);                
                 $breadcrumbs = array();
 		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
-		$parents = taxonomy_get_parents_all($tid1);
-                print_r ($parents);
-	        #$parents = array_reverse($parents);
-		#foreach($parents as $parent){
-		#	$breadcrumbs[] = ' >> <a href="'.base_path().'productlists/'.$parent->tid.'">'.$parent->name.'</a>';
-		#}
-	        #$output = '<div class="breadcrumb">';
-		#$output .=implode( $breadcrumb_separator , $breadcrumbs);
-		#$output .= '</div>';
-		#return $output;
+		$term1 = taxonomy_term_load($tid1);
+                $term2 = taxonomy_term_load($tid2);                
+	    	$breadcrumbs[] = ' >> <a href="'.base_path().'productslist/'.$term1->tid.'">'.$term1->name.'</a>';
+                $breadcrumbs[] = ' >> <a href="'.base_path().'productslist/'.$term1->tid.'/'.$term2->tid.'">'.$term2->name.'</a>';
+	        $output = '<div class="breadcrumb">';
+		$output .=implode( $breadcrumb_separator , $breadcrumbs);
+		$output .= '</div>';
+		return $output;
 	     }
-  
+    if(arg(0)=='productslist' && arg(1)>0){
+                $tid= arg(1);   
+                $breadcrumbs = array();
+		$breadcrumbs[] = '<a href="'.url().'">'.t('首页').'</a>';
+		$term = taxonomy_term_load($tid);
+	    	$breadcrumbs[] = ' >> <a href="'.base_path().'productslist/'.$term->tid.'">'.$term->name.'</a>';
+	        $output = '<div class="breadcrumb">';
+		$output .=implode( $breadcrumb_separator , $breadcrumbs);
+		$output .= '</div>';
+		return $output;
+	     }
   
   
   

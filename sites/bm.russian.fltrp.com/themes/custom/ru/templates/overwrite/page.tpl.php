@@ -121,13 +121,16 @@ if(!empty($node) && $node->type == 'page'){
       </div>
     <?php endif; ?>
 
-    <?php if ($page['sidebar_first']): ?>
+    <?php //if ($page['sidebar_first']): ?>
       <div id="sidebar-first" class="column sidebar first">
         <div id="sidebar-first-inner" class="inner">
-          <?php print render($page['sidebar_first']); ?>
+			<?php print render($page['sidebar_first']); ?>
+		<!-- 左侧公共调用栏 -->
+			<?php include 'managemenu.tpl.php';?>	
+             <!-- 左侧公共调用栏 -->	
         </div>
       </div>
-    <?php endif; ?> <!-- /sidebar-first -->
+    <?php //endif; ?> <!-- /sidebar-first -->
 
     <?php if ($page['sidebar_second']): ?>
       <div id="sidebar-second" class="column sidebar second">

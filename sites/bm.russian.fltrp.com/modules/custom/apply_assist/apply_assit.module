@@ -35,8 +35,8 @@
 
 function apply_assit_menu() {
 	
-	$items ['confirm-baoming'] = array ('title' => '确认报名', 'description' => t ( '确认报名' ), 'page callback' => 'apply_assit_confirm_baoming', 'access callback' => true );
-	
+	$items['confirm-baoming'] = array ('title' => '确认报名', 'description' => t ( '确认报名' ), 'page callback' => 'apply_assit_confirm_baoming', 'access callback' => true );
+	$items['confirm-schoolinfo'] = array ('title' => '确认学校信息', 'description' => t ( '确认学校信息' ), 'page callback' => 'apply_assit_confirm_schoolinfo', 'access callback' => true );
 	return $items;
 
 }
@@ -44,44 +44,221 @@ function apply_assit_menu() {
 
 function apply_assit_menu_alter(&$items) {
 	
-	$items ['node/%node/edit']['page callback']='apply_assit_assert_if_could_modify';
+	$items['node/%node/edit']['page callback']='apply_assit_assert_if_could_modify';
+	$items['node/%node']['page callback']='apply_assit_assert_if_could_view';
 }
+
+function apply_assit_assert_if_could_view($node)
+{
+
+		global $user;
+		 //debug($node,'',TRUE);	
+		// debug($user,'',TRUE);
+		$node_type=$node->type;
+		
+		switch($node_type){				
+				case 'baoming':		//内容类型为报名时的处理					
+							$current_user_roles = $user->roles;
+
+							//当角色为学校时，判断必须是本院校的报名信息，才能浏览
+							
+					    	if(in_array("学校",$current_user_roles)){
+										$uid = $user->uid;
+										 $query = new EntityFieldQuery();				   
+										 $schoolinfo= $query
+											  ->entityCondition('entity_type', 'node')
+												->entityCondition('bundle', 'schoolinfo')
+												->propertyCondition('uid',$uid)
+											->execute();
+
+										$schoolinfo_nids = array_keys($schoolinfo['node']);
+
+										$schoolinfo_items = node_load($schoolinfo_nids[0]);
+										//debug($schoolinfo_items,'',true);
+
+										if(!isset($schoolinfo_items->field_baoming_confirm['und']))
+											  $baoming_confirm=0;
+										else
+ 										      $baoming_confirm=$schoolinfo_items->field_baoming_confirm['und'][0]['value'];
+										$school_tid=$schoolinfo_items->field_schoolname['und'][0]['tid'];   //学校的所属学校分类id
+
+										$baoming_school_tid=$node->field_school['und'][0]['tid'];   //个人报名信息所属学校分类id
+
+
+
+						
+											if($school_tid ==$baoming_school_tid){   //必须是本院校的报名信息,才能够浏览
+												return node_page_view($node);
+											}else
+											{
+												return t('您无权浏览其他学校的报名信息');
+											}
+									
+
+							}elseif(!in_array("administrator",$current_user_roles)){   //一般用户无权浏览其他用户的报名信息，既非管理员只有作者可以查看
+
+											$uid = $user->uid;
+											$node_authorid=$node->uid;
+											
+											if($uid ==$node_authorid){   //非管理员只有作者可以查看
+												return node_page_view($node);
+											}else
+											{
+												return t('您无权浏览其他人的报名信息');
+											}
+
+							}else{	//当为管理员或一般报名者时，调用默认节点编辑功能，权限等依照用户管理的配置进行							
+									return node_page_view($node);
+							}
+							break;
+
+
+				case 'schoolinfo':		//内容类型为学校信息时					
+							$current_user_roles = $user->roles;
+
+							//除了角色为管理员，判断必须院校信息的作者是当前用户，才能浏览
+							
+					    	if(!in_array("administrator",$current_user_roles)){
+										$uid = $user->uid;
+										$node_authorid=$node->uid;
+
+						
+											if($uid ==$node_authorid){   //必须院校信息的作者是当前用户,才能够浏览
+												return node_page_view($node);
+											}else
+											{
+												return t('您无权浏览其他学校的信息');
+											}
+									
+
+							}else{	//当为管理员，可以查看							
+									return node_page_view($node);
+							}
+							break;
+				  default :	
+						  return node_page_view($node);
+ 				
+		}
+
+		
+}
+
+
 
 
 function apply_assit_assert_if_could_modify($node)
 {
 
 		global $user;
-			
-		 debug($user,'',TRUE);
+		 //debug($node,'',TRUE);	
+		// debug($user,'',TRUE);
 		$node_type=$node->type;
 		
 		switch($node_type){				
-				case 'baoming':							
+				case 'baoming':		//内容类型为报名时的处理					
 							$current_user_roles = $user->roles;
 
+							//当角色为学校时，判断必须是本院校的报名信息，并且在未确认报名信息前才能够编辑该报名信息
+							
 					    	if(in_array("学校",$current_user_roles)){
 										$uid = $user->uid;
 										 $query = new EntityFieldQuery();				   
-										 $baomingInfo= $query
+										 $schoolinfo= $query
 											  ->entityCondition('entity_type', 'node')
 												->entityCondition('bundle', 'schoolinfo')
 												->propertyCondition('uid',$uid)
 											->execute();
 
-										$schoolinfo_nids = array_keys($baomingInfo['node']);
+										$schoolinfo_nids = array_keys($schoolinfo['node']);
 
 										$schoolinfo_items = node_load($schoolinfo_nids[0]);
+										//debug($schoolinfo_items,'',true);
 
-										$baoming_confirm=$schoolinfo_items->field_baoming_confirm['und'][0]['value'];
+										if(!isset($schoolinfo_items->field_baoming_confirm['und']))
+											  $baoming_confirm=0;
+										else
+ 										      $baoming_confirm=$schoolinfo_items->field_baoming_confirm['und'][0]['value'];
+										$school_tid=$schoolinfo_items->field_schoolname['und'][0]['tid'];   //学校的所属学校分类id
 
-										if($baoming_confirm==1){
+										$baoming_school_tid=$node->field_school['und'][0]['tid'];   //个人报名信息所属学校分类id
+
+
+
+										if($baoming_confirm==1){//在未确认报名信息前才能够编辑该报名信息
 											return t('您已经确认过报名信息，无法再修改。');
 										}else{
+											if($school_tid ==$baoming_school_tid){   //必须是本院校的报名信息,才能够编辑该报名信息
+												return node_page_edit($node);
+											}else
+											{
+												return t('您无权编辑其他学校的报名信息');
+											}
+										}
+
+							}else{	//当为管理员，调用默认节点编辑功能，权限等依照用户管理的配置进行	，而一般报名者在该学校确认报名信息后也不能再修改						
+
+									if(in_array("authenticated user",$current_user_roles)&&count ($current_user_roles)==1){
+
+													$baoming_school_tid=$node->field_school['und'][0]['tid'];   //个人报名信息所属学校分类id
+													
+													 $query = new EntityFieldQuery();		
+													 
+													 //获取报名者所属院校的院校信息
+													 $schoolinfo= $query
+														  ->entityCondition('entity_type', 'node')
+															->entityCondition('bundle', 'schoolinfo')
+														    ->fieldCondition('field_schoolname', 'tid', $baoming_school_tid, '=')	
+															->execute();
+
+
+													// debug($schoolinfo,'',true);
+
+													$schoolinfo_nids = array_keys($schoolinfo['node']);
+
+													$schoolinfo_items = node_load($schoolinfo_nids[0]);
+													//debug($schoolinfo_items,'',true);
+
+													if(!isset($schoolinfo_items->field_school_confirm['und']))
+														  $school_confirm=0;
+													else
+														  $school_confirm=$schoolinfo_items->field_school_confirm['und'][0]['value'];
+										
+											
+												if($school_confirm==1){//在未确认报名信息前才能够编辑该报名信息
+													return t('您所在的院校已经确认过报名信息，无法再修改。');
+												}else{
+													return node_page_edit($node);
+												}
+
+											}else{
+													return node_page_edit($node);
+											}
+
+
+									
+							}
+							break;
+
+				case 'schoolinfo':		//内容类型为学校信息时的处理					
+							$current_user_roles = $user->roles;
+
+							//当角色为学校时，在未确认学校信息前才能够编辑该学校信息
+							
+					    	if(in_array("学校",$current_user_roles)){
+										
+										if(!isset($node->field_school_confirm['und'])){
+											  $schoolinfo_confirm=0;
+										}else{
+ 										      $schoolinfo_confirm=$node->field_school_confirm['und'][0]['value'];
+										}
+
+										if($schoolinfo_confirm==1){//在未确认学校信息前才能够编辑该学校信息
+											return t('您已经确认过学校信息，无法再修改。');
+										}else{										
 											return node_page_edit($node);
 										}
 
-							}else{								
+							}else{	//当为管理员或一般报名者时，调用默认节点编辑功能，权限等依照用户管理的配置进行							
 									return node_page_edit($node);
 							}
 							break;
@@ -103,13 +280,13 @@ function apply_assit_confirm_baoming(){
 
 
 				  $query = new EntityFieldQuery();				   
-				  $baomingInfo= $query
+				  $schoolinfo= $query
 					  ->entityCondition('entity_type', 'node')
 						->entityCondition('bundle', 'schoolinfo')
 						->propertyCondition('uid',$uid)
 					->execute();
 
-					$schoolinfo_nids = array_keys($baomingInfo['node']);
+					$schoolinfo_nids = array_keys($schoolinfo['node']);
 
 					$schoolinfo_items = node_load($schoolinfo_nids[0]);
 
@@ -125,15 +302,133 @@ function apply_assit_confirm_baoming(){
 
 					//drupal_set_message( '这个值是：'.$baoming_confirm);
 
+					batch_auto_create_candidateid();
+
 			return t ( "贵校的报名信息已经确认！");
 
 }
+
+function batch_auto_create_candidateid(){
+		
+				global $user;
+				$uid = $user->uid;
+				$candidate_id_suffix_length = 3; 
+				$candidate_prefix = '24';
+
+
+
+
+				//获取当前用户的学校信息
+				  $query = new EntityFieldQuery();				   
+				  $schoolinfo= $query
+					  ->entityCondition('entity_type', 'node')
+						->entityCondition('bundle', 'schoolinfo')
+						->propertyCondition('uid',$uid)
+					->execute();
+
+					$schoolinfo_nids = array_keys($schoolinfo['node']);
+
+					$schoolinfo_items = node_load($schoolinfo_nids[0]);
+
+				//debug($schoolinfo_items,'',TRUE );	
+
+					//获取当前用户的学校信息的学校分类id
+					$schoolinfo_term_id =$schoolinfo_items->field_schoolname['und'][0]['tid'];
+
+		
+					//获取当前用户的学校分类信息
+						$schoo_code_item=taxonomy_term_load($schoolinfo_term_id);
+						$schoo_code= $schoo_code_item->field_code['und'][0]['value'];
+					//获取学校分类对应编码
+
+
+					//debug($schoo_code_item,'',TRUE );	
+
+
+				//获取当前学校的报名信息
+				  $query = new EntityFieldQuery();		
+				  $baoming= $query
+					  ->entityCondition('entity_type', 'node')
+						->entityCondition('bundle', 'baoming')
+						->fieldCondition('field_school', 'tid', $schoolinfo_term_id, '=')	
+					    ->entityOrderBy('entity_id','asc')
+						->execute();
+
+					$baoming_nids = array_keys($baoming['node']);
+
+					$candidate_index=1;
+					foreach($baoming_nids as $baoming_nid){
+						$baoming_items = node_load($baoming_nid);
+						$candidate_index_length = strlen ( $candidate_index );
+						$candidate_index_add_length = $candidate_id_suffix_length - $candidate_index_length;
+						$candidateid = $candidate_prefix.$schoo_code.str_repeat ( '0', $candidate_index_add_length ) . $candidate_index;
+
+						$baoming_items->field_candidateid['und'][0]['value'] = $candidateid;
+						node_save($baoming_items);
+
+						//drupal_set_message('$candidateid:'.$candidateid);
+						//debug($baoming_items,'',TRUE );	
+						$candidate_index++;
+					}
+					
+					
+
+				drupal_set_message('已经批量生成完贵校报名者的考号。');
+				return true;
+
+}
+
+
+
+
+function apply_assit_confirm_schoolinfo(){
+
+				global $user;
+				$uid = $user->uid;
+
+
+				  $query = new EntityFieldQuery();				   
+				  $baomingInfo= $query
+					  ->entityCondition('entity_type', 'node')
+						->entityCondition('bundle', 'schoolinfo')
+						->propertyCondition('uid',$uid)
+					->execute();
+
+					$schoolinfo_nids = array_keys($baomingInfo['node']);
+
+					$schoolinfo_items = node_load($schoolinfo_nids[0]);
+
+					$schoolinfo_items->field_school_confirm['und'][0]['value']=1;
+
+					node_save($schoolinfo_items);
+
+				//debug($schoolinfo_items,'',TRUE );	
+
+				//	$schoolinfo_term_id =$schoolinfo_items[$schoolinfo_nids[0]]->field_schoolname['und'][0]['tid'];
+
+					//$baoming_confirm =$schoolinfo_items[$schoolinfo_nids[0]]->field_baoming_confirm['und'][0]['value'];
+
+					//drupal_set_message( '这个值是：'.$baoming_confirm);
+
+			return t ( "贵校的信息已经确认！");
+
+}
+
 
 
 function apply_assit_form_alter(&$form, &$form_state, $form_id){		
 	if ($form_id == 'baoming_node_form') {
 		$form ['#validate'] [] = 'apply_assit_extra_validate';
+		$form['field_candidateid'] ['#attributes']['disabled'] = 'disabled';	
 	}
+
+	//debug($form,'',TRUE);
+
+	if ($form_id == 'schoolinfo_node_form') {
+		$form['field_school_confirm'] ['#attributes']['disabled'] = 'disabled';	
+		$form['field_baoming_confirm'] ['#attributes']['disabled'] = 'disabled';	
+	}
+
 }
 
 
@@ -159,7 +454,19 @@ function apply_assit_extra_validate($form, &$form_state) {
 		}
 
 
+		$current_user_roles = $user->roles;
+
+		//当角色不只是注册用户时，不能报名
+							
+		if(in_array("authenticated user",$current_user_roles)&&count ($current_user_roles)>1){
+				form_set_error ( 'field_firstname',t ( '抱歉，只有普通注册用户才能报名'));
+				}
+
+
 }
+
+
+
 
 
 
