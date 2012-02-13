@@ -1,0 +1,5 @@
+name = Menu Fun
+description = Learning about the menu system
+package  = 404
+core = 7.x
+files[] = menufun.module

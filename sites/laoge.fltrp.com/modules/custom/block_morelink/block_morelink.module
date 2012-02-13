@@ -1,5 +1,0 @@
-name = 区块更多内容链接
-description = 为所有区块提供一个“更多”链接，并可以在区块管理页面填入url。
-core = 7.x
-dependencies[] = block
-configure = admin/config/block/morelink

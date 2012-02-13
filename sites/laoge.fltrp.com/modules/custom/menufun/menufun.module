@@ -1,0 +1,110 @@
+<?php 
+
+/**
+* @file
+* use this module to learn about drupal menu system
+*/
+
+
+/* hook_menu */
+
+function menufun_menu() {
+  $items['menufun'] = array(
+    'title' => 'Greetings, my friend!',
+    'title callback' => 'menufun_title',
+    'description' => t('A salutation'),
+    //'page callback' => 'menufun_hello',
+    'page callback' => 'menufun_greeting',
+    'file' => 'menufun_greeting.inc',
+    'page arguments' => array('Jane', 'Doe'),
+    //'access callback' => TRUE,
+    'access callback' => 'user_access',
+    'access arguments' => array('receive greeting'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['menufun/farewell'] = array(
+    'title' => 'Farewell, my friend!',
+    'page callback' => 'menufun_farewell',
+    'file' => 'menufun_greeting.inc',
+    //'access callback' => TRUE,
+    'access callback' => 'user_access',
+    'access arguments' => array('receive greeting'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  ///*
+  $items['menufun/%a_zoo_animal'] = array(
+    'title' => 'hi',
+    'page callback' => 'menufun_hello',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+    'weight' => -10 );
+//*/
+  return $items;
+}
+
+/* page callback */
+/*
+function menufun_hello($firstname='',  $lastname='') {
+  return t('Hello! @firstname @lastname.', 
+          array(
+            '@firstname' => $firstname,
+            '@lastname' => $lastname,));
+}
+*/
+/* title callback */
+
+function menufun_title(){
+  drupal_set_title(t('The Page Title set by drupal_set_title'));
+  $now = format_date(time());
+  return t('Current time is @time', array('@time' => $now)
+          );
+}
+
+/* hook_permission */
+
+function menufun_permission() {
+  return array(
+          'receiving greeting' => array(
+            'title' => t('Receive a greeting'),
+            'description' => t('Allow user to receive a greeting message.'),
+            )
+          );
+}
+
+
+
+function menufun_hello($animal) {
+  return t("Hello $animal");
+}
+
+function a_zoo_animal_to_arg($arg) {
+  return 'tiger';
+}
+
+/* menu_alter */
+
+function menufun_menu_alter(&$items) {
+  $items['logout']['page callback'] = 'menufun_user_logout';
+  $items['logout']['access callback'] = 'user_is_logged_in';
+  unset($items['logout']['file']);
+}
+
+function menufun_user_logout() {
+  global $user;
+  watchdog('menufun', 'Session closed for %name', array('%name' => $user->name));
+  // destroy session
+  session_destroy();
+  // call our user logout function
+  module_invoke_all('user', 'logout', NULL, $user);
+  // make user anonymouse
+  $user = drupal_anonymous_user();
+  drupal_goto('http://drupalorg');
+}
+
+/* hook_menu_link_alter */
+
+function menufun_menu_link_alter(&$items) {
+  if ($items['link_path'] == 'user/logout') {
+    $items['link_title'] = 'Sign off'; }
+}
