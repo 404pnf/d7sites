@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function testoracle_menu() {
+  $items = array();
+	$items['testoracle'] = array(
+    'title' => 'Test oracle',
+    'description' => 'Test oracle.',
+    'page callback' => 'testoracle_test_page',
+    'access callback' => TRUE,
+  );
+	return $items;
+}
+function testoracle_test_page(){
+$output ="1234";
+ // $url = "http://www.fltrp.com/data/2011/6/219882.txt";
+	//$body = file_get_contents($url);
+	//$body = iconv('',"UTF-8//IGNORE",$body) ; //iconv转换
+	$nid =1092;
+	$node = node_load($nid);
+	$zkzh =auto_kaosheng_generate_zkzh($node);
+	
+			$uid = $node->uid;
+			$user = user_load($uid);
+			$kaodianbianma = $user->field_kaodian_bianma['und'][0]['value'];
+			
+			//（1位数，级别）
+			$jibie = $node->field_baokao_jibie['zh-hans'][0]['value'];
+	
+						$query_zuowei = db_select('node', 'n')
+			->condition('n.type', 'kaosheng_baoming')
+			->condition('n.uid', $uid);
+			drupal_set_message('jibie:'.$jibie);
+			
+				
+			$query_zuowei->leftJoin('field_data_field_baokao_jibie', 'jb', ' jb.entity_id  = n.nid ');
+		  $query_zuowei->condition('jb.field_baokao_jibie_value', $jibie);
+			
+			//检查该座位号上面是否已经分配了考生
+			$query_zuowei->leftJoin('field_data_field_zkzh', 'zk', ' zk.entity_id  = n.nid ');
+		  $query_zuowei->isNotNull('zk.field_zkzh_value');
+			
+			$s = $query_zuowei->countQuery()
+			->execute()
+			->fetchField();
+		
+			/*
+						  $query = new EntityFieldQuery();
+  $s = $query
+	  ->entityCondition('entity_type', 'node')
+		->entityCondition('bundle', 'kaosheng_baoming')
+		->propertyCondition('uid',$node->uid)
+    ->fieldCondition('field_baokao_jibie','value',$jibie)
+		//->fieldCondition('field_zkzh','value',NULL,'!=')
+    //->range(0, 1)
+    ->count()
+    ->execute();
+			*/
+	
+$output .="zkzh:".$s;
+	return  $output;
+			
+}
