@@ -5,6 +5,12 @@ a:hover{ color:#39C}
 #page{ width:960px; background:#FFF;}
 #content-top{ margin:20px 22px; overflow:auto}
 /*#content-inner{ float:none;}*/
+
+#sidebar-first {
+    margin-right: -290px;
+    width: 290px;
+	background:#fc2012;
+}
 /* header */
 #header{ overflow:auto; *overflow:hidden; *height:130px;}
 #logo{display:block; margin:34px 50px 24px;}

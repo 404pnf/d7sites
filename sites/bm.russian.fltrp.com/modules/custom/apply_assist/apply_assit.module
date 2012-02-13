@@ -33,6 +33,9 @@
 //}
 
 
+
+
+
 function apply_assit_menu() {
 	
 	$items['confirm-baoming'] = array ('title' => '确认报名', 'description' => t ( '确认报名' ), 'page callback' => 'apply_assit_confirm_baoming', 'access callback' => true );
@@ -47,6 +50,8 @@ function apply_assit_menu_alter(&$items) {
 	$items['node/%node/edit']['page callback']='apply_assit_assert_if_could_modify';
 	$items['node/%node']['page callback']='apply_assit_assert_if_could_view';
 }
+
+
 
 function apply_assit_assert_if_could_view($node)
 {
@@ -218,13 +223,13 @@ function apply_assit_assert_if_could_modify($node)
 													$schoolinfo_items = node_load($schoolinfo_nids[0]);
 													//debug($schoolinfo_items,'',true);
 
-													if(!isset($schoolinfo_items->field_school_confirm['und']))
-														  $school_confirm=0;
+													if(!isset($schoolinfo_items->field_baoming_confirm['und']))
+														  $baoming_confirm=0;
 													else
-														  $school_confirm=$schoolinfo_items->field_school_confirm['und'][0]['value'];
+														  $baoming_confirm=$schoolinfo_items->field_baoming_confirm['und'][0]['value'];
 										
 											
-												if($school_confirm==1){//在未确认报名信息前才能够编辑该报名信息
+												if($baoming_confirm==1){//在未确认报名信息前才能够编辑该报名信息
 													return t('您所在的院校已经确认过报名信息，无法再修改。');
 												}else{
 													return node_page_edit($node);
@@ -437,7 +442,7 @@ function apply_assit_extra_validate($form, &$form_state) {
 		$uid = $user->uid;
 
 		$baomingLimited =1;
-
+//debug($form,'',TRUE);
 		  $query = new EntityFieldQuery();				   
 		  $baomingCount = $query
 			  ->entityCondition('entity_type', 'node')
@@ -458,11 +463,42 @@ function apply_assit_extra_validate($form, &$form_state) {
 
 		//当角色不只是注册用户时，不能报名
 							
-		if(in_array("authenticated user",$current_user_roles)&&count ($current_user_roles)>1){
-				form_set_error ( 'field_firstname',t ( '抱歉，只有普通注册用户才能报名'));
+//		if(in_array("authenticated user",$current_user_roles)&&count ($current_user_roles)>1){
+//				form_set_error( 'field_firstname',t ( '抱歉，只有普通注册用户才能报名'));
+//				}
+
+		//debug($form['field_school'] ,'',TRUE);
+					$baoming_school_tid = $form['field_school'] ['und']['#value'];   //个人报名信息所属学校分类id
+															
+					 $query = new EntityFieldQuery();		
+					 
+					 //获取报名者所属院校的院校信息
+					 $schoolinfo= $query
+						  ->entityCondition('entity_type', 'node')
+							->entityCondition('bundle', 'schoolinfo')
+							->fieldCondition('field_schoolname', 'tid', $baoming_school_tid, '=')	
+							->execute();
+
+
+					// debug($schoolinfo,'',true);
+
+					$schoolinfo_nids = array_keys($schoolinfo['node']);
+
+					$schoolinfo_items = node_load($schoolinfo_nids[0]);
+					//debug($schoolinfo_items,'',true);
+
+					if(!isset($schoolinfo_items->field_baoming_confirm['und']))
+						  $baoming_confirm=0;
+					else
+						  $baoming_confirm=$schoolinfo_items->field_baoming_confirm['und'][0]['value'];
+
+
+				if($baoming_confirm==1){//在未确认报名信息前才能够继续报名
+					form_set_error( 'field_school',t ( '您所在的院校已经确认过报名信息，无法再报名'));
 				}
 
 
+	
 }
 
 
