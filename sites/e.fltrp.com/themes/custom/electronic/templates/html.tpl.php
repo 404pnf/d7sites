@@ -24,11 +24,17 @@
           case "productslist":
           $custom_style_file = '/css/publishing.css';
                  break;
+		  case "webproductslist":
+          $custom_style_file = '/css/publishing.css';
+                 break;
+		  				
                 
         }
  if(stristr($current_path,'newsdetails/'))
                            $custom_style_file ='/css/information.css';
  if(stristr($current_path,'productslist/'))
+                           $custom_style_file ='/css/publishing.css';
+ if(stristr($current_path,'webproductslist/'))
                            $custom_style_file ='/css/publishing.css';
   if(stristr($current_path,'products/'))
                            $custom_style_file ='/css/publishing.css';

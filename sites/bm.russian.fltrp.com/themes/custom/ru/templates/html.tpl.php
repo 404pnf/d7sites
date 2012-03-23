@@ -41,12 +41,29 @@
 	case "searcher":
           $custom_style_file ='/css/searcher.css';
 		 break;
+	case "postdetails":
+          $custom_style_file ='/css/gg.css';
+		 break;
+	case "buzhou":
+          $custom_style_file ='/css/gg.css';
+		 break;
+	case "kaosheng":
+          $custom_style_file ='/css/gg.css';
+		 break;
+	case "xuexiao":
+          $custom_style_file ='/css/gg.css';
+		 break;
+	case "faq":
+          $custom_style_file ='/css/gg.css';
+		 break;
 	 }
 
  if(stristr($current_path,'news/'))
 			   $custom_style_file ='/css/info.css';
 
  if(stristr($current_path,'newsdetails/'))
+			   $custom_style_file ='/css/wz.css';
+ if(stristr($current_path,'postdetails/'))
 			   $custom_style_file ='/css/wz.css';
 
  if(stristr($current_path,'resources/')||stristr($current_path,'resource/'))

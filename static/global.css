@@ -79,6 +79,10 @@ article,aside,dialog,figure,footer,header,hgroup,menu,nav,section,time,mark,audi
 .err_msg{color:#aa0000; font-weight: 700;}
 /* 广告*/
 
+/*在线体验*/
+.page-node-add-test-name #block-system-main {margin:5px 80px;}
+.node-type-test-name #content-inner {margin:5px 80px; line-height:25px; font-size:12px; color:#999;}
+
 /* 元素自定义宽度*/
 .grid1 { width:60px; }
 .grid2 { width:140px; }

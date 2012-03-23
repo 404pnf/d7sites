@@ -31,8 +31,8 @@ body{ background: url("../images/badybg20110726.jpg") repeat;}
 #sidebar-first-inner h3{ border-bottom:1px dashed #999; padding-bottom:10px; margin-bottom:10px;}
 #sidebar-first-inner h3 a{height: 20px;line-height:20px;margin: 8px 0 0;text-indent: 1.4em; width:203px; display:block; color:#000;color:#FFF;background: url("../images/sidebarbg.gif") no-repeat;}
 #sidebar-first-inner h3 .open{background: url("../images/sidebarbg_e.gif") no-repeat;}
-#sidebar-second{ width: 262px; margin-left: -262px; margin-top:10px;}
-#sidebar-second-inner{margin: 0 12px; width: 239px;}
+#sidebar-second{ width: 262px; margin-left: -262px; margin-top:20px;}
+#sidebar-second-inner{margin: 20px 12px 0px 12px; width: 239px;}
 .ad{ margin-top: 10px;}
 
 /* footer */
@@ -55,3 +55,14 @@ body{ background: url("../images/badybg20110726.jpg") repeat;}
 .searchcontent{ border: 1px solid #EDEAEB; margin:0 9px 0 9px; height: 36px; background: url("../images/searchlongbg20110726.jpg") repeat-x;*width:960px; *margin: 0 auto}
 .searchnav .form-text{ width: 250px; float: left; padding: 5px;margin: 5px 10px 0 600px; font-size: 12px;background:#FFFFFF;border-color: #999999 #DDDDDD #DDDDDD #999999;border-style: solid;border-width: 1px;color: #CFCFCF;}
 .searchnav .form-submit{ background: #8A0101; width: 60px; color:#FFF; padding: 4px;margin: 5px 0 0 0;font-size: 12px; border: 1px solid #FFF}
+
+
+/*在线体验*/
+.page-node-add-test-name #content-inner .column{ margin:5 40px;}
+
+/*数字产品*/
+.page-node-173 #node-173{ margin:20px 60px; line-height:25px; font-size:12px; color:#a2a2a2}
+.page-node-173 #node-173 a:link { color: #104aab; text-decoration: underline; font-size:16px; font-weight:bold;} 
+.page-node-173 #node-173 a:visited { color: #104aab; text-decoration: underline; font-size:16px; font-weight:bold; } 
+.page-node-173 #node-173 a:hover { color: #000; text-decoration: underline; font-size:16px; font-weight:bold;} 
+.page-node-173 #node-173 aactive { color: #000; text-decoration: underline; font-size:16px; font-weight:bold;}

@@ -3,14 +3,18 @@ body{ background:url("../images/body_bg.jpg") repeat scroll 0 0 transparent; fon
 a{ color:#000; font-size:12px;}
 a:hover{ color:#39C}
 #page{ width:960px; background:#FFF;}
+#content{ *margin-top:100px;}
 #content-top{ margin:20px 22px; overflow:auto}
 /*#content-inner{ float:none;}*/
 
-#sidebar-first {
-    margin-right: -290px;
-    width: 290px;
-	background:#fc2012;
+.sidebar-first #sidebar-first {
+    margin-right: -890px;
+    width: 360px;
+	background:url(../images/xxdef_04.jpg) no-repeat;
+
 }
+#sidebar-first .column sidebar first{*margin-top:120px;}
+
 /* header */
 #header{ overflow:auto; *overflow:hidden; *height:130px;}
 #logo{display:block; margin:34px 50px 24px;}
@@ -33,7 +37,10 @@ a:hover{ color:#39C}
 #block-menu-menu-schoolmenu ul.menu{list-style:none;overflow:auto;width:100%;}
 #block-menu-menu-schoolmenu .menu li.leaf{list-style:none;padding:10px;background:#eee;margin-bottom:10px;border:1px solid #ddd;margin-left:0;}
 #block-menu-menu-schoolmenu .menu li a{font-size:16px}
-#content-inner{margin:30px 0 0 200px}
+#content-inner{margin:30px 0 0 280px;}
+.node-type-news #content-inner{margin:0 30px}
+.node-type-page #content-inner{margin:0 30px}
+.page-home #content-inner{margin:30px 0 0 380px;}
 #content-inner ul li{margin:0;line-height:2em;font-size:14px;}
 #content-inner ul li div{padding-left:4px;}
 #content-area .views-exposed-form .views-exposed-widget .form-submit{margin-top:0;}
@@ -45,11 +52,16 @@ table.views-table th{font-size:14px;background:#ddd;padding:10px;border:1px soli
 table.views-table td{font-size:14px;padding:10px;border:1px solid #DDD}
 
 /*登录*/
-#block-user-login{width:80%;margin:30px 24px;}
+#block-user-login{width:80%;margin:30px 54px;}
 #block-user-login input{width:10em;padding:2px 4px;;}
 #block-user-login .item-list li{float:left;margin:0 10px 10px 0;}
 #block-user-login .item-list li a{color:#fc2012}
+#edit-actions{clear:both;}
+#block-user-login .block-title{font-size:16px; margin-bottom:30px}
+#block-user-login .block-inner{ margin-top:20px; *margin-top:5px;}
+#sidebar-first-inner .inner{ *margin-top:20px;}
 
+.font1{ color:#F00; font-size:14px}
 
 /*报名*/
 #block-menu-menu-applicant-menu{width:80%;margin:30px 24px;}
@@ -57,3 +69,24 @@ table.views-table td{font-size:14px;padding:10px;border:1px solid #DDD}
 #block-menu-menu-applicant-menu .item-list li{float:left;margin:0 10px 10px 0;}
 #block-menu-menu-applicant-menu .item-list li a{color:#fc2012}
 #block-menu-menu-applicant-menu .menu li.leaf{list-style:none;padding:10px;background:#eee;margin-bottom:10px;border:1px solid #ddd;margin-left:0;}
+
+
+/*注册页提示*/
+
+.page-user-register #edit-account .form-item .description {
+    font-size: 1em; padding:3px;}
+.page-user-register #content-inner{ margin:20px 200px 20px 200px;}
+.page-user-register #content-header .breadcrumb{font-size:16px;}
+.page-user #block-system-main .content .description { font-size: 1em; padding:3px;}
+.page-user-register #content-inner .breadcrumb a{font-size:16px; font-weight:bold;}
+
+/*菜单链接*/
+a.ameth:link { font-size:16px;  color: #fff; text-decoration: none} 
+a.ameth:visited {font-size:16px;  color: #fff; text-decoration: none} 
+a.ameth:hover {font-size:16px; color: #FF0; text-decoration: underline} 
+a.ameth:active {font-size:16px;  color: #FF0; text-decoration: underline}
+
+/*编辑信息页*/
+
+.page-node-1188 #content{font-size:14px; line-height:24px;}
+.page-node-1062  #content{font-size:14px; line-height:24px;}

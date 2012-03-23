@@ -4,8 +4,10 @@
 #sbtn{height:28px;border-bottom: 3px solid #484848; padding-left: 14px;overflow: hidden;}
 #sbtn a{display:block;width:125px; height:28px; float: left;}
 /* 培训列表*/
-#booklist{ padding-left: 5px;}
-#booklist li{ border: 1px solid #b5b5b5; background: #f1f1f1; overflow: hidden; margin:13px 6px 7px 0; width: 469px; height:244px;} 
+#booklist{ padding-left: 10px;}
+#booklist li{ border: 1px solid #b5b5b5; background: #f1f1f1;margin:13px 6px 7px 0; width: 465px; height:244px;position: relative;z-index:0;} 
+#booklist li.column2{overflow:visible!important}
+.hot_ing{left:-10px;position: absolute;top: -10px;z-index: 100;}
 .listleft{ float: left; border-right:1px solid #999; width: 130px; margin: 20px 0; text-align: center; height: 210px;}
 .listleft img{  margin: 0 auto 12px;}
 .listright{ float: right; width:310px; padding: 10px; margin:10px 0;line-height:1.4em;}

@@ -13,14 +13,14 @@ function auto_kaosheng_menu() {
     'access arguments' => array('administer site configuration'),
     'weight'           => 1,   
   );
-	/*
+	
 	$items['admin/config/development/zkzh'] = array(
     'title'            => '自动生成准考证号',
     'page callback'    => 'drupal_get_form',
 	  'page arguments'    =>  array('auto_kaosheng_generate_zkzh_form'),
     'access arguments' => array('administer site configuration'),
     'weight'           => 1,   
-  );*/
+  );
 	
 	return $items;
 	//return $items;
@@ -228,7 +228,7 @@ function auto_kaosheng_generate_zkzh_process(&$context){
 		$context['sandbox']['max'] =
       db_select('node', 'n')
 			->condition('n.type', 'kaosheng_baoming')
-			->condition('n.nid', 30, '<')
+			//->condition('n.nid', 30, '<')
 			//->condition('n.nid', 5884, '<')
 			->countQuery()
 			->execute()
@@ -241,7 +241,7 @@ function auto_kaosheng_generate_zkzh_process(&$context){
 	$query = db_select('node', 'n')
 		->fields('n', array('nid', 'vid'))
 		->condition('n.nid', $context['sandbox']['last_nid'], '>')
-		->condition('n.nid', 30, '<')
+		//->condition('n.nid', 30, '<')
 		->condition('n.type', 'kaosheng_baoming')
 		//->condition('n.nid', 5884, '<')
 		//->orderBy('n.uid', 'ASC')
@@ -259,7 +259,7 @@ function auto_kaosheng_generate_zkzh_process(&$context){
 		if(empty($node_kaosheng->field_zkzh['zh-hans'][0]['value'])){
 		  //drupal_set_message('12');
 		  //（2位数，考试届次）
-		  $jieci = '01';  //
+		  $jieci = '92';  //
 			
 			//（6位数，考点编码）
 			$uid = $node_kaosheng->uid;
@@ -345,7 +345,7 @@ function auto_kaosheng_generate_zkzh_finished($success, $results, $operations){
 }
 
 function auto_kaosheng_generate_zkzh($node){
-$jieci = '01';  //
+$jieci = '92';  //
 			
 			//（6位数，考点编码）
 			$uid = $node->uid;

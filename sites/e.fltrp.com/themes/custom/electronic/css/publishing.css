@@ -1,7 +1,7 @@
 /* 数字出版网络产品*/
 #content-inner{ width:730px; margin-left: 240px}
 .productlist{ overflow: auto; line-height:28px;}
-.producttitle{ height:48px; background:url(../images/producttitle.gif) no-repeat; color:#FFF; text-indent:2.1em; font-size:16px;line-height:36px; margin:24px 0 0;}
+.producttitle{background: url("../images/producttitle.gif") no-repeat scroll 0 0 transparent; height:48px; color:#FFF; text-indent:2.1em; font-size:16px;line-height:36px; margin:24px 0 0;}
 .productlist li{padding: 25px 0; overflow: auto; font-size: 12px;_zoom:1;*height:144px}
 .productlist li h2{  margin:0}
 .productlist li h2 a{font-size:14px; color:#50646D;}
@@ -11,6 +11,7 @@
 .productlist li.column{ width: 98%;}
 .productlist li.column2{ margin:0 0 0 2px; width: 48%;}
 .more{ float:right; padding-right:20px;font-size:12px; font-weight:400; color:#005A8F;}
+
 
 /* 数字出版电子产品 */
 .digital .column2 h2{ background:url(../images/digitalicon.gif) no-repeat 0 8px;text-indent:1em; float:left; margin-bottom:12px}
@@ -34,3 +35,16 @@ ul li .appletop img{ margin:0 15px 10px}
 li .applebottom b{ color:#858585}
 .applebottom{line-height:1.8em;margin:0 5px}
 li .applebottom a{ color:#0F5988}
+
+
+/*网络产品 */
+.page-webproductslist .appletop{ overflow:auto; margin:0 5px; font-size:12px; color:#333; line-height:25px;}
+.page-webproductslist .appletop h2{line-height:1.2em;}
+.page-webproductslist .productlist li.applelist{padding-bottom:0}
+.page-webproductslist .appletop h2 a{ color:#858585}
+.page-webproductslist .appletop p{line-height:1.6em;}
+.page-webproductslist .appletop img{ margin:0 15px 10px;float:left; }
+.page-webproductslist .applebottom b{ color:#858585}
+.page-webproductslist .applebottom{line-height:1.8em;margin:0 5px}
+.page-webproductslist .applebottom a{ color:#0F5988}
+.page-webproductslist #block-system-main .producttitle{ color:#333;}

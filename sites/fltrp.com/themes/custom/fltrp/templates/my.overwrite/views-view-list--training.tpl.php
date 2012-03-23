@@ -12,6 +12,7 @@
  */
 ?>
 
+
 <ul>
     <?php foreach ($rows as $id => $row): ?>
       <li class="column2">

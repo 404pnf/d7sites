@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the viewsbeifen feature.
+ */
+
+include_once('viewsbeifen.features.inc');

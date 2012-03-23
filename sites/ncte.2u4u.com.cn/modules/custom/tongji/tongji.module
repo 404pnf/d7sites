@@ -171,29 +171,65 @@ function tongji_citys_page(){
 	$output = "";
 	$output .= "<table>";
   $output .= "<tr>";
-	 $output .= "<td>".t('城市')."</td>";
+  $output .= "<td>".t('省')."</td>";
+  $output .= "<td>".t('城市')."</td>";
   $output .= "<td>".t('总计')."</td>";
   $output .= "<td>".t('一级')."</td>";
   $output .= "<td>".t('二级')."</td>";
-	$output .= "<td>".t('三级')."</td>";
+  $output .= "<td>".t('三级')."</td>";
   $output .= "<td>".t('四级')."</td>";
   $output .= "</tr>";
 
-  $entities = entity_load('taxonomy_term', array_keys($result['taxonomy_term']));
+  	  $result = db_query("SELECT ttd.tid, ttd.name FROM {taxonomy_term_data} ttd LEFT JOIN {taxonomy_term_hierarchy} tth ON ttd.tid = tth.tid WHERE ttd.vid = :vid AND tth.parent = 0", array(':vid' => 2));
+   // $name = $result->fetchField();
+  //$entities = entity_load('taxonomy_term', array_keys($result['taxonomy_term']));
 	//foreach ($result as $entity_type => $entities) {
-	  foreach ($entities as $entity_id => $entity) {
-		  $uid_array[$entity_id] = $entity_id;
+	 // foreach ($entities as $entity_id => $entity) {
+	  foreach ($result as $record) {
+		  //$uid_array[$entity_id] = $entity_id;
 		//	drupal_set_message($entity_id);
-			$info = tongji_get_kaosheng_info_by_diqu($entity_id);
-			
+			$info = tongji_get_kaosheng_info_by_diqu($record->tid);
+			$result2 = db_query("SELECT ttd.tid, ttd.name FROM {taxonomy_term_data} ttd LEFT JOIN {taxonomy_term_hierarchy} tth ON ttd.tid = tth.tid WHERE ttd.vid = :vid AND tth.parent = :parent", array(':vid' => 2,':parent' => $record->tid));
+			  foreach ($result2 as $record2) {
+				  //$uid_array[$entity_id] = $entity_id;
+				//	drupal_set_message($entity_id);
+					$info2 = tongji_get_kaosheng_info_by_diqu($record2->tid);
+					$info['total'] = $info['total'] + $info2['total'];
+					$info['total_1'] = $info['total_1'] + $info2['total_1'];
+					$info['total_2'] = $info['total_2'] + $info2['total_2'];
+					$info['total_3'] = $info['total_3'] + $info2['total_3'];
+					$info['total_4'] = $info['total_4'] + $info2['total_4'];		
+					//$resultq1 = db_query("SELECT ttd.tid, ttd.name FROM {taxonomy_term_data} ttd LEFT JOIN {taxonomy_term_hierarchy} ttd ON ttd.tid = tth.tid WHERE ttd.vid = :vid AND tth.parent = :parent", array(':vid' => 2,':parent' => $record->tid));
+			}
 			$output .= "<tr>";
-			$output .= "<td>".l($entity->name, 'city/'.$entity_id)."</td>";
+			$output .= "<td>".l($record->name, 'city/'.$record->tid)."</td>";
+			$output .= "<td> </td>";
 			$output .= "<td>".$info['total']."</td>";
 			$output .= "<td>".$info['total_1']."</td>";
 			$output .= "<td>".$info['total_2']."</td>";
 			$output .= "<td>".$info['total_3']."</td>";
 			$output .= "<td>".$info['total_4']."</td>";
 			$output .= "</tr>";
+			
+			$result1 = db_query("SELECT ttd.tid, ttd.name FROM {taxonomy_term_data} ttd LEFT JOIN {taxonomy_term_hierarchy} tth ON ttd.tid = tth.tid WHERE ttd.vid = :vid AND tth.parent = :parent", array(':vid' => 2,':parent' => $record->tid));
+			  foreach ($result1 as $record1) {
+				  //$uid_array[$entity_id] = $entity_id;
+				//	drupal_set_message($entity_id);
+					$info1 = tongji_get_kaosheng_info_by_diqu($record1->tid);
+					
+					$output .= "<tr>";
+					$output .= "<td> </td>";
+					$output .= "<td>".l($record1->name, 'city/'.$record1->tid)."</td>";
+					$output .= "<td>".$info1['total']."</td>";
+					$output .= "<td>".$info1['total_1']."</td>";
+					$output .= "<td>".$info1['total_2']."</td>";
+					$output .= "<td>".$info1['total_3']."</td>";
+					$output .= "<td>".$info1['total_4']."</td>";
+					$output .= "</tr>";
+					
+					//$resultq1 = db_query("SELECT ttd.tid, ttd.name FROM {taxonomy_term_data} ttd LEFT JOIN {taxonomy_term_hierarchy} ttd ON ttd.tid = tth.tid WHERE ttd.vid = :vid AND tth.parent = :parent", array(':vid' => 2,':parent' => $record->tid));
+
+				}
 		}
 	//}
 	 
