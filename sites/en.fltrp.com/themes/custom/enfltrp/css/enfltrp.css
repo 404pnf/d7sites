@@ -11,17 +11,24 @@
 	float:right  /* 领导签名和职务落款 */
 }
 
-#about_article2, #about_article1 {
+#about_article1 {
+    float: left;
+    margin-bottom: 50px;
+    width: 320px;
+    font-size:1.2em;
+    line-height:1.5em;
+}
+#about_article2{
     float: left;
     margin-bottom: 50px;
     width: 400px;
     font-size:1.2em;
     line-height:1.5em;
 }
-#about_img1, #about_img2 {
+#about_img1 {
     float: left;
     margin-right: 20px;
-    width: 200px;
+    width: 320px;
 }
 
 #about_img2 {

@@ -5,17 +5,17 @@
 ?>
 <?php  
 if($fields['field_baokao_jibie']->content =='一级'){
-$kaoshi_date ="2011年10月29日";
-$kaoshi_time ="9:00--9:50";
+$kaoshi_date ="2012年4月21日";
+$kaoshi_time ="11:00--11:50";
 }elseif($fields['field_baokao_jibie']->content =='二级'){
-$kaoshi_date ="2011年10月29日";
-$kaoshi_time ="10:30--11:30";
+$kaoshi_date ="2012年4月21日";
+$kaoshi_time ="13:30--14:30";
 }elseif($fields['field_baokao_jibie']->content =='三级'){
-$kaoshi_date ="2011年10月29日";
-$kaoshi_time ="14:00--15:40";
+$kaoshi_date ="2012年4月21日";
+$kaoshi_time ="8:30--10:00";
 }elseif($fields['field_baokao_jibie']->content =='四级'){
-$kaoshi_date ="2012年10月29日";
-$kaoshi_time ="9:00--9:50";
+$kaoshi_date ="2012年4月21日";
+$kaoshi_time ="15:30--17:30";
 }else{
 $kaoshi_date ="2012年10月29日";
 $kaoshi_time ="9:00--9:50";
@@ -41,7 +41,7 @@ $kaoshi_time ="9:00--9:50";
 
 
 <div class ="zkz-bottom">
-<span class="ksdd zkz"><span class="zkzlabel ksddlabel"><?php print t('考试地点:') ?></span> <span class="zkzcontent ksddcontent"><?php print $fields['field_kaochang']->content ?></span></span>
+<span class="ksdd zkz"><span class="zkzlabel ksddlabel"><?php print t('考点及考场:') ?></span> <span class="zkzcontent ksddcontent"><?php print $fields['field_kaochang']->content ?></span></span>
 
 <?php 
 /*

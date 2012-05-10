@@ -1,0 +1,24 @@
+@charset "utf-8";
+
+/* 这个是当前整个站点公共的样式表 */
+/*包括全站布局样式、超链接、页头、页脚以及一些可共用的列表*/
+/* index-page*/
+html,body{background:#02082E url("../images/bodybg.png") repeat-x 0 334px;}
+#page{width:100%; width:expression(document.body.clientWidth <= 1004? "1004px": "auto");min-width:1004px;}
+#header{background:#02082E url("../images/header.jpg") repeat-x center 0;height:284px;}
+.nav{height:50px;background:url("../images/nav-bg.png") repeat-x;min-width:1004px}
+	.nav ul{width:1004px;overflow:auto;margin:0 auto;z-index:1;}
+	.nav ul li{ float: left;line-height: 32px; margin: 0 32px;_display:inline;}
+	.nav ul li a{font-size:15px;color:#FFF;font-weight:700;padding:0 18px;display:block;margin-top:6px;_padding:0 18px;}
+	.nav ul li .btn:hover,.nav ul li .hover{background:#CACACA;color:#B00000;text-decoration:none;height:44px;line-height:36px;-webkit-border-top-left-radius:2em;-webkit-border-top-right-radius:.3em;-webkit-border-bottom-right-radius:0em;-webkit-border-bottom-left-radius:0em;-moz-border-radius-topleft:.3em;-moz-border-radius-topright:.3em;-moz-border-radius-bottomright:0em;-moz-border-radius-bottomleft:0em;border-top-left-radius:.3em;border-top-right-radius:.3em;border-bottom-right-radius:0em;border-bottom-left-radius:0em;_float:left;background:-moz-linear-gradient(0% 0% 270deg, #FFFFF9,#CBCBCB, #cbcbcb 100%);background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#FFFFF9), to(#CBCBCB), color-stop(0.5,#cbcbcb));display:block;}
+	#navcontent{background:#ccc;z-index:6;display:none;clear:both;position:absolute;}
+	#navcontent a{color:#000;padding:0 17px 0;display:block;margin:0;line-height:40px;margin-top:-10px;width:100px;overflow:hidden;}
+#main{background:#FFF;font-size:13px; width:1004px;overflow:auto;margin:0 auto;}
+.main{width:724px;_margin-right:0;}
+.sidebar{width:250px;margin-right:20px;_display:inline;}
+.sec{width:695px;overflow:auto;margin:20px 0 0 24px;}
+.more{color:#AE0000;font-weight:400;padding-top:8px;}	
+#footer{min-width:1004px;}
+#footer p{font-size:12px;color:#fff;font-weight:700;}
+#footer .fcenter{margin:30px auto 60px;}
+

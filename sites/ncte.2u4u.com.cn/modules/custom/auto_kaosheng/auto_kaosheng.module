@@ -256,7 +256,8 @@ function auto_kaosheng_generate_zkzh_process(&$context){
 	  $nid = $kaosheng->nid;
 		drupal_set_message('nid:'.$nid);
 		$node_kaosheng = node_load($nid);
-		if(empty($node_kaosheng->field_zkzh['zh-hans'][0]['value'])){
+		//if(empty($node_kaosheng->field_zkzh['zh-hans'][0]['value'])){
+		if(true){
 		  //drupal_set_message('12');
 		  //（2位数，考试届次）
 		  $jieci = '92';  //
@@ -314,7 +315,7 @@ function auto_kaosheng_generate_zkzh_process(&$context){
 			//debug($node_kaosheng);
 			//drupal_set_message('<pre>'.print_r($node_kaosheng).'</pre>');
 			//if($nid ==1089 ){
-			  drupal_set_message('zkzh1:'.$node_kaosheng->field_zkzh['zh-hans'][0]['value']);
+			 // drupal_set_message('zkzh1:'.$node_kaosheng->field_zkzh['zh-hans'][0]['value']);
 				//debug($node_kaosheng);
 			//}
 		}

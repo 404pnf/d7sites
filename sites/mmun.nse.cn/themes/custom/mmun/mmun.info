@@ -1,0 +1,43 @@
+name = mmun
+description = mmun theme base basic
+screenshot = images/mmun.gif
+core = "7.x"
+project = "mmun"
+engine = phptemplate
+
+regions[main_top] = main top
+regions[content] = Content
+regions[sidebar_second] = Second sidebar
+regions[footer] = Footer
+
+
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = node_user_picture
+features[] = comment_user_picture
+features[] = search
+features[] = favicon
+features[] = main_menu
+features[] = secondary_menu
+
+stylesheets[all][] = css/default.css
+stylesheets[all][] = css/layout.css
+;stylesheets[all][] = css/style.css
+stylesheets[all][] = css/common.css
+stylesheets[all][] = css/global.css
+stylesheets[all][] = css/index.css
+;stylesheets[all][] = css/baoming.css
+;stylesheets[print][] = css/print.css
+
+
+settings[mmun_tabs] = 1
+settings[mmun_breadcrumb_separator] = »
+settings[wireframe_mode] = 0
+settings[clear_registry] = 0
+; Information added by drupal.org packaging script on 2011-02-16
+version = "7.x-2.0-rc3"
+core = "7.x"
+project = "mmun"
+datestamp = "1297878443"
+
