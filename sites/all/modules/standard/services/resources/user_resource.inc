@@ -3,123 +3,125 @@
 function _user_resource_definition() {
   $definition = array(
     'user' => array(
-      'retrieve' => array(
-        'help' => 'Retrieves a user',
-        'callback' => '_user_resource_retrieve',
-        'file' => array('type' => 'inc', 'module' => 'services', 'name' => 'resources/user_resource'),
-        'access callback' => '_user_resource_access',
-        'access arguments' => array('view'),
-        'access arguments append' => TRUE,
-        'args' => array(
-          array(
-            'name' => 'uid',
-            'type' => 'int',
-            'description' => 'The uid of the user to retrieve.',
-            'source' => array('path' => '0'),
-            'optional' => FALSE,
+      'operations' => array(
+        'retrieve' => array(
+          'help' => 'Retrieves a user',
+          'callback' => '_user_resource_retrieve',
+          'file' => array('type' => 'inc', 'module' => 'services', 'name' => 'resources/user_resource'),
+          'access callback' => '_user_resource_access',
+          'access arguments' => array('view'),
+          'access arguments append' => TRUE,
+          'args' => array(
+            array(
+              'name' => 'uid',
+              'type' => 'int',
+              'description' => 'The uid of the user to retrieve.',
+              'source' => array('path' => 0),
+              'optional' => FALSE,
+            ),
           ),
         ),
-      ),
 
-      'create' => array(
-        'help' => 'Creates a user',
-        'callback' => '_user_resource_create',
-        'file' => array('type' => 'inc', 'module' => 'services', 'name' => 'resources/user_resource'),
-        'access callback' => '_user_resource_access',
-        'access arguments' => array('create'),
-        'access arguments append' => FALSE,
-        'args' => array(
-          array(
-            'name' => 'account',
-            'type' => 'array',
-            'description' => 'The user object',
-            'source' => 'data',
-            'optional' => FALSE,
+        'create' => array(
+          'help' => 'Creates a user',
+          'callback' => '_user_resource_create',
+          'file' => array('type' => 'inc', 'module' => 'services', 'name' => 'resources/user_resource'),
+          'access callback' => '_user_resource_access',
+          'access arguments' => array('create'),
+          'access arguments append' => FALSE,
+          'args' => array(
+            array(
+              'name' => 'account',
+              'type' => 'array',
+              'description' => 'The user object',
+              'source' => 'data',
+              'optional' => FALSE,
+            ),
           ),
         ),
-      ),
 
-      'update' => array(
-        'help' => 'Updates a user',
-        'callback' => '_user_resource_update',
-        'file' => array('type' => 'inc', 'module' => 'services', 'name' => 'resources/user_resource'),
-        'access callback' => '_user_resource_access',
-        'access arguments' => array('update'),
-        'access arguments append' => TRUE,
-        'args' => array(
-          array(
-            'name' => 'uid',
-            'type' => 'int',
-            'description' => 'Unique identifier for this user',
-            'source' => array('path' => 0),
-            'optional' => FALSE,
-          ),
-          array(
-            'name' => 'data',
-            'type' => 'array',
-            'description' => 'The user object with updated information',
-            'source' => 'data',
-            'optional' => FALSE,
+        'update' => array(
+          'help' => 'Updates a user',
+          'callback' => '_user_resource_update',
+          'file' => array('type' => 'inc', 'module' => 'services', 'name' => 'resources/user_resource'),
+          'access callback' => '_user_resource_access',
+          'access arguments' => array('update'),
+          'access arguments append' => TRUE,
+          'args' => array(
+            array(
+              'name' => 'uid',
+              'type' => 'int',
+              'description' => 'Unique identifier for this user',
+              'source' => array('path' => 0),
+              'optional' => FALSE,
+            ),
+            array(
+              'name' => 'data',
+              'type' => 'array',
+              'description' => 'The user object with updated information',
+              'source' => 'data',
+              'optional' => FALSE,
+            ),
           ),
         ),
-      ),
 
-      'delete' => array(
-        'help' => 'Deletes a user',
-        'callback' => '_user_resource_delete',
-        'file' => array('type' => 'inc', 'module' => 'services', 'name' => 'resources/user_resource'),
-        'access callback' => '_user_resource_access',
-        'access arguments' => array('delete'),
-        'access arguments append' => TRUE,
-        'args' => array(
-          array(
-            'name' => 'nid',
-            'type' => 'int',
-            'description' => 'The id of the note to delete',
-            'source' => array('path' => '0'),
-            'optional' => FALSE,
+        'delete' => array(
+          'help' => 'Deletes a user',
+          'callback' => '_user_resource_delete',
+          'file' => array('type' => 'inc', 'module' => 'services', 'name' => 'resources/user_resource'),
+          'access callback' => '_user_resource_access',
+          'access arguments' => array('delete'),
+          'access arguments append' => TRUE,
+          'args' => array(
+            array(
+              'name' => 'uid',
+              'type' => 'int',
+              'description' => 'The id of the user to delete',
+              'source' => array('path' => 0),
+              'optional' => FALSE,
+            ),
           ),
         ),
-      ),
-      'index' => array(
-        'file' => array('type' => 'inc', 'module' => 'services', 'name' => 'resources/user_resource'),
-        'callback' => '_user_resource_index',
-        'args' => array(
-          array(
-            'name' => 'page',
-            'optional' => TRUE,
-            'type' => 'int',
-            'description' => 'The zero-based index of the page to get, defaults to 0.',
-            'default value' => 0,
-            'source' => array('param' => 'page'),
+        'index' => array(
+          'file' => array('type' => 'inc', 'module' => 'services', 'name' => 'resources/user_resource'),
+          'callback' => '_user_resource_index',
+          'args' => array(
+            array(
+              'name' => 'page',
+              'optional' => TRUE,
+              'type' => 'int',
+              'description' => 'The zero-based index of the page to get, defaults to 0.',
+              'default value' => 0,
+              'source' => array('param' => 'page'),
+            ),
+            array(
+              'name' => 'fields',
+              'optional' => TRUE,
+              'type' => 'string',
+              'description' => 'The fields to get.',
+              'default value' => '*',
+              'source' => array('param' => 'fields'),
+            ),
+            array(
+              'name' => 'parameters',
+              'optional' => TRUE,
+              'type' => 'array',
+              'description' => 'Parameters',
+              'default value' => array(),
+              'source' => array('param' => 'parameters'),
+            ),
+            array(
+              'name' => 'pagesize',
+              'optional' => TRUE,
+              'type' => 'int',
+              'description' => 'Number of records to get per page.',
+              'default value' => variable_get('services_user_index_page_size', 20),
+              'source' => array('param' => 'pagesize'),
+            ),
           ),
-          array(
-            'name' => 'fields',
-            'optional' => TRUE,
-            'type' => 'string',
-            'description' => 'The fields to get.',
-            'default value' => '*',
-            'source' => array('param' => 'fields'),
-          ),
-          array(
-            'name' => 'parameters',
-            'optional' => TRUE,
-            'type' => 'array',
-            'description' => 'Parameters',
-            'default value' => array(),
-            'source' => array('param' => 'parameters'),
-          ),
-          array(
-            'name' => 'pagesize',
-            'optional' => TRUE,
-            'type' => 'int',
-            'description' => 'Number of records to get per page.',
-            'default value' => variable_get('services_user_index_page_size', 20),
-            'source' => array('param' => 'pagesize'),
-          ),
+          'access arguments' => array('access user profiles'),
+          'access arguments append' => FALSE,
         ),
-        'access arguments' => array('access user profiles'),
-        'access arguments append' => FALSE,
       ),
       'actions' => array(
         'login' => array(
@@ -155,7 +157,7 @@ function _user_resource_definition() {
     ),
   );
 
-  $definition['user']['actions']['register'] = array_merge($definition['user']['create'], array(
+  $definition['user']['actions']['register'] = array_merge($definition['user']['operations']['create'], array(
     'help' => 'Register a user',
   ));
 
@@ -305,6 +307,11 @@ function _user_resource_update($uid, $account) {
     $form_state['values']['pass']['pass2'] = $account['pass'];
   }
 
+  // If user is changing name, make sure they have permission.
+  if (isset($account['name']) && $account['name'] != $account_loaded->name && !user_access('change own username')) {
+    return services_error(t('You are not allowed to change your username.'), 406);
+  }
+
   $form_state['values']['op'] = variable_get('services_user_save_button_resource_update', t('Save'));
   $form_state['values']['#user_category'] = $category;
   $form_state['values']['#account'] = $account_loaded;
@@ -399,13 +406,13 @@ function _user_resource_logout() {
     return services_error(t('User is not logged in.'), 406);
   }
 
-  watchdog('user', 'Session closed for %name.', array('%name' => drupal_placeholder($user->name)));
+  watchdog('user', 'Session closed for %name.', array('%name' => $user->name));
 
-  // Destroy the current session:
-  session_destroy();
+  // Destroy the current session.
   module_invoke_all('user_logout', $user);
+  session_destroy();
 
-  // Load the anonymous user
+  // Load the anonymous user.
   $user = drupal_anonymous_user();
 
   return TRUE;
