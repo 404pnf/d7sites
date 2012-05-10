@@ -35,7 +35,7 @@
 		<div class="article">
 			<h1 class="articletitle"><?php print $title?></h1>
 			<h2 class="subtitle"><?php print render($content['field_news_fubiaoti']);?></h2>
-			<span class="articledate"><?php print $publish_date?></span>
+			<?php print render($content['field_news_from']);?><span class="articledate"><?php print $publish_date?></span>
 			<div class="articlecontent">
 				<center>
 					<?php // print str_replace('taxonomy/term/','newsmore?cid=',render($content));?>
@@ -67,11 +67,13 @@
 				}
 				?>
 			</center>
+			
 			<?php print render($content['body']);?>
 
 		 <?php print render($content['field_news_video']);?>
 
 			<?php print render($content['field_news_attachment']);?>
+			<?php print render($content);?>
 		</div>							
 	</div>
 	<!--  文章内容 结束-->
