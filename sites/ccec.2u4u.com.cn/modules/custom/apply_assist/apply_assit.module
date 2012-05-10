@@ -53,21 +53,44 @@ function apply_assit_node_presave($node) {
 			//$candidate_id
 			$agent_code = $myprofile->field_code ['und'] [0] ['value'];
 			
-			$sql = "select field_candidate_id_value from  field_data_field_candidate_id where entity_id=(select max(nid) from node where type=:node_type and uid=:uid)";
+			$nid = 0;
+			$candidate_id = 0;
+			$query = new EntityFieldQuery();
+			$query->entityCondition('entity_type', 'node');
+			$query->entityCondition('bundle', 'baoming');
+			//届次，2012 7月的tid为27
+			$query->fieldCondition('field_jieci', 'tid', 27);
+			$query->propertyCondition('uid', $user->uid);
+			$query->propertyOrderBy('nid', 'DESC');
+			$query->range(0, 1);
+			foreach ($query->execute() as $entity_type => $entities) {
+			  foreach ($entities as $entity_id => $entity) {
+			    $nid = $entity_id;
+			  }
+			}
+			if(!empty($nid)){
+			  $sql = "select field_candidate_id_value from  field_data_field_candidate_id where entity_id= :entity_id";
 			
-			$result = db_query ( $sql, array (':uid' => $user->uid, ':node_type' => $node_type ) );
-			$record = $result->fetchObject ();
-			$candidate_id = @$record->field_candidate_id_value;
+			  $result = db_query ( $sql, array (':entity_id' => $nid) );
+			  $record = $result->fetchObject ();
+			  $candidate_id = @$record->field_candidate_id_value;
+			}
+			//print debug('nid:'.$nid);
+			//print debug('candidate_id:'.$candidate_id);
+			//drupal_set_message('nid:'.$nid);
+			//drupal_set_message('candidate_id:'.$candidate_id);
+			$prefix = '6';
+			$jibie = isset ( $node->field_baoming ['zh-hans'] [0] ['tid']) ? ($node->field_baoming ['zh-hans'] [0] ['tid'] - 13) : '1' ;
 			
 			//当去的的上一个最大准考号（candidate_id）为空时，准考号=报名点编码($agent_code)+（补位长度-1）位数的0+1；否则取出值后+1
 			if (empty ( $candidate_id )) {
-				$candidate_id = $agent_code . str_repeat ( '0', $candidate_id_suffix_length - 1 ) . '1';
+				$candidate_id = $prefix . $agent_code . $jibie . str_repeat ( '0', $candidate_id_suffix_length - 1 ) . '1';
 			} else {
-				$candidate_index = substr ( $candidate_id, strlen ( $agent_code ), $candidate_id_suffix_length ) + 1;
+				$candidate_index = substr ( $candidate_id, (strlen ( $agent_code ) + 2), $candidate_id_suffix_length ) + 1;
 				$candidate_index_length = strlen ( $candidate_index );
 				$candidate_index_add_length = $candidate_id_suffix_length - $candidate_index_length;
 				
-				$candidate_id = $agent_code . str_repeat ( '0', $candidate_index_add_length ) . $candidate_index;
+				$candidate_id = $prefix . $agent_code . $jibie . str_repeat ( '0', $candidate_index_add_length ) . $candidate_index;
 			}
 			
 			$node->field_candidate_id ['zh-hans'] [0] ['value'] = $candidate_id;
