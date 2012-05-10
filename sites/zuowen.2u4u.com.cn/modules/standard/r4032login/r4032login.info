@@ -7,9 +7,9 @@ files[] = r4032login.module
 
 configure = admin/config/system/site-information
 
-; Information added by drupal.org packaging script on 2011-09-29
-version = "7.x-1.x-dev"
+; Information added by drupal.org packaging script on 2012-04-20
+version = "7.x-1.5+9-dev"
 core = "7.x"
 project = "r4032login"
-datestamp = "1317256473"
+datestamp = "1334925610"
 

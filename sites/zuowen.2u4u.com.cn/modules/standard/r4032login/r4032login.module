@@ -56,6 +56,13 @@ function r4032login_form_system_site_information_settings_alter(&$form, &$form_s
     '#description' => t('If an authenticated user tries to access a page they can not, redirect them to the given page. Use &lt;front&gt; for the front page, leave blank for a default access denied page.'),
     '#default_value' => variable_get('r4032login_redirect_authenticated_users_to', ''),
   );
+  $form['error_page']['r4032login_user_login_path'] = array(
+    '#type' => 'textfield',
+    '#weight' => 8,
+    '#title' => t("Path to user login form"),
+    '#description' => t('The path to the user login form. Omit the beginning slash, ie: user/login'),
+    '#default_value' => variable_get('r4032login_user_login_path', 'user/login'),
+  );
   return system_settings_form($form);
 }
 
@@ -84,9 +91,9 @@ function r4032login_redirect() {
       $message = variable_get('r4032login_access_denied_message', t('Access denied. You must login to view this page.'));
       drupal_set_message(t($message), 'error');
     }
-    $path = _r4032login_remove_language(request_uri());
     // using drupal_goto() with destination set causes a recursive redirect loop
-    header('Location: ' . url('user/login', array('query' => array('destination' => $path), 'absolute' => TRUE)), TRUE, 302);
+    $login_path = variable_get('r4032login_user_login_path', 'user/login');
+    header('Location: ' . url($login_path, array('query' => array('destination' => _r4032login_destination()), 'absolute' => TRUE)), TRUE, 302);
     drupal_exit();
   }
   else {
@@ -105,19 +112,49 @@ function r4032login_redirect() {
 }
 
 /**
- * Special handling for sites that use localization.
+ * Version of drupal_get_destination which works inside of a 403 callback
  *
- * @see http://drupal.org/node/339120
  */
-function _r4032login_remove_language($destination) {
-  $prefix = arg(0, $destination);
-  $languages = language_list();
+function _r4032login_destination() {
+  // decode URL to prevent double-encoding https://drupal.org/node/1403616
+  $destination = urldecode(request_uri());
 
-  while (list(, $lang) = each($languages)) {
-    if (strcasecmp($prefix, $lang->language) == 0) {
-      return substr($destination, strlen($prefix) + 1); // remove prefix and slash
+  // Remove basepath
+  global $base_path;
+  if (strpos($destination, $base_path) === 0) {
+    $destination = substr($destination, strlen($base_path));
+  }
+
+  if (!variable_get('clean_url', 0)) {
+    // Clean URLs disabled, so break apart the query string and
+    // pull out the path.
+    $destination = parse_url($destination);
+    $queryarray = explode('&', $destination['query']);
+    $path = str_replace('q=', '', $queryarray[0]);
+    unset($queryarray[0]);
+    $query = !empty($queryarray) ? '?' . implode('&', $queryarray) : '';
+    $destination = $path . $query;
+  }
+
+  // If the language path prefixing is enabled remove it from the path.
+  if (variable_get('language_negotiation', FALSE)) {
+    $args = explode('/', $destination);
+    $prefix = array_shift($args);
+
+    // Search prefix within enabled languages.
+    $languages = language_list('enabled');
+    foreach ($languages[1] as $language) {
+      if (!empty($language->prefix) && $language->prefix == $prefix) {
+        // Found a match, rebuild the path without the language.
+        $destination = implode('/', $args);
+        break;
+      }
     }
   }
+
+  // Get alias for destination if there is one
+  $destination = drupal_get_path_alias($destination);
+
   return $destination;
 }
 
