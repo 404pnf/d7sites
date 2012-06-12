@@ -14,10 +14,10 @@ html,body{background:#02082E url("../images/bodybg.png") repeat-x 0 334px;}
 	#navcontent{background:#ccc;z-index:6;display:none;clear:both;position:absolute;}
 	#navcontent a{color:#000;padding:0 17px 0;display:block;margin:0;line-height:40px;margin-top:-10px;width:100px;overflow:hidden;}
 #main{background:#FFF;font-size:13px; width:1004px;overflow:auto;margin:0 auto;}
-.main{width:724px;_margin-right:0;}
-.sidebar{width:250px;margin-right:20px;_display:inline;}
-.sec{width:695px;overflow:auto;margin:20px 0 0 24px;}
-.more{color:#AE0000;font-weight:400;padding-top:8px;}	
+#page .main{width:724px;_margin-right:0;}
+#page .sidebar{width:250px;margin-right:20px;_display:inline;}
+#page .sec{width:695px;overflow:hidden;margin:20px 0 0 24px;}
+#page .more{color:#AE0000;font-weight:400;padding-top:8px;}	
 #footer{min-width:1004px;}
 #footer p{font-size:12px;color:#fff;font-weight:700;}
 #footer .fcenter{margin:30px auto 60px;}

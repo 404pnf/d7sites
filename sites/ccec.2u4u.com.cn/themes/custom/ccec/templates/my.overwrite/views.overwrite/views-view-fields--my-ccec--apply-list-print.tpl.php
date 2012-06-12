@@ -33,19 +33,19 @@
 
 <div style="background: url('/sites/ccec.2u4u.com.cn/themes/custom/ccec/images/certificate.jpg') no-repeat -10px 0;width:520px;height:370px;float:left;position: relative;">
 <?php
-	$photo_style = 'candidate_photo_2inch';
-    $photo_uri = $row->field_field_pic[0]['raw']['uri'] ;
+	//$photo_style = 'candidate_photo_2inch';
+    //$photo_uri = $row->field_field_pic[0]['raw']['uri'] ;
 	//print $photo_uri;
-	$photo_url = image_style_url($photo_style,$photo_uri);
+	//$photo_url = image_style_url($photo_style,$photo_uri);
 	//print $photo_url ;
-	$photo = '<img src="'.$photo_url.'"/>';
+	//$photo = '<img src="'.$photo_url.'"/>';
 	$name = $row->node_title;
 	$candidate_id = $row->field_field_candidate_id[0]['raw']['value'];
 	$degree = $row->field_field_baoming[0]['raw']['taxonomy_term']->name;
 ?>
-<div id="photo"><?php print $photo;?></div>
+<div id="photo"> <?php print $fields['field_pic']->content ?></div>
 <div id="candidate-id" class="rows"><?php print $candidate_id;?></div>
 <div id="name" class="rows"><?php print $name;?></div>
 <div id="degree" class="rows"><?php print $degree;?></div>
-<div id="date" class="rows">□2012-1-7/□2012-1-8</div>
+<div id="date" class="rows">□2012-7-7/□2012-7-8</div>
 </div>

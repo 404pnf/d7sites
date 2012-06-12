@@ -32,4 +32,4 @@ h2.hyinfotitle .more{position: absolute;text-indent:0;top:12px;right:0; font-wei
 .articledate{ display: block; margin: 10px 20px 30px; text-align: right; color: #999; font-size: 12px; border-bottom: 1px dashed #ddd; padding-bottom: 14px}                                                                                                                            
 .articlecontent{ margin: 20px 40px;}                                                                                                        
 .articlecontent p{ text-indent:2em; line-height:2em;}                                                                                       
-                                                           
+ .subtitle{text-align:center; color:#777;}                                                          

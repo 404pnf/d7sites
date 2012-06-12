@@ -61,6 +61,9 @@
 	case "newsletter/subscriptions":
           $custom_style_file ='/css/extra2.css';
 		 break;
+	case "pending":
+          $custom_style_file ='/css/information.css';
+		 break;	
 	 }
 if(!empty($custom_style_file)){
     $custom_style_uri = ' <style type="text/css" media="all">@import url("'.$base_url.'/'.drupal_get_path('theme','fltrp').$custom_style_file.'");</style>';

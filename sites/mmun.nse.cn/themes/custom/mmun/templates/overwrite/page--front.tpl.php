@@ -1,4 +1,4 @@
-<div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
+﻿<div id="page" class="<?php print $classes; ?>"<?php print $attributes; ?>>
 	<!-- ______________________ TOP NAVIGATION BEGINING_______________________ -->
 	<div class="topnav">				
 		<div class="topnavcontent">
@@ -45,32 +45,49 @@
 			                  $views_name = 'index_text';
                               $display_id = 'indextext';
 											print views_embed_view($views_name, $display_id);
-							?>				
-				
+							?>			
+
+						</div>	
+				<div class="focus sec">
+					<div class="fleft flash">
 							<?php
 			                  $views_name = 'indexinfo';
                               $display_id = 'index_image';
 											print views_embed_view($views_name, $display_id);
 							?>
-				
+							</div>
+							<h3><a href="http://mmun.nse.cn/newslist" class="fright more">更多>></a></h3>
+							
 							<?php
 			                  $views_name = 'indexinfo';
                               $display_id = 'index_newslist';
-											print views_embed_view($views_name, $display_id);
+									print views_embed_view($views_name, $display_id);
 							?>
-							
-							<?php
+							</div>
+				
+				<div class="picnews imglist sec">
+						
+						<?php
 			                  $views_name = 'indexinfo';
                               $display_id = 'index_album';
 											print views_embed_view($views_name, $display_id);
-							?>
-							
-							<?php
-			                  $views_name = 'indexinfo';
-                              $display_id = 'index_thoughts';
-											print views_embed_view($views_name, $display_id);
 							?>	
-						</div>
+				</div>
+							
+				
+				<div class="sence sec">
+					<h3><a href="http://mmun.nse.cn/lijiefenghui" class="more">更多学生代表感言>></a></h3>		
+						<?php
+			                  $views_name = 'indexinfo';
+                              $display_id = 'thoughts';
+											print views_embed_view($views_name, $display_id);
+							?>		
+				</div>			
+							
+							
+							
+							
+						
 					</div>
 				</div>
 				<!-- **** CONTENT-AREA ENDING **** -->

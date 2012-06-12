@@ -47,7 +47,7 @@
 	.sence li p{line-height:1.5em;}
 	
 .connection{margin:20px 0;}
-	.connection .video{border:1px solid #DDD;padding:5px;margin-bottom:16px;}
+	#block-views-index_video-block_1{border:1px solid #DDD;padding:5px;margin-bottom:16px;margin-top:20px;}
 	.connection p{line-height:1.4em;margin:0 5px 8px 5px;}
 	
 .school{verflow:auto;border-bottom:1px dashed #CCC;*padding-bottom:20px;}	
