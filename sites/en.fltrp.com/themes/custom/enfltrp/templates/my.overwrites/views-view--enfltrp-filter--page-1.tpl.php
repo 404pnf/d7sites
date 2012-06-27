@@ -26,65 +26,11 @@
  * @ingroup views_templates
  */
 ?>
-<div class="category1">
-<?php
-
- $category = $_GET['category'];
-if(empty ($category)){
-	$category="All";
-}
-
-$yz = $_GET['yz'];
-if(empty ($yz)){
-	$yz="All";
-}   
-
-$rd="All";  
-
- $path = '/en?category='.$category.'&rd='.$rd.'&yz='.$yz;
- if($_GET['rd']=='All')/* 读者为All，则当前 All 标签加 active 的 class，否则class为空*/
- 	$a_class = 'active';
- else
- 	$a_class = '';
-?>
-      Sort by Ages: <a class="<?php print $a_class; ?>" href="<?php print $path; ?>">All</a>
-        <?php 
-             $views_name = "filter_fenlei";
-             $display_id = "block_1";
-	     print views_embed_view($views_name, $display_id);
-        ?>     
-</div>
 
 
 
-<div class="category2">
-<?php
 
-$category = $_GET['category'];
-if(empty ($category)){
-	$category="All";
-}
 
-$yz="All";
-
-$rd = $_GET['rd'];
-if(empty ($rd)){
-	$rd="All";
-}    
-	 
- $path = '/en?category='.$category.'&rd='.$rd.'&yz='.$yz;
- if($_GET['yz']=='All')/* 语种为All，则当前 All 标签加 active 的 class，否则class为空*/
- 	$a_class = 'active';
- else
- 	$a_class = '';
-?> 
-	Sort by Language: <a class="<?php print $a_class; ?>" href="<?php print $path;?>">All</a>
-          <?php
-             $views_name = "filter_fenlei";
-             $display_id = "block_2";
-             print views_embed_view($views_name, $display_id);
-          ?>
-</div>
 
 
 
