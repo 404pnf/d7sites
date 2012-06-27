@@ -52,7 +52,7 @@ function apply_assit_node_presave($node) {
 			
 			//$candidate_id
 			$agent_code = $myprofile->field_code ['und'] [0] ['value'];
-			
+			$jibie1 = isset ( $node->field_baoming ['zh-hans'] [0] ['tid']) ? ($node->field_baoming ['zh-hans'] [0] ['tid']) : '14' ;
 			$nid = 0;
 			$candidate_id = 0;
 			$query = new EntityFieldQuery();
@@ -60,8 +60,14 @@ function apply_assit_node_presave($node) {
 			$query->entityCondition('bundle', 'baoming');
 			//届次，2012 7月的tid为27
 			$query->fieldCondition('field_jieci', 'tid', 27);
+			$query->fieldCondition('field_baoming', 'tid', $jibie1);
 			$query->propertyCondition('uid', $user->uid);
-			$query->propertyOrderBy('nid', 'DESC');
+			//if(empty($node->nid)){
+			//  $query->propertyOrderBy('nid', 'DESC'); 
+			//}
+			//else{
+			  $query->fieldOrderBy('field_candidate_id','value','DESC');
+			//}
 			$query->range(0, 1);
 			foreach ($query->execute() as $entity_type => $entities) {
 			  foreach ($entities as $entity_id => $entity) {
