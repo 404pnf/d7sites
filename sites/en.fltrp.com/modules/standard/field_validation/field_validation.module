@@ -1,0 +1,184 @@
+<?php
+
+/**
+ * @file
+ * Add validation rules to field instance.
+ */
+
+/**
+ * Implements hook_field_attach_validate().
+ */
+function field_validation_field_attach_validate($entity_type, $entity, &$errors) {
+  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+  
+  //Using ctools to get validation rules of this bundle.
+  ctools_include('export');
+  $rules = ctools_export_load_object('field_validation_rule', 'conditions', array('entity_type' => $entity_type, 'bundle' => $bundle));
+  if ($rules) {
+    foreach ($rules as $rule) {
+      //Disabled by Ctools.
+      if (!empty($rule->disabled)) {
+        continue;
+      }
+      ctools_include('plugins');
+      $plugin = ctools_get_plugins('field_validation', 'validator', $rule->validator);
+      $class = ctools_plugin_get_class($plugin, 'handler');
+      if (empty($class)) {
+        continue;
+      }
+      if (!is_subclass_of($rule->validator, 'field_validation_validator')) {
+        drupal_set_message(t("Plugin '@validator' should extends 'field_validation_validator'.", array('@validator' => $rule->validator)));
+        continue;
+      }
+      $field_name = $rule->field_name;
+      $field = field_info_field($field_name);
+      $instance = field_info_instance($entity_type, $field_name, $bundle);
+      $languages = field_available_languages($entity_type, $field);
+      foreach ($languages as $langcode) {
+        //debug($errors);
+        $items = isset($entity->{$field_name}[$langcode]) ? $entity->{$field_name}[$langcode] : array();
+        //print debug($rule);
+    
+        foreach ($items as $delta => $item) {
+          $value = $item[$rule->col];
+          $validator = new $class($entity_type, $entity, $field, $instance, $langcode, $items, $delta, $item, $value, $rule, $errors);
+          $break = $validator->validate();
+          if (!empty($break)) {
+            break;
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_type().
+ */
+function field_validation_ctools_plugin_type() {
+  return array(
+    'validator' => array(
+      'use hooks' => FALSE,
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_ctools_plugin_directory().
+ */
+function field_validation_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'field_validation' && $plugin == 'validator') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implementation of hook_ctools_plugin_api().
+ *
+ * Tell Ctools that we support the default_field_validation_rules API.
+ */
+function field_validation_ctools_plugin_api($owner, $api) {
+  if ($owner == 'field_validation' && $api == 'default_field_validation_rules') {
+    return array('version' => 2);
+  }
+}
+
+
+/**
+ * Fetches a bundle's configured validation field names.
+ *
+ * @param string $entity_type
+ * @param string $bundle_name
+ * @param string $validator
+ *   (optional) A CTools validator plugin key.
+ *
+ * @return array
+ *   - If the validator param is passed, a simple array of field names.
+ *   - If the validator param is not passed, an associative array of validator
+ *     plugin keys, each containing an array of field names.
+ */
+function field_validation_get_fields($entity_type, $bundle_name, $validator = NULL) {
+  $rules_fields = array();
+
+  // Get Field validation rules.
+  ctools_include('export');
+  $objects = ctools_export_load_object('field_validation_rule', 'conditions', array('entity_type' => $entity_type, 'bundle' => $bundle_name));
+  $rules = is_array($objects) ? $objects : array();
+
+  // Build the list of validation rules for this bundle.
+  foreach ($rules as $rule) {
+    // Check if this rule applies to the defined bundle.
+    if (($rule->entity_type == $entity_type) && ($rule->bundle == $bundle_name)) {
+      // The rule must be enabled.
+      if (!empty($rule->disabled)) {
+        continue;
+      }
+      // Check for defined validator.
+      if (isset($validator) && ($rule->validator == $validator)) {
+        // If validator is specified, build a simple array of field names.
+        $rules_fields[] = $rule->field_name;
+      }
+      else {
+        // If no validator is specified, build an associative array of field
+        // names, keyed by validator type.
+        $rules_fields[$rule->validator] = is_array($rules_fields[$rule->validator]) ? $rules_fields[$rule->validator] : array();
+        $rules_fields[$rule->validator][] = $rule->field_name;
+      }
+    }
+  }
+
+  return $rules_fields;
+}
+
+/**
+ * Implements hook_feeds_processor_targets_alter().
+ *
+ * @see field_feeds_processor_targets_alter().
+ */
+function field_validation_feeds_processor_targets_alter(&$targets, $entity_type, $bundle_name) {
+  $rules_fields_unique = field_validation_get_fields($entity_type, $bundle_name, 'field_validation_unique_validator');
+  foreach ($rules_fields_unique as $field_name) {
+    // Add the unique target option.
+    $targets[$field_name]['optional_unique'] = TRUE;
+    $targets[$field_name]['unique_callback'] = 'field_validation_feeds_existing_entity_id';
+    $targets[$field_name]['bundle_name'] = $bundle_name;
+  }
+}
+
+/**
+ * Callback for Feeds processor unique entity ID.
+ *
+ * @param string $target
+ *   The unique field name, containing the value to be checked.
+ * @param int|string $value
+ *   The unique field value to be checked.
+ * @param string $entity_type
+ *   Entity type for the entity to be processed.
+ * @param string $bundle_name
+ *   Bundle name for the entity to be processed.
+ *
+ * @return int
+ *   Feeds processor existing entity ID.
+ *
+ * @see field_validation_feeds_processor_targets_alter()
+ * @see FeedsProcessor::existingEntityId()
+ */
+function field_validation_feeds_existing_entity_id($target, $value, $entity_type, $bundle_name) {
+  $rules_fields_unique = field_validation_get_fields($entity_type, $bundle_name, 'field_validation_unique_validator');
+  if (in_array($target, $rules_fields_unique)) {
+    // Get unique entity ID from unique field value. Note that we are not using
+    // field_validation_unique_validator::validate() because we don't want to
+    // fire set_error().
+    $query = new EntityFieldQuery();
+    $result = $query->entityCondition('entity_type', $entity_type)
+      ->entityCondition('bundle', $bundle_name)
+      ->fieldCondition($target, 'value', $value, '=')
+      // Run the query as user 1.
+      ->addMetaData('account', user_load(1))
+      ->execute();
+    if (isset($result[$entity_type])) {
+      $ids = array_keys($result[$entity_type]);
+      return reset($ids);
+    }
+  }
+}

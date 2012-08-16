@@ -54,12 +54,12 @@ interface FeedsSourceInterface {
   public function sourceFormValidate(&$source_config);
 
   /**
-   * A source is being deleted.
+   * A source is being saved.
    */
   public function sourceSave(FeedsSource $source);
 
   /**
-   * A source is being saved.
+   * A source is being deleted.
    */
   public function sourceDelete(FeedsSource $source);
 }
@@ -182,7 +182,7 @@ class FeedsSource extends FeedsConfigurable {
    * Instantiate a unique object per class/id/feed_nid. Don't use
    * directly, use feeds_source() instead.
    */
-  public static function instance($importer_id, $feed_nid = 0) {
+  public static function instance($importer_id, $feed_nid) {
     $class = variable_get('feeds_source_class', 'FeedsSource');
     static $instances = array();
     if (!isset($instances[$class][$importer_id][$feed_nid])) {
@@ -199,6 +199,13 @@ class FeedsSource extends FeedsConfigurable {
     $this->importer = feeds_importer($importer_id);
     parent::__construct($importer_id);
     $this->load();
+  }
+
+  /**
+   * Returns the FeedsImporter object that this source is expected to be used with.
+   */
+  public function importer() {
+    return $this->importer;
   }
 
   /**

@@ -126,14 +126,23 @@ abstract class FeedsProcessor extends FeedsPlugin {
           }
           $this->map($source, $parser_result, $entity);
           $this->entityValidate($entity);
-          $this->entitySave($entity);
 
-          // Track progress.
-          if (empty($entity_id)) {
-            $state->created++;
+          // Allow modules to alter the entity before saving.
+          module_invoke_all('feeds_presave', $source, $entity);
+          if (module_exists('rules')) {
+            rules_invoke_event('feeds_import_'. $source->importer()->id, $entity);
           }
-          else {
-            $state->updated++;
+
+          // Enable modules to skip saving at all.
+          if (empty($entity->feeds_item->skip)) {
+            $this->entitySave($entity);
+            // Track progress.
+            if (empty($entity_id)) {
+              $state->created++;
+            }
+            else {
+              $state->updated++;
+            }
           }
         }
         catch (Exception $e) {
@@ -197,7 +206,7 @@ abstract class FeedsProcessor extends FeedsPlugin {
     }
     foreach ($messages as $message) {
       drupal_set_message($message['message']);
-      $source->log('import', $message, array(), isset($message['level']) ? $message['level'] : WATCHDOG_INFO);
+      $source->log('import', $message['message'], array(), isset($message['level']) ? $message['level'] : WATCHDOG_INFO);
     }
   }
 
@@ -358,8 +367,8 @@ abstract class FeedsProcessor extends FeedsPlugin {
     // need to clear target elements of each item before mapping in case we are
     // mapping on a prepopulated item such as an existing node.
     foreach ($this->config['mappings'] as $mapping) {
-      if (isset($targets[$mapping['target']]['real_target'])) {
-        unset($target_item->{$targets[$mapping['target']]['real_target']});
+      if (isset($targets[$this->id][$mapping['target']]['real_target'])) {
+        unset($target_item->{$targets[$this->id][$mapping['target']]['real_target']});
       }
       elseif (isset($target_item->{$mapping['target']})) {
         unset($target_item->{$mapping['target']});
@@ -444,7 +453,7 @@ abstract class FeedsProcessor extends FeedsPlugin {
     global $user;
     $formats = filter_formats($user);
     foreach ($formats as $format) {
-      $format_options[$format->format] = check_plain($format->name);
+      $format_options[$format->format] = $format->name;
     }
     $form['input_format'] = array(
       '#type' => 'select',
@@ -525,7 +534,7 @@ abstract class FeedsProcessor extends FeedsPlugin {
       ->condition('feed_nid', $source->feed_nid)
       ->condition('entity_type', $this->entityType())
       ->condition('id', $source->id);
-
+    //drupal_set_message('12345678');
     // Iterate through all unique targets and test whether they do already
     // exist in the database.
     foreach ($this->uniqueTargets($source, $result) as $target => $value) {
@@ -536,6 +545,34 @@ abstract class FeedsProcessor extends FeedsPlugin {
         case 'guid':
           $entity_id = $query->condition('guid', $value)->execute()->fetchField();
           break;
+        default:
+          // Find all unique callbacks. These may be set in extensions of
+          // FeedsProcessor::getMappingTargets(), or implementations of
+          // hook_feeds_processor_targets_alter().
+		 // print debug('value123'.$value);
+		 // print debug('target123'.$target);
+		 // drupal_set_message('123456');
+		  //drupal_set_message('<pre>123abc' . var_export($value, TRUE) . '</pre>');
+		  $targets = $this->getMappingTargets();
+		  //drupal_set_message('target:'.$targets[$target]['unique_callback']);
+		  //drupal_set_message('<pre>123abc' . var_export($targets, TRUE) . '</pre>');
+		   //drupal_set_message('<pre>123abc' . var_export($targets[$target]['unique_callback'], TRUE) . '</pre>');
+		  $callback = $targets[$target]['unique_callback'];
+		  //drupal_set_message('target:'.$targets[$target]['unique_callback']);
+		  $bundle_name = $targets[$target]['bundle_name'];
+          if (!empty($callback) && !empty($bundle_name)) {
+            //foreach ($callbacks as $callback) {
+			//drupal_set_message('1234567890abc');
+			//drupal_set_message('callback:'.$callback);
+			//drupal_set_message('bundle_name:'.$bundle_name);
+              if (function_exists($callback) && $entity_id = $callback($target, $value, $this->entityType(), $bundle_name)) {
+			     //drupal_set_message('1234567890');
+                // Stop at the first unique ID returned by a callback.
+                break;
+              }
+           // }
+          }
+		  
       }
       if (isset($entity_id)) {
         // Return with the content id found.
@@ -559,12 +596,16 @@ abstract class FeedsProcessor extends FeedsPlugin {
    */
   protected function uniqueTargets(FeedsSource $source, FeedsParserResult $result) {
     $parser = feeds_importer($this->id)->parser;
+	//drupal_set_message('1234');
+	 //drupal_set_message('<pre>' . var_export($this->config, TRUE) . '</pre>');
     $targets = array();
     foreach ($this->config['mappings'] as $mapping) {
       if ($mapping['unique']) {
         // Invoke the parser's getSourceElement to retrieve the value for this
         // mapping's source.
         $targets[$mapping['target']] = $parser->getSourceElement($source, $result, $mapping['source']);
+		//drupal_set_message('123');
+		//drupal_set_message('<pre>' . var_export($targets[$mapping['target']], TRUE) . '</pre>');
       }
     }
     return $targets;

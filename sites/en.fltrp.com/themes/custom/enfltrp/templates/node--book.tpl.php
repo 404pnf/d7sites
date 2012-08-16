@@ -12,7 +12,7 @@
 				  <div class="bookpart1">
 					  <div class="bookpic">               
 						<?php print render($content['field_img']); ?>
-						<div class="largerpic"><a href="#">See Larger Image</a></div>
+					   <!--	<div class="largerpic"><a href="#">See Larger Image</a></div> -->
 										<?php $add_to_cart =drupal_get_form('uc_product_add_to_cart_form_' . $node->nid, $node);print  drupal_render($add_to_cart) ?>
 					  </div>
 					  <div class="bookinfo">
