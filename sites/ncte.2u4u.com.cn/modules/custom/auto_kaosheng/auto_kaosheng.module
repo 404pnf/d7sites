@@ -98,8 +98,18 @@ function auto_kaosheng_generate_relation_process(&$context){
 	//	drupal_set_message('zuowei_total nid:'.$node_kaochang->nid);
 		//debug($node_kaochang);
 		$jb = 0;
-		while( $jb < 4){
+		while( $jb < 5){
 		$jb++;
+		
+		//添加的新的逻辑，用来限制考场上所允许的考试级别，最新的需求
+		$jibies = $node_kaochang->field_baokao_jibie['zh-hans'];
+		$jibie_array = array();
+		foreach($jibies as $jibie){
+		  $jibie_array[] = $jibie['value'];
+		}
+		if(!in_array($jb, $jibie_array)){
+		  break;
+		}
 		
 		$i = 1;
 		//对于每个座位号循环

@@ -86,8 +86,12 @@ function apply_assit_node_presave($node) {
 			//drupal_set_message('nid:'.$nid);
 			//drupal_set_message('candidate_id:'.$candidate_id);
 			$prefix = '6';
-			$jibie = isset ( $node->field_baoming ['zh-hans'] [0] ['tid']) ? ($node->field_baoming ['zh-hans'] [0] ['tid'] - 13) : '1' ;
-			
+			if(isset ( $node->field_baoming ['zh-hans'] [0] ['tid']) && $node->field_baoming ['zh-hans'] [0] ['tid'] ==29){
+			  $jibie = 9;
+			}
+			else{
+			  $jibie = isset ( $node->field_baoming ['zh-hans'] [0] ['tid']) ? ($node->field_baoming ['zh-hans'] [0] ['tid'] - 13) : '1' ;
+			}
 			//当去的的上一个最大准考号（candidate_id）为空时，准考号=报名点编码($agent_code)+（补位长度-1）位数的0+1；否则取出值后+1
 			if (empty ( $candidate_id )) {
 				$candidate_id = $prefix . $agent_code . $jibie . str_repeat ( '0', $candidate_id_suffix_length - 1 ) . '1';
