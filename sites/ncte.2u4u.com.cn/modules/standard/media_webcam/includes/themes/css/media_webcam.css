@@ -1,0 +1,38 @@
+
+/**
+ * @file media_webcam/includes/themes/css/media_webcam.css
+ *
+ * CSS Stylesheet for Media: Webcam.
+ */
+
+.media-webcam-button {
+  width: 48px;
+  height: 48px;
+  float: left;
+  margin: 5px;
+  background-repeat: no-repeat;
+  display: block;
+  text-indent: -10000px;
+  cursor:pointer;
+  position: relative;
+  background: url(img/sprite.png) no-repeat top left;
+  opacity: 0.8;
+}
+.media-webcam-button:hover {
+  opacity: 1;
+}
+.media-webcam-button:active {
+  top: 1px;
+}
+.media-webcam-stop {
+  background-position: 0 -294px; 
+}
+.media-webcam-play {
+  background-position: 0 -196px; 
+}
+.media-webcam-snap {
+  background-position: 0 -98px;
+}
+.media-webcam-textfield {
+  display: none;
+}
